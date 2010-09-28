@@ -6,4 +6,8 @@ class PicturesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should set tag" do
+    assert_recognizes( { :controller => "pictures", :action => "index", 
+      :tag => "some_tag" }, '/pictures/some_tag')
+  end
 end

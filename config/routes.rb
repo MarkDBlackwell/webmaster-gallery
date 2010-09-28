@@ -1,8 +1,9 @@
 Gallery::Application.routes.draw do
-  get "pictures/index"
+#  get "pictures/index"
 
   get "home/index"
   match 'pictures' => 'pictures#index'
+  match 'pictures/:tag' => 'pictures#index'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
