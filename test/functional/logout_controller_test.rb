@@ -6,9 +6,9 @@ class LogoutControllerTest < ActionController::TestCase
     assert_routing '/logout', :controller => 'logout', :action => 'index'
   end
 
-  test "should get index" do
+  test "/logout should redirect to '/'" do
     get :index
-    assert_response :success
+    assert_redirected_to '/'
   end
 
   test "/logout should log out" do
@@ -16,4 +16,5 @@ class LogoutControllerTest < ActionController::TestCase
     get :index
     assert_nil session[:logged_in]
   end
+
 end
