@@ -7,7 +7,6 @@ Gallery::Application.routes.draw do
 
 #  get "pictures/index"
 
-#  get "home/index"
 #  match 'pictures' => 'pictures#index'
   match 'pictures/:tag' => 'pictures#index'
 

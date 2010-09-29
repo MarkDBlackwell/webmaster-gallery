@@ -5,11 +5,6 @@ class PicturesControllerTest < ActionController::TestCase
     assert_routing '/', :controller => 'pictures', :action => 'index'
   end
 
-#  test "routing '/pictures'" do
-#    assert_routing '/pictures', :controller => 'pictures',
-#      :action => 'index'
-#  end
-
   test "should get index" do
     get :index
     assert_response :success
