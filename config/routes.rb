@@ -7,8 +7,8 @@ Gallery::Application.routes.draw do
 
 #  get "pictures/index"
 
-  get "home/index"
-  match 'pictures' => 'pictures#index'
+#  get "home/index"
+#  match 'pictures' => 'pictures#index'
   match 'pictures/:tag' => 'pictures#index'
 
   # The priority is based upon order of creation:
@@ -61,6 +61,7 @@ Gallery::Application.routes.draw do
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
   # root :to => "welcome#index"
+  root :to => "pictures#index"
 
   # See how all your routes lay out with "rake routes"
 
