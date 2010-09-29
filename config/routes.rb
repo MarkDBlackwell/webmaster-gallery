@@ -1,4 +1,6 @@
 Gallery::Application.routes.draw do
+  get "logout/index"
+
 #  get "pictures/index"
 
   get "home/index"
