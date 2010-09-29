@@ -1,6 +1,10 @@
 require 'test_helper'
 
 class ProblemsControllerTest < ActionController::TestCase
+  test "routing '/problems'" do
+    assert_routing '/problems', :controller => 'problems', :action => 'index'
+  end
+
   test "should get index" do
     session[:logged_in]=true
     get :index
@@ -12,5 +16,4 @@ class ProblemsControllerTest < ActionController::TestCase
     get :index
     assert_redirected_to :controller => "login", :action => "index"
   end
-
 end
