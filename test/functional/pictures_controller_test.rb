@@ -10,7 +10,7 @@ class PicturesControllerTest < ActionController::TestCase
       :action => "index", :tag => "some_tag"
   end
 
-  test "bad routing '/pictures'" do
+  test "bad route '/pictures'" do
     begin
       assert_routing '/pictures', :controller => "pictures", :action => "index"
       flunk "should have failed"

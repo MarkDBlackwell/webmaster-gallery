@@ -3,7 +3,7 @@ Gallery::Application.routes.draw do
 
   get "problems/index"
 
-  get "logout/index"
+  match 'logout' => 'logout#index'
 
   match 'pictures/:tag' => 'pictures#index'
 
