@@ -11,4 +11,9 @@ class LoginControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "/login should log in" do
+    session[:logged_in]=nil
+    get :index, :password => "abc"
+    assert_equal session[:logged_in], true
+  end
 end
