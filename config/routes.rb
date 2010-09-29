@@ -1,6 +1,4 @@
 Gallery::Application.routes.draw do
-  get "admin_pictures/index"
-
   match 'pictures/:tag' => 'pictures#index'
 
   match 'login' => 'login#index'
@@ -8,6 +6,8 @@ Gallery::Application.routes.draw do
   match 'logout' => 'logout#index'
 
   match 'problems' => 'problems#index'
+
+  match 'admin_pictures' => 'admin_pictures#index'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
