@@ -1,4 +1,6 @@
 Gallery::Application.routes.draw do
+  get "admin_pictures/index"
+
   match 'pictures/:tag' => 'pictures#index'
 
   match 'login' => 'login#index'
