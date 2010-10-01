@@ -19,6 +19,7 @@ class LoginControllerTest < ActionController::TestCase
   end
 
   test "GET should clear the flash" do
+    flash.now[:notice] = 'anything'
     flash[:notice] = 'anything'
     get :index
     assert_nil flash[:notice]
