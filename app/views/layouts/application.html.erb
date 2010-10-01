@@ -7,6 +7,10 @@
   <%= csrf_meta_tag %>
 </head>
 <body>
+  <%= content_tag 'div', flash[:notice], :class => 'notice',
+      :id => 'notice' if flash[:notice]  %>
+  <%= content_tag 'div', flash[:error],  :class => 'notice error',
+      :id => 'error'  if flash[:error]   %>
 
 <%= yield %>
 

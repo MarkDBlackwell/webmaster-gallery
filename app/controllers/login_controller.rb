@@ -1,7 +1,14 @@
 class LoginController < ApplicationController
   def index
-    session[:logged_in] = get_password_from_file == params[:password] ? 
-      true : nil
+    redirect_to '/logout' if request.get? && session[:logged_in]
+    if request.post?
+      if get_password_from_file == params[:password]
+        session[:logged_in] = true
+        redirect_to '/problems'
+      else
+        flash[:error] = "Password incorrect."
+      end
+    end
   end
 
   private
