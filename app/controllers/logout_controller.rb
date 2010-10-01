@@ -3,7 +3,6 @@ class LogoutController < ApplicationController
     flash[:notice] = session[:logged_in].nil? ?
       "You weren't logged in." : 'Logged out successfully.'
     session[:logged_in] = nil
-    redirect_to '/'
   end
 
 end

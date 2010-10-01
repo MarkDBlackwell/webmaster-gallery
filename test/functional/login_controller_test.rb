@@ -6,7 +6,7 @@ class LoginControllerTest < ActionController::TestCase
     assert_routing '/login', :controller => 'login', :action => 'index'
   end
 
-  test "GET should get index if not logged in" do
+  test "should GET index if not logged in" do
     session[:logged_in]=nil
     get :index
     assert_response :success
