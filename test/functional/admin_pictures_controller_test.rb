@@ -1,13 +1,14 @@
 require 'test_helper'
 
 class AdminPicturesControllerTest < ActionController::TestCase
-  test "routing '/admin_pictures'" do
+  test "routing /admin_pictures" do
     assert_routing '/admin_pictures', :controller => 'admin_pictures',
       :action => 'index'
   end
+
 # DO LATER
-#  test "routing '/pictures/some_tag'" do
-#    assert_routing '/pictures/some_tag', :controller => "pictures",
+#  test "routing /admin_pictures/some_tag" do
+#    assert_routing '/admin_pictures/some_tag', :controller => "admin_pictures",
 #      :action => "index", :tag => "some_tag"
 #  end
 

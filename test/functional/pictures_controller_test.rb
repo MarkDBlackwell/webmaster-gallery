@@ -25,7 +25,7 @@ class PicturesControllerTest < ActionController::TestCase
 
   test "should render pictures template" do
     get :index
-    assert_template "layouts/pictures"
+    assert_template 'layouts/pictures'
   end
 
 end

@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class ProblemsControllerTest < ActionController::TestCase
-  test "routing '/problems'" do
+  test "routing /problems" do
     assert_routing '/problems', :controller => 'problems', :action => 'index'
   end
 
@@ -16,4 +16,5 @@ class ProblemsControllerTest < ActionController::TestCase
     get :index
     assert_redirected_to '/login'
   end
+
 end

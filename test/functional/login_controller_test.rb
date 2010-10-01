@@ -18,10 +18,22 @@ class LoginControllerTest < ActionController::TestCase
     assert_redirected_to '/logout'
   end
 
+  test "GET should clear the flash" do
+    flash[:notice] = 'anything'
+    get :index
+    assert_nil flash[:notice]
+  end
+
   test "POST should log in" do
     session[:logged_in]=nil
     post :index, :password => 'abc'
-    assert_equal session[:logged_in], true
+    assert_equal true, session[:logged_in]
+  end
+
+  test "POST should reset the session" do
+    session[:something] = true
+    post :index
+    assert_nil session[:something]
   end
 
   test "POST should redirect to /problems" do
