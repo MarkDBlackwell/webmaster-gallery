@@ -6,6 +6,7 @@ class LoginController < ApplicationController
       if get_password_from_file == params[:password]
         session[:logged_in] = true
         redirect_to '/problems'
+        copy_webmaster_html_file
       else
         flash.now[:error] = "Password incorrect."
       end
@@ -16,6 +17,12 @@ class LoginController < ApplicationController
 
   def get_password_from_file
     "abc"
+  end
+
+  def copy_webmaster_html_file
+    input  = "#{Rails.root}/../gallery-webmaster/pictures.html"
+    output = "#{Rails.root}/app/views/layouts/pictures.html.erb"
+    FileUtils.cp input, output
   end
 
 end

@@ -37,6 +37,13 @@ class LoginControllerTest < ActionController::TestCase
     assert_nil session[:something]
   end
 
+  test "POST should copy the webmaster HTML pictures file" do
+    s = "#{Rails.root}/app/views/layouts/pictures.html.erb"
+    File.new s,'w'
+    post :index, :password => 'abc'
+    assert 0 < File.size(s)
+  end
+
   test "POST should redirect to /problems" do
     post :index, :password => 'abc'
     assert_redirected_to '/problems'
