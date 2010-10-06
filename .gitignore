@@ -6,3 +6,4 @@ app/views/layouts/pictures.html.erb
 rails-plugin-h-out
 test-login-out
 vendor/plugins/mocha
+vendor/plugins/nulldb
