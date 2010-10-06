@@ -2,6 +2,10 @@ require 'test_helper'
 
 class LoginControllerTest < ActionController::TestCase
 
+  test "how to do mocking?" do
+#    mock
+  end
+
   test "routing /login" do
     assert_routing '/login', :controller => 'login', :action => 'index'
   end
@@ -72,6 +76,50 @@ class LoginControllerTest < ActionController::TestCase
   test "should flash on wrong password entered" do
     post :index, :password => 'wrong example password'
     assert_select '#error', 'Password incorrect.'
+  end
+
+  test "how to test it should handle invalid authenticity token?" do
+#Doesn't get rescued by application controller:
+#    raise ActionController::InvalidAuthenticityToken
+# Try to POST with invalid authenticity token.
+#    post :index, :try_this => 'hello'
+#    assert_equal 'hello', params[:try_this]
+# Didn't find 'config':
+#    config.action_controller.allow_forgery_protection = true
+  end
+
+  test "try re-raising exceptions" do
+#    puts LoginController.inspect
+#    class LoginController;def rescue_action(e);raise e;end;end
+  end
+
+  test "see before_filters" do
+#    class LoginController
+#      before_filter :verify_authenticity_token
+#    end
+#    puts ActionController::Testing::ClassMethods.before_filters
+  end
+
+  test "see params and session" do
+#    get :index
+#    post :index, {:try_this => 'in params'}, {:try_this => 'in session'}
+#    puts @response
+#    puts @response.methods.sort
+#    puts @request.session
+
+    get :index
+    session[:try_this]='hello'
+    puts session.sort
+    assigns["try_this"]='in assigns'
+    puts assigns(:try_this)
+#    @request.session[:authenticity_token]
+  end
+
+  test "should allow mocking with Mocha" do
+# Needed 'rails plugin install git://github.com/floehopper/mocha.git
+# Do not use this (next line) in Gemfile:
+# gem 'mocha' # Broke the test somehow.
+    mock 'A'
   end
 
 end
