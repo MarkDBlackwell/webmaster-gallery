@@ -8,3 +8,4 @@ test-login-out
 vendor/plugins/mocha
 vendor/plugins/nulldb
 assert-delay
+test/fixtures/files/file_password/encrypted-password.txt
