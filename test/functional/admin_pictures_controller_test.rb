@@ -6,11 +6,12 @@ class AdminPicturesControllerTest < ActionController::TestCase
       :action => 'index'
   end
 
-# DO LATER
-#  test "routing /admin_pictures/some_tag" do
+  test "routing /admin_pictures/some_tag" do
+    assert Date::today < Date::new(2010,10,14), 'Test unwritten.'
+
 #    assert_routing '/admin_pictures/some_tag', :controller => "admin_pictures",
 #      :action => "index", :tag => "some_tag"
-#  end
+  end
 
   test "should get index" do
     session[:logged_in]=true

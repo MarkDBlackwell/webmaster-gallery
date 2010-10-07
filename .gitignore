@@ -7,3 +7,4 @@ rails-plugin-h-out
 test-login-out
 vendor/plugins/mocha
 vendor/plugins/nulldb
+assert-delay

@@ -10,7 +10,7 @@ class PicturesControllerTest < ActionController::TestCase
       :action => "index", :tag => "some_tag"
   end
 
-  test "bad route /pictures" do
+  test "should raise exception on bad route /pictures" do
     begin
       assert_routing '/pictures', :controller => "pictures", :action => "index"
       flunk "should have failed"
@@ -23,7 +23,7 @@ class PicturesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should render pictures template" do
+  test "should render this template" do
     get :index
     assert_template 'layouts/pictures'
   end

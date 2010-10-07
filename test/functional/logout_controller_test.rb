@@ -33,7 +33,7 @@ class LogoutControllerTest < ActionController::TestCase
   test "should flash a notice of log out if already logged in" do
     session[:logged_in] = true
     get :index
-# I don't know why this test doesn't work; I see success in the browser:
+# I don't know why the following doesn't work; I see success in the browser:
 #    assert_select '#notice', 'Logged out successfully.'
 # So, doing this, instead:
     assert_equal 'Logged out successfully.', flash[:notice]
@@ -42,7 +42,7 @@ class LogoutControllerTest < ActionController::TestCase
   test "should flash a notice if not logged in" do
     session[:logged_in] = nil
     get :index
-# I don't know why this test doesn't work; I see success in the browser:
+# I don't know why the following doesn't work; I see success in the browser:
 #    assert_select '#notice', 'You weren't logged in.'
 # So, doing this, instead:
     assert_equal "You weren't logged in.", flash[:notice]
