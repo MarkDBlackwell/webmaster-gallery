@@ -2,6 +2,7 @@ class FilePassword < ActiveRecord::Base
   establish_connection :adapter => :nulldb
 
   def self.find (*args)
+    raise FindError unless args.include? :all
     collection = super
     f = MyFile.my_new( # MyFile.new didn't work.
       "#{Rails.root}"\
@@ -11,6 +12,9 @@ class FilePassword < ActiveRecord::Base
     f.close
     collection << t
     collection
+  end
+
+  class FindError < Exception
   end
 
 end
