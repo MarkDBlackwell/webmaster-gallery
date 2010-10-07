@@ -38,7 +38,9 @@ class FilePasswordTest < ActiveSupport::TestCase
 
   test "should obtain the test password" do
     mock_file
-    assert_equal 'abc', find.first.password
+    clear_text_password = @f.readlines.first.chomp
+    @f.rewind
+    assert_equal clear_text_password, find.first.password
   end
 
   test "should find one row" do

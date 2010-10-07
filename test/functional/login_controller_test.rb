@@ -18,60 +18,11 @@ class LoginControllerTest < ActionController::TestCase
     assert_redirected_to '/logout'
   end
 
-  test "GET should clear the flash" do
-    flash.now[:notice] = 'anything'
-    flash[:notice] = 'anything'
-    get :index
-    assert_nil flash[:notice]
-  end
-
-  test "POST should log in" do
-    session[:logged_in]=nil
-    login
-    assert_equal true, session[:logged_in]
-  end
-
-  test "POST should reset the session" do
-    session[:something] = true
-    post :index
-    assert_nil session[:something]
-  end
-
-  test "POST should copy the webmaster HTML pictures file" do
-    s = "#{Rails.root}/app/views/layouts/pictures.html.erb"
-    File.new s,'w'
-    login
-    assert 0 < File.size(s)
-  end
-
-  test "POST should redirect to /problems" do
-    login
-    assert_redirected_to '/problems'
-  end
-
-  test "should have one form" do
-    get :index
-    assert_select "form", 1
-  end
-
-  test "should have one form with method POST" do
-    get :index
-    assert_select 'form[method=post]', 1
-  end
-
-  test "should have one form with password field" do
-    get :index
-    assert_select "form > input#password", 1
-  end
-
-  test "should prompt for password" do
-    get :index
-    assert_select "p", :count => 1, :text => "Type the password and hit 'Enter'"
-  end
-
-  test "should flash on wrong password entered" do
-    post :index, :password => 'example wrong password'
-    assert_select '#error', 'Password incorrect.'
+  test "should allow mocking with Mocha" do
+# Needed 'rails plugin install git://github.com/floehopper/mocha.git
+# Do not use this (next line) in Gemfile:
+# gem 'mocha' # Broke the test somehow.
+    mock 'A'
   end
 
   test "how to test it should handle invalid authenticity token?" do
@@ -87,7 +38,9 @@ class LoginControllerTest < ActionController::TestCase
 # Try re-raising exceptions.
 #    puts LoginController.inspect
 #    class LoginController;def rescue_action(e);raise e;end;end
-# See params and session.
+  end
+
+  test "see params and session" do
 #    get :index
 #    post :index, {:try_this => 'in params'}, {:try_this => 'in session'}
 #    puts @response
@@ -110,18 +63,71 @@ class LoginControllerTest < ActionController::TestCase
 #    puts ActionController::Testing::ClassMethods.before_filters
   end
 
-  test "should allow mocking with Mocha" do
-# Needed 'rails plugin install git://github.com/floehopper/mocha.git
-# Do not use this (next line) in Gemfile:
-# gem 'mocha' # Broke the test somehow.
-    mock 'A'
+  test "GET should clear the flash" do
+    flash.now[:notice]='anything'
+    flash[:notice]='anything'
+    get :index
+    assert_nil flash[:notice]
+  end
+
+  test "POST should log in" do
+    session[:logged_in]=nil
+    login
+    assert_equal true, session[:logged_in]
+  end
+
+  test "POST should reset the session" do
+    session[:something]=true
+    post :index
+    assert_nil session[:something]
+  end
+
+  test "POST should copy the webmaster HTML pictures file" do
+    p="#{Rails.root}/app/views/layouts/pictures.html.erb"
+    File.new(p,'w').close
+    login
+    assert 0 < File.size(p)
+  end
+
+  test "POST should redirect to /problems" do
+    login
+    assert_redirected_to '/problems'
+  end
+
+  test "should have one form" do
+    get :index
+    assert_select 'form', 1
+  end
+
+  test "should have one form with method POST" do
+    get :index
+    assert_select 'form[method=post]', 1
+  end
+
+  test "should have one form with password field" do
+    get :index
+    assert_select 'form > input#password', 1
+  end
+
+  test "should prompt for password" do
+    get :index
+    assert_select 'p', :count => 1, :text => "Type the password and hit 'Enter'."
+  end
+
+  test "should flash on wrong password entered" do
+    post :index, :password => 'example wrong password'
+    assert_select '#error', 'Password incorrect.'
   end
 
   private
 
   def login
-    assert Date::today < Date::new(2010,10,14), 'Fix login.'
-    post :index, :password => 'abc'
+    f = File.new("#{Rails.root}"\
+      '/test/fixtures/files/file_password/password.txt', 'r')
+    clear_text_password = f.readlines.first.chomp
+    f.rewind
+    MyFile.expects(:my_new).returns f
+    post :index, :password => clear_text_password
   end
 
 end

@@ -3,7 +3,7 @@ class LoginController < ApplicationController
     redirect_to '/logout' if request.get? && session[:logged_in]
     if request.post?
       reset_session
-      if get_password_from_file == params[:password]
+      if get_password == params[:password]
         session[:logged_in] = true
         redirect_to '/problems'
         copy_webmaster_html_file
@@ -15,14 +15,15 @@ class LoginController < ApplicationController
 
   private
 
-  def get_password_from_file
-    "abc"
+  def get_password
+#    "abc"
+    FilePassword.find(:all).first.password
   end
 
   def copy_webmaster_html_file
-    input  = "#{Rails.root}/../gallery-webmaster/pictures.html"
-    output = "#{Rails.root}/app/views/layouts/pictures.html.erb"
-    FileUtils.cp input, output
+    from_f  = "#{Rails.root}/../gallery-webmaster/pictures.html"
+    to_f = "#{Rails.root}/app/views/layouts/pictures.html.erb"
+    FileUtils.cp from_f, to_f
   end
 
 end
