@@ -1,4 +1,16 @@
 Gallery::Application.routes.draw do
+  get "sessions/new"
+
+  get "sessions/create"
+
+  get "sessions/edit"
+
+  get "sessions/update"
+
+  get "sessions/show"
+
+  get "sessions/destroy"
+
   match 'pictures/:tag' => 'pictures#index'
 
   match 'login' => 'login#index'

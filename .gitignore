@@ -3,9 +3,8 @@ db/*.sqlite3
 log/*.log
 tmp/**/*
 app/views/layouts/pictures.html.erb
-rails-plugin-h-out
-test-login-out
 vendor/plugins/mocha
 vendor/plugins/nulldb
 assert-delay
 test/fixtures/files/file_password/encrypted-password.txt
+out/*
