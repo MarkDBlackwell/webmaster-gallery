@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
 
   def invalid_authenticity_token
     flash[:notice] = 'That session has expired.'
-    redirect_to '/login'
+    redirect_to :controller => :sessions, :action => :new
   end
 
 end

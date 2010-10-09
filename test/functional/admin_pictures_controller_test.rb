@@ -19,9 +19,9 @@ class AdminPicturesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should redirect to /login if not logged in" do
+  test "should redirect to /session/new if not logged in" do
     session[:logged_in]=nil
     get :index
-    assert_redirected_to '/login'
+    assert_redirected_to :controller => :sessions, :action => :new
   end
 end
