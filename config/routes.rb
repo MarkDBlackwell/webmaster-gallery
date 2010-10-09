@@ -1,23 +1,7 @@
 Gallery::Application.routes.draw do
-  get "sessions/new"
-
-  get "sessions/create"
-
-  get "sessions/edit"
-
-  get "sessions/update"
-
-  get "sessions/show"
-
-  get "sessions/destroy"
+  resource :session
 
   match 'pictures/:tag' => 'pictures#index'
-
-  match 'login' => 'login#index'
-
-  match 'logout' => 'logout#index'
-
-  match 'problems' => 'problems#index'
 
   match 'admin_pictures' => 'admin_pictures#index'
 
