@@ -25,6 +25,10 @@ class SessionsController < ApplicationController
 
   def update
     (handle_bad_request; return) unless request.put?
+    file_tag_names=FileTag.find(:all).collect(&:name)
+    t=Tag.find(:all)
+    t.each {|e| e.destroy unless file_tag_names.include? e.name}
+    (file_tag_names - t.collect(&:name)).each {|e| Tag.create :name => e}
     redirect_to :action => :show
   end
 

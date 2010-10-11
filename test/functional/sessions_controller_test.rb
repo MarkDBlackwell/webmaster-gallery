@@ -1,7 +1,6 @@
 require 'test_helper'
 class SessionsControllerTest < ActionController::TestCase
-  test "should add and remove tags" do
-  end
+  fixtures :tags, :file_tags
 
 #-------------
 # All actions tests:
@@ -187,6 +186,11 @@ class SessionsControllerTest < ActionController::TestCase
   test "should update" do
     put :update
     assert_response :redirect
+  end
+
+  test "update should add and remove tags" do
+    put :update
+    assert_equal ['one','three'], Tag.find(:all).collect(&:name).sort
   end
 
 #-------------
