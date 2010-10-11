@@ -2,12 +2,14 @@
 
 one:
   filename: MyString
+  sequence: 1
   title: MyString
-  description: MyString
   year: MyString
+  description: MyString
 
 two:
   filename: MyString
+  sequence: 1
   title: MyString
-  description: MyString
   year: MyString
+  description: MyString

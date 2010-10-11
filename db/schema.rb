@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101011225633) do
+ActiveRecord::Schema.define(:version => 20101011231115) do
 
   create_table "directory_pictures", :force => true do |t|
     t.string   "filename"
@@ -35,9 +35,10 @@ ActiveRecord::Schema.define(:version => 20101011225633) do
 
   create_table "pictures", :force => true do |t|
     t.string   "filename"
+    t.integer  "sequence"
     t.string   "title"
-    t.string   "description"
     t.string   "year"
+    t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
