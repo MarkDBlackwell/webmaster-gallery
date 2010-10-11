@@ -10,7 +10,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101011151050) do
+ActiveRecord::Schema.define(:version => 20101011225633) do
+
+  create_table "directory_pictures", :force => true do |t|
+    t.string   "filename"
+    t.integer  "sequence"
+    t.boolean  "has_thumbnail_file"
+    t.boolean  "has_picture_file"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "file_passwords", :force => true do |t|
     t.string   "password"
