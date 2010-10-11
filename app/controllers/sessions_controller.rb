@@ -25,10 +25,8 @@ class SessionsController < ApplicationController
 
   def update
     (handle_bad_request; return) unless request.put?
-    file_tag_names=FileTag.find(:all).collect(&:name)
-    t=Tag.find(:all)
-    t.each {|e| e.destroy unless file_tag_names.include? e.name}
-    (file_tag_names - t.collect(&:name)).each {|e| Tag.create :name => e}
+    realign_records(FileTag, Tag, :name)
+    realign_records(DirectoryPicture, Picture, :filename)
     redirect_to :action => :show
   end
 
@@ -67,6 +65,13 @@ class SessionsController < ApplicationController
 #    (session.to_hash.keys - ['flash']).each {|e| session.delete(e)}
     session.to_hash.keys.each {|e| session.delete e}
 #print session.inspect
+  end
+
+  def realign_records(class_1, class_2, symbol)
+    a=class_1.find(:all).collect(&symbol)
+    b=class_2.find(:all)
+    b.each {|e| e.destroy unless a.include? e.send(symbol)}
+    (a - b.collect(&symbol)).each {|e| class_2.create symbol => e}
   end
 
 end

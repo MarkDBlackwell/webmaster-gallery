@@ -193,6 +193,11 @@ class SessionsControllerTest < ActionController::TestCase
     assert_equal ['one','three'], Tag.find(:all).collect(&:name).sort
   end
 
+  test "update should add and remove pictures" do
+    put :update
+    assert_equal ['one','three'], Picture.find(:all).collect(&:filename).sort
+  end
+
 #-------------
 # Show action tests:
 # -> Webmaster reviews database problems.

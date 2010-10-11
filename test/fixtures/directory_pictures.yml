@@ -1,13 +1,13 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
-  filename: MyString
+  filename: one
   sequence: 1
   has_thumbnail_file: false
   has_picture_file: false
 
-two:
-  filename: MyString
+three:
+  filename: three
   sequence: 1
   has_thumbnail_file: false
   has_picture_file: false
