@@ -1,15 +1,19 @@
 require 'test_helper'
 
 class FilePasswordTest < ActiveSupport::TestCase
-  test "should connect to NullDB" do
-      # Needed to run:
-      # gem install activerecord-nulldb-adapter
-      # rails plugin install git://github.com/nulldb/nulldb.git
 
-      assert_equal 'NullDB', FilePassword.connection.adapter_name
-      assert_equal ActiveRecord::ConnectionAdapters::NullDBAdapter,
-        FilePassword.connection.class
-  end
+#  test "should connect to NullDB" do
+# Needed to run:
+# gem install activerecord-nulldb-adapter
+# rails plugin install git://github.com/nulldb/nulldb.git
+# But, as of 2010 Oct 11, the latest version (both 0.2.1) broke fixture
+# processing in other models, even with (in app/models/file_password.rb):
+# FilePassword.establish_connection :adapter => :nulldb
+#
+#    assert_equal 'NullDB', FilePassword.connection.adapter_name
+#    assert_equal ActiveRecord::ConnectionAdapters::NullDBAdapter,
+#      FilePassword.connection.class
+#  end
 
   test "find should invoke MyFile" do
     mock_file
@@ -45,7 +49,7 @@ class FilePasswordTest < ActiveSupport::TestCase
 
   test "should find one row" do
     mock_file
-    assert_equal 1, find.to_a.size
+    assert_equal 1, find.to_a.length
   end
 
   test "a find without all should raise a model exception" do

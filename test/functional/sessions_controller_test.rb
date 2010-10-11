@@ -1,5 +1,8 @@
 require 'test_helper'
 class SessionsControllerTest < ActionController::TestCase
+  test "should add and remove tags" do
+  end
+
 #-------------
 # All actions tests:
 
@@ -230,6 +233,11 @@ class SessionsControllerTest < ActionController::TestCase
     session[:something] = true
     delete :destroy
     assert_nil session[:something]
+  end
+
+  test "try to remove the session cookie" do
+    assert Date::today < Date::new(2010,10,15), 'Test unwritten.'
+# Reference config/initializes/session_store.rb for cookie name.
   end
 
   test "destroy should flash a notice if not logged in" do

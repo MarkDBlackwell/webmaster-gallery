@@ -1,6 +1,4 @@
 class FilePassword < ActiveRecord::Base
-  establish_connection :adapter => :nulldb
-
   def self.find (*args)
     raise FindError unless args.include? :all
     collection = super
