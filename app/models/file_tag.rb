@@ -1,2 +1,2 @@
-class FileTag < ActiveRecord::Base
+class FileTag
 end
