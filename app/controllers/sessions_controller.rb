@@ -14,7 +14,6 @@ class SessionsController < ApplicationController
       redirect_to :action => :edit
     else
       session[:logged_in] = true
-      copy_webmaster_html_file
       redirect_to :action => :edit
     end
   end
@@ -27,6 +26,7 @@ class SessionsController < ApplicationController
     (handle_bad_request; return) unless request.put?
     realign_records(FileTag, Tag, :name)
     realign_records(DirectoryPicture, Picture, :filename)
+    copy_webmaster_html_file
     redirect_to :action => :show
   end
 

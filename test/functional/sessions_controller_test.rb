@@ -118,11 +118,17 @@ class SessionsControllerTest < ActionController::TestCase
     assert_nil session[:something]
   end
 
-  test "create should copy the webmaster HTML pictures file" do
+  test "create should not write the webmaster HTML pictures file" do
     p="#{Rails.root}/app/views/layouts/pictures.html.erb"
-    File.new(p,'w').close
-    login
-    assert 0 < File.size(p)
+    mode=File.stat(p).mode
+    File.chmod(mode - 0200, p)
+    begin
+      login
+    rescue Errno::EACCES
+      flunk
+    ensure
+      File.chmod(mode, p)
+    end
   end
 
   test "create should redirect to edit" do
@@ -201,6 +207,13 @@ class SessionsControllerTest < ActionController::TestCase
     DirectoryPicture.expects(:find).returns [a,b]
     put :update
     assert_equal ['one','three'], Picture.find(:all).collect(&:filename).sort
+  end
+
+  test "update should copy the webmaster HTML pictures file" do
+    p="#{Rails.root}/app/views/layouts/pictures.html.erb"
+    File.new(p,'w').close
+    put :update
+    assert 0 < File.size(p)
   end
 
 #-------------
