@@ -12,27 +12,6 @@
 
 ActiveRecord::Schema.define(:version => 20101011231115) do
 
-  create_table "directory_pictures", :force => true do |t|
-    t.string   "filename"
-    t.integer  "sequence"
-    t.boolean  "has_thumbnail_file"
-    t.boolean  "has_picture_file"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "file_passwords", :force => true do |t|
-    t.string   "password"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "file_tags", :force => true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "pictures", :force => true do |t|
     t.string   "filename"
     t.integer  "sequence"

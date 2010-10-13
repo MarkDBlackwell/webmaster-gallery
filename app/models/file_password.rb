@@ -1,15 +1,21 @@
-class FilePassword < ActiveRecord::Base
+class FilePassword
+  include ActiveModel::Validations
+
+  attr_accessor :password
+
+  validates_each :password do |record, attr, value|
+    record.errors.add attr, 'too short' if value.to_s.length < 10
+  end
+
   def self.find (*args)
     raise FindError unless args.include? :all
-    collection = super
     f = MyFile.my_new( # MyFile.new didn't work.
       "#{Rails.root}"\
       '/../gallery-webmaster/password.txt', 'r')
-    t = FilePassword.new
-    t[:password] = f.readlines.first.chomp
+    fp = FilePassword.new
+    fp.password = f.readline("\n").chomp "\n"
     f.close
-    collection << t
-    collection
+    [fp]
   end
 
   class FindError < Exception

@@ -1,6 +1,6 @@
 require 'test_helper'
+
 class SessionsControllerTest < ActionController::TestCase
-  fixtures :tags, :file_tags
 
 #-------------
 # All actions tests:
@@ -194,6 +194,11 @@ class SessionsControllerTest < ActionController::TestCase
   end
 
   test "update should add and remove pictures" do
+    a=DirectoryPicture.new
+    b=DirectoryPicture.new
+    a.expects(:filename).returns 'one'
+    b.expects(:filename).returns 'three'
+    DirectoryPicture.expects(:find).returns [a,b]
     put :update
     assert_equal ['one','three'], Picture.find(:all).collect(&:filename).sort
   end
@@ -273,7 +278,7 @@ class SessionsControllerTest < ActionController::TestCase
   def login
     f = File.new("#{Rails.root}"\
       '/test/fixtures/files/file_password/password.txt', 'r')
-    clear_text_password = f.readlines.first.chomp
+    clear_text_password = f.readline("\n").chomp "\n"
     f.rewind
     MyFile.expects(:my_new).returns f
     post :create, :password => clear_text_password

@@ -34,17 +34,17 @@ class FilePasswordTest < ActiveSupport::TestCase
   end    
 
   test "should read the password file" do
-    a = @f.readlines
+    a = clear_text_password + "\n"
     mock_file
-    @f.expects(:readlines).returns a
+    @f.expects(:readline).returns a
     find
   end
 
   test "should obtain the test password" do
     mock_file
-    clear_text_password = @f.readlines.first.chomp
+    a = clear_text_password
     @f.rewind
-    assert_equal clear_text_password, find.first.password
+    assert_equal a, find.first.password
   end
 
   test "should find one row" do
@@ -60,6 +60,16 @@ class FilePasswordTest < ActiveSupport::TestCase
     end
   end
 
+  test "a too-short password should produce an error" do
+    short = clear_text_password.slice(0..8) + "\n"
+    @f.rewind
+    mock_file
+    @f.expects(:readline).returns short
+    first = FilePassword.find(:all).first
+    assert_equal true, first.invalid?
+    assert_equal ['Password too short'], first.errors.full_messages
+  end
+
   private
 
   def setup
@@ -69,6 +79,10 @@ class FilePasswordTest < ActiveSupport::TestCase
 
   def teardown
     @f.close unless @f.nil? || @f.closed?
+  end
+
+  def clear_text_password
+    @f.readline("\n").chomp "\n"
   end
 
   def mock_file
