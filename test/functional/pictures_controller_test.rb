@@ -26,10 +26,8 @@ class PicturesControllerTest < ActionController::TestCase
 
   test "should render this template" do
     get :index
-#    assert_template :partial => Pathname.new("#{Rails.root}"\
-#      '/../gallery-webmaster/page.html.erb').cleanpath
-    assert_template :file => "#{Rails.root}"\
-      '/../gallery-webmaster/page2222.html.erb'
+    assert_template :file => "#{Rails.root}/../gallery-webmaster/page",
+      :layout => false
   end
 
 =begin
