@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class PicturesControllerTest < ActionController::TestCase
+
   test "routing /" do
     assert_routing '/', :controller => 'pictures', :action => 'index'
   end
@@ -26,6 +27,58 @@ class PicturesControllerTest < ActionController::TestCase
   test "should render this template" do
     get :index
     assert_template 'layouts/pictures'
+  end
+
+=begin
+  test "should render a gallery" do
+    get :index
+    assert_select 'div.gallery'
+  end
+
+  test "should render a picture within a gallery" do
+    get :index
+    assert_select 'div.gallery > div.picture'
+  end
+
+  test "should render all the pictures" do
+    get :index
+    assert_select 'div.gallery > div.picture', 3
+  end
+
+  test "should render a title within a picture" do
+    get :index
+    assert_select 'div.picture > div.title'
+  end
+
+  test "should render a description within a picture" do
+    get :index
+    assert_select 'div.picture > div.description'
+  end
+
+  test "should render a thumbnail within a picture" do
+    get :index
+    assert_select 'div.picture > div.thumbnail'
+  end
+
+  test "should render a year within a picture" do
+    get :index
+    assert_select 'div.picture > div.year'
+  end
+=end
+
+  private
+
+  def setup
+=begin
+    in
+    out
+put_f="#{rails.root}/test
+    output_f="#{rails.root}/
+    FileUtils.cp( 
+=end
+  end
+
+  def teardown
   end
 
 end

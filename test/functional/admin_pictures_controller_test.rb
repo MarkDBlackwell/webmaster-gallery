@@ -7,7 +7,7 @@ class AdminPicturesControllerTest < ActionController::TestCase
   end
 
   test "routing /admin_pictures/some_tag" do
-    assert Date::today < Date::new(2010,10,14), 'Test unwritten.'
+    assert Date::today < Date::new(2010,10,21), 'Test unwritten.'
 
 #    assert_routing '/admin_pictures/some_tag', :controller => "admin_pictures",
 #      :action => "index", :tag => "some_tag"

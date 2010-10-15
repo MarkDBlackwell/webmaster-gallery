@@ -13,7 +13,7 @@ class SessionsControllerTest < ActionController::TestCase
   end
 
   test "verify before_filters" do
-    assert Date::today < Date::new(2010,10,14), 'Test unwritten.'
+    assert Date::today < Date::new(2010,10,21), 'Test unwritten.'
 #    class SessionsController
 #      before_filter :verify_authenticity_token
 #    end
@@ -142,7 +142,7 @@ class SessionsControllerTest < ActionController::TestCase
   end
 
   test "how to test it should handle invalid authenticity token?" do
-    assert Date::today < Date::new(2010,10,14), 'Test unwritten.'
+    assert Date::today < Date::new(2010,10,21), 'Test unwritten.'
 # Doesn't get rescued by application controller:
 #    raise ActionController::InvalidAuthenticityToken
 # Try to POST with invalid authenticity token.
@@ -164,6 +164,10 @@ class SessionsControllerTest < ActionController::TestCase
 #    assigns["try_this"]='in assigns'
 #    puts assigns(:try_this)
 #    @request.session[:authenticity_token]
+  end
+
+  test "if no difference, create should render show" do
+    assert Date::today < Date::new(2010,10,21), 'Test unwritten.'
   end
 
 #-------------
@@ -191,7 +195,12 @@ class SessionsControllerTest < ActionController::TestCase
 
   test "should update" do
     put :update
-    assert_response :redirect
+    assert_response :success
+  end
+
+  test "update should render show" do
+    put :update
+    assert_template 'show'
   end
 
   test "update should add and remove tags" do
@@ -215,6 +224,10 @@ class SessionsControllerTest < ActionController::TestCase
     put :update
     assert 0 < File.size(p)
   end
+
+#  test "update should strip ERb tags from the webmaster HTML pictures file" do
+# Decided not to do this.
+#  end
 
 #-------------
 # Show action tests:

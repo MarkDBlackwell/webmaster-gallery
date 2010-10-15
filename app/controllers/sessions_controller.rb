@@ -27,7 +27,7 @@ class SessionsController < ApplicationController
     realign_records(FileTag, Tag, :name)
     realign_records(DirectoryPicture, Picture, :filename)
     copy_webmaster_html_file
-    redirect_to :action => :show
+    render :action => :show
   end
 
   def show
