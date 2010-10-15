@@ -26,65 +26,69 @@ class PicturesControllerTest < ActionController::TestCase
   end
 
   test "should get index" do
-    mock_page
-    get :index
+    get_mock_page
+    see_output
     assert_response :success
   end
 
   test "should render a mock page" do
-    mock_page
-    get :index
+    get_mock_page
   end
 
   test "should render a gallery" do
-    mock_page
-    get :index
+    get_mock_page
     assert_select 'div.gallery'
   end
 
   test "should render a list of all tags" do
-    mock_page
-    get :index
+    get_mock_page
     assert_select 'div.all-tags'
   end
 
-=begin
   test "should render a picture within a gallery" do
-    get :index
+    get_mock_page
+    see_output
     assert_select 'div.gallery > div.picture'
   end
 
+=begin
   test "should render all the pictures" do
-    get :index
+    get_mock_page
+    see_output
     assert_select 'div.gallery > div.picture', 3
   end
 
   test "should render a title within a picture" do
-    get :index
+    get_mock_page
+    see_output
     assert_select 'div.picture > div.title'
   end
 
   test "should render a description within a picture" do
-    get :index
+    get_mock_page
+    see_output
     assert_select 'div.picture > div.description'
   end
 
   test "should render a thumbnail within a picture" do
-    get :index
+    get_mock_page
+    see_output
     assert_select 'div.picture > div.thumbnail'
   end
 
   test "should render a year within a picture" do
-    get :index
+    get_mock_page
+    see_output
     assert_select 'div.picture > div.year'
   end
 =end
 
   private
 
-  def mock_page
-    Webmaster.expects(:page_path).returns(
-      "#{Rails.root}/test/fixtures/files/picture/page")
+  def get_mock_page
+    Webmaster.expects(:page_path).returns "#{Rails.root}"\
+      '/test/fixtures/files/picture/page'
+    get :index
   end
 
   def see_output

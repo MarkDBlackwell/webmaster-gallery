@@ -1,0 +1,4 @@
+#!/bin/sh
+# Usage:
+# command  string
+grep -m 1 --exclude-dir=\.git --exclude-dir=migrate --exclude-dir=log --exclude-dir=out --exclude-dir=db --exclude=*\.sqlite3 -nre $1 . | head

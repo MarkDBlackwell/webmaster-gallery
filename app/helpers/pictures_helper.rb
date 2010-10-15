@@ -1,7 +1,10 @@
 module PicturesHelper
 
   def gallery
-    concat_raw '<div class="gallery"></div>'
+    concat_raw '<div class="gallery">'
+#    render @pictures
+    render :partial => 'pictures', :collection => @pictures
+    concat_raw '</div>'
   end
 
   def tags
@@ -10,7 +13,7 @@ module PicturesHelper
 
 
   def concat_raw s
-    concat( raw( s))
+    concat( raw s)
   end
 
 end
