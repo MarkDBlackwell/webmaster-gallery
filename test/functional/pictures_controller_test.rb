@@ -24,14 +24,20 @@ class PicturesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should render this template" do
+  test "should render webmaster page" do
     get :index
     assert_template :file => "#{Rails.root}/../gallery-webmaster/page",
       :layout => false
   end
 
+  test "should render a mock page" do
+    mock_page
+    get :index
+  end
+
 =begin
   test "should render a gallery" do
+    mock_page
     get :index
     assert_select 'div.gallery'
   end
@@ -69,17 +75,9 @@ class PicturesControllerTest < ActionController::TestCase
 
   private
 
-  def setup
-=begin
-    in
-    out
-put_f="#{rails.root}/test
-    output_f="#{rails.root}/
-    FileUtils.cp( 
-=end
-  end
-
-  def teardown
+  def mock_page
+    Webmaster.expects(:page_path).returns(
+      "#{Rails.root}/test/fixtures/files/picture/page")
   end
 
 end
