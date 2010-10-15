@@ -26,7 +26,6 @@ class SessionsController < ApplicationController
     (handle_bad_request; return) unless request.put?
     realign_records(FileTag, Tag, :name)
     realign_records(DirectoryPicture, Picture, :filename)
-    copy_webmaster_html_file
     render :action => :show
   end
 
@@ -47,12 +46,6 @@ class SessionsController < ApplicationController
 
   def get_password
     FilePassword.find(:all).first.password
-  end
-
-  def copy_webmaster_html_file
-    from_f  = "#{Rails.root}/../gallery-webmaster/pictures.html"
-    to_f = "#{Rails.root}/app/views/layouts/pictures.html.erb"
-    FileUtils.cp from_f, to_f
   end
 
   def handle_bad_request

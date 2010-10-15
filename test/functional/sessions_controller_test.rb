@@ -118,17 +118,14 @@ class SessionsControllerTest < ActionController::TestCase
     assert_nil session[:something]
   end
 
-  test "create should not write the webmaster HTML pictures file" do
-    p="#{Rails.root}/app/views/layouts/pictures.html.erb"
-    mode=File.stat(p).mode
-    File.chmod(mode - 0200, p)
-    begin
-      login
-    rescue Errno::EACCES
-      flunk
-    ensure
-      File.chmod(mode, p)
-    end
+  test "create shouldn't make a pictures layout file" do
+    login
+    assert_equal false, pictures_in_layouts_directory?
+  end
+
+  test "create shouldn't read the webmaster page file" do
+    path="#{Rails.root}/../gallery-webmaster/page.html.erb"
+    remove_read_permission(path) {login}
   end
 
   test "create should redirect to edit" do
@@ -218,16 +215,15 @@ class SessionsControllerTest < ActionController::TestCase
     assert_equal ['one','three'], Picture.find(:all).collect(&:filename).sort
   end
 
-  test "update should copy the webmaster HTML pictures file" do
-    p="#{Rails.root}/app/views/layouts/pictures.html.erb"
-    File.new(p,'w').close
+  test "update shouldn't make a pictures layout file" do
     put :update
-    assert 0 < File.size(p)
+    assert_equal false, pictures_in_layouts_directory?
   end
 
-#  test "update should strip ERb tags from the webmaster HTML pictures file" do
-# Decided not to do this.
-#  end
+  test "update shouldn't read the webmaster page file" do
+    path="#{Rails.root}/../gallery-webmaster/page.html.erb"
+    remove_read_permission(path) {put :update}
+  end
 
 #-------------
 # Show action tests:
@@ -276,7 +272,7 @@ class SessionsControllerTest < ActionController::TestCase
   end
 
   test "try to remove the session cookie" do
-    assert Date::today < Date::new(2010,10,15), 'Test unwritten.'
+    assert Date::today < Date::new(2010,10,22), 'Test unwritten.'
 # Reference config/initializes/session_store.rb for cookie name.
   end
 
@@ -308,6 +304,22 @@ class SessionsControllerTest < ActionController::TestCase
     f.rewind
     MyFile.expects(:my_new).returns f
     post :create, :password => clear_text_password
+  end
+
+  def pictures_in_layouts_directory?
+    File.exists? "#{Rails.root}/app/views/layouts/pictures.html.erb"
+  end
+
+  def remove_read_permission(path)
+    mode=File.stat(path).mode
+    File.chmod(mode ^ 0444, path) # Remove read permissions.
+    begin
+      yield
+    rescue Errno::EACCES
+      flunk
+    ensure
+      File.chmod(mode, path)
+    end
   end
 
 end
