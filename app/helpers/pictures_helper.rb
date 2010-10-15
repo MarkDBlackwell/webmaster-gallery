@@ -1,14 +1,16 @@
 module PicturesHelper
 
-#  def gallery
-#    raw '<div class="gallery">' +
-#
-#    content_tag(:div, raw(content_tag(:div, :class => 'pictur')),
-#      :class => 'gallery')
-#
-#      content_tag(:div, content_tag:class => 'picture')
-#</div>'
-#    end
-#  end
+  def gallery
+    concat_raw '<div class="gallery"></div>'
+  end
+
+  def tags
+    concat_raw '<div class="all-tags"></div>'
+  end
+
+
+  def concat_raw s
+    concat( raw( s))
+  end
 
 end

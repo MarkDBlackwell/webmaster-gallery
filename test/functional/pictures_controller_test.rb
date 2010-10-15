@@ -19,15 +19,16 @@ class PicturesControllerTest < ActionController::TestCase
     end
   end
 
-  test "should get index" do
-    get :index
-    assert_response :success
-  end
-
-  test "should render webmaster page" do
+  test "should render right webmaster page file" do
     get :index
     assert_template :file => "#{Rails.root}/../gallery-webmaster/page",
       :layout => false
+  end
+
+  test "should get index" do
+    mock_page
+    get :index
+    assert_response :success
   end
 
   test "should render a mock page" do
@@ -35,13 +36,19 @@ class PicturesControllerTest < ActionController::TestCase
     get :index
   end
 
-=begin
   test "should render a gallery" do
     mock_page
     get :index
     assert_select 'div.gallery'
   end
 
+  test "should render a list of all tags" do
+    mock_page
+    get :index
+    assert_select 'div.all-tags'
+  end
+
+=begin
   test "should render a picture within a gallery" do
     get :index
     assert_select 'div.gallery > div.picture'
@@ -78,6 +85,10 @@ class PicturesControllerTest < ActionController::TestCase
   def mock_page
     Webmaster.expects(:page_path).returns(
       "#{Rails.root}/test/fixtures/files/picture/page")
+  end
+
+  def see_output
+    print response.body
   end
 
 end

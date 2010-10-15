@@ -1,4 +1,5 @@
 class PicturesController < ApplicationController
+
   def index
     render :file => Webmaster.page_path, :layout => false
   end
