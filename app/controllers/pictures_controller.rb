@@ -11,4 +11,5 @@ class Webmaster
   def self.page_path
     "#{Rails.root}/../gallery-webmaster/page"
   end
+
 end
