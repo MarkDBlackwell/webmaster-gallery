@@ -81,8 +81,14 @@ class PicturesControllerTest < ActionController::TestCase
 
   test "should render an image within a thumbnail" do 
     get_mock_page
-    see_output
     assert_select 'div.thumbnail > img'
+  end
+
+  test "image should have the right thumbnail filename" do
+    pictures(:one).destroy
+    get_mock_page
+    see_output
+    assert_select '[src=?]', 'two-t.png'
   end
 
   private
