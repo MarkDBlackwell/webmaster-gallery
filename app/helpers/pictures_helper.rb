@@ -6,7 +6,7 @@ module PicturesHelper
 
   def gallery
     concat_raw '<div class="gallery">'
-    Picture.all.each {|e| concat( render :partial => 'pictures/pictures',
+    Picture.all.each {|e| concat( render :partial => 'picture',
         :locals => {:picture => e} ) }
     concat_raw '</div>'
   end
