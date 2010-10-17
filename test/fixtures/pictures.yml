@@ -1,14 +1,14 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
-  filename: one
+  filename: one.jpg
 #  sequence: 1
   title: MyString
   year: MyString
   description: MyString
 
 two:
-  filename: two
+  filename: two.png
 #  sequence: 2
   title: MyString
   year: MyString
