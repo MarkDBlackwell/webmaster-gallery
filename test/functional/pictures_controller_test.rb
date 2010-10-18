@@ -88,7 +88,7 @@ class PicturesControllerTest < ActionController::TestCase
   test "image should have the right thumbnail filename" do
     pictures(:one).destroy
     get_mock_page
-    assert_select '[src=?]', 'two-t.png'
+    assert_select '[src=?]', '/images/two-t.png'
   end
 
   private

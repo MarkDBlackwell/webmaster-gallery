@@ -1,8 +1,8 @@
 <%= div_for picture do %>
 <%=   content_tag :div, :class => 'thumbnail' do %>
-<%=     extension = File.extname picture.filename
-        thumbnail_source = picture.filename.chomp(extension) + '-t' + extension
-        image_tag thumbnail_source, :alt => picture.title %>
+<%      extension = File.extname picture.filename
+        thumbnail_source = picture.filename.chomp(extension) + '-t' + extension %>
+<%=     image_tag thumbnail_source, :alt => picture.title %>
 <%    end %>
 <%=   content_tag :div, picture.title, :class => 'title' %>
 <%=   content_tag :div, picture.description, :class => 'description' %>
