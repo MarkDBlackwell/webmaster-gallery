@@ -1,14 +1,10 @@
-<div class="picture">
-  <div class="thumbnail">
-    <img src="<%= path %>" />
-  </div>
-  <div class="title">
-    <%= picture.title %>
-  </div>
-  <div class="description">
-    <%= picture.description %> 
-  </div>
-  <div class="year">
-    <%= picture.year %>
-  </div>
-</div>
+<%= div_for picture do %>
+<%=   content_tag :div, :class => 'thumbnail' do %>
+<%=     extension = File.extname picture.filename
+        thumbnail_source = picture.filename.chomp(extension) + '-t' + extension
+        image_tag thumbnail_source, :alt => picture.title %>
+<%    end %>
+<%=   content_tag :div, picture.title, :class => 'title' %>
+<%=   content_tag :div, picture.description, :class => 'description' %>
+<%=   content_tag :div, picture.year, :class => 'year' %>
+<%  end %>

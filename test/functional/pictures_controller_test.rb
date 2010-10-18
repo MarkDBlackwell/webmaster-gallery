@@ -41,6 +41,7 @@ class PicturesControllerTest < ActionController::TestCase
 
   test "should render a gallery" do
     get_mock_page
+    see_output
     assert_select 'div.gallery'
   end
 
@@ -87,7 +88,6 @@ class PicturesControllerTest < ActionController::TestCase
   test "image should have the right thumbnail filename" do
     pictures(:one).destroy
     get_mock_page
-    see_output
     assert_select '[src=?]', 'two-t.png'
   end
 

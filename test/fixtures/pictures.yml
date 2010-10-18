@@ -3,13 +3,13 @@
 one:
   filename: one.jpg
 #  sequence: 1
-  title: MyString
-  year: MyString
-  description: MyString
+  title: one-title
+  year: one-year
+  description: one-description
 
 two:
   filename: two.png
 #  sequence: 2
-  title: MyString
-  year: MyString
-  description: MyString
+  title: two-title
+  year: two-year
+  description: two-description
