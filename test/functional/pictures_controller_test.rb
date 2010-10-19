@@ -100,7 +100,10 @@ class PicturesControllerTest < ActionController::TestCase
   end
 
   def see_output
-    print response.body
+    f=File.new("#{Rails.root}"\
+      '/out/see-output','w')
+    f.print response.body
+    f.close
   end
 
 end
