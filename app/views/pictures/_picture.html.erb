@@ -1,10 +1,13 @@
+
+<%# Keep the previous blank line for pretty html formatting. %>
 <%= div_for picture do %>
-<%=   content_tag :div, :class => 'thumbnail' do %>
+<%=   content_tag :div, :class => 'thumbnail' do -%>
 <%      extension = File.extname picture.filename
-        thumbnail_source = picture.filename.chomp(extension) + '-t' + extension %>
-<%=     image_tag thumbnail_source, :alt => picture.title %>
+        thumbnail_source = picture.filename.chomp(extension) + '-t' + extension -%>
+<%=     image_tag thumbnail_source, :alt => picture.title -%>
 <%    end %>
+
 <%=   content_tag :div, picture.title, :class => 'title' %>
 <%=   content_tag :div, picture.description, :class => 'description' %>
-<%=   content_tag :div, picture.year, :class => 'year' %>
+<%=   content_tag :div, picture.year, :class => 'year' -%>
 <%  end %>
