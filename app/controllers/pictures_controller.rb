@@ -1,9 +1,11 @@
 class PicturesController < ApplicationController
 
   def index
+    @all_tags = []
     @pictures = Picture.all
     render :file => Webmaster.page_path,
-        :layout => false, :collection => false
+#        :layout => false, :collection => false
+        :layout => false
   end
 
 end

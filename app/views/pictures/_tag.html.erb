@@ -1,8 +1,9 @@
 
 <%# Keep the previous blank line for pretty html formatting. %>
-<%= div_for tag do %>
-<%=   content_tag :div, :class => 'tag' do -%>
-<%=     tag.name -%>
-<%    end %>
+<%= div_for tag do -%>
+<%#=   content_tag :div, :class => 'tag' do -%>
+<%=   tag.name -%>
+<%#    end %>
 
+<%# Keep the previous blank line for pretty html formatting. %>
 <%  end %>
