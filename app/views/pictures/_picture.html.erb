@@ -2,11 +2,15 @@
 <%# Keep the previous blank line for pretty html formatting. %>
 <%= div_for picture do %>
 <%=   content_tag :div, :class => 'thumbnail' do -%>
-<%      extension = File.extname picture.filename
-        thumbnail_source = picture.filename.chomp(extension) + '-t' + extension -%>
-<%=     image_tag thumbnail_source, :alt => picture.title -%>
+<%      s = picture.filename
+        extension = File.extname s %>
+<%=     content_tag :a, :href => ['/images', 'gallery', s].join('/') do -%>
+<%=       image_tag ['gallery',s.chomp(extension) + '-t' + extension].
+              join('/'), :alt => picture.title -%>
+<%      end %>
 <%    end %>
 
+<%# Keep the previous blank line for pretty html formatting. %>
 <%=   content_tag :div, picture.title, :class => 'title' %>
 <%=   content_tag :div, picture.description, :class => 'description' %>
 <%=   content_tag :div, picture.year, :class => 'year' -%>

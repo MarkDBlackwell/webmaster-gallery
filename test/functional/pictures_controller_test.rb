@@ -41,7 +41,6 @@ class PicturesControllerTest < ActionController::TestCase
 
   test "should render a gallery" do
     get_mock_page
-    see_output
     assert_select 'div.gallery'
   end
 
@@ -82,14 +81,73 @@ class PicturesControllerTest < ActionController::TestCase
 
   test "should render an image within a thumbnail" do 
     get_mock_page
-    assert_select 'div.thumbnail > img'
+    assert_select 'div.thumbnail > * > img'
   end
 
   test "image should have the right thumbnail filename" do
     pictures(:one).destroy
     get_mock_page
-    assert_select '[src=?]', '/images/two-t.png'
+    assert_select '[src=?]', '/images/gallery/two-t.png'
   end
+
+  test "should render the right year" do
+    pictures(:one).destroy
+    get_mock_page
+    assert_select 'div.picture > div.year', 'two-year'
+  end
+
+  test "should render the right description" do
+    pictures(:one).destroy
+    get_mock_page
+    assert_select 'div.picture > div.description', 'two-description'
+  end
+
+  test "should render the right title" do
+    pictures(:one).destroy
+    get_mock_page
+    assert_select 'div.picture > div.title', 'two-title'
+  end
+
+  test "image should have the right title as alt-text" do
+    pictures(:one).destroy
+    get_mock_page
+    assert_select '[alt=?]', 'two-title'
+  end
+
+  test "should render an anchor within a thumbnail" do 
+    get_mock_page
+    assert_select 'div.thumbnail > a'
+  end
+
+  test "should render an image within an anchor" do 
+    get_mock_page
+    assert_select 'a > img'
+  end
+
+  test "thumbnail anchor should be a link" do
+    get_mock_page
+    assert_select 'div.thumbnail > a[href]'
+  end
+
+  test "should render a link to the right picture" do
+    pictures(:one).destroy
+    get_mock_page
+    assert_select '[href=?]', '/images/gallery/two.png'
+  end
+
+  test "should render pretty html source" do
+    get_mock_page
+    divs = %w[all-tags gallery picture thumbnail title description year]
+    s = "<div class=\"#{Regexp.union *divs}\""
+# Remove any of these divs which are at line beginnings:
+    altered_body = response.body.gsub( Regexp.new("\n" + s),"\n")
+    s2 = altered_body.clone
+# Should not be able to find any of those divs:
+    assert_equal true, altered_body.gsub!(Regexp.new(s),'').nil?, s2
+  end
+
+# Copy this line into a test, if desired:
+#    see_output
 
   private
 
