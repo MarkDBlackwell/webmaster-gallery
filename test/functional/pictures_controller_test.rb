@@ -137,13 +137,25 @@ class PicturesControllerTest < ActionController::TestCase
 
   test "should render pretty html source" do
     get_mock_page
-    divs = %w[all-tags gallery picture thumbnail title description year]
+    divs = %w[all-tags tag gallery picture thumbnail title description year]
     s = "<div class=\"#{Regexp.union *divs}\""
 # Remove any of these divs which are at line beginnings:
     altered_body = response.body.gsub( Regexp.new("\n" + s),"\n")
     s2 = altered_body.clone
 # Should not be able to find any of those divs:
     assert_equal true, altered_body.gsub!(Regexp.new(s),'').nil?, s2
+  end
+
+  test "should render a tag within a list of all tags" do
+    get_mock_page
+    assert_select 'div.all-tags > div.tag'
+  end
+
+  test "should render the right tag name" do
+    tags(:one).destroy
+    get_mock_page
+    see_output
+    assert_select 'div.all-tags > div.tag', 'two-name'
   end
 
 # Copy this line into a test, if desired:
