@@ -26,6 +26,9 @@ class SessionsController < ApplicationController
     (handle_bad_request; return) unless request.put?
     realign_records(FileTag, Tag, :name)
     realign_records(DirectoryPicture, Picture, :filename)
+    d = "#{Rails.root}/public/pictures"
+    ((Dir.entries(d) - %w[. ..]).collect {|e| [d,e]} << [d,'..','index.html']).
+        collect {|a| a.join('/')}.each {|e| File.delete(e) if File.exist?(e)}
     render :action => :show
   end
 

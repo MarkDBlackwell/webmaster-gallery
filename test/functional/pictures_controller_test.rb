@@ -19,6 +19,43 @@ class PicturesControllerTest < ActionController::TestCase
     end
   end
 
+  test "should be no route for action, uncached index" do
+    procs = [
+        Proc.new do |action,hash|
+          get action, hash
+        end,
+        Proc.new do |action,hash|
+          route = hash.empty? ? '' : "pictures/#{hash[:tag]}"
+          assert_generates route,
+              {:controller => 'pictures', :action => action}.merge(hash),
+              {}, {}, 'In assert_generates proc, '\
+              "route #{route}, action #{action}, hash #{hash.to_yaml}."
+        end,
+        ]
+    [{},{:tag => 'something'}].each do |e_hash|
+      procs.each do |e_proc|
+        e_proc.call('index', e_hash) # A valid action should be okay.
+        assert_raise(ActionController::RoutingError) do
+          e_proc.call 'uncached_index', e_hash
+        end
+      end
+    end
+  end
+
+  test "index should cache the page" do
+    fn = "#{Rails.root}"  '/public/index.html'
+    File.delete(fn) if File.exist?(fn)
+    get :index
+    assert_equal true, 0 < File.size(fn), "#{fn} caching failed."
+  end
+
+  test "index should cache the page for a tag" do
+    fn = "#{Rails.root}"  '/public/pictures/some_tag.html'
+    File.delete(fn) if File.exist?(fn)
+    get :index, :tag => 'some_tag'
+    assert_equal true, 0 < File.size(fn), "#{fn} caching failed."
+  end
+
   test "should render right webmaster page file" do
 # Could not get this test to work.
 #    get :index
@@ -154,7 +191,6 @@ class PicturesControllerTest < ActionController::TestCase
   test "should render the right tag name" do
     tags(:one).destroy
     get_mock_page
-    see_output
     assert_select 'div.all-tags > div.tag', 'two-name'
   end
 

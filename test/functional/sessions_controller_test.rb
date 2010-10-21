@@ -225,6 +225,20 @@ class SessionsControllerTest < ActionController::TestCase
     remove_read_permission(path) {put :update}
   end
 
+  test "update should expire the cached pictures index page" do
+    fn = "#{Rails.root}"  '/public/index.html'
+    File.open(fn,'w').close
+    put :update
+    assert_equal false, File.exist?(fn), "#{fn} cache expiration failed."
+  end
+
+  test "update should expire a cached pictures index page for a tag" do
+    fn = "#{Rails.root}"  '/public/pictures/two-name.html'
+    File.open(fn,'w').close
+    put :update
+    assert_equal false, File.exist?(fn), "#{fn} cache expiration failed."
+  end
+
 #-------------
 # Show action tests:
 # -> Webmaster reviews database problems.
