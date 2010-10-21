@@ -3,7 +3,11 @@ Gallery::Application.routes.draw do
 
   match 'pictures/:tag' => 'pictures#index'
 
-  match 'admin_pictures' => 'admin_pictures#index'
+  match 'admin_pictures/:tag' => 'admin_pictures#index',
+      :constraints => {:tag => /\D.*/} # Keep this above resources.
+
+  resources :admin_pictures, :except => [:new, :create, :destroy],
+      :constraints => {:id => /\d+/}
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

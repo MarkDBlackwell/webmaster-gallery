@@ -13,7 +13,7 @@ class SessionsControllerTest < ActionController::TestCase
   end
 
   test "verify before_filters" do
-    assert Date::today < Date::new(2010,10,21), 'Test unwritten.'
+    assert Date::today < Date::new(2010,10,29), 'Test unwritten.'
 #    class SessionsController
 #      before_filter :verify_authenticity_token
 #    end
@@ -139,7 +139,7 @@ class SessionsControllerTest < ActionController::TestCase
   end
 
   test "how to test it should handle invalid authenticity token?" do
-    assert Date::today < Date::new(2010,10,21), 'Test unwritten.'
+    assert Date::today < Date::new(2010,10,29), 'Test unwritten.'
 # Doesn't get rescued by application controller:
 #    raise ActionController::InvalidAuthenticityToken
 # Try to POST with invalid authenticity token.
@@ -164,7 +164,7 @@ class SessionsControllerTest < ActionController::TestCase
   end
 
   test "if no difference, create should render show" do
-    assert Date::today < Date::new(2010,10,21), 'Test unwritten.'
+    assert Date::today < Date::new(2010,10,29), 'Test unwritten.'
   end
 
 #-------------
@@ -286,7 +286,7 @@ class SessionsControllerTest < ActionController::TestCase
   end
 
   test "try to remove the session cookie" do
-    assert Date::today < Date::new(2010,10,22), 'Test unwritten.'
+    assert Date::today < Date::new(2010,10,29), 'Test unwritten.'
 # Reference config/initializes/session_store.rb for cookie name.
   end
 

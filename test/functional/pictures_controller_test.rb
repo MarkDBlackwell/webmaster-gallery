@@ -57,7 +57,7 @@ class PicturesControllerTest < ActionController::TestCase
   end
 
   test "should render right webmaster page file" do
-# Could not get this test to work.
+# TODO: Could not get this test to work.
 #    get :index
 #print "assigns(:pictures) "; p assigns(:pictures)
 #    assert_template :file => "#{Rails.root}/../gallery-webmaster/page"
