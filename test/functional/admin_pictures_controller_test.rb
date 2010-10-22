@@ -58,6 +58,26 @@ class AdminPicturesControllerTest < ActionController::TestCase
     assert_redirected_to :controller => :sessions, :action => :new
   end
 
+  test "index should be editable" do
+    session[:logged_in]=true
+    get :index
+    assert_not_nil assigns(:editable)
+  end
+
+  test "index should render the right template" do
+    assert Date::today < Date::new(2010,10,29), 'Test unwritten.'
+#    session[:logged_in]=true
+#    get :index
+#    list = ['gallery','picture','tags'].collect do |e|
+#        ['','pictures/'].collect {|prefix| "#{prefix}_#{e}"}
+#    end.flatten!
+#    list = ['_picture','pictures/_gallery','_tags','pictures/_picture',
+#       '_gallery','pictures/_tags']
+#puts list
+#    assert_template :controller => :admin_pictures, :action => :index,
+#        :partial => list
+  end
+
   test "index should render a gallery" do
     session[:logged_in]=true
     get :index
