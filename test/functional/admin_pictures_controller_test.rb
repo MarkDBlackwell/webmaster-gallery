@@ -36,12 +36,12 @@ class AdminPicturesControllerTest < ActionController::TestCase
 #-------------
 # Index action tests:
 
-  test "routing /admin_pictures" do
+  test "routing get /admin_pictures" do
     assert_routing '/admin_pictures', :controller => 'admin_pictures',
       :action => 'index'
   end
 
-  test "routing /admin_pictures/some_tag" do
+  test "routing get /admin_pictures/some_tag" do
     assert_routing '/admin_pictures/some_tag',
       :controller => 'admin_pictures', :action => 'index', :tag => 'some_tag'
   end
@@ -52,10 +52,22 @@ class AdminPicturesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should redirect to /session/new if not logged in" do
+  test "index should redirect to /session/new if not logged in" do
     session[:logged_in]=nil
     get :index
     assert_redirected_to :controller => :sessions, :action => :new
+  end
+
+  test "index should render a gallery" do
+    session[:logged_in]=true
+    get :index
+    assert_select 'div.gallery'
+  end
+
+  test "index should render a list of all tags" do
+    session[:logged_in]=true
+    get :index
+    assert_select 'div.all-tags'
   end
 
 #-------------
@@ -93,6 +105,18 @@ class AdminPicturesControllerTest < ActionController::TestCase
     session[:logged_in]=true
     put :update, :id => '2'
     assert_response :success
+  end
+
+# Copy this line into a test, if desired:
+#    see_output
+
+  private
+
+  def see_output
+    f=File.new("#{Rails.root}"\
+      '/out/see-output','w')
+    f.print response.body
+    f.close
   end
 
 end

@@ -1,4 +1,5 @@
 class AdminPicturesController < ApplicationController
+  helper PicturesHelper
 
   def index
     (handle_bad_request; return) unless request.get?

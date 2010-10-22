@@ -42,14 +42,14 @@ class PicturesControllerTest < ActionController::TestCase
     end
   end
 
-  test "index should cache the page" do
+  test "index action should cache the page" do
     fn = "#{Rails.root}"  '/public/index.html'
     File.delete(fn) if File.exist?(fn)
     get :index
     assert_equal true, 0 < File.size(fn), "#{fn} caching failed."
   end
 
-  test "index should cache the page for a tag" do
+  test "index action should cache the page for a tag" do
     fn = "#{Rails.root}"  '/public/pictures/some_tag.html'
     File.delete(fn) if File.exist?(fn)
     get :index, :tag => 'some_tag'
