@@ -15,7 +15,7 @@
 <%=   content_tag :div, picture.description, :class => 'description' %>
 <%=   content_tag :div, picture.year, :class => 'year' %>
 <%=   content_tag :div, :class => 'edit' do -%>
-<%=     button_to 'edit', :id => picture.id, :controller => 'admin_pictures',
-            :action => 'edit' %>
+<%=     button_to 'edit', {:controller => :admin_pictures, :action => :edit,
+            :id => picture.id}, :method => :get %>
 <%    end if @editable %>
 <%  end # Picture. %>

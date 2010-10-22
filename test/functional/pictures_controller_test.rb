@@ -213,6 +213,14 @@ class PicturesControllerTest < ActionController::TestCase
     assert_select 'div.edit > form.button_to'
   end
 
+  test "button within an edit div should have method get" do
+    mock_page
+    @controller.instance_eval {@editable=true}
+    get :index
+    see_output
+    assert_select 'div.edit > form.button_to[method=?]', 'get'
+  end
+
 # Copy this line into a test, if desired:
 #    see_output
 
