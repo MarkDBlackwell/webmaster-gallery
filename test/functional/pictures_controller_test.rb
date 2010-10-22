@@ -194,15 +194,38 @@ class PicturesControllerTest < ActionController::TestCase
     assert_select 'div.all-tags > div.tag', 'two-name'
   end
 
+  test "should not render an edit div if not editable" do
+    get_mock_page
+    assert_select 'div.picture > div.edit', 0
+  end
+
+  test "should render an edit div if editable" do
+    mock_page
+    @controller.instance_eval {@editable=true}
+    get :index
+    assert_select 'div.picture > div.edit'
+  end
+
+  test "should render a button within an edit div if editable" do
+    mock_page
+    @controller.instance_eval {@editable=true}
+    get :index
+    assert_select 'div.edit > form.button_to'
+  end
+
 # Copy this line into a test, if desired:
 #    see_output
 
   private
 
   def get_mock_page
+    mock_page
+    get :index
+  end
+
+  def mock_page
     Webmaster.expects(:page_path).returns "#{Rails.root}"\
       '/test/fixtures/files/picture/page'
-    get :index
   end
 
   def see_output

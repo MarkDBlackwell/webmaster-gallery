@@ -8,10 +8,14 @@
 <%=       image_tag ['gallery',s.chomp(extension) + '-t' + extension].
               join('/'), :alt => picture.title -%>
 <%      end %>
-<%    end %>
+<%    end # Thumbnail. %>
 
 <%# Keep the previous blank line for pretty html formatting. %>
 <%=   content_tag :div, picture.title, :class => 'title' %>
 <%=   content_tag :div, picture.description, :class => 'description' %>
-<%=   content_tag :div, picture.year, :class => 'year' -%>
-<%  end %>
+<%=   content_tag :div, picture.year, :class => 'year' %>
+<%=   content_tag :div, :class => 'edit' do -%>
+<%=     button_to 'edit', :id => picture.id, :controller => 'admin_pictures',
+            :action => 'edit' %>
+<%    end if @editable %>
+<%  end # Picture. %>
