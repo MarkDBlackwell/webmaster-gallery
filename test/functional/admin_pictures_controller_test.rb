@@ -109,8 +109,15 @@ class AdminPicturesControllerTest < ActionController::TestCase
 
   test "should get edit" do
     session[:logged_in]=true
-    get :edit, :id => '2'
+    get :edit, :id => pictures(:two).id
     assert_response :success
+  end
+
+  test "edit should render a picture" do
+    session[:logged_in]=true
+    get :edit, :id => pictures(:two).id
+    see_output
+    assert_select 'div.picture'
   end
 
 #-------------

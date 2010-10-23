@@ -1,2 +1,14 @@
 <h1>AdminPictures#edit</h1>
 <p>Find me in app/views/admin_pictures/edit.html.erb</p>
+
+<%# Keep the previous blank line for pretty html formatting. %>
+<%= div_for @picture do %>
+<%=   form_tag( {:controller => 'admin_pictures', :action => 'update',
+          :id => @picture.id}, :method => 'put') do %>
+<%=     @picture.id %><br />
+<%=     @picture.filename %><br />
+<%=     @picture.description %><br />
+<%=     @picture.year %><br />
+<%=     @picture.title %><br />
+<%    end %>
+<%  end # Picture. %>

@@ -17,6 +17,7 @@ class AdminPicturesController < ApplicationController
   def edit
     (handle_bad_request; return) unless request.get?
     redirect_to :controller => :sessions, :action => :new unless session[:logged_in]
+    @picture = Picture.first
   end
 
   def update

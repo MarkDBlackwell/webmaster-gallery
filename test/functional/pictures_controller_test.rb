@@ -217,7 +217,6 @@ class PicturesControllerTest < ActionController::TestCase
     mock_page
     @controller.instance_eval {@editable=true}
     get :index
-    see_output
     assert_select 'div.edit > form.button_to[method=?]', 'get'
   end
 
