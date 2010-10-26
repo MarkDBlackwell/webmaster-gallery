@@ -4,10 +4,10 @@ assert-delay
 db/*.sqlite3
 grep
 html-pretty
-log
-out
-public/images
+log/
+out/
+public/images/gallery/
 public/index.html
-public/pictures
-tmp
-vendor/plugins/mocha
+public/pictures/
+tmp/
+vendor/plugins/mocha/

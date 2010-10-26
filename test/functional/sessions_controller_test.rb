@@ -5,13 +5,6 @@ class SessionsControllerTest < ActionController::TestCase
 #-------------
 # All actions tests:
 
-  test "should allow mocking with Mocha" do
-# Needed 'rails plugin install git://github.com/floehopper/mocha.git
-# Do not use this (next line) in Gemfile:
-# gem 'mocha' # Broke the test somehow.
-    mock 'A'
-  end
-
   test "verify before_filters" do
     assert Date::today < Date::new(2010,10,29), 'Test unwritten.'
 #    class SessionsController
@@ -46,11 +39,6 @@ class SessionsControllerTest < ActionController::TestCase
   test "routing for new" do
     assert_routing({:path => '/session/new', :method => :get},
       :controller => 'sessions', :action => 'new')
-  end
-
-  test "should new" do
-    get :new
-    assert_response :success
   end
 
   test "should new if not logged in" do
@@ -106,36 +94,30 @@ class SessionsControllerTest < ActionController::TestCase
     assert_response :redirect
   end
 
+  test "create should redirect to edit" do
+    login
+    assert_redirected_to :action => :edit
+  end
+
+  test "if no difference, create should render show" do
+    assert Date::today < Date::new(2010,10,29), 'Test unwritten.'
+  end
+
   test "create should log in" do
     session[:logged_in]=nil
     login
     assert_equal true, session[:logged_in]
   end
 
+  test "create should flash on wrong password entered" do
+    post :create, :password => 'example wrong password'
+    assert_equal 'Password incorrect.', flash[:error]
+  end
+
   test "create should reset the session" do
     session[:something]=true
     post :create
     assert_nil session[:something]
-  end
-
-  test "create shouldn't make a pictures layout file" do
-    login
-    assert_equal false, pictures_in_layouts_directory?
-  end
-
-  test "create shouldn't read the webmaster page file" do
-    path="#{Rails.root}/../gallery-webmaster/page.html.erb"
-    remove_read_permission(path) {login}
-  end
-
-  test "create should redirect to edit" do
-    login
-    assert_redirected_to :action => :edit
-  end
-
-  test "create should flash on wrong password entered" do
-    post :create, :password => 'example wrong password'
-    assert_equal 'Password incorrect.', flash[:error]
   end
 
   test "how to test it should handle invalid authenticity token?" do
@@ -163,8 +145,14 @@ class SessionsControllerTest < ActionController::TestCase
 #    @request.session[:authenticity_token]
   end
 
-  test "if no difference, create should render show" do
-    assert Date::today < Date::new(2010,10,29), 'Test unwritten.'
+  test "create shouldn't make a pictures layout file" do
+    login
+    assert_equal false, pictures_in_layouts_directory?
+  end
+
+  test "create shouldn't read the webmaster page file" do
+    path="#{Rails.root}/../gallery-webmaster/page.html.erb"
+    remove_read_permission(path) {login}
   end
 
 #-------------
@@ -215,16 +203,6 @@ class SessionsControllerTest < ActionController::TestCase
     assert_equal ['one','three'], Picture.find(:all).collect(&:filename).sort
   end
 
-  test "update shouldn't make a pictures layout file" do
-    put :update
-    assert_equal false, pictures_in_layouts_directory?
-  end
-
-  test "update shouldn't read the webmaster page file" do
-    path="#{Rails.root}/../gallery-webmaster/page.html.erb"
-    remove_read_permission(path) {put :update}
-  end
-
   test "update should expire the cached pictures index page" do
     fn = "#{Rails.root}"  '/public/index.html'
     File.open(fn,'w').close
@@ -237,6 +215,16 @@ class SessionsControllerTest < ActionController::TestCase
     File.open(fn,'w').close
     put :update
     assert_equal false, File.exist?(fn), "#{fn} cache expiration failed."
+  end
+
+  test "update shouldn't make a pictures layout file" do
+    put :update
+    assert_equal false, pictures_in_layouts_directory?
+  end
+
+  test "update shouldn't read the webmaster page file" do
+    path="#{Rails.root}/../gallery-webmaster/page.html.erb"
+    remove_read_permission(path) {put :update}
   end
 
 #-------------
@@ -279,17 +267,6 @@ class SessionsControllerTest < ActionController::TestCase
     assert_nil session[:logged_in]
   end
 
-  test "destroy should reset the session" do
-    session[:something] = true
-    delete :destroy
-    assert_nil session[:something]
-  end
-
-  test "try to remove the session cookie" do
-    assert Date::today < Date::new(2010,10,29), 'Test unwritten.'
-# Reference config/initializes/session_store.rb for cookie name.
-  end
-
   test "destroy should flash a notice if not logged in" do
     session[:logged_in] = nil
     delete :destroy
@@ -306,6 +283,17 @@ class SessionsControllerTest < ActionController::TestCase
 #    assert_select '#notice', 'Logged out successfully.'
 # So, doing this, instead:
     assert_equal 'Logged out successfully.', flash[:notice]
+  end
+
+  test "destroy should reset the session" do
+    session[:something] = true
+    delete :destroy
+    assert_nil session[:something]
+  end
+
+  test "destroy should remove the session cookie" do
+    assert Date::today < Date::new(2010,10,29), 'Test unwritten.'
+# Reference config/initializes/session_store.rb for cookie name.
   end
 
 #-------------

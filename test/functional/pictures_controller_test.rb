@@ -2,6 +2,9 @@ require 'test_helper'
 
 class PicturesControllerTest < ActionController::TestCase
 
+#-------------
+# Index action tests:
+
   test "routing /" do
     assert_routing '/', :controller => 'pictures', :action => 'index'
   end
@@ -19,7 +22,7 @@ class PicturesControllerTest < ActionController::TestCase
     end
   end
 
-  test "should be no route for action, uncached index" do
+  test "should be no route for 'uncached_index' action" do
     procs = [
         Proc.new do |action,hash|
           get action, hash
@@ -56,7 +59,16 @@ class PicturesControllerTest < ActionController::TestCase
     assert_equal true, 0 < File.size(fn), "#{fn} caching failed."
   end
 
-  test "should render right webmaster page file" do
+  test "should get index" do
+    get_mock_page
+    assert_response :success
+  end
+
+  test "index should render a mock page" do
+    get_mock_page
+  end
+
+  test "index should render right webmaster page file" do
 # TODO: Could not get this test to work.
 #    get :index
 #print "assigns(:pictures) "; p assigns(:pictures)
@@ -67,112 +79,103 @@ class PicturesControllerTest < ActionController::TestCase
 #        :locals => nil
   end
 
-  test "should get index" do
-    get_mock_page
-    assert_response :success
-  end
-
-  test "should render a mock page" do
-    get_mock_page
-  end
-
-  test "should render a gallery" do
-    get_mock_page
-    assert_select 'div.gallery'
-  end
-
-  test "should render a list of all tags" do
+  test "index should render a list of all tags" do
     get_mock_page
     assert_select 'div.all-tags'
   end
 
-  test "should render a picture within a gallery" do
+  test "index should render a gallery" do
+    get_mock_page
+    assert_select 'div.gallery'
+  end
+
+  test "index should render a picture within a gallery" do
     get_mock_page
     assert_select 'div.gallery > div.picture'
   end
 
-  test "should render all the pictures" do
+  test "index should render all the pictures" do
     get_mock_page
     assert_select 'div.gallery > div.picture', 2
   end
 
-  test "should render a title within a picture" do
+  test "index should render a title within a picture" do
     get_mock_page
     assert_select 'div.picture > div.title'
   end
 
-  test "should render a description within a picture" do
+  test "index should render a description within a picture" do
     get_mock_page
     assert_select 'div.picture > div.description'
   end
 
-  test "should render a year within a picture" do
+  test "index should render a year within a picture" do
     get_mock_page
     assert_select 'div.picture > div.year'
   end
 
-  test "should render a thumbnail within a picture" do
+  test "index should render a thumbnail within a picture" do
     get_mock_page
     assert_select 'div.picture > div.thumbnail'
   end
 
-  test "should render an image within a thumbnail" do 
+  test "index should render an image within a thumbnail" do 
     get_mock_page
     assert_select 'div.thumbnail > * > img'
   end
 
-  test "image should have the right thumbnail filename" do
+  test "index rendered image should have the right thumbnail filename" do
     pictures(:one).destroy
     get_mock_page
     assert_select '[src=?]', filename_matcher('two-t.png')
   end
 
-  test "should render the right year" do
+  test "index should render the right year" do
     pictures(:one).destroy
     get_mock_page
     assert_select 'div.picture > div.year', 'two-year'
   end
 
-  test "should render the right description" do
+  test "index should render the right description" do
     pictures(:one).destroy
     get_mock_page
     assert_select 'div.picture > div.description', 'two-description'
   end
 
-  test "should render the right title" do
+  test "index should render the right title" do
     pictures(:one).destroy
     get_mock_page
     assert_select 'div.picture > div.title', 'two-title'
   end
 
-  test "image should have the right title as alt-text" do
+  test "index rendered image should have the right title as alt-text" do
     pictures(:one).destroy
     get_mock_page
     assert_select '[alt=?]', 'two-title'
   end
 
-  test "should render an anchor within a thumbnail" do 
+  test "index should render an anchor within a thumbnail" do 
     get_mock_page
     assert_select 'div.thumbnail > a'
   end
 
-  test "should render an image within an anchor" do 
+  test "index should render an image within an anchor" do 
     get_mock_page
     assert_select 'a > img'
   end
 
-  test "thumbnail anchor should be a link" do
+  test "index rendered thumbnail anchor should be a link" do
     get_mock_page
     assert_select 'div.thumbnail > a[href]'
   end
 
-  test "should render a link to the right picture" do
+  test "index should render a link to the right picture" do
     pictures(:one).destroy
     get_mock_page
     assert_select '[href=?]', filename_matcher('two.png')
   end
 
-  test "should render pretty html source" do
+  test "index should render pretty html source" do
     get_mock_page
     divs = %w[all-tags tag gallery picture thumbnail title description year]
     s = "<div class=\"#{Regexp.union *divs}\""
@@ -183,47 +186,49 @@ class PicturesControllerTest < ActionController::TestCase
     assert_equal true, altered_body.gsub!(Regexp.new(s),'').nil?, s2
   end
 
-  test "should render a tag within a list of all tags" do
+  test "index should render a tag within a list of all tags" do
     get_mock_page
     assert_select 'div.all-tags > div.tag'
   end
 
-  test "should render the right tag name" do
+  test "index should render the right tag name" do
     tags(:one).destroy
     get_mock_page
     assert_select 'div.all-tags > div.tag', 'two-name'
   end
 
-  test "should not render an edit div if not editable" do
+  test "index should not render an edit div if not editable" do
     get_mock_page
     assert_select 'div.picture > div.edit', 0
   end
 
-  test "should render an edit div if editable" do
+  test "index should render an edit div if editable" do
     mock_page
     @controller.instance_eval {@editable=true}
     get :index
     assert_select 'div.picture > div.edit'
   end
 
-  test "should render a button within an edit div if editable" do
+  test "index should render a button within an edit div if editable" do
     mock_page
     @controller.instance_eval {@editable=true}
     get :index
     assert_select 'div.edit > form.button_to'
   end
 
-  test "button within an edit div should have method get" do
+  test "index rendered button within an edit div should have method get" do
     mock_page
     @controller.instance_eval {@editable=true}
     get :index
     assert_select 'div.edit > form.button_to[method=?]', 'get'
   end
 
-# Copy this line into a test, if desired:
-#    see_output
-
+#-------------
   private
+
+  def filename_matcher(s)
+    %r@^/images/gallery/#{s}\?\d+$@
+  end
 
   def get_mock_page
     mock_page
@@ -235,15 +240,14 @@ class PicturesControllerTest < ActionController::TestCase
       '/test/fixtures/files/picture/page'
   end
 
+# Copy this line into a test, if desired:
+#    see_output
+
   def see_output
     f=File.new("#{Rails.root}"\
       '/out/see-output','w')
     f.print response.body
     f.close
-  end
-
-  def filename_matcher(s)
-    %r@^/images/gallery/#{s}\?\d+$@
   end
 
 end

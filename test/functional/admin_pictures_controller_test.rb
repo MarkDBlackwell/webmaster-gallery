@@ -46,16 +46,16 @@ class AdminPicturesControllerTest < ActionController::TestCase
       :controller => 'admin_pictures', :action => 'index', :tag => 'some_tag'
   end
 
-  test "should get index" do
-    session[:logged_in]=true
-    get :index
-    assert_response :success
-  end
-
   test "index should redirect to /session/new if not logged in" do
     session[:logged_in]=nil
     get :index
     assert_redirected_to :controller => :sessions, :action => :new
+  end
+
+  test "should get index if logged in" do
+    session[:logged_in]=true
+    get :index
+    assert_response :success
   end
 
   test "index should be editable" do
@@ -78,16 +78,16 @@ class AdminPicturesControllerTest < ActionController::TestCase
 #        :partial => list
   end
 
-  test "index should render a gallery" do
-    session[:logged_in]=true
-    get :index
-    assert_select 'div.gallery'
-  end
-
   test "index should render a list of all tags" do
     session[:logged_in]=true
     get :index
     assert_select 'div.all-tags'
+  end
+
+  test "index should render a gallery" do
+    session[:logged_in]=true
+    get :index
+    assert_select 'div.gallery'
   end
 
 #-------------
@@ -98,7 +98,7 @@ class AdminPicturesControllerTest < ActionController::TestCase
         :controller => 'admin_pictures', :action => 'show', :id => '2')
   end
 
-  test "should get show" do
+  test "should get show if logged in" do
     session[:logged_in]=true
     get :show, :id => '2'
     assert_response :success
@@ -107,7 +107,7 @@ class AdminPicturesControllerTest < ActionController::TestCase
 #-------------
 # Edit action tests:
 
-  test "should get edit" do
+  test "should get edit if logged in" do
     session[:logged_in]=true
     get :edit, :id => pictures(:two).id
     assert_response :success
@@ -128,16 +128,17 @@ class AdminPicturesControllerTest < ActionController::TestCase
         :controller => 'admin_pictures', :action => 'update', :id => '2')
   end
 
-  test "should put update" do
+  test "should put update if logged in" do
     session[:logged_in]=true
     put :update, :id => '2'
     assert_response :success
   end
 
+#-------------
+  private
+
 # Copy this line into a test, if desired:
 #    see_output
-
-  private
 
   def see_output
     f=File.new("#{Rails.root}"\
