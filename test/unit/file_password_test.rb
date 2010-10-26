@@ -2,6 +2,9 @@ require 'test_helper'
 
 class FilePasswordTest < ActiveSupport::TestCase
 
+#-------------
+# All methods tests:
+
 #  test "should connect to NullDB" do
 # Needed to run:
 # gem install activerecord-nulldb-adapter
@@ -15,32 +18,35 @@ class FilePasswordTest < ActiveSupport::TestCase
 #      FilePassword.connection.class
 #  end
 
+#-------------
+# Find method tests:
+
   test "find should invoke MyFile" do
     mock_file
     find
   end
 
-  test "should open the correct password file" do
+  test "find should open the correct password file" do
     mock_file.with("#{Rails.root}"\
       '/../gallery-webmaster/password.txt', 'r')
     find
   end
 
-  test "should close the password file" do
+  test "find should close the password file" do
     @f.expects :close
     mock_file
     find
     @f = nil # Reset for teardown.
   end    
 
-  test "should read the password file" do
+  test "find should read the password file" do
     a = clear_text_password + "\n"
     mock_file
     @f.expects(:readline).returns a
     find
   end
 
-  test "should obtain the test password" do
+  test "find should obtain the test password" do
     mock_file
     a = clear_text_password
     @f.rewind
@@ -60,7 +66,7 @@ class FilePasswordTest < ActiveSupport::TestCase
     end
   end
 
-  test "a too-short password should produce an error" do
+  test "in find, a too-short password should produce an error" do
     short = clear_text_password.slice(0..8) + "\n"
     @f.rewind
     mock_file
@@ -70,7 +76,20 @@ class FilePasswordTest < ActiveSupport::TestCase
     assert_equal ['Password too short'], first.errors.full_messages
   end
 
+#-------------
   private
+
+  def clear_text_password
+    @f.readline("\n").chomp "\n"
+  end
+
+  def find
+    FilePassword.find :all
+  end
+
+  def mock_file
+    MyFile.expects(:my_new).returns @f
+  end
 
   def setup
     @f = File.new("#{Rails.root}"\
@@ -79,18 +98,6 @@ class FilePasswordTest < ActiveSupport::TestCase
 
   def teardown
     @f.close unless @f.nil? || @f.closed?
-  end
-
-  def clear_text_password
-    @f.readline("\n").chomp "\n"
-  end
-
-  def mock_file
-    MyFile.expects(:my_new).returns @f
-  end
-
-  def find
-    FilePassword.find :all
   end
 
 end
