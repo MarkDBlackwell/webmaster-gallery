@@ -2,7 +2,7 @@ class PicturesController < ApplicationController
   caches_page :index
 
   def index
-# The sessions controller (update action) deletes these cached pages.
+# The sessions controller (update action) should delete these cached pages.
     uncached_index
   end
 

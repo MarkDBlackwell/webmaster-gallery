@@ -124,7 +124,7 @@ class PicturesControllerTest < ActionController::TestCase
   test "image should have the right thumbnail filename" do
     pictures(:one).destroy
     get_mock_page
-    assert_select '[src=?]', '/images/gallery/two-t.png'
+    assert_select '[src=?]', filename_matcher('two-t.png')
   end
 
   test "should render the right year" do
@@ -169,7 +169,7 @@ class PicturesControllerTest < ActionController::TestCase
   test "should render a link to the right picture" do
     pictures(:one).destroy
     get_mock_page
-    assert_select '[href=?]', '/images/gallery/two.png'
+    assert_select '[href=?]', filename_matcher('two.png')
   end
 
   test "should render pretty html source" do
@@ -240,6 +240,10 @@ class PicturesControllerTest < ActionController::TestCase
       '/out/see-output','w')
     f.print response.body
     f.close
+  end
+
+  def filename_matcher(s)
+    %r@^/images/gallery/#{s}\?\d+$@
   end
 
 end
