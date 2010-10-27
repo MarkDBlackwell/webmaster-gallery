@@ -2,7 +2,6 @@ require 'test_helper'
 
 class PicturesControllerTest < ActionController::TestCase
 
-#-------------
 # Index action tests:
 
   test "routing /" do
