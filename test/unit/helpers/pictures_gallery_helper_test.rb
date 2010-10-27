@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class PicturesHelperTest < ActionView::TestCase
-  include PicturesPrivateHelperTest
+  include PicturesPrivateAllHelperTest
 
   test "rake should include this gallery file" do
 #    flunk

@@ -1,4 +1,4 @@
-module PicturesPrivateHelperTest
+module PicturesPrivateAllHelperTest
 
   private
 
