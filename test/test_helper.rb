@@ -11,4 +11,18 @@ class ActiveSupport::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
+
+  def see_output
+    f=File.new("#{Rails.root}/out/see-output",'w')
+    begin
+      f.print rendered
+    rescue NameError
+    end
+    begin
+      f.print response.body
+    rescue NameError
+    end
+    f.close
+  end
+
 end

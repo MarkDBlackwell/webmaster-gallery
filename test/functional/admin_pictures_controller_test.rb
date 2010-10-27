@@ -116,7 +116,6 @@ class AdminPicturesControllerTest < ActionController::TestCase
   test "edit should render a picture" do
     session[:logged_in]=true
     get :edit, :id => pictures(:two).id
-    see_output
     assert_select 'div.picture'
   end
 
@@ -132,19 +131,6 @@ class AdminPicturesControllerTest < ActionController::TestCase
     session[:logged_in]=true
     put :update, :id => '2'
     assert_response :success
-  end
-
-#-------------
-  private
-
-# Copy this line into a test, if desired:
-#    see_output
-
-  def see_output
-    f=File.new("#{Rails.root}"\
-      '/out/see-output','w')
-    f.print response.body
-    f.close
   end
 
 end

@@ -12,11 +12,4 @@ module PicturesPrivateAllHelperTest
     tags
   end
 
-  def see_output
-    f=File.new("#{Rails.root}"\
-      '/out/see-output','w')
-    f.print rendered
-    f.close
-  end
-
 end
