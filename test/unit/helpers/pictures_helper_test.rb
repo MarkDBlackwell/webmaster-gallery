@@ -1,14 +1,13 @@
 require 'test_helper'
-require File.expand_path('../pictures_private', __FILE__)
 
 class PicturesHelperTest < ActionView::TestCase
-  include PicturesHelperTestPrivate
+  include PicturesPrivateHelperTest
 
   test "rake should include this file" do
 #    flunk
   end
 
-  test "all helpers should render pretty html source" do
+  test "should render pretty html source" do
     all_tags
     all_pictures
     divs = %w[all-tags tag gallery picture thumbnail title description year]
