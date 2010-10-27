@@ -1,0 +1,4 @@
+  test "rake should include this _ file" do
+    flunk
+  end
+
