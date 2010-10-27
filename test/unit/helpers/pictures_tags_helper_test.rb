@@ -26,4 +26,15 @@ class PicturesHelperTest < ActionView::TestCase
     assert_select 'div.all-tags > div.tag', 'two-name'
   end
 
+#-------------
+  private
+
+  def tag_two
+# Didn't seem to invoke the ActiveRecord test method, tags:
+# ArgumentError: wrong number of arguments (1 for 0)
+#    tags(:one).destroy
+    @all_tags = Tag.find :all, :conditions => ["name = ?", 'two-name']
+    tags
+  end
+
 end

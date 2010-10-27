@@ -119,4 +119,17 @@ class PicturesHelperTest < ActionView::TestCase
     assert_select 'div.edit > form.button_to[method=?]', 'get'
   end
 
+#-------------
+  private
+
+  def filename_matcher(s)
+    %r@^/images/gallery/#{s}\?\d+$@
+  end
+
+  def picture_two
+    @pictures = Picture.find(:all)
+    pictures(:one).destroy
+    gallery
+  end
+
 end
