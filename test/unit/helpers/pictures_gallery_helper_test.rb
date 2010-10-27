@@ -1,28 +1,12 @@
 require 'test_helper'
+require File.expand_path('../pictures_private', __FILE__)
 
 class PicturesHelperTest < ActionView::TestCase
+  include PicturesHelperTestPrivate
 
-#-------------
-# All helpers tests:
-
-  test "rake should include this file" do
-    flunk
+  test "rake should include this gallery file" do
+#    flunk
   end
-
-  test "all helpers should render pretty html source" do
-    all_tags
-    all_pictures
-    divs = %w[all-tags tag gallery picture thumbnail title description year]
-    s = "<div class=\"#{Regexp.union *divs}\""
-# Remove any of these divs which are at line beginnings:
-    altered = rendered.gsub( Regexp.new("\n" + s),"\n")
-    s2 = altered.clone
-# Should not be able to find any of those divs:
-    assert_equal true, altered.gsub!(Regexp.new(s),'').nil?, s2
-  end
-
-#-------------
-# Gallery helper tests:
 
   test "gallery helper should render gallery partial" do
     assert Date::today < Date::new(2010,11,2), 'Test unwritten.'
@@ -134,69 +118,6 @@ class PicturesHelperTest < ActionView::TestCase
     @editable = true
     all_pictures
     assert_select 'div.edit > form.button_to[method=?]', 'get'
-  end
-
-#-------------
-# Tags helper tests:
-
-  test "tags helper should render tags partial" do
-    assert Date::today < Date::new(2010,11,2), 'Test unwritten.'
-  end
-
-  test "tags helper should render a list of all tags" do
-    all_tags
-    assert_select 'div.all-tags'
-  end
-
-  test "tags helper should render a tag within a list of all tags" do
-    all_tags
-    assert_select 'div.all-tags > div.tag'
-  end
-
-  test "tags helper should render the right tag name" do
-    tag_two
-    assert_select 'div.all-tags > div.tag', 'two-name'
-  end
-
-#-------------
-  private
-
-  def filename_matcher(s)
-    %r@^/images/gallery/#{s}\?\d+$@
-  end
-
-  def all_pictures
-    @pictures = Picture.find(:all)
-    gallery
-  end
-
-  def all_tags
-    @all_tags = Tag.find(:all)
-    tags
-  end
-
-  def picture_two
-    @pictures = Picture.find(:all)
-    pictures(:one).destroy
-    gallery
-  end
-
-# Copy this line into a test, if desired:
-#    see_output
-
-  def see_output
-    f=File.new("#{Rails.root}"\
-      '/out/see-output','w')
-    f.print rendered
-    f.close
-  end
-
-  def tag_two
-# Didn't seem to invoke the ActiveRecord test method, tags:
-# ArgumentError: wrong number of arguments (1 for 0)
-#    tags(:one).destroy
-    @all_tags = Tag.find :all, :conditions => ["name = ?", 'two-name']
-    tags
   end
 
 end
