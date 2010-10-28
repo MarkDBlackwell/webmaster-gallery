@@ -12,24 +12,11 @@ class AdminPicturesControllerTest < ActionController::TestCase
 #    puts ActionController::Testing::ClassMethods.before_filters
   end
 
-  test "should redirect to new on wrong method" do
-# Reference: 'ActionController - PROPFIND and other HTTP request methods':
-# at http://railsforum.com/viewtopic.php?id=30137
-
-    Restful = Struct.new(:action, :method)
-    [   Restful.new(     :edit,   'get'),
-        Restful.new(     :index,  'get'),
-        Restful.new(     :show,   'get'),
-        Restful.new(     :update, 'put'),
-        ].each do |proper|
-      (ActionController::Request::HTTP_METHODS - [proper[:method]] ).
-          each do |bad_method|
-        process proper[:action], {:id => '2'}, {:logged_in => true}, nil,
-            bad_method
-        assert_redirected_to({:controller => :sessions, :action => :new},
-            "Action #{proper[:action]}, method #{bad_method}.")
-      end
-    end
+  test "should redirect to sessions new on wrong method" do
+    actions = [:edit, :index, :show, :update]
+    should_redirect = {:controller => :sessions, :action => :new}
+    try_wrong_methods(actions, should_redirect, {:id => '2'},
+        :logged_in => true)
   end
 
 end

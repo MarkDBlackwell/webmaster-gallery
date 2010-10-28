@@ -14,22 +14,9 @@ class SessionsControllerTest < ActionController::TestCase
   end
 
   test "should redirect to new on wrong method" do
-# Reference: 'ActionController - PROPFIND and other HTTP request methods':
-# at http://railsforum.com/viewtopic.php?id=30137
-
-    Restful = Struct.new(:action, :method)
-    [   Restful.new(:create,  'post'),
-        Restful.new(:destroy, 'delete'),
-        Restful.new(:edit,    'get'),
-        Restful.new(:new,     'get'),
-        Restful.new(:show,    'get'),
-        Restful.new(:update,  'put')].each do |rest|
-      (ActionController::Request::HTTP_METHODS-[rest[:method]]).each do |method|
-        process rest[:action], nil, nil, nil, method
-        assert_redirected_to({:action => :new}, "Action #{rest[:action]},"\
-          "method #{method}.")
-      end
-    end
+    actions = [:create, :destroy, :edit, :new, :show, :update]
+    should_redirect = {:action => :new}
+    try_wrong_methods(actions, should_redirect, nil, nil)
   end
 
 end

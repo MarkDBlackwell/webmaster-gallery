@@ -29,4 +29,27 @@ class ActiveSupport::TestCase
     f.close
   end
 
+  def try_wrong_methods(actions, should_redirect, options={}, params={})
+
+# Reference: 'ActionController - PROPFIND and other HTTP request methods':
+# at http://railsforum.com/viewtopic.php?id=30137
+
+    restful_methods = {
+        :create  => 'post',
+        :destroy => 'delete',
+        :edit    => 'get',
+        :index   => 'get',
+        :new     => 'get',
+        :show    => 'get',
+        :update  => 'put',
+        }
+    actions.each do |action|
+      (ActionController::Request::HTTP_METHODS - [restful_methods[action]] ).
+          each do |bad_method|
+        process action, options, params, nil, bad_method
+        assert_redirected_to(should_redirect, "Action #{action}, method #{bad_method}.")
+      end
+    end
+  end
+
 end
