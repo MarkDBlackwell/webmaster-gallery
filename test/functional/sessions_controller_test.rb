@@ -18,4 +18,11 @@ class SessionsControllerTest < ActionController::TestCase
     try_wrong_methods(actions)
   end
 
+  test "get actions should include manage-session div" do
+    %w[edit new show].each do |action|
+      session[:logged_in] = 'new' == action ? nil : true
+      get action
+      assert_select 'div.manage-session', 1, "Action #{action}"
+    end
+  end
 end
