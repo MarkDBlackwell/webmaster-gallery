@@ -29,11 +29,12 @@ class ActiveSupport::TestCase
     f.close
   end
 
-  def try_wrong_methods(actions, should_redirect, options={}, params={})
+  def try_wrong_methods(actions, options=nil, params=nil)
 
 # Reference: 'ActionController - PROPFIND and other HTTP request methods':
 # at http://railsforum.com/viewtopic.php?id=30137
 
+    should_redirect = {:controller => :sessions, :action => :new}
     restful_methods = {
         :create  => 'post',
         :destroy => 'delete',

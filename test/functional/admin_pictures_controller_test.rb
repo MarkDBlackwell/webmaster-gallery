@@ -14,9 +14,7 @@ class AdminPicturesControllerTest < ActionController::TestCase
 
   test "should redirect to sessions new on wrong method" do
     actions = [:edit, :index, :show, :update]
-    should_redirect = {:controller => :sessions, :action => :new}
-    try_wrong_methods(actions, should_redirect, {:id => '2'},
-        :logged_in => true)
+    try_wrong_methods(actions, {:id => '2'}, :logged_in => true)
   end
 
 end

@@ -15,8 +15,7 @@ class SessionsControllerTest < ActionController::TestCase
 
   test "should redirect to new on wrong method" do
     actions = [:create, :destroy, :edit, :new, :show, :update]
-    should_redirect = {:action => :new}
-    try_wrong_methods(actions, should_redirect, nil, nil)
+    try_wrong_methods(actions)
   end
 
 end
