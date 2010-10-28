@@ -2,44 +2,45 @@ class SessionsController < ApplicationController
 
   def new
     return unless check_request
-    redirect_to :action => :destroy if session[:logged_in]
+    (redirect_to :action => 'destroy'; return) if session[:logged_in]
   end
 
   def create
     return unless check_request(request.post?)
-    redirect_to :action => :destroy if session[:logged_in]
-    clear_session
-    if get_password != params[:password]
-      flash[:error] = "Password incorrect."
-# TODO: Render or redirect?
-#      render :action => :new
-      redirect_to :action => :edit
+    if session[:logged_in]
+      flash[:notice]='You already were logged in.'
+      redirect_to :action => 'edit'
     else
-      session[:logged_in] = true
-      redirect_to :action => :edit
+      clear_session
+      if get_password != params[:password]
+        flash[:error]='Password incorrect.'
+        redirect_to :action => 'new'  # (/sessions/new)
+      else
+        session[:logged_in]=true
+        redirect_to :action => 'edit'
+      end
     end
   end
 
   def edit
     return unless check_request
-#    return unless check_logged_in
+    return unless check_logged_in_and_redirect
   end
 
   def update
     return unless check_request(request.put?)
-
-#    return unless check_logged_in
-    realign_records(FileTag, Tag, :name)
-    realign_records(DirectoryPicture, Picture, :filename)
+    return unless check_logged_in_and_redirect
+    realign_records(FileTag,Tag,:name)
+    realign_records(DirectoryPicture,Picture,:filename)
     d = "#{Rails.root}/public/pictures"
     ((Dir.entries(d) - %w[. ..]).collect {|e| [d,e]} << [d,'..','index.html']).
         collect {|a| a.join('/')}.each {|e| File.delete(e) if File.exist?(e)}
-    render :action => :show
+    render :action => 'show'
   end
 
   def show
     return unless check_request
-#    return unless check_logged_in
+    return unless check_logged_in_and_redirect
   end
 
   def destroy
@@ -48,7 +49,7 @@ class SessionsController < ApplicationController
     clear_session
     flash[:notice] = was_logged_in.nil? ? "You weren't logged in." :
       'Logged out successfully.'
-    redirect_to :action => :edit
+    redirect_to :action => 'new'
   end
 
 #-------------

@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
 #-------------
   private
 
-  def check_logged_in
+  def check_logged_in_and_redirect
     boolean = session[:logged_in]
     handle_bad_request('Log in required.') unless boolean
     boolean
