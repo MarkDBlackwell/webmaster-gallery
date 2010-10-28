@@ -9,15 +9,13 @@ class PicturesControllerTest < ActionController::TestCase
   end
 
   test "routing /pictures/some_tag" do
-    assert_routing '/pictures/some_tag', :controller => "pictures",
-      :action => "index", :tag => "some_tag"
+    assert_routing '/pictures/some_tag', :controller => 'pictures',
+      :action => 'index', :tag => 'some_tag'
   end
 
   test "should raise exception on bad route /pictures" do
-    begin
-      assert_routing '/pictures', :controller => "pictures", :action => "index"
-      flunk "should have failed"
-    rescue ActionController::RoutingError # Expected.
+    assert_raise(ActionController::RoutingError) do
+      assert_routing '/pictures', :controller => 'pictures', :action => 'index'
     end
   end
 
@@ -44,15 +42,20 @@ class PicturesControllerTest < ActionController::TestCase
     end
   end
 
-  test "index action should cache the page" do
-    fn = "#{Rails.root}"  '/public/index.html'
+  test "should redirect to new on wrong method" do
+    actions = [:index]
+    try_wrong_methods(actions)
+  end
+
+  test "index should cache a page" do
+    fn = "#{Rails.root}/public/index.html"
     File.delete(fn) if File.exist?(fn)
     get :index
     assert_equal true, 0 < File.size(fn), "#{fn} caching failed."
   end
 
-  test "index action should cache the page for a tag" do
-    fn = "#{Rails.root}"  '/public/pictures/some_tag.html'
+  test "index should cache the page for a tag" do
+    fn = "#{Rails.root}/public/pictures/some_tag.html"
     File.delete(fn) if File.exist?(fn)
     get :index, :tag => 'some_tag'
     assert_equal true, 0 < File.size(fn), "#{fn} caching failed."
@@ -63,14 +66,14 @@ class PicturesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "index should render a mock page" do
+  test "index should obtain a page" do
     get_mock_page
   end
 
   test "index should render right webmaster page file" do
 # TODO: Could not get this test to work.
 #    get :index
-#print "assigns(:pictures) "; p assigns(:pictures)
+#print 'assigns(:pictures) '; p assigns(:pictures)
 #    assert_template :file => "#{Rails.root}/../gallery-webmaster/page"
 #,
 #        :partial => 'pictures/pictures',

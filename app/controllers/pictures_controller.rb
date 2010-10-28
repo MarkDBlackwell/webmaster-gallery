@@ -2,6 +2,7 @@ class PicturesController < ApplicationController
   caches_page :index
 
   def index
+    return unless check_request
 # The sessions controller (update action) should delete these cached pages.
     uncached_index
   end
@@ -9,8 +10,7 @@ class PicturesController < ApplicationController
   def uncached_index
     @all_tags = Tag.all
     @pictures = Picture.all
-    render :file => Webmaster.page_path,
-        :layout => false
+    render :file => Webmaster.page_path, :layout => false
   end
 
 end
