@@ -12,8 +12,28 @@
 <%= content_tag 'div', flash[:error],  :class => 'notice error',
     :id => 'error'  if flash[:error]   %>
 
-<%= content_tag 'div', 'should have buttons here', :class => 'manage-session' %>
-
+<%= content_tag 'div', :class => 'manage-session' do %>
+<%=   content_tag 'div', :class => 'edit' do %>
+<%=     button_to 'edit', {:controller => :sessions, :action => :edit},
+            :method => :get %>
+<%    end %>
+<%=   content_tag 'div', :class => 'show' do %>
+<%=     button_to 'show', {:controller => :sessions, :action => :show},
+            :method => :get %>
+<%    end %>
+<%=   content_tag 'div', :class => 'admin-pictures-index' do %>
+<%=     button_to 'admin pictures', {:controller => :admin_pictures,
+            :action => :index}, :method => :get %>
+<%    end %>
+<%=   content_tag 'div', :class => 'user-pictures-index' do %>
+<%=     button_to 'user pictures', {:controller => :pictures,
+            :action => :index}, :method => :get %>
+<%    end %>
+<%=   content_tag 'div', :class => 'destroy' do %>
+<%=     button_to 'log out', {:controller => :sessions, :action => :destroy},
+            :method => :delete %>
+<%    end %>
+<%  end %>
 <%= yield %>
 </body>
 </html>

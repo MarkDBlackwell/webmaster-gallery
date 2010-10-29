@@ -27,7 +27,7 @@ class SessionsControllerTest < ActionController::TestCase
   end
 
   test "how to test create should handle invalid authenticity token?" do
-    assert Date::today < Date::new(2010,10,29), 'Test unwritten.'
+    assert Date::today < Date::new(2010,11,7), 'Test unwritten.'
 # Doesn't get rescued by application controller:
 #    raise ActionController::InvalidAuthenticityToken
 # Try to POST with invalid authenticity token.

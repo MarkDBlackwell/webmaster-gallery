@@ -31,14 +31,14 @@ class SessionsControllerTest < ActionController::TestCase
     assert_nil flash[:notice]
   end
 
-  test "new should have one form" do
+  test "new should have one password form" do
     get 'new'
-    assert_select 'form', 1
+    assert_select 'form.password', 1
   end
 
-  test "new should have one form with method post" do
+  test "new should have one password form with method post" do
     get 'new'
-    assert_select 'form[method=post]', 1
+    assert_select 'form.password[method=post]', 1
   end
 
   test "new should have one form with password field" do

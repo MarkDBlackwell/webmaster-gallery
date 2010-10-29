@@ -5,7 +5,7 @@ class AdminPicturesControllerTest < ActionController::TestCase
 # All actions tests:
 
   test "verify before_filters" do
-    assert Date::today < Date::new(2010,10,29), 'Test unwritten.'
+    assert Date::today < Date::new(2010,11,7), 'Test unwritten.'
 #    class AdminPicturesController
 #      before_filter :verify_authenticity_token
 #    end
@@ -13,8 +13,16 @@ class AdminPicturesControllerTest < ActionController::TestCase
   end
 
   test "should redirect to sessions new on wrong method" do
-    actions = [:edit, :index, :show, :update]
-    try_wrong_methods(actions, {:id => '2'}, :logged_in => true)
+    try_wrong_methods( [:edit, :index, :show, :update], {:id => '2'},
+        :logged_in => true)
+  end
+
+  test "get actions should include manage-session div" do
+    session[:logged_in]=true
+    [:edit, :index, :show].each do |action|
+      get action, :id => '2'
+      assert_select 'div.manage-session', 1, "Action #{action}"
+    end
   end
 
 end

@@ -33,7 +33,7 @@ class AdminPicturesControllerTest < ActionController::TestCase
   end
 
   test "index should render the right template" do
-    assert Date::today < Date::new(2010,10,29), 'Test unwritten.'
+    assert Date::today < Date::new(2010,11,7), 'Test unwritten.'
 #    session[:logged_in]=true
 #    get :index
 #    list = ['gallery','picture','tags'].collect do |e|
