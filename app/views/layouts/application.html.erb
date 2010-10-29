@@ -3,7 +3,7 @@
 <title>Gallery</title>
 <%= stylesheet_link_tag :all -%>
 <%= javascript_include_tag :defaults %>
-<%= csrf_meta_tag %>
+<%= csrf_meta_tag -%>
 <%= content_tag 'style', :type => 'text/css' do %>
       div.manage-session * {display: inline}
       div.all-tags * {display: inline}
@@ -51,5 +51,5 @@
 
 <%# Keep blank line. %>
 <!--Action content-->
-<%= yield -%>
+<%= yield %>
 </body></html>

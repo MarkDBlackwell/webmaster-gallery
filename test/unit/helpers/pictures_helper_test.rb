@@ -10,7 +10,7 @@ class PicturesHelperTest < ActionView::TestCase
   test "should render pretty html source" do
     all_tags
     all_pictures
-    divs = %w[all-tags tag gallery picture thumbnail title description year]
+    divs = %w[all-tags tag gallery picture thumbnail title description year edit]
     s = "<div class=\"#{Regexp.union *divs}\""
 # Remove any of these divs which are at line beginnings:
     altered = rendered.gsub( Regexp.new("\n" + s),"\n")
