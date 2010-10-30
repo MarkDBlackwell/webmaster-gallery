@@ -91,7 +91,7 @@ class PicturesControllerTest < ActionController::TestCase
 
   def mock_page
     Webmaster.expects(:page_path).returns "#{Rails.root}"\
-      '/test/fixtures/files/picture/page'
+      '/test/fixtures/files/pictures/page'
   end
 
 end

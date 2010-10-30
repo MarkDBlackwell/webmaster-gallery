@@ -4,7 +4,7 @@ module SessionsPrivateAllControllerTest
 
   def login
     f = File.new("#{Rails.root}"\
-      '/test/fixtures/files/file_password/password.txt', 'r')
+      '/test/fixtures/files/file_passwords/password.txt', 'r')
     clear_text_password = f.readline("\n").chomp "\n"
     f.rewind
     MyFile.expects(:my_new).returns f

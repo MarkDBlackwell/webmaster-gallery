@@ -93,7 +93,7 @@ class FilePasswordTest < ActiveSupport::TestCase
 
   def setup
     @f = File.new("#{Rails.root}"\
-      '/test/fixtures/files/file_password/password.txt', 'r')
+      '/test/fixtures/files/file_passwords/password.txt', 'r')
   end
 
   def teardown
