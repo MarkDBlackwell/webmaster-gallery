@@ -9,6 +9,10 @@ class SessionsControllerTest < ActionController::TestCase
 #-------------
 # General tests:
 
+  test "should include this destroy file" do
+#    flunk
+  end
+
   test "routing for destroy" do
     assert_routing({:path => '/session', :method => :delete},
       :controller => 'sessions', :action => 'destroy')

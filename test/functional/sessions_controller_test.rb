@@ -5,6 +5,10 @@ class SessionsControllerTest < ActionController::TestCase
 
 # All actions tests:
 
+  test "should include this file" do
+#    flunk
+  end
+
   test "verify before_filters" do
     assert Date::today < Date::new(2010,11,5), 'Test unwritten.'
 #    class SessionsController

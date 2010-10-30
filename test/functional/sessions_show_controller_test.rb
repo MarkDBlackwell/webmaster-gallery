@@ -9,6 +9,10 @@ class SessionsControllerTest < ActionController::TestCase
 #-------------
 # General tests:
 
+  test "should include this show file" do
+#    flunk
+  end
+
   test "routing for show" do
     assert_routing({:path => '/session', :method => :get},
       :controller => 'sessions', :action => 'show')

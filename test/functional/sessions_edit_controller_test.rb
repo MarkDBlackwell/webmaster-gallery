@@ -6,6 +6,10 @@ class SessionsControllerTest < ActionController::TestCase
 # Edit action tests:
 # -> Webmaster reviews filesystem changes.
 
+  test "should include this edit file" do
+#    flunk
+  end
+
   test "routing for edit" do
     assert_routing({:path => '/session/edit', :method => :get},
       :controller => 'sessions', :action => 'edit')

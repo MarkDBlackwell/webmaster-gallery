@@ -6,6 +6,10 @@ class SessionsControllerTest < ActionController::TestCase
 # New action tests:
 # -> Prompts webmaster to log in.
 
+  test "should include this new file" do
+#    flunk
+  end
+
   test "routing for new" do
     assert_routing({:path => '/session/new', :method => :get},
       :controller => 'sessions', :action => 'new')

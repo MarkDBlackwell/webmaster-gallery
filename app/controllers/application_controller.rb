@@ -32,7 +32,7 @@ class ApplicationController < ActionController::Base
   end
 
   def invalid_authenticity_token
-    handle_bad_request('That session has expired.')
+    handle_bad_request('Invalid authenticity token.')
   end
 
 end

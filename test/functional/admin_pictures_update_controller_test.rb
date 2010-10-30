@@ -4,6 +4,10 @@ class AdminPicturesControllerTest < ActionController::TestCase
 
 # Update action tests:
 
+  test "should include this update file" do
+#    flunk
+  end
+
   test "routing put /admin_pictures/2" do
     assert_routing({:path => '/admin_pictures/2', :method => 'put'},
         :controller => 'admin_pictures', :action => 'update', :id => '2')

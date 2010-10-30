@@ -4,6 +4,10 @@ class AdminPicturesControllerTest < ActionController::TestCase
 
 # All actions tests:
 
+  test "should include this file" do
+#    flunk
+  end
+
   test "verify before_filters" do
     assert Date::today < Date::new(2010,11,7), 'Test unwritten.'
 #    class AdminPicturesController

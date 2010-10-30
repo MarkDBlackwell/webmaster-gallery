@@ -2,6 +2,10 @@ require 'test_helper'
 
 class GeneralTest < ActionController::TestCase
 
+  test "should include this file" do
+#    flunk
+  end
+
   test "should allow mocking with Mocha" do
 # Needed 'rails plugin install git://github.com/floehopper/mocha.git
 # Do not use this (next line) in Gemfile:

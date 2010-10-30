@@ -9,6 +9,10 @@ class SessionsControllerTest < ActionController::TestCase
 #-------------
 # General tests:
 
+  test "should include this update file" do
+#    flunk
+  end
+
   test "routing for update" do
     assert_routing({:path => '/session', :method => :put},
       :controller => 'sessions', :action => 'update')

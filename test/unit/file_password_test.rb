@@ -5,6 +5,10 @@ class FilePasswordTest < ActiveSupport::TestCase
 #-------------
 # All methods tests:
 
+  test "should include this file" do
+#    flunk
+  end
+
 #  test "should connect to NullDB" do
 # Needed to run:
 # gem install activerecord-nulldb-adapter

@@ -4,6 +4,10 @@ class AdminPicturesControllerTest < ActionController::TestCase
 
 # Index action tests:
 
+  test "should include this index file" do
+#    flunk
+  end
+
   test "routing get /admin_pictures" do
     assert_routing '/admin_pictures', :controller => 'admin_pictures',
       :action => 'index'
