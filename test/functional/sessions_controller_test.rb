@@ -21,6 +21,13 @@ class SessionsControllerTest < ActionController::TestCase
     try_wrong_methods [:create, :destroy, :edit, :new, :show, :update]
   end
 
+  test "session expiry duration should be configured" do
+    assert_nothing_raised do
+      assert_equal 20.minutes, Gallery::Application.config.
+          session_options.fetch(:expire_after)
+    end
+  end
+
   test "should render pretty html source" do
     get :new
     see_output
@@ -40,35 +47,35 @@ class SessionsControllerTest < ActionController::TestCase
     assert_equal true, altered2.gsub!(Regexp.new(s2),'').nil?, a2
   end
 
-  test "get actions should include manage-session div" do
-    in_manage_session_div? 'div.manage-session', is_button=false
+  test "should render session buttons" do
+    session_buttons_include? 'div.manage-session', false
   end
 
-  test "manage-session div should include session edit button" do
-    in_manage_session_div? 'edit'
+  test "should render an edit button" do
+    session_buttons_include? 'edit'
   end
 
-  test "manage-session div should include session show button" do
-    in_manage_session_div? 'show'
+  test "should render a show button" do
+    session_buttons_include? 'show'
   end
 
-  test "manage-session div should include AdminPictures index button" do
-    in_manage_session_div? 'admin-pictures-index'
+  test "should render an AdminPictures index button" do
+    session_buttons_include? 'admin-pictures-index'
   end
 
-  test "manage-session div should include Pictures index button" do
-    in_manage_session_div? 'user-pictures-index'
+  test "should render a Pictures index button" do
+    session_buttons_include? 'user-pictures-index'
   end
 
 #-------------
   private
 
-  def in_manage_session_div?(string, button=true)
-    s = button ? "div.manage-session > div.#{string} > form.button_to" : string
+  def session_buttons_include?(s, button=true)
+    css = ! button ? s : "div.manage-session > div.#{s} > form.button_to"
     [:edit, :new, :show].each do |action|
       session[:logged_in] = :new == action ? nil : true
       get action
-      assert_select s, 1, "Action #{action}"
+      assert_select css, 1, "Action #{action}"
     end
   end
 

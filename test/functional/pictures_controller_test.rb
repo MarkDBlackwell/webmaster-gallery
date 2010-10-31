@@ -72,6 +72,7 @@ class PicturesControllerTest < ActionController::TestCase
 
   test "index should obtain a page" do
     get_mock_page
+# TODO: what is this test for?
   end
 
   test "index should render right webmaster page file" do

@@ -30,7 +30,7 @@ class AdminPicturesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "index should be editable" do
+  test "index pictures should be editable" do
     session[:logged_in]=true
     get :index
     assert_not_nil assigns(:editable)
