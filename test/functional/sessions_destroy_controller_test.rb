@@ -19,13 +19,13 @@ class SessionsControllerTest < ActionController::TestCase
   end
 
   test "should destroy" do
-    delete 'destroy'
+    delete :destroy
     assert_response :redirect
   end
 
   test "destroy should reset the session" do
     session[:something] = true
-    delete 'destroy'
+    delete :destroy
     assert_nil session[:something]
   end
 
@@ -39,7 +39,7 @@ class SessionsControllerTest < ActionController::TestCase
 
   test "destroy should flash a notice if not already logged in" do
     session[:logged_in]=nil
-    delete 'destroy'
+    delete :destroy
 # I don't know why the following doesn't work; I see success in the browser:
 #    assert_select '#notice', 'You weren't logged in.'
 # So, doing this, instead:
@@ -48,7 +48,7 @@ class SessionsControllerTest < ActionController::TestCase
 
   test "destroy should redirect to new if not already logged in" do
     session[:logged_in]=nil
-    delete 'destroy'
+    delete :destroy
     assert_redirected_to :action => 'new'
   end
 
@@ -57,19 +57,19 @@ class SessionsControllerTest < ActionController::TestCase
 
   test "destroy should redirect to new if logged in" do
     session[:logged_in]=true
-    delete 'destroy'
+    delete :destroy
     assert_redirected_to :action => 'new'
   end
 
   test "destroy should log out if logged in" do
     session[:logged_in]=true
-    delete 'destroy'
+    delete :destroy
     assert_nil session[:logged_in]
   end
 
   test "destroy should flash a notice of log out if logged in" do
     session[:logged_in]=true
-    delete 'destroy'
+    delete :destroy
 # I don't know why the following doesn't work; I see success in the browser:
 #    assert_select '#notice', 'Logged out successfully.'
 # So, doing this, instead:

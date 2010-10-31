@@ -1,11 +1,16 @@
 class SessionsController < ApplicationController
 
   def new
+# GET /session/new
     return unless check_request
-    (redirect_to :action => 'destroy'; return) if session[:logged_in]
+    if session[:logged_in]
+      flash[:notice]='You already were logged in.'
+      redirect_to :action => 'edit'
+    end
   end
 
   def create
+# POST /session
     return unless check_request(request.post?)
     if session[:logged_in]
       flash[:notice]='You already were logged in.'
@@ -14,7 +19,7 @@ class SessionsController < ApplicationController
       clear_session
       if get_password != params[:password]
         flash[:error]='Password incorrect.'
-        redirect_to :action => 'new'  # (/sessions/new)
+        redirect_to :action => 'new'
       else
         session[:logged_in]=true
         redirect_to :action => 'edit'
@@ -23,11 +28,13 @@ class SessionsController < ApplicationController
   end
 
   def edit
+# GET /session/edit
     return unless check_request
     return unless check_logged_in_and_redirect
   end
 
   def update
+# PUT /session
     return unless check_request(request.put?)
     return unless check_logged_in_and_redirect
     realign_records(FileTag,Tag,:name)
@@ -39,15 +46,17 @@ class SessionsController < ApplicationController
   end
 
   def show
+# GET /session
     return unless check_request
     return unless check_logged_in_and_redirect
   end
 
   def destroy
+# DELETE /session
     return unless check_request(request.delete?)
     was_logged_in = session[:logged_in]
     clear_session
-    flash[:notice] = was_logged_in.nil? ? "You weren't logged in." :
+    flash[:notice] = was_logged_in.blank? ? "You weren't logged in." :
       'Logged out successfully.'
     redirect_to :action => 'new'
   end

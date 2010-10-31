@@ -17,41 +17,47 @@ class SessionsControllerTest < ActionController::TestCase
 
   test "should new if not logged in" do
     session[:logged_in]=nil
-    get 'new'
+    get :new
     assert_response :success
   end
 
-  test "new should redirect to destroy if already logged in" do
+  test "new should redirect to edit if already logged in" do
     session[:logged_in]=true
-    get 'new'
-    assert_redirected_to :action => :destroy
+    get :new
+    assert_redirected_to :action => :edit
+  end
+
+  test "new should flash a notice if already logged in" do
+    session[:logged_in]=true
+    get :new
+    assert_equal "You already were logged in.", flash[:notice]
   end
 
   test "new should clear the flash" do
     flash.now[:notice]='anything'
     flash[:notice]='anything'
-    get 'new'
+    get :new
 # TODO: assert nil or blank?
     assert_nil flash[:notice]
   end
 
   test "new should have one password form" do
-    get 'new'
+    get :new
     assert_select 'form.password', 1
   end
 
   test "new should have one password form with method post" do
-    get 'new'
+    get :new
     assert_select 'form.password[method=post]', 1
   end
 
   test "new should have one form with password field" do
-    get 'new'
+    get :new
     assert_select 'form > input#password', 1
   end
 
   test "new should prompt for password" do
-    get 'new'
+    get :new
     assert_select 'p', :count => 1, :text => "Type the password and hit 'Enter'."
   end
 
