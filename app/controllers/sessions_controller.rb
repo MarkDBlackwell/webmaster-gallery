@@ -7,6 +7,7 @@ class SessionsController < ApplicationController
       flash[:notice]='You already were logged in.'
       redirect_to :action => 'edit'
     end
+    @cookies_blocked_error='Cookies required.' if cookies.empty?
   end
 
   def create

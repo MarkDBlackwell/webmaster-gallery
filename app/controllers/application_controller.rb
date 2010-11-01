@@ -22,6 +22,7 @@ class ApplicationController < ActionController::Base
 
   def clear_session
     session.to_hash.keys.each {|e| session.delete e}
+#    (session.to_hash.keys - ['flash']).each {|e| session.delete e}
   end
 
   def handle_bad_request(message)
