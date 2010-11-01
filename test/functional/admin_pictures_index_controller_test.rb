@@ -56,10 +56,24 @@ class AdminPicturesControllerTest < ActionController::TestCase
     assert_select 'div.all-tags'
   end
 
+  test "index should render a styling suggestion for a list of all tags" do
+    session[:logged_in]=true
+    get :index
+    assert_select 'head > style[type=text/css]',
+        Regexp.new(Regexp.escape 'div.all-tags * {display: inline}')
+  end
+
   test "index should render a gallery" do
     session[:logged_in]=true
     get :index
     assert_select 'div.gallery'
+  end
+
+  test "index should render a gallery styling suggestion" do
+    session[:logged_in]=true
+    get :index
+    assert_select 'head > style[type=text/css]',
+        Regexp.new(Regexp.escape 'div.picture {display: inline-block}')
   end
 
 end
