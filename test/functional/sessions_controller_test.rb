@@ -21,7 +21,7 @@ class SessionsControllerTest < ActionController::TestCase
     try_wrong_methods [:create, :destroy, :edit, :new, :show, :update]
   end
 
-  test "session expiry duration should be configured" do
+  test "sessions should expire after a duration of inactivity" do
     assert_nothing_raised do
       assert_equal 20.minutes, Gallery::Application.config.
           session_options.fetch(:expire_after)
@@ -30,7 +30,6 @@ class SessionsControllerTest < ActionController::TestCase
 
   test "should render pretty html source" do
     get :new
-    see_output
     divs = %w[manage-session edit show admin-pictures-index user-pictures-index
         destroy]
     other = %w[<html><head> <title> <script> <style> <!--Messages-->
@@ -49,6 +48,12 @@ class SessionsControllerTest < ActionController::TestCase
 
   test "should render session buttons" do
     session_buttons_include? 'div.manage-session', false
+  end
+
+  test "should render session buttons horizontally" do
+    get :new
+    assert_select_include? 'head > style[type=text/css]',
+        'div.manage-session * {display: inline}'
   end
 
   test "should render an edit button" do

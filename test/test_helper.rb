@@ -16,6 +16,10 @@ class ActiveSupport::TestCase
 
   # Add more helper methods to be used by all tests here...
 
+  def assert_select_include?(css, s)
+    assert_select css, Regexp.new(Regexp.escape s)
+  end
+
   def see_output
     f=File.new("#{Rails.root}/out/see-output",'w')
     begin
