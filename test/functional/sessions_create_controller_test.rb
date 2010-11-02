@@ -20,12 +20,11 @@ class SessionsControllerTest < ActionController::TestCase
 
   test "should create" do
     login
-    post 'create'
     assert_redirected_to :action => :edit
   end
 
   test "create should reset the session" do
-    session[:something]=true
+    session[:something]='something'
     post 'create'
     assert_nil session[:something]
   end
@@ -61,6 +60,18 @@ class SessionsControllerTest < ActionController::TestCase
     assert_equal true, session[:logged_in]
   end
 
+  test "create should flash if cookies (session store) blocked" do
+    request.cookies.clear
+    post 'create'
+    assert_select 'div.error', 'Cookies required.'
+  end
+
+  test "create should not flash so, if cookies not blocked" do
+    login
+    assert_select 'div.notice', 0
+    assert_select 'div.error', 0
+  end
+
   test "create shouldn't make a pictures layout file" do
     login
     assert_equal false, pictures_in_layouts_directory?
@@ -77,13 +88,13 @@ class SessionsControllerTest < ActionController::TestCase
   test "create should redirect to new on wrong password if not already "\
        "logged in" do
     session[:logged_in]=nil
-    post 'create', :password => 'example wrong password'
+    login 'example wrong password'
     assert_redirected_to :action => :new
   end
 
   test "create should flash on wrong password if not already logged in" do
     session[:logged_in]=nil
-    post 'create', :password => 'example wrong password'
+    login 'example wrong password'
     assert_equal 'Password incorrect.', flash[:error]
   end
 
@@ -107,16 +118,17 @@ class SessionsControllerTest < ActionController::TestCase
     assert_redirected_to :action => :edit
   end
 
-  test "create should not flash on wrong password when already logged in" do
-    session[:logged_in]=true
-    post 'create', :password => 'example wrong password'
-    assert_blank flash[:error]
-  end
-
   test "create should flash so, when already logged in" do
     session[:logged_in]=true
     post 'create'
     assert_equal 'You already were logged in.', flash[:notice]
+  end
+
+  test "create should not flash on wrong password when already logged in" do
+    session[:logged_in]=true
+    post 'create', :password => 'example wrong password'
+    assert_equal 'You already were logged in.', flash[:notice]
+    assert_blank flash[:error]
   end
 
 end

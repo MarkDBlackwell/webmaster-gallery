@@ -32,8 +32,15 @@ class ApplicationController < ActionController::Base
     redirect_to :controller => 'sessions', :action => 'new'
   end
 
+  def handle_missing_cookies
+      flash.now[:error]='Cookies required.'
+      render :controller => 'sessions', :action => 'new'
+  end
+
   def invalid_authenticity_token
-    handle_bad_request('Invalid authenticity token.')
+    cookies.empty? ? # action_dispatch.cookies
+       handle_missing_cookies : 
+       handle_bad_request('Invalid authenticity token.')
   end
 
 end

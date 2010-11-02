@@ -27,21 +27,6 @@ class SessionsControllerTest < ActionController::TestCase
     assert_redirected_to :action => :edit
   end
 
-  test "new should flash if cookies (session store) blocked" do
-    cookies={}
-    get :new
-    assert_equal 'Cookies required.', assigns(:cookies_blocked_error)
-    assert_select 'div.cookies', 'Cookies required.'
-  end
-
-  test "new should not flash so, if cookies not blocked" do
-    assert Date::today < Date::new(2010,11,9), 'Test unwritten.'
-#    cookies[:something]='something'
-#    get :new
-#    see_output
-#    assert_select 'div.cookies', 0
-  end
-
   test "new should flash a notice if already logged in" do
     session[:logged_in]=true
     get :new

@@ -2,13 +2,16 @@ module SessionsPrivateAllControllerTest
 
   private
 
-  def login
+  def login(password=nil)
     f = File.new("#{Rails.root}"\
-      '/test/fixtures/files/file_passwords/password.txt', 'r')
-    clear_text_password = f.readline("\n").chomp "\n"
-    f.rewind
+        '/test/fixtures/files/file_passwords/password.txt', 'r')
+    if password.nil?
+      password = f.readline("\n").chomp "\n"
+      f.rewind
+    end
     MyFile.expects(:my_new).returns f
-    post :create, :password => clear_text_password
+    request.cookies[:not_empty]='not_empty'
+    post :create, :password => password
   end
 
   def pictures_in_layouts_directory?

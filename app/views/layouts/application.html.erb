@@ -11,14 +11,11 @@ div.picture {display: inline-block}
 <%  end %>
 </head><body>
 <!--Messages-->
-<%= content_tag 'div', @cookies_blocked_error,
-        :class => 'notice error cookies',
-        :id => 'cookies' if @cookies_blocked_error -%>
 <%= content_tag 'div', flash[:notice], :class => 'notice',
         :id => 'notice' if flash[:notice] -%>
 <%= content_tag 'div', flash[:error],  :class => 'notice error',
         :id => 'error'  if flash[:error] -%>
-<%= "\n" if @cookies_blocked_error || flash[:notice] || flash[:error] -%>
+<%= "\n" if flash[:notice] || flash[:error] -%>
 <!--Buttons-->
 <%= content_tag 'div', :class => 'manage-session' do %>
 <%=   content_tag 'div', :class => 'edit' do -%>

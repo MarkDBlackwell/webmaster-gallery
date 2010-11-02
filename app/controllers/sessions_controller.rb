@@ -7,7 +7,6 @@ class SessionsController < ApplicationController
       flash[:notice]='You already were logged in.'
       redirect_to :action => 'edit'
     end
-    @cookies_blocked_error='Cookies required.' if cookies.empty?
   end
 
   def create
@@ -17,13 +16,17 @@ class SessionsController < ApplicationController
       flash[:notice]='You already were logged in.'
       redirect_to :action => 'edit'
     else
-      clear_session
-      if get_password != params[:password]
-        flash[:error]='Password incorrect.'
-        redirect_to :action => 'new'
+     clear_session
+     if cookies.empty?
+        handle_missing_cookies
       else
-        session[:logged_in]=true
-        redirect_to :action => 'edit'
+        if get_password != params[:password]
+          flash[:error]='Password incorrect.'
+          redirect_to :action => 'new'
+        else
+          session[:logged_in]=true
+          redirect_to :action => 'edit'
+        end
       end
     end
   end
