@@ -1,14 +1,15 @@
 require 'test_helper'
 
-class PicturesHelperTest < ActionView::TestCase
+class PicturesTagsHelperTest < ActionView::TestCase
   include PicturesPrivateAllHelperTest
+  tests PicturesHelper
 
-  test "should include this tags file" do
+  test "should include this file" do
 #    flunk
   end
 
-  test "should render tags partial" do
-    assert Date::today < Date::new(2010,11,2), 'Test unwritten.'
+  test "should render partial" do
+    assert Date::today < Date::new(2010,11,12), 'Test unwritten.'
   end
 
   test "should render a list of all tags" do

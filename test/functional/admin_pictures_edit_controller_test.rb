@@ -1,20 +1,30 @@
 require 'test_helper'
 
-class AdminPicturesControllerTest < ActionController::TestCase
+class AdminPicturesEditControllerTest < ActionController::TestCase
+  tests AdminPicturesController
 
-# Edit action tests:
-
-  test "should include this edit file" do
+  test "should include this file" do
 #    flunk
   end
 
-  test "should get edit if logged in" do
+  test "routing" do
+    assert_routing '/admin_pictures/2/edit', :controller => 'admin_pictures',
+        :action => 'edit', :id => '2'
+  end
+
+  test "happy path" do
     session[:logged_in]=true
     get :edit, :id => pictures(:two).id
     assert_response :success
   end
 
-  test "edit should render a picture" do
+  test "should redirect to /session/new if not logged in" do
+    session[:logged_in]=nil
+    get :edit, :id => pictures(:two).id
+    assert_redirected_to :controller => :sessions, :action => :new
+  end
+
+  test "should render a picture" do
     session[:logged_in]=true
     get :edit, :id => pictures(:two).id
     assert_select 'div.picture'

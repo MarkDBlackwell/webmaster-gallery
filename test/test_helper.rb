@@ -40,17 +40,18 @@ class ActiveSupport::TestCase
 
     should_redirect = {:controller => :sessions, :action => :new}
     restful_methods = {
-        :create  => 'post',
-        :destroy => 'delete',
-        :edit    => 'get',
         :index   => 'get',
         :new     => 'get',
-        :show    => 'get',
+        :create  => 'post',
+        :edit    => 'get',
         :update  => 'put',
+        :show    => 'get',
+        :destroy => 'delete',
         }
     actions.each do |action|
       (ActionController::Request::HTTP_METHODS - [restful_methods[action]] ).
           each do |bad_method|
+        session[:logged_in]=true
         process action, options, params, nil, bad_method
         assert_redirected_to(should_redirect, "Action #{action}, method #{bad_method}.")
       end

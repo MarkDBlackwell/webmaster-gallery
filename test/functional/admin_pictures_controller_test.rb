@@ -22,9 +22,9 @@ class AdminPicturesControllerTest < ActionController::TestCase
   end
 
   test "get actions should include manage-session div" do
-    session[:logged_in]=true
     [:edit, :index, :show].each do |action|
-      get action, :id => '2'
+      session[:logged_in]=true
+      get(action, {:id => '2'}, :logged_in => true)
       assert_select 'div.manage-session', 1, "Action #{action}"
     end
   end

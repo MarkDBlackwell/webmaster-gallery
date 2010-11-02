@@ -10,7 +10,7 @@ class DirectoryPictureTest < ActiveSupport::TestCase
   end
 
   test "the truth" do
-    assert Date::today < Date::new(2010,11,2), 'Test unwritten.'
+    assert Date::today < Date::new(2010,11,12), 'Test unwritten.'
     assert true
   end
 

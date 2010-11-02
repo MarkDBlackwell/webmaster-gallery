@@ -1,22 +1,27 @@
 require 'test_helper'
 
-class AdminPicturesControllerTest < ActionController::TestCase
+class AdminPicturesUpdateControllerTest < ActionController::TestCase
+  tests AdminPicturesController
 
-# Update action tests:
-
-  test "should include this update file" do
+  test "should include this file" do
 #    flunk
   end
 
-  test "routing put /admin_pictures/2" do
+  test "routing" do
     assert_routing({:path => '/admin_pictures/2', :method => 'put'},
         :controller => 'admin_pictures', :action => 'update', :id => '2')
   end
 
-  test "should put update if logged in" do
+  test "happy path" do
     session[:logged_in]=true
     put :update, :id => '2'
     assert_response :success
+  end
+
+  test "should redirect to /session/new if not logged in" do
+    session[:logged_in]=nil
+    put :update, :id => '2'
+    assert_redirected_to :controller => :sessions, :action => :new
   end
 
 end
