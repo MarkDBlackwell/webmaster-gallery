@@ -12,22 +12,30 @@ class AdminPicturesEditControllerTest < ActionController::TestCase
         :action => 'edit', :id => '2'
   end
 
+  test "should redirect to /session/new if not logged in" do
+    session[:logged_in]=nil
+    get :edit, :id => '2'
+    assert_redirected_to :controller => :sessions, :action => :new
+  end
+
   test "happy path" do
     session[:logged_in]=true
     get :edit, :id => pictures(:two).id
     assert_response :success
   end
 
-  test "should redirect to /session/new if not logged in" do
-    session[:logged_in]=nil
-    get :edit, :id => pictures(:two).id
-    assert_redirected_to :controller => :sessions, :action => :new
-  end
-
   test "should render a picture" do
     session[:logged_in]=true
     get :edit, :id => pictures(:two).id
     assert_select 'div.picture'
+  end
+
+  test "should render the right picture" do
+    session[:logged_in]=true
+    id=pictures(:two).id
+    get :edit, :id => id
+    assert_select 'div.picture', 1
+    assert_select "div.picture[id=picture_#{id}]"
   end
 
 end

@@ -12,18 +12,23 @@ class AdminPicturesController < ApplicationController
   def show
     return unless check_request
     return unless check_logged_in_and_redirect
+    @picture = Picture.find(params[:id])
+    @editable = true
   end
 
   def edit
     return unless check_request
     return unless check_logged_in_and_redirect
-    @picture = Picture.first
+    @picture = Picture.find(params[:id])
   end
 
   def update
     return unless check_request(request.put?)
     return unless check_logged_in_and_redirect
-    render :action => :show
+    @picture = Picture.find(params[:id])
+    [:description,:title,:year].each {|e| @picture[e] = params[e]}
+    @editable = true
+    render :action => @picture.save ? :show : :edit
   end
 
 end

@@ -12,16 +12,30 @@ class AdminPicturesShowControllerTest < ActionController::TestCase
         :controller => 'admin_pictures', :action => 'show', :id => '2')
   end
 
-  test "happy path" do
-    session[:logged_in]=true
-    get :show, :id => '2'
-    assert_response :success
-  end
-
   test "should redirect to /session/new if not logged in" do
     session[:logged_in]=nil
     get :show, :id => '2'
     assert_redirected_to :controller => :sessions, :action => :new
+  end
+
+  test "happy path" do
+    session[:logged_in]=true
+    get :show, :id => pictures(:two).id
+    assert_response :success
+  end
+
+  test "should render a picture" do
+    session[:logged_in]=true
+    get :show, :id => pictures(:two).id
+    assert_select 'div.picture'
+  end
+
+  test "should render the right picture" do
+    session[:logged_in]=true
+    id=pictures(:two).id
+    get :show, :id => id
+    assert_select 'div.picture', 1
+    assert_select "div.picture[id=picture_#{id}]"
   end
 
 end

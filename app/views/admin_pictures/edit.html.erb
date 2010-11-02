@@ -5,10 +5,11 @@
 <%= div_for @picture do %>
 <%=   form_tag( {:controller => 'admin_pictures', :action => 'update',
           :id => @picture.id}, :method => 'put') do %>
-<%=     @picture.id %><br />
-<%=     @picture.filename %><br />
-<%=     @picture.description %><br />
-<%=     @picture.year %><br />
-<%=     @picture.title %><br />
+<%=     label_tag(:id, @picture.id) %><br />
+<%=     label_tag(:filename, @picture.filename) %><br />
+<%=     text_field_tag(:description, @picture.description) %><br />
+<%=     text_field_tag(:year, @picture.year) %><br />
+<%=     text_field_tag(:title, @picture.title) %><br />
+<%=     submit_tag('update') %><br />
 <%    end %>
 <%  end # Picture. %>

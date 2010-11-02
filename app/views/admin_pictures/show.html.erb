@@ -1,2 +1,25 @@
 <h1>AdminPictures#show</h1>
 <p>Find me in app/views/admin_pictures/show.html.erb</p>
+
+<%# Keep the previous blank line for pretty html formatting. %>
+<%= div_for @picture do %>
+<%=   content_tag :div, :class => 'thumbnail' do -%>
+<%      s = @picture.filename
+        extension = File.extname s %>
+<%=     content_tag :a, :href => image_path(['gallery', s].join('/')) do -%>
+<%=       image_tag ['gallery', s.chomp(extension) + '-t' + extension].
+              join('/'), :alt => @picture.title -%>
+<%      end %>
+<%    end # Thumbnail. %>
+
+<%# Keep blank line. %>
+<%=   @picture.id %><br />
+<%=   @picture.filename %><br />
+<%=   @picture.description %><br />
+<%=   @picture.year %><br />
+<%=   @picture.title %><br />
+<%=   content_tag :div, :class => 'edit' do -%>
+<%=     button_to 'edit', {:controller => :admin_pictures, :action => :edit,
+             :id => @picture.id}, :method => :get -%>
+<%      end if @editable -%>
+<%    end # Picture. %>
