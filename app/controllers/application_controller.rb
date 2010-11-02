@@ -33,7 +33,7 @@ class ApplicationController < ActionController::Base
   end
 
   def handle_missing_cookies
-      flash.now[:error]='Cookies required.'
+      flash.now[:error]='Cookies required, or session timed out.'
       render :controller => 'sessions', :action => 'new'
   end
 

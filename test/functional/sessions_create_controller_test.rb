@@ -63,7 +63,7 @@ class SessionsCreateControllerTest < ActionController::TestCase
   test "should flash if cookies (session store) blocked" do
     request.cookies.clear
     post 'create'
-    assert_select 'div.error', 'Cookies required.'
+    assert_select 'div.error', 'Cookies required, or session timed out.'
   end
 
   test "should not flash so, if cookies not blocked" do
