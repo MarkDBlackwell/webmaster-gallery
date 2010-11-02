@@ -1,30 +1,30 @@
 require 'test_helper'
 
-class SessionsControllerTest < ActionController::TestCase
+class SessionsShowControllerTest < ActionController::TestCase
   include SessionsPrivateAllControllerTest
+  tests SessionsController
 
-# Show action tests:
 # -> Webmaster reviews database problems.
 
 #-------------
 # General tests:
 
-  test "should include this show file" do
+  test "should include this file" do
 #    flunk
   end
 
-  test "routing for show" do
+  test "routing" do
     assert_routing({:path => '/session', :method => :get},
       :controller => 'sessions', :action => 'show')
   end
 
-  test "should get show" do
+  test "happy path" do
     session[:logged_in]=true
     get 'show'
     assert_response :success
   end
 
-  test "show should redirect to new if not logged in" do
+  test "should redirect to new if not logged in" do
     session[:logged_in]=nil
     get 'show'
     assert_redirected_to :action => 'new'

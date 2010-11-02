@@ -1,35 +1,35 @@
 require 'test_helper'
 
-class SessionsControllerTest < ActionController::TestCase
+class SessionsCreateControllerTest < ActionController::TestCase
   include SessionsPrivateAllControllerTest
+  tests SessionsController
 
-# Create action tests:
 # <- Webmaster logs in.
 
 #-------------
 # General tests:
 
-  test "should include this create file" do
+  test "should include this file" do
 #    flunk
   end
 
-  test "routing for create" do
+  test "routing" do
     assert_routing({:path => '/session', :method => :post},
       :controller => 'sessions', :action => 'create')
   end
 
-  test "should create" do
+  test "happy path" do
     login
     assert_redirected_to :action => :edit
   end
 
-  test "create should reset the session" do
+  test "should reset the session" do
     session[:something]='something'
     post 'create'
     assert_nil session[:something]
   end
 
-  test "how to test create should handle invalid authenticity token?" do
+  test "how to test should handle invalid authenticity token?" do
     assert Date::today < Date::new(2010,11,7), 'Test unwritten.'
 # Doesn't get rescued by application controller:
 #    raise ActionController::InvalidAuthenticityToken
@@ -54,30 +54,30 @@ class SessionsControllerTest < ActionController::TestCase
 #    @request.session[:authenticity_token]
   end
 
-  test "create should log in" do
+  test "should log in" do
     session[:logged_in]=nil
     login
     assert_equal true, session[:logged_in]
   end
 
-  test "create should flash if cookies (session store) blocked" do
+  test "should flash if cookies (session store) blocked" do
     request.cookies.clear
     post 'create'
     assert_select 'div.error', 'Cookies required.'
   end
 
-  test "create should not flash so, if cookies not blocked" do
+  test "should not flash so, if cookies not blocked" do
     login
     assert_select 'div.notice', 0
     assert_select 'div.error', 0
   end
 
-  test "create shouldn't make a pictures layout file" do
+  test "shouldn't make a pictures layout file" do
     login
     assert_equal false, pictures_in_layouts_directory?
   end
 
-  test "create shouldn't read the webmaster page file" do
+  test "shouldn't read the webmaster page file" do
     path="#{Rails.root}/../gallery-webmaster/page.html.erb"
     remove_read_permission(path) {login}
   end
@@ -85,14 +85,13 @@ class SessionsControllerTest < ActionController::TestCase
 #-------------
 # Wrong password, not already logged in tests:
 
-  test "create should redirect to new on wrong password if not already "\
-       "logged in" do
+  test "should redirect to new on wrong password if not already logged in" do
     session[:logged_in]=nil
     login 'example wrong password'
     assert_redirected_to :action => :new
   end
 
-  test "create should flash on wrong password if not already logged in" do
+  test "should flash on wrong password if not already logged in" do
     session[:logged_in]=nil
     login 'example wrong password'
     assert_equal 'Password incorrect.', flash[:error]
@@ -101,8 +100,7 @@ class SessionsControllerTest < ActionController::TestCase
 #-------------
 # Right password, not already logged in tests:
 
-  test "create should redirect to edit on right password if not already "\
-       "logged in" do
+  test "should redirect to edit on right password if not already logged in" do
     session[:logged_in]=nil
     login
     assert_redirected_to :action => :edit
@@ -111,20 +109,19 @@ class SessionsControllerTest < ActionController::TestCase
 #-------------
 # Already logged in tests:
 
-  test "create should redirect to edit without asking password if already "\
-       "logged in" do
+  test "should redirect to edit without asking password if already logged in" do
     session[:logged_in]=true
     post 'create'
     assert_redirected_to :action => :edit
   end
 
-  test "create should flash so, when already logged in" do
+  test "should flash so, when already logged in" do
     session[:logged_in]=true
     post 'create'
     assert_equal 'You already were logged in.', flash[:notice]
   end
 
-  test "create should not flash on wrong password when already logged in" do
+  test "should not flash on wrong password when already logged in" do
     session[:logged_in]=true
     post 'create', :password => 'example wrong password'
     assert_equal 'You already were logged in.', flash[:notice]

@@ -1,33 +1,33 @@
 require 'test_helper'
 
-class SessionsControllerTest < ActionController::TestCase
+class SessionsEditControllerTest < ActionController::TestCase
   include SessionsPrivateAllControllerTest
+  tests SessionsController
 
-# Edit action tests:
 # -> Webmaster reviews filesystem changes.
 
-  test "should include this edit file" do
+  test "should include this file" do
 #    flunk
   end
 
-  test "routing for edit" do
+  test "routing" do
     assert_routing({:path => '/session/edit', :method => :get},
       :controller => 'sessions', :action => 'edit')
   end
 
-  test "should get edit" do
+  test "happy path" do
     session[:logged_in]=true
     get 'edit'
     assert_response :success
   end
 
-  test "edit should redirect to new if not logged in" do
+  test "should redirect to new if not logged in" do
     session[:logged_in]=nil
     get 'edit'
     assert_redirected_to :action => 'new'
   end
 
-  test "should edit if logged in" do
+  test "should render edit if logged in" do
     session[:logged_in]=true
     get 'edit'
     assert_template 'edit'
