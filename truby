@@ -1,0 +1,21 @@
+#!/bin/sh
+# Author: Mark D. Blackwell
+# Date written: November 3, 2010
+# Date last changed: November 3, 2010
+# Usage:
+#   truby '<extended glob file pattern>'
+# Usage example:
+#   truby 'fu*/ses*@(ed|sh)'
+#   truby 'fu*/sessions_con'
+
+function run_tests {
+  echo $@
+  echo $0 \($# suites\)
+  for arg do
+    ruby -Itest $arg
+  done
+}
+
+shopt -s extglob
+# Adding the right parenthesis here [ $@ or $1, \) or ")" ] didn't work.
+run_tests test/$@* 

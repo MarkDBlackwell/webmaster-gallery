@@ -17,16 +17,16 @@ class AdminPicturesIndexControllerTest < ActionController::TestCase
       :controller => 'admin_pictures', :action => 'index', :tag => 'some_tag'
   end
 
-  test "happy path" do
-    session[:logged_in]=true
-    get :index
-    assert_response :success
-  end
-
   test "should redirect to /session/new if not logged in" do
     session[:logged_in]=nil
     get :index
     assert_redirected_to :controller => :sessions, :action => :new
+  end
+
+  test "happy path" do
+    session[:logged_in]=true
+    get :index
+    assert_response :success
   end
 
   test "pictures should be editable" do
@@ -58,8 +58,7 @@ class AdminPicturesIndexControllerTest < ActionController::TestCase
   test "should render a styling suggestion for a list of all tags" do
     session[:logged_in]=true
     get :index
-    assert_select_include? 'head > style[type=text/css]',
-        'div.all-tags * {display: inline}'
+    style_include? 'div.all-tags * {display: inline}'
   end
 
   test "should render a gallery" do
@@ -71,8 +70,7 @@ class AdminPicturesIndexControllerTest < ActionController::TestCase
   test "should render a gallery styling suggestion" do
     session[:logged_in]=true
     get :index
-    assert_select_include? 'head > style[type=text/css]',
-        'div.picture {display: inline-block}'
+    style_include? 'div.picture {display: inline-block}'
   end
 
 end

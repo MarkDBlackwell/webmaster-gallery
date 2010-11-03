@@ -52,8 +52,7 @@ class SessionsControllerTest < ActionController::TestCase
 
   test "session buttons should be horizontal" do
     get :new
-    assert_select_include? 'head > style[type=text/css]',
-        'div.manage-session * {display: inline}'
+    style_include? 'div.manage-session * {display: inline}'
   end
 
   test "should render an edit button" do

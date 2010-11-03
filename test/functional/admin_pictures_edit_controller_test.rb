@@ -30,12 +30,26 @@ class AdminPicturesEditControllerTest < ActionController::TestCase
     assert_select 'div.picture'
   end
 
-  test "should render the right picture" do
+  test "should render a single picture" do
     session[:logged_in]=true
     id=pictures(:two).id
     get :edit, :id => id
     assert_select 'div.picture', 1
+  end
+
+  test "should render the right picture" do
+    session[:logged_in]=true
+    id=pictures(:two).id
+    get :edit, :id => id
     assert_select "div.picture[id=picture_#{id}]"
+  end
+
+  test "shouldn't display a picture commit button" do
+    session[:logged_in]=true
+    id=pictures(:two).id
+    get :edit, :id => id
+    style_include? 'div.picture > form > input[name=commit] '\
+        '{display: none}'
   end
 
 end

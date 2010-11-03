@@ -16,8 +16,14 @@ class ActiveSupport::TestCase
 
   # Add more helper methods to be used by all tests here...
 
-  def assert_select_include?(css, s)
-    assert_select css, Regexp.new(Regexp.escape s)
+  private
+
+  def assert_select_include?(css, string)
+    assert_select css, Regexp.new(Regexp.escape string)
+  end
+
+  def style_include?(string)
+    assert_select_include? 'head > style[type=text/css]', string
   end
 
   def see_output
