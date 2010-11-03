@@ -24,17 +24,16 @@ class AdminPicturesShowControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should render a picture" do
+  test "should render a single picture" do
     session[:logged_in]=true
     get :show, :id => pictures(:two).id
-    assert_select 'div.picture'
+    assert_select 'div.picture', 1
   end
 
   test "should render the right picture" do
     session[:logged_in]=true
     id=pictures(:two).id
     get :show, :id => id
-    assert_select 'div.picture', 1
     assert_select "div.picture[id=picture_#{id}]"
   end
 

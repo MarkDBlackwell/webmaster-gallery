@@ -1,15 +1,35 @@
 <h1>AdminPictures#edit</h1>
 <p>Find me in app/views/admin_pictures/edit.html.erb</p>
+<%= div_for @picture do %>
+<%=   form_for :picture, :url => {:controller => 'admin_pictures',
+          :action => 'update', :id => @picture.id},
+          :html => {:method => 'put'} do |f| %>
+<%=     submit_tag %>
+<%=     content_tag :div, :class => 'thumbnail' do -%>
+<%        s = @picture.filename
+          extension = File.extname s %>
+<%=       content_tag :a, :href => image_path(['gallery', s].join('/')) do -%>
+<%=         image_tag ['gallery', s.chomp(extension) + '-t' + extension].
+                join('/'), :alt => @picture.title -%>
+<%        end # anchor %>
+<%      end # div.thumbnail %>
 
 <%# Keep the previous blank line for pretty html formatting. %>
-<%= div_for @picture do %>
-<%=   form_tag( {:controller => 'admin_pictures', :action => 'update',
-          :id => @picture.id}, :method => 'put') do %>
-<%=     label_tag(:id, @picture.id) %><br />
-<%=     label_tag(:filename, @picture.filename) %><br />
-<%=     text_field_tag(:description, @picture.description) %><br />
-<%=     text_field_tag(:year, @picture.year) %><br />
-<%=     text_field_tag(:title, @picture.title) %><br />
-<%=     submit_tag('update') %><br />
-<%    end %>
-<%  end # Picture. %>
+<%=     content_tag :div, :class => 'filename' do -%>
+<%=       @picture.filename
+-%> &nbsp; (filename) <%
+        end %>
+<%=     content_tag :div, :class => 'title' do -%>
+<%=       f.text_field :title
+-%> &nbsp; (title) <%
+        end %>
+<%=     content_tag :div, :class => 'description' do -%>
+<%=       f.text_field :description
+-%> &nbsp; (description) <%
+        end %>
+<%=     content_tag :div, :class => 'year' do -%>
+<%=       f.text_field :year
+-%> &nbsp; (year) <%
+        end %>
+<%    end # form %>
+<%  end # div.picture %>

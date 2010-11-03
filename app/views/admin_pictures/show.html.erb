@@ -13,11 +13,10 @@
 <%    end # Thumbnail. %>
 
 <%# Keep blank line. %>
-<%=   @picture.id %><br />
-<%=   @picture.filename %><br />
+(<%=  @picture.filename %>)<br />
+<%=   @picture.title %><br />
 <%=   @picture.description %><br />
 <%=   @picture.year %><br />
-<%=   @picture.title %><br />
 <%=   content_tag :div, :class => 'edit' do -%>
 <%=     button_to 'edit', {:controller => :admin_pictures, :action => :edit,
              :id => @picture.id}, :method => :get -%>

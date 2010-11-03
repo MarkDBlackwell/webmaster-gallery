@@ -26,7 +26,10 @@ class AdminPicturesController < ApplicationController
     return unless check_request(request.put?)
     return unless check_logged_in_and_redirect
     @picture = Picture.find(params[:id])
-    [:description,:title,:year].each {|e| @picture[e] = params[e]}
+    pp=params[:picture]
+    [:description,:title,:year].each do |e|
+      @picture[e]=pp.fetch e if pp.has_key? e
+    end unless pp.blank?
     @editable = true
     render :action => @picture.save ? :show : :edit
   end

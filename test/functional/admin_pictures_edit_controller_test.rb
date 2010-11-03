@@ -24,16 +24,9 @@ class AdminPicturesEditControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should render a picture" do
-    session[:logged_in]=true
-    get :edit, :id => pictures(:two).id
-    assert_select 'div.picture'
-  end
-
   test "should render a single picture" do
     session[:logged_in]=true
-    id=pictures(:two).id
-    get :edit, :id => id
+    get :edit, :id => pictures(:two).id
     assert_select 'div.picture', 1
   end
 
@@ -48,8 +41,7 @@ class AdminPicturesEditControllerTest < ActionController::TestCase
     session[:logged_in]=true
     id=pictures(:two).id
     get :edit, :id => id
-    style_include? 'div.picture > form > input[name=commit] '\
-        '{display: none}'
+    style_include? 'div.picture > form > input[name=commit] {display: none}'
   end
 
 end
