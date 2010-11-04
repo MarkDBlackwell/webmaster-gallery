@@ -1,10 +1,8 @@
 <h1>AdminPictures#edit</h1>
 <p>Find me in app/views/admin_pictures/edit.html.erb</p>
 <%= div_for @picture do %>
-<%=   form_for :picture, :url => {:controller => 'admin_pictures',
-          :action => 'update', :id => @picture.id},
-          :html => {:method => 'put'} do |f| %>
-<%=     submit_tag %>
+<%    form_proc = Proc.new do |f| %>
+<%=     submit_tag if @edit_fields %>
 <%=     content_tag :div, :class => 'thumbnail' do -%>
 <%        s = @picture.filename
           extension = File.extname s %>
@@ -18,18 +16,43 @@
 <%=     content_tag :div, :class => 'filename' do -%>
 <%=       @picture.filename
 -%> &nbsp; (filename) <%
-        end %>
+        end if @show_filename %>
 <%=     content_tag :div, :class => 'title' do -%>
-<%=       f.text_field :title
+<%=       if @edit_fields
+            f.text_field :title
+          else
+            @picture.title
+          end
 -%> &nbsp; (title) <%
         end %>
 <%=     content_tag :div, :class => 'description' do -%>
-<%=       f.text_field :description
+<%=       if @edit_fields
+            f.text_field :description
+          else
+            @picture.description
+          end
 -%> &nbsp; (description) <%
         end %>
 <%=     content_tag :div, :class => 'year' do -%>
-<%=       f.text_field :year
+<%        if @edit_fields %>
+<%=         f.text_field :year %>
+<%        else %>
+<%=            @picture.year %>
+<%        end
 -%> &nbsp; (year) <%
         end %>
-<%    end # form %>
+<%    end # form_proc %>
+<%    if @edit_fields %>
+<%=     form_for :picture, @picture, :url => {:controller => 'admin_pictures',
+          :action => 'update', :id => @picture.id},
+          :html => {:method => 'put'}, &form_proc %>
+<%    else %>
+<%=     form_for :picture, @picture, :url => {:controller => 'admin_pictures',
+          :action => :show, :id => @picture.id},
+          :html => {:method => 'get'}, &form_proc %>
+<%    end %>
+<%=   content_tag :div, :class => 'edit' do -%>
+<%=     button_to 'edit', {:controller => :admin_pictures, :action => :edit,
+            :id => @picture.id}, :method => :get -%>
+<%    end if @editable -%>
 <%  end # div.picture %>
