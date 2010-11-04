@@ -1,0 +1,1 @@
+ls -ltd --time-style=full-iso *
