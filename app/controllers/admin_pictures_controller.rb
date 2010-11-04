@@ -4,14 +4,15 @@ class AdminPicturesController < ApplicationController
   def index
     return unless check_request
     return unless check_logged_in_and_redirect
+    @all_tags = Tag.all
     @editable=true
-    @tags = Tag.all
     @pictures = Picture.all
   end
 
   def show
     return unless check_request
     return unless check_logged_in_and_redirect
+    @all_tags = Tag.all
     @editable=true
     @show_filename=true
     @picture = Picture.find(params[:id])
@@ -20,6 +21,7 @@ class AdminPicturesController < ApplicationController
   def edit
     return unless check_request
     return unless check_logged_in_and_redirect
+    @all_tags = Tag.all
     @edit_fields=true
     @show_filename=true
     @show_labels=true
@@ -35,6 +37,7 @@ class AdminPicturesController < ApplicationController
     [:description,:title,:year].each do |e|
       @picture[e]=pp.fetch e if pp.has_key? e
     end unless pp.blank?
+    @all_tags = Tag.all
     @show_filename=true
     if @picture.save
       @editable=true

@@ -35,6 +35,7 @@ class SessionsController < ApplicationController
 # GET /session/edit
     return unless check_request
     return unless check_logged_in_and_redirect
+    @all_tags = Tag.all
   end
 
   def update
@@ -46,6 +47,7 @@ class SessionsController < ApplicationController
     d = "#{Rails.root}/public/pictures"
     ((Dir.entries(d) - %w[. ..]).collect {|e| [d,e]} << [d,'..','index.html']).
         collect {|a| a.join('/')}.each {|e| File.delete(e) if File.exist?(e)}
+    @all_tags = Tag.all
     render :action => 'show'
   end
 
@@ -53,6 +55,7 @@ class SessionsController < ApplicationController
 # GET /session
     return unless check_request
     return unless check_logged_in_and_redirect
+    @all_tags = Tag.all
   end
 
   def destroy
