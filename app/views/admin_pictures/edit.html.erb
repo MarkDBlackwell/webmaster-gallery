@@ -1,8 +1,8 @@
 <h1>AdminPictures#edit</h1>
 <p>Find me in app/views/admin_pictures/edit.html.erb</p>
+<%  action, method = @edit_fields ? %w[update put] : %w[show get] %>
 <%= div_for @picture do %>
-<%    action, method = @edit_fields ? %w[update put] : %w[show get] %>
-<%=   form_for :picture, @picture, :url => {:controller => 'admin_pictures',
+<%=   form_for @picture, :url => {:controller => 'admin_pictures',
           :action => action, :id => @picture.id},
           :html => {:method => method} do |f| %>
 <%=     submit_tag if @edit_fields %>
@@ -21,7 +21,7 @@
 -%> &nbsp; (filename) <%
         end if @show_filename %>
 <%=     content_tag :div, :class => 'title' do -%>
-<%=       if @edit_fields
+<%=       if @edit_fields 
             f.text_field :title
           else
             @picture.title
@@ -37,11 +37,11 @@
 -%> &nbsp; (description) <%
         end %>
 <%=     content_tag :div, :class => 'year' do -%>
-<%        if @edit_fields %>
-<%=         f.text_field :year %>
-<%        else %>
-<%=            @picture.year %>
-<%        end
+<%=       if @edit_fields
+            f.text_field :year
+          else
+            @picture.year
+          end
 -%> &nbsp; (year) <%
         end %>
 <%    end # form %>
