@@ -2,14 +2,14 @@ module PicturesPrivateAllHelperTest
 
   private
 
-  def all_pictures
+  def render_all_pictures
     @pictures = Picture.find(:all)
     gallery
   end
 
-  def all_tags
+  def render_all_tags
     @all_tags = Tag.find(:all)
-    tags
+    alltags
   end
 
 end

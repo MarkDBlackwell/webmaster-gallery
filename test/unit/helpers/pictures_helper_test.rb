@@ -8,8 +8,8 @@ class PicturesHelperTest < ActionView::TestCase
   end
 
   test "should render pretty html source" do
-    all_tags
-    all_pictures
+    render_all_tags
+    render_all_pictures
     divs = %w[all-tags tag gallery picture thumbnail title description year edit]
     s = "<div class=\"#{Regexp.union *divs}\""
 # Remove any of these divs which are at line beginnings:

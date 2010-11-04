@@ -18,38 +18,38 @@ class PicturesGalleryHelperTest < ActionView::TestCase
   end
 
   test "should render a picture within a gallery" do
-    all_pictures
+    render_all_pictures
     assert_select 'div.gallery > div.picture'
   end
 
   test "should render all the pictures" do
-    all_pictures
+    render_all_pictures
     assert_select 'div.gallery > div.picture', 2
   end
 
   test "should render a title within a picture" do
-    all_pictures
+    render_all_pictures
     assert_select 'div.picture > form > div.title'
   end
 
   test "should render a description within a picture" do
-    all_pictures
+    render_all_pictures
     assert_select 'div.picture > form > div.description'
   end
 
   test "should render a year within a picture" do
-    all_pictures
+    render_all_pictures
     see_output
     assert_select 'div.picture > form > div.year'
   end
 
   test "should render a thumbnail within a picture" do
-    all_pictures
+    render_all_pictures
     assert_select 'div.picture > form > div.thumbnail'
   end
 
   test "should render an image within a thumbnail" do 
-    all_pictures
+    render_all_pictures
     assert_select 'div.thumbnail > * > img'
   end
 
@@ -79,17 +79,17 @@ class PicturesGalleryHelperTest < ActionView::TestCase
   end
 
   test "should render an anchor within a thumbnail" do 
-    all_pictures
+    render_all_pictures
     assert_select 'div.thumbnail > a'
   end
 
   test "should render an image within an anchor" do 
-    all_pictures
+    render_all_pictures
     assert_select 'a > img'
   end
 
   test "rendered thumbnail anchor should be a link" do
-    all_pictures
+    render_all_pictures
     assert_select 'div.thumbnail > a[href]'
   end
 
@@ -99,25 +99,25 @@ class PicturesGalleryHelperTest < ActionView::TestCase
   end
 
   test "should not render an edit div if not editable" do
-    all_pictures
+    render_all_pictures
     assert_select 'div.picture > div.edit', 0
   end
 
   test "should render an edit div if editable" do
     @editable = true
-    all_pictures
+    render_all_pictures
     assert_select 'div.picture > div.edit'
   end
 
   test "should render a button within an edit div if editable" do
     @editable = true
-    all_pictures
+    render_all_pictures
     assert_select 'div.edit > form.button_to'
   end
 
   test "rendered button within an edit div should have method get" do
     @editable = true
-    all_pictures
+    render_all_pictures
     assert_select 'div.edit > form.button_to[method=?]', 'get'
   end
 

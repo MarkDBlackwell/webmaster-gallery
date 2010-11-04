@@ -39,11 +39,11 @@ class AdminPicturesIndexControllerTest < ActionController::TestCase
     assert Date::today < Date::new(2010,11,7), 'Test unwritten.'
 #    session[:logged_in]=true
 #    get :index
-#    list = ['gallery','picture','tags'].collect do |e|
+#    list = ['gallery','picture','all_tags'].collect do |e|
 #        ['','pictures/'].collect {|prefix| "#{prefix}_#{e}"}
 #    end.flatten!
-#    list = ['_picture','pictures/_gallery','_tags','pictures/_picture',
-#       '_gallery','pictures/_tags']
+#    list = ['_picture','pictures/_gallery','_all_tags','pictures/_picture',
+#       '_gallery','pictures/_all_tags']
 #puts list
 #    assert_template :controller => :admin_pictures, :action => :index,
 #        :partial => list

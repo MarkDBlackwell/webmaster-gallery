@@ -1,7 +1,7 @@
 module PicturesHelper
 
-  def tags
-    concat( render :partial => 'pictures/tags')
+  def alltags
+    concat( render :partial => 'pictures/all_tags')
   end
 
   def gallery

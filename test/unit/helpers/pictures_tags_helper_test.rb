@@ -13,12 +13,12 @@ class PicturesTagsHelperTest < ActionView::TestCase
   end
 
   test "should render a list of all tags" do
-    all_tags
+    render_all_tags
     assert_select 'div.all-tags'
   end
 
   test "should render a tag within a list of all tags" do
-    all_tags
+    render_all_tags
     assert_select 'div.all-tags > div.tag'
   end
 
@@ -35,7 +35,7 @@ class PicturesTagsHelperTest < ActionView::TestCase
 # ArgumentError: wrong number of arguments (1 for 0)
 #    tags(:one).destroy
     @all_tags = Tag.find :all, :conditions => ["name = ?", 'two-name']
-    tags
+    render_all_tags
   end
 
 end
