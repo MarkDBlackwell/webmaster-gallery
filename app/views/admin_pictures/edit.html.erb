@@ -1,7 +1,10 @@
 <h1>AdminPictures#edit</h1>
 <p>Find me in app/views/admin_pictures/edit.html.erb</p>
 <%= div_for @picture do %>
-<%    form_proc = Proc.new do |f| %>
+<%    action, method = @edit_fields ? %w[update put] : %w[show get] %>
+<%=   form_for :picture, @picture, :url => {:controller => 'admin_pictures',
+          :action => action, :id => @picture.id},
+          :html => {:method => method} do |f| %>
 <%=     submit_tag if @edit_fields %>
 <%=     content_tag :div, :class => 'thumbnail' do -%>
 <%        s = @picture.filename
@@ -41,16 +44,7 @@
 <%        end
 -%> &nbsp; (year) <%
         end %>
-<%    end # form_proc %>
-<%    if @edit_fields %>
-<%=     form_for :picture, @picture, :url => {:controller => 'admin_pictures',
-          :action => 'update', :id => @picture.id},
-          :html => {:method => 'put'}, &form_proc %>
-<%    else %>
-<%=     form_for :picture, @picture, :url => {:controller => 'admin_pictures',
-          :action => :show, :id => @picture.id},
-          :html => {:method => 'get'}, &form_proc %>
-<%    end %>
+<%    end # form %>
 <%=   content_tag :div, :class => 'edit' do -%>
 <%=     button_to 'edit', {:controller => :admin_pictures, :action => :edit,
             :id => @picture.id}, :method => :get -%>
