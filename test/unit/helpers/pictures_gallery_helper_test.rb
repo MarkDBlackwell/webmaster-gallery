@@ -29,22 +29,23 @@ class PicturesGalleryHelperTest < ActionView::TestCase
 
   test "should render a title within a picture" do
     all_pictures
-    assert_select 'div.picture > div.title'
+    assert_select 'div.picture > form > div.title'
   end
 
   test "should render a description within a picture" do
     all_pictures
-    assert_select 'div.picture > div.description'
+    assert_select 'div.picture > form > div.description'
   end
 
   test "should render a year within a picture" do
     all_pictures
-    assert_select 'div.picture > div.year'
+    see_output
+    assert_select 'div.picture > form > div.year'
   end
 
   test "should render a thumbnail within a picture" do
     all_pictures
-    assert_select 'div.picture > div.thumbnail'
+    assert_select 'div.picture > form > div.thumbnail'
   end
 
   test "should render an image within a thumbnail" do 
@@ -59,17 +60,17 @@ class PicturesGalleryHelperTest < ActionView::TestCase
 
   test "should render the right year" do
     picture_two
-    assert_select 'div.picture > div.year', 'two-year'
+    assert_select 'div.picture > form > div.year', 'two-year'
   end
 
   test "should render the right description" do
     picture_two
-    assert_select 'div.picture > div.description', 'two-description'
+    assert_select 'div.picture > form > div.description', 'two-description'
   end
 
   test "should render the right title" do
     picture_two
-    assert_select 'div.picture > div.title', 'two-title'
+    assert_select 'div.picture > form > div.title', 'two-title'
   end
 
   test "rendered image should have the right title as alt-text" do

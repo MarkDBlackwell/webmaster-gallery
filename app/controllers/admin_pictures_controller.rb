@@ -12,18 +12,19 @@ class AdminPicturesController < ApplicationController
   def show
     return unless check_request
     return unless check_logged_in_and_redirect
-    @show_filename=true
     @editable=true
+    @show_filename=true
     @picture = Picture.find(params[:id])
-    render :action => :edit # Show the record.
   end
 
   def edit
     return unless check_request
     return unless check_logged_in_and_redirect
-    @show_filename=true
     @edit_fields=true
+    @show_filename=true
+    @show_labels=true
     @picture = Picture.find(params[:id])
+    render 'show'
   end
 
   def update
@@ -37,12 +38,11 @@ class AdminPicturesController < ApplicationController
     @show_filename=true
     if @picture.save
       @editable=true
-#      render :action => :show
-      render :action => :edit # Show the record.
     else
       @edit_fields=true
-      render :action => :edit
+      @show_labels=true
     end
+    render 'show'
   end
 
 end

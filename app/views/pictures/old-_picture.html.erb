@@ -1,0 +1,21 @@
+
+<%# Keep the previous blank line for pretty html formatting. %>
+<%= div_for picture do %>
+<%=   content_tag :div, :class => 'thumbnail' do -%>
+<%      s = picture.filename
+        extension = File.extname s %>
+<%=     content_tag :a, :href => image_path(['gallery', s].join('/')) do -%>
+<%=       image_tag ['gallery', s.chomp(extension) + '-t' + extension].
+              join('/'), :alt => picture.title -%>
+<%      end %>
+<%    end # Thumbnail. %>
+
+<%# Keep blank line. %>
+<%=   content_tag :div, picture.title, :class => 'title' %>
+<%=   content_tag :div, picture.description, :class => 'description' %>
+<%=   content_tag :div, picture.year, :class => 'year' %>
+<%=   content_tag :div, :class => 'edit' do -%>
+<%=     button_to 'edit', {:controller => :admin_pictures, :action => :edit,
+            :id => picture.id}, :method => :get -%>
+<%    end if @editable -%>
+<%  end # Picture. %>
