@@ -1,0 +1,11 @@
+# Author: Mark D. Blackwell
+# Date written: November 5, 2010
+# Date last changed: November 5, 2010
+# Usage:
+#   nano-dir <directories>
+# For example:
+#   nano-dir test/* test/unit/helpers/*
+
+# find $@ -maxdepth 1 -type f -exec `which ls` {} +
+
+find -P $@ -maxdepth 0 -name 'old-*' -prune -o -type f -exec `which ls` {} +
