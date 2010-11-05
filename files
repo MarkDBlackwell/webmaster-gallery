@@ -6,6 +6,4 @@
 # For example:
 #   files test/* test/unit/helpers/*
 
-# find $@ -maxdepth 1 -type f -exec `which ls` {} +
-
 find -P $@ -maxdepth 0 -name 'old-*' -prune -o -type f -exec `which ls` {} +
