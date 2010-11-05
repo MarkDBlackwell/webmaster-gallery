@@ -1,0 +1,6 @@
+<!--Messages-->
+<%= content_tag 'div', flash[:notice], :class => 'notice',
+        :id => 'notice' if flash[:notice] -%>
+<%= content_tag 'div', flash[:error],  :class => 'notice error',
+        :id => 'error'  if flash[:error] -%>
+<%= "\n" if flash[:notice] || flash[:error] -%>
