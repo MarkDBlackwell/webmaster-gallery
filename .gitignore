@@ -1,9 +1,6 @@
 .bundle
-append
 assert-delay
 db/*.sqlite3
-grep
-html-pretty
 log/
 out/
 public/images/gallery/

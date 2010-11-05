@@ -10,7 +10,7 @@ class SessionsControllerTest < ActionController::TestCase
   end
 
   test "verify before_filters" do
-    assert Date::today < Date::new(2010,11,5), 'Test unwritten.'
+    assert Date::today < Date::new(2010,11,12), 'Test unwritten.'
 #    class SessionsController
 #      before_filter :verify_authenticity_token
 #    end

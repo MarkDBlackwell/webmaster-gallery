@@ -1,0 +1,12 @@
+#!/bin/sh
+# Author: Mark D. Blackwell
+# Date written: Oct 21, 2010
+# Date last changed: Oct 21, 2010
+
+# Usage example (line numbers are one-indexed; source and destination
+# are files):
+# Append lines 2 through 3 of source onto destination:
+#
+#   append source 2,3 destination
+
+echo "$2 W $3" | ed -s $1
