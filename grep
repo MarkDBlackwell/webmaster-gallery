@@ -1,4 +1,9 @@
 #!/bin/sh
+# Author: Mark D. Blackwell
+# Date written: October(?), 2010
+# Date last changed: November 5, 2010
+
 # Usage:
-# command  string
-grep -m 1 --exclude-dir=\.git --exclude-dir=migrate --exclude-dir=log --exclude-dir=out --exclude-dir=db --exclude=*\.sqlite3 -nre $1 . | head
+#   grep <string>
+
+grep -m 1 --exclude-dir=\.git --exclude-dir=migrate --exclude-dir=log --exclude-dir=out --exclude-dir=db --exclude-dir=vendor --exclude-dir=javascripts --exclude=*\.sqlite3 -nre $1 . | head

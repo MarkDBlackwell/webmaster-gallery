@@ -9,6 +9,7 @@ class AdminPicturesControllerTest < ActionController::TestCase
   end
 
   test "verify before_filters" do
+# TODO  test "verify before_filters" do
     assert Date::today < Date::new(2010,11,7), 'Test unwritten.'
 #    class AdminPicturesController
 #      before_filter :verify_authenticity_token

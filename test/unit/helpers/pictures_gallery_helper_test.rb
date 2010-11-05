@@ -9,6 +9,7 @@ class PicturesGalleryHelperTest < ActionView::TestCase
   end
 
   test "should render partial" do
+# TODO test "should render partial" do
     assert Date::today < Date::new(2010,11,12), 'Test unwritten.'
   end
 
