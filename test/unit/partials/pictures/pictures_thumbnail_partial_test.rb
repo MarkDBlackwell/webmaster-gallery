@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ThumbnailPartialTest < ActionView::TestCase
+class PicturesThumbnailPartialTest < ActionView::TestCase
 
 #-------------
 # Find method tests:
@@ -12,7 +12,6 @@ class ThumbnailPartialTest < ActionView::TestCase
   test "should render partial" do
     @picture=Picture.find(:all).first
     render :partial => 'pictures/thumbnail', :locals => {:picture => @picture}
-#    assert false
   end
 
 end
