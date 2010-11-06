@@ -1,1 +1,10 @@
-find . -maxdepth 1 -perm -u+x -type f
+#!/bin/sh
+# Author: Mark D. Blackwell
+# Date written: November 5, 2010
+# Date last changed: November 6, 2010
+
+# Usage:
+#   find-executable
+
+#find . -maxdepth 1 -type f -perm -u+x
+find . -type f -perm -u+x

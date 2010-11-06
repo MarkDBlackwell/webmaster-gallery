@@ -1,9 +1,18 @@
 #!/bin/sh
 # Author: Mark D. Blackwell
 # Date written: October(?), 2010
-# Date last changed: November 5, 2010
+# Date last changed: November 6, 2010
 
 # Usage:
-#   grep <string>
+#   grep <regexp>
 
-grep -m 1 --exclude-dir=\.git --exclude-dir=migrate --exclude-dir=log --exclude-dir=out --exclude-dir=db --exclude-dir=vendor --exclude-dir=javascripts --exclude=*\.sqlite3 -nre $1 . | head
+grep --exclude=*\.sqlite3 \
+--exclude-dir=\.git \
+--exclude-dir=db \
+--exclude-dir=javascripts \
+--exclude-dir=log \
+--exclude-dir=migrate \
+--exclude-dir=out \
+--exclude-dir=vendor \
+--recursive --line-number --max-count=1 --regexp=$1 . | head
+# By hand:  grep -m 1 -nre <regexp> <directory>
