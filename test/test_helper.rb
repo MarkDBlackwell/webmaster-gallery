@@ -26,16 +26,13 @@ class ActiveSupport::TestCase
     assert_select_include? 'head > style[type=text/css]', string
   end
 
-  def see_output
+  def see_output(s=nil)
     f=File.new("#{Rails.root}/out/see-output",'w')
-    begin
-      f.print rendered
-    rescue NameError
+    if s.blank?
+      begin s=response.body; rescue NameError; end
+      begin s=rendered;      rescue NameError; end
     end
-    begin
-      f.print response.body
-    rescue NameError
-    end
+    f.print s
     f.close
   end
 

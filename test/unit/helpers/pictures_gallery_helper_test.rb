@@ -40,7 +40,6 @@ class PicturesGalleryHelperTest < ActionView::TestCase
 
   test "should render a year within a picture" do
     render_all_pictures
-    see_output
     assert_select 'div.picture > form > div.year'
   end
 

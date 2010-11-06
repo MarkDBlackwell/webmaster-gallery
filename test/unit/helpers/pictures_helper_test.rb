@@ -16,7 +16,7 @@ class PicturesHelperTest < ActionView::TestCase
     altered = rendered.gsub( Regexp.new("\n" + s),"\n")
     s2 = altered.clone
 # Should not be able to find any of those divs:
-    assert_equal true, altered.gsub!(Regexp.new(s),'').nil?, s2
+    assert altered.gsub!(Regexp.new(s),'here').blank?, (see_output(s2);'Div class=')
   end
 
 end

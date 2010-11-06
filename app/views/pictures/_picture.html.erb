@@ -1,6 +1,4 @@
-<%  action, method = @edit_fields ? %w[update put] : %w[show get] %>
-
-<%# Keep the previous blank line for pretty html formatting. %>
+<%  action, method = @edit_fields ? %w[update put] : %w[show get] %><%= %>
 <%= div_for picture do %>
 <%=   form_for picture, :url => {:controller => 'admin_pictures',
           :action => action, :id => picture.id},
@@ -14,8 +12,6 @@
                 join('/'), :alt => picture.title -%>
 <%        end # anchor %>
 <%      end # div.thumbnail %>
-
-<%# Keep the previous blank line for pretty html formatting. %>
 <%=     content_tag :div, :class => 'filename' do -%>
 <%=       picture.filename %>
 <%        if @show_labels
