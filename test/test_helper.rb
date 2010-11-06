@@ -1,8 +1,8 @@
 ENV["RAILS_ENV"] = "test"
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
-%w[ unit/helpers/pictures_private_all_helper
-    functional/sessions_private_all_controller
+%w[ unit/helpers/pictures/pictures_private_all_helper
+    functional/sessions/sessions_private_all_controller
     ].each do |e|
   require File.expand_path("../#{e}_test", __FILE__)
 end
