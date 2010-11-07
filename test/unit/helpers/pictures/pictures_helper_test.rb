@@ -8,6 +8,7 @@ class PicturesHelperTest < ActionView::TestCase
   end
 
   test "should render pretty html source" do
+# TODO: split up.
     render_all_tags
     render_all_pictures
     divs = %w[all-tags tag gallery picture thumbnail title description year edit]

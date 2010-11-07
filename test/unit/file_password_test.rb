@@ -16,6 +16,7 @@ class FilePasswordTest < ActiveSupport::TestCase
 # But, as of 2010 Oct 11, the latest version (both 0.2.1) broke fixture
 # processing in other models, even with (in app/models/file_password.rb):
 # FilePassword.establish_connection :adapter => :nulldb
+# For now, decided not to use NullDB.
 #
 #    assert_equal 'NullDB', FilePassword.connection.adapter_name
 #    assert_equal ActiveRecord::ConnectionAdapters::NullDBAdapter,

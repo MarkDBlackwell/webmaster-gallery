@@ -65,7 +65,7 @@ class PicturesControllerTest < ActionController::TestCase
     assert_equal true, 0 < File.size(fn), "#{fn} caching failed."
   end
 
-  test "should get index" do
+  test "happy path" do
     get_mock_page
     assert_response :success
   end

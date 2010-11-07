@@ -23,6 +23,11 @@ class AdminPicturesControllerTest < ActionController::TestCase
   end
 
   test "get actions should include manage-session div" do
+# TODO: change to test that the partial was rendered.
+#    render :partial => 'application/buttons'
+# TODO: Add similar tests for styles, messages & action content divs.
+# TODO: Or, move to an application layout test.
+
     [:edit, :index, :show].each do |action|
       session[:logged_in]=true
       get(action, {:id => pictures(:two).id}, :logged_in => true)

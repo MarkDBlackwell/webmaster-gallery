@@ -25,23 +25,18 @@ class AdminPicturesEditControllerTest < ActionController::TestCase
   end
 
   test "should render a single picture" do
+# TODO: change to test that the pictures/picture partial was rendered once.
     session[:logged_in]=true
     get :edit, :id => pictures(:two).id
     assert_select 'div.picture', 1
   end
 
   test "should render the right picture" do
+# TODO: change to test that the pictures/picture partial was rendered with the locals for the right picture.
     session[:logged_in]=true
     id=pictures(:two).id
     get :edit, :id => id
     assert_select "div.picture[id=picture_#{id}]"
-  end
-
-  test "shouldn't display a picture commit button" do
-    session[:logged_in]=true
-    id=pictures(:two).id
-    get :edit, :id => id
-    style_include? 'div.picture > form > input[name=commit] {display: none}'
   end
 
 end

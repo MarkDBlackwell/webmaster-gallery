@@ -25,12 +25,14 @@ class AdminPicturesShowControllerTest < ActionController::TestCase
   end
 
   test "should render a single picture" do
+# TODO: change to test that the pictures/picture partial was rendered once.
     session[:logged_in]=true
     get :show, :id => pictures(:two).id
     assert_select 'div.picture', 1
   end
 
   test "should render the right picture" do
+# TODO: change to test that the pictures/picture partial was rendered with the locals for the right picture.
     session[:logged_in]=true
     id=pictures(:two).id
     get :show, :id => id

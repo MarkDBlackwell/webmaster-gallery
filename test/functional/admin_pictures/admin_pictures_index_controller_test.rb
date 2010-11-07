@@ -29,12 +29,6 @@ class AdminPicturesIndexControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "pictures should be editable" do
-    session[:logged_in]=true
-    get :index
-    assert_not_nil assigns(:editable)
-  end
-
   test "should render the right template" do
 # TODO  test "should render the right template" do
     assert Date::today < Date::new(2010,11,7), 'Test unwritten.'
@@ -50,28 +44,24 @@ class AdminPicturesIndexControllerTest < ActionController::TestCase
 #        :partial => list
   end
 
-  test "should render a list of all tags" do
+  test "should render a list of all tags, once" do
+# TODO: change to test that the pictures/all_tags partial was rendered once.
     session[:logged_in]=true
     get :index
-    assert_select 'div.all-tags'
+    assert_select 'div.all-tags', 1
   end
 
-  test "should render a styling suggestion for a list of all tags" do
+  test "should render a gallery, once" do
+# TODO: change to test that the pictures/gallery partial was rendered with the right locals.
     session[:logged_in]=true
     get :index
-    style_include? 'div.all-tags * {display: inline}'
+    assert_select 'div.gallery', 1
   end
 
-  test "should render a gallery" do
+  test "pictures should be editable" do
     session[:logged_in]=true
     get :index
-    assert_select 'div.gallery'
-  end
-
-  test "should render a gallery styling suggestion" do
-    session[:logged_in]=true
-    get :index
-    style_include? 'div.picture {display: inline-block}'
+    assert_not_nil assigns(:editable)
   end
 
 end

@@ -30,6 +30,7 @@ class SessionsControllerTest < ActionController::TestCase
   end
 
   test "should render pretty html source" do
+# TODO: move this to application controller, or split this into buttons, styles, etc.? 
     get :new
     divs = %w[manage-session edit show admin-pictures-index user-pictures-index
         destroy]
@@ -48,39 +49,11 @@ class SessionsControllerTest < ActionController::TestCase
   end
 
   test "should render session buttons" do
-    session_buttons_include? 'div.manage-session', false
-  end
-
-  test "session buttons should be horizontal" do
-    get :new
-    style_include? 'div.manage-session * {display: inline}'
-  end
-
-  test "should render an edit button" do
-    session_buttons_include? 'edit'
-  end
-
-  test "should render a show button" do
-    session_buttons_include? 'show'
-  end
-
-  test "should render an AdminPictures index button" do
-    session_buttons_include? 'admin-pictures-index'
-  end
-
-  test "should render a Pictures index button" do
-    session_buttons_include? 'user-pictures-index'
-  end
-
-#-------------
-  private
-
-  def session_buttons_include?(s, button=true)
-    css = ! button ? s : "div.manage-session > div.#{s} > form.button_to"
+# TODO: change to test that the application/buttons partial was rendered once.
     [:edit, :new, :show].each do |action|
       session[:logged_in] = :new == action ? nil : true
       get action
-      assert_select css, 1, "Action #{action}"
+      assert_select 'div.manage-session', 1, "Action #{action}"
     end
   end
 
