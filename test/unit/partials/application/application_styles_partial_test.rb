@@ -15,6 +15,7 @@ class ApplicationStylesPartialTest < ActionView::TestCase
 
   test "shouldn't display a picture commit button" do
     render :partial => 'application/styles'
+    see_output
     style_include? 'div.picture > form > input[name=commit] {display: none}'
   end
 
@@ -31,6 +32,13 @@ class ApplicationStylesPartialTest < ActionView::TestCase
   test "session buttons should be horizontal" do
     render :partial => 'application/styles'
     style_include? 'div.manage-session * {display: inline}'
+  end
+
+#-------------
+  private
+
+  def style_include?(substring)
+    assert_select_include? 'style[type=text/css]', substring
   end
 
 end

@@ -23,7 +23,7 @@ class PicturesPicturePartialTest < ActionView::TestCase
   test "should render the right picture" do
     @picture=pictures(:two)
     render :partial => 'pictures/picture', :locals => {:picture => @picture}
-    assert_select "div.picture[id=picture_#{id}]"
+    assert_select "div.picture[id=picture_#{@picture.id}]"
   end
 
 end

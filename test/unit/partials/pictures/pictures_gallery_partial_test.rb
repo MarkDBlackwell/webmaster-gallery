@@ -130,4 +130,10 @@ class PicturesGalleryPartialTest < ActionView::TestCase
     render :partial => 'pictures/gallery'
   end
 
+  def render_all_pictures
+    @pictures = Picture.find(:all)
+#    gallery
+    render :partial => 'pictures/gallery'
+  end
+
 end

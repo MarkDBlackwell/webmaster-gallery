@@ -22,10 +22,6 @@ class ActiveSupport::TestCase
     assert_select css, Regexp.new(Regexp.escape string)
   end
 
-  def style_include?(string)
-    assert_select_include? 'head > style[type=text/css]', string
-  end
-
   def see_output(s=nil)
     f=File.new("#{Rails.root}/out/see-output",'w')
     if s.blank?
