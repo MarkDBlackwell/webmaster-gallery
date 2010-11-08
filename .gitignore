@@ -6,5 +6,6 @@ out/
 public/images/gallery/
 public/index.html
 public/pictures/
+test/fixtures/files/webmaster/original-drupal-coppermine-portfolio.htm
 tmp/
 vendor/plugins/mocha/

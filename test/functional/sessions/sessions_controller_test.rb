@@ -9,6 +9,11 @@ class SessionsControllerTest < ActionController::TestCase
 #    flunk
   end
 
+  test "webmaster directory location should be configured" do
+    assert_equal Gallery::Application.config.webmaster,
+        "#{Rails.root}/test/fixtures/files/webmaster"
+  end
+
   test "verify before_filters" do
 # TODO  test "verify before_filters" do
     assert Date::today < Date::new(2010,11,12), 'Test unwritten.'

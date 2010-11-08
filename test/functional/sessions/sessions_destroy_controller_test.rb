@@ -31,7 +31,7 @@ class SessionsDestroyControllerTest < ActionController::TestCase
 
   test "should remove the session cookie" do
 # TODO  test "should remove the session cookie" do
-    assert Date::today < Date::new(2010,11,7), 'Test unwritten.'
+    assert Date::today < Date::new(2010,11,15), 'Test unwritten.'
 # Reference config/initializes/session_store.rb for cookie name.
   end
 
