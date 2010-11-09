@@ -66,12 +66,12 @@ class PicturesControllerTest < ActionController::TestCase
   end
 
   test "happy path" do
-    get_mock_page
+    get :index
     assert_response :success
   end
 
   test "index should obtain a page" do
-    get_mock_page
+    get :index
 # TODO: what is this test for?
   end
 
@@ -84,18 +84,6 @@ class PicturesControllerTest < ActionController::TestCase
 #        :partial => 'pictures/pictures',
 #        :locals => {:pictures => assigns(:pictures)}
 #        :locals => nil
-  end
-
-#-------------
-  private
-
-  def get_mock_page
-    mock_page
-    get :index
-  end
-
-  def mock_page
-    Webmaster.expects(:page_path).returns "#{Gallery::Application.config.webmaster}/page"
   end
 
 end

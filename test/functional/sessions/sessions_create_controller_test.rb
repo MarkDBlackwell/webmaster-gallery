@@ -79,8 +79,8 @@ class SessionsCreateControllerTest < ActionController::TestCase
   end
 
   test "shouldn't read the webmaster page file" do
-    path="#{Gallery::Application.config.webmaster}/page.html.erb"
-    remove_read_permission(path) {login}
+    fn="#{Gallery::Application.config.webmaster}/page.html.erb"
+    remove_read_permission(fn) {login}
   end
 
 #-------------

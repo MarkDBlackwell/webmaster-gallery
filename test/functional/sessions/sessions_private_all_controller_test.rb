@@ -3,12 +3,11 @@ module SessionsPrivateAllControllerTest
   private
 
   def login(password=nil)
-    f=File.new("#{Gallery::Application.config.webmaster}/password.txt", 'r')
     if password.nil?
+      f=File.new("#{Gallery::Application.config.webmaster}/password.txt", 'r')
       password = f.readline("\n").chomp "\n"
-      f.rewind
+      f.close
     end
-    MyFile.expects(:my_new).returns f
     request.cookies[:not_empty]='not_empty'
     post :create, :password => password
   end

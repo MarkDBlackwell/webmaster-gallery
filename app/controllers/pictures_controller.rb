@@ -10,14 +10,8 @@ class PicturesController < ApplicationController
   def uncached_index
     @all_tags = Tag.all
     @pictures = Picture.all
-    render :file => Webmaster.page_path, :layout => false
-  end
-
-end
-
-class Webmaster
-  def self.page_path
-    "#{Gallery::Application.config.webmaster}/page"
+    render :file => "#{Gallery::Application.config.webmaster}/page",
+        :layout => false
   end
 
 end
