@@ -10,8 +10,7 @@ class FileTag
   def self.find (*args)
     raise FindError unless args.include? :all
     f = MyFile.my_new( # MyFile.new didn't work.
-      "#{Rails.root}"\
-      '/../gallery-webmaster/tags.txt', 'r')
+      "#{Gallery::Application.config.webmaster}/tags.txt", 'r')
     result = f.readlines.collect do |e|
       ft = FileTag.new
       ft.name = e.chomp

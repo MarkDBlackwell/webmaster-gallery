@@ -32,8 +32,7 @@ class FilePasswordTest < ActiveSupport::TestCase
   end
 
   test "find should open the correct password file" do
-    mock_file.with("#{Rails.root}"\
-      '/../gallery-webmaster/password.txt', 'r')
+    mock_file.with("#{Gallery::Application.config.webmaster}/password.txt", 'r')
     find
   end
 
@@ -97,8 +96,7 @@ class FilePasswordTest < ActiveSupport::TestCase
   end
 
   def setup
-    @f = File.new("#{Rails.root}"\
-      '/test/fixtures/files/file_passwords/password.txt', 'r')
+    @f=File.new("#{Gallery::Application.config.webmaster}/password.txt", 'r')
   end
 
   def teardown

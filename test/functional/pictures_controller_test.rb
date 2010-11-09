@@ -79,7 +79,7 @@ class PicturesControllerTest < ActionController::TestCase
 # TODO: Could not get this test to work.
 #    get :index
 #print 'assigns(:pictures) '; p assigns(:pictures)
-#    assert_template :file => "#{Rails.root}/../gallery-webmaster/page"
+#    assert_template :file => "#{Gallery::Application.config.webmaster}/page"
 #,
 #        :partial => 'pictures/pictures',
 #        :locals => {:pictures => assigns(:pictures)}
@@ -95,8 +95,7 @@ class PicturesControllerTest < ActionController::TestCase
   end
 
   def mock_page
-    Webmaster.expects(:page_path).returns "#{Rails.root}"\
-      '/test/fixtures/files/pictures/page'
+    Webmaster.expects(:page_path).returns "#{Gallery::Application.config.webmaster}/page"
   end
 
 end

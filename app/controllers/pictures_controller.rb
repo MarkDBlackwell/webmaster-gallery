@@ -17,7 +17,7 @@ end
 
 class Webmaster
   def self.page_path
-    "#{Rails.root}/../gallery-webmaster/page"
+    "#{Gallery::Application.config.webmaster}/page"
   end
 
 end

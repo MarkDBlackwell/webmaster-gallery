@@ -79,7 +79,7 @@ class SessionsUpdateControllerTest < ActionController::TestCase
   end
 
   test "shouldn't read the webmaster page file" do
-    fn="#{Rails.root}/../gallery-webmaster/page.html.erb"
+    fn="#{Gallery::Application.config.webmaster}/page.html.erb"
     session[:logged_in]=true
     remove_read_permission(fn) {put 'update'}
   end

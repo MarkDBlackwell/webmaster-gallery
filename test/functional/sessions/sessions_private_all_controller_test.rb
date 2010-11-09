@@ -3,8 +3,7 @@ module SessionsPrivateAllControllerTest
   private
 
   def login(password=nil)
-    f = File.new("#{Rails.root}"\
-        '/test/fixtures/files/file_passwords/password.txt', 'r')
+    f=File.new("#{Gallery::Application.config.webmaster}/password.txt", 'r')
     if password.nil?
       password = f.readline("\n").chomp "\n"
       f.rewind
