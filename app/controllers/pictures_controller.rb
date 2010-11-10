@@ -3,7 +3,6 @@ class PicturesController < ApplicationController
   skip_before_filter :guard_logged_in
 
   def index
-    return unless check_request
 # The sessions controller (update action) should delete these cached pages.
     uncached_index
   end

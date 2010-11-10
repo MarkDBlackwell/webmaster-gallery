@@ -9,15 +9,7 @@ class SessionsControllerTest < ActionController::TestCase
 #    flunk
   end
 
-  test "before filters should include verify authenticity token" do
-    assert_before_filter :verify_authenticity_token
-  end
-
-  test "before filters should include guard http method" do
-    assert_before_filter :guard_http_method
-  end
-
-  test "before filters should include guard logged in" do
+  test "before-filter, guard logged in should skip some actions" do
     assert_before_filter :guard_logged_in, [:create,:destroy,:new]
   end
 

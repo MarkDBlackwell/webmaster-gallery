@@ -2,24 +2,18 @@ class AdminPicturesController < ApplicationController
   helper PicturesHelper
 
   def index
-    return unless check_request
-    return unless check_logged_in_and_redirect
     @pictures = Picture.all
     @editable=true
     @all_tags = Tag.all
   end
 
   def show
-    return unless check_request
-    return unless check_logged_in_and_redirect
     @editable=true
     @picture = Picture.find(params[:id])
     render_common
   end
 
   def edit
-    return unless check_request
-    return unless check_logged_in_and_redirect
     @edit_fields=true
     @show_labels=true
     @picture = Picture.find(params[:id])
@@ -27,8 +21,6 @@ class AdminPicturesController < ApplicationController
   end
 
   def update
-    return unless check_request(request.put?)
-    return unless check_logged_in_and_redirect
     @picture = Picture.find(params[:id])
     pp=params[:picture]
     [:description,:title,:year].each do |e|

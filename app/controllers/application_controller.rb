@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  before_filter :guard_logged_in
   before_filter :guard_http_method
+  before_filter :guard_logged_in
 
 # Per http://railsforum.com/viewtopic.php?id=24298 :
 
@@ -11,27 +11,12 @@ class ApplicationController < ActionController::Base
 #-------------
   private
 
-  def check_logged_in_and_redirect
-    boolean = session[:logged_in]
-    handle_bad_request('Log in required.') unless boolean
-    boolean
-  end
-
-  def check_request(boolean = request.get?)
-    handle_bad_request('Improper http verb.') unless boolean
-    boolean
-  end
-
   def clear_session
     session.to_hash.keys.each {|e| session.delete e}
 #    (session.to_hash.keys - ['flash']).each {|e| session.delete e}
   end
 
   def guard_http_method
-#    if i=[:create,:destroy,:update].index(request.parameters.fetch(:action).to_sym)
-#      unless [:post,:delete,:put].at(i)==request.request_method_symbol
-#        handle_bad_request 'Improper http verb.'
-#      end
     i=[:create,:destroy,:update].index request.parameters.fetch(:action).to_sym
     method=i ? [:post,:delete,:put].at(i) : :get
     handle_bad_request 'Improper http verb.' unless

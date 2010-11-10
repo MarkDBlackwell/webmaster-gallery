@@ -46,14 +46,6 @@ class PicturesControllerTest < ActionController::TestCase
     end
   end
 
-  test "before filters should include verify authenticity token" do
-    assert_before_filter :verify_authenticity_token
-  end
-
-  test "before filters should include guard http method" do
-    assert_before_filter :guard_http_method
-  end
-
   test "should redirect to new on wrong method" do
     actions = [:index]
     try_wrong_methods(actions)

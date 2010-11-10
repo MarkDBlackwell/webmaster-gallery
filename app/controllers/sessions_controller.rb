@@ -3,7 +3,6 @@ class SessionsController < ApplicationController
 
   def new
 # GET /session/new
-    return unless check_request
     if session[:logged_in]
       flash[:notice]='You already were logged in.'
       redirect_to :action => 'edit'
@@ -12,7 +11,6 @@ class SessionsController < ApplicationController
 
   def create
 # POST /session
-    return unless check_request(request.post?)
     if session[:logged_in]
       flash[:notice]='You already were logged in.'
       redirect_to :action => 'edit'
@@ -34,15 +32,11 @@ class SessionsController < ApplicationController
 
   def edit
 # GET /session/edit
-    return unless check_request
-    return unless check_logged_in_and_redirect
     @all_tags = Tag.all
   end
 
   def update
 # PUT /session
-    return unless check_request(request.put?)
-    return unless check_logged_in_and_redirect
     realign_records(FileTag,Tag,:name)
     realign_records(DirectoryPicture,Picture,:filename)
     d = "#{Rails.root}/public/pictures"
@@ -54,14 +48,11 @@ class SessionsController < ApplicationController
 
   def show
 # GET /session
-    return unless check_request
-    return unless check_logged_in_and_redirect
     @all_tags = Tag.all
   end
 
   def destroy
 # DELETE /session
-    return unless check_request(request.delete?)
     was_logged_in = session[:logged_in]
     clear_session
     flash[:notice] = was_logged_in.blank? ? "You weren't logged in." :
