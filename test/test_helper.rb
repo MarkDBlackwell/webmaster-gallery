@@ -18,8 +18,28 @@ class ActiveSupport::TestCase
 
   private
 
+  def assert_before_filter(filter,ua=nil)
+    unless_actions=ua.blank? ? [] : [ua.collect {|e|
+        "action_name == '#{e}'"}.join(' || ')]
+    desired=[filter, filter, :before, unless_actions]
+    ours=['ApplicationController',self.class.to_s.chomp('Test')].
+        collect do |class_name|
+      filter_chain.select {|e| e.klass.to_s==class_name}
+    end.flatten(1)
+    have=ours.collect {|e| [e.raw_filter, e.filter, e.kind, e.per_key.fetch(
+        :unless)]}
+    assert have.include?(desired), ["Found:",
+        have.collect {|e| e.uniq.inspect},
+        "Desired: :#{filter.to_s}, #{ua.inspect}"].join("\n")
+  end
+
   def assert_select_include?(css, string)
     assert_select css, Regexp.new(Regexp.escape string)
+  end
+
+  def filter_chain
+    assert_raise(NoMethodError) {super} # Notice if Rails re-supports this method.
+    @controller._process_action_callbacks
   end
 
   def see_output(s=nil)

@@ -8,13 +8,16 @@ class AdminPicturesControllerTest < ActionController::TestCase
 #    flunk
   end
 
-  test "verify before_filters" do
-# TODO  test "verify before_filters" do
-    assert Date::today < Date::new(2010,11,15), 'Test unwritten.'
-#    class AdminPicturesController
-#      before_filter :verify_authenticity_token
-#    end
-#    puts ActionController::Testing::ClassMethods.before_filters
+  test "before filters should include verify authenticity token" do
+    assert_before_filter :verify_authenticity_token
+  end
+
+  test "before filters should include guard http method" do
+    assert_before_filter :guard_http_method
+  end
+
+  test "before filters should include guard logged in" do
+    assert_before_filter :guard_logged_in
   end
 
   test "should redirect to sessions new on wrong method" do

@@ -9,18 +9,16 @@ class SessionsControllerTest < ActionController::TestCase
 #    flunk
   end
 
-  test "webmaster directory location should be configured" do
-    assert_equal Gallery::Application.config.webmaster,
-        "#{Rails.root}/test/fixtures/files/webmaster"
+  test "before filters should include verify authenticity token" do
+    assert_before_filter :verify_authenticity_token
   end
 
-  test "verify before_filters" do
-# TODO  test "verify before_filters" do
-    assert Date::today < Date::new(2010,11,12), 'Test unwritten.'
-#    class SessionsController
-#      before_filter :verify_authenticity_token
-#    end
-#    puts ActionController::Testing::ClassMethods.before_filters
+  test "before filters should include guard http method" do
+    assert_before_filter :guard_http_method
+  end
+
+  test "before filters should include guard logged in" do
+    assert_before_filter :guard_logged_in, [:create,:destroy,:new]
   end
 
   test "should redirect to sessions new on wrong method" do
@@ -32,6 +30,11 @@ class SessionsControllerTest < ActionController::TestCase
       assert_equal 20.minutes, Gallery::Application.config.
           session_options.fetch(:expire_after)
     end
+  end
+
+  test "webmaster directory location should be configured" do
+    assert_equal Gallery::Application.config.webmaster,
+        "#{Rails.root}/test/fixtures/files/webmaster"
   end
 
   test "should render pretty html source" do

@@ -1,5 +1,6 @@
 class PicturesController < ApplicationController
   caches_page :index
+  skip_before_filter :guard_logged_in
 
   def index
     return unless check_request

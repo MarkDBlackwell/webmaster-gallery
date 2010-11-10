@@ -1,4 +1,5 @@
 class SessionsController < ApplicationController
+  skip_before_filter :guard_logged_in, :only => [:create, :destroy, :new]
 
   def new
 # GET /session/new
