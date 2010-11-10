@@ -1,0 +1,12 @@
+#!/bin/sh
+# Author: Mark D. Blackwell
+# Date written: October 29, 2010
+# Date last changed: November 10, 2010
+
+# All files new or modified since the last commit.
+# Usage (in any directory under Git versioning):
+#   git-files
+# For example:
+#   nano `./git-files`
+
+git-diff --name-only HEAD

@@ -1,7 +1,7 @@
 class AdminPicturesController < ApplicationController
   helper PicturesHelper
-  after_filter :render_common
-  skip_after_filter :render_common, :only => :index
+  before_filter :common_flags
+  skip_before_filter :common_flags, :only => :index
 
   def index
     @pictures = Picture.all
@@ -12,14 +12,14 @@ class AdminPicturesController < ApplicationController
   def show
     @editable=true
     @picture = Picture.find(params[:id])
-    render_common2
+    render 'show'
   end
 
   def edit
     @edit_fields=true
     @show_labels=true
     @picture = Picture.find(params[:id])
-    render_common2
+    render 'show'
   end
 
   def update
@@ -34,18 +34,15 @@ class AdminPicturesController < ApplicationController
       @edit_fields=true
       @show_labels=true
     end
-    render_common2
+    render 'show'
   end
 
 #-------------
   private
 
-  def render_common2
+  def common_flags
     @show_filename=true
     @all_tags=Tag.all
-    render 'show'
   end
 
-  def render_common
-  end
 end

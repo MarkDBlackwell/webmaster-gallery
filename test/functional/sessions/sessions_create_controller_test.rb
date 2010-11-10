@@ -44,15 +44,15 @@ class SessionsCreateControllerTest < ActionController::TestCase
 #    class LoginController;def rescue_action(e);raise e;end;end
 # See params and session.
 #    post 'create', {:try_this => 'in params'}, {:try_this => 'in session'}
-#    puts @response
-#    puts @response.methods.sort
-#    puts @request.session
+#    puts response
+#    puts response.methods.sort
+#    puts request.session
 #    post 'create'
 #    session[:try_this]='hello'
 #    puts session.sort
 #    assigns["try_this"]='in assigns'
 #    puts assigns(:try_this)
-#    @request.session[:authenticity_token]
+#    request.session[:authenticity_token]
   end
 
   test "should log in" do
