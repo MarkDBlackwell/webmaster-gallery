@@ -3,6 +3,13 @@ class AdminPicturesController < ApplicationController
   before_filter :common_flags
   skip_before_filter :common_flags, :only => :index
 
+  def edit
+    @edit_fields=true
+    @show_labels=true
+    @picture = Picture.find(params[:id])
+    render_picture
+  end
+
   def index
     @pictures = Picture.all
     @editable=true
@@ -12,14 +19,7 @@ class AdminPicturesController < ApplicationController
   def show
     @editable=true
     @picture = Picture.find(params[:id])
-    render 'show'
-  end
-
-  def edit
-    @edit_fields=true
-    @show_labels=true
-    @picture = Picture.find(params[:id])
-    render 'show'
+    render_picture
   end
 
   def update
@@ -34,7 +34,7 @@ class AdminPicturesController < ApplicationController
       @edit_fields=true
       @show_labels=true
     end
-    render 'show'
+    render_picture
   end
 
 #-------------
@@ -45,4 +45,8 @@ class AdminPicturesController < ApplicationController
     @all_tags=Tag.all
   end
 
+  def render_picture
+# Render partial did not pick up the application layout.
+    render :single
+  end
 end
