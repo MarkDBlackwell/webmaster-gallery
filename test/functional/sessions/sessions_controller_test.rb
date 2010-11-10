@@ -9,8 +9,8 @@ class SessionsControllerTest < ActionController::TestCase
 #    flunk
   end
 
-  test "before-filter, guard logged in should skip some actions" do
-    assert_before_filter :guard_logged_in, [:create,:destroy,:new]
+  test "guard logged in should skip some actions" do
+    assert_filter :guard_logged_in, [:create,:destroy,:new]
   end
 
   test "should redirect to sessions new on wrong method" do

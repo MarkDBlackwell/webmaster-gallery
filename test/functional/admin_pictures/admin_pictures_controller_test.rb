@@ -13,6 +13,10 @@ class AdminPicturesControllerTest < ActionController::TestCase
         :logged_in => true)
   end
 
+  test "after filters should include render common but skip some actions" do
+    assert_after_filter :render_common, [:index]
+  end
+
   test "get actions should include manage-session div" do
 # TODO: change to test that the partial was rendered.
 #    render :partial => 'application/buttons'

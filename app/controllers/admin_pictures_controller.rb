@@ -1,5 +1,7 @@
 class AdminPicturesController < ApplicationController
   helper PicturesHelper
+  after_filter :render_common
+  skip_after_filter :render_common, :only => :index
 
   def index
     @pictures = Picture.all
@@ -10,14 +12,14 @@ class AdminPicturesController < ApplicationController
   def show
     @editable=true
     @picture = Picture.find(params[:id])
-    render_common
+    render_common2
   end
 
   def edit
     @edit_fields=true
     @show_labels=true
     @picture = Picture.find(params[:id])
-    render_common
+    render_common2
   end
 
   def update
@@ -32,16 +34,18 @@ class AdminPicturesController < ApplicationController
       @edit_fields=true
       @show_labels=true
     end
-    render_common
+    render_common2
   end
 
 #-------------
   private
 
-  def render_common
+  def render_common2
     @show_filename=true
     @all_tags=Tag.all
     render 'show'
   end
 
+  def render_common
+  end
 end

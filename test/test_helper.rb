@@ -18,19 +18,33 @@ class ActiveSupport::TestCase
 
   private
 
-  def assert_before_filter(filter,ua=nil)
-    unless_actions=ua.blank? ? [] : [ua.collect {|e|
-        "action_name == '#{e}'"}.join(' || ')]
-    desired=[filter, filter, :before, unless_actions]
+  def assert_after_filter(*args)
+    assert_filter_kind(:after,*args)
+  end
+
+  def assert_filter(*args)
+    assert_filter_kind(:before,*args)
+  end
+
+  def assert_filter_kind(kind,filter,sa=nil)
+    if sa.blank?
+      skip_actions = []
+    else
+      sa=[sa] unless sa.kind_of?(Array)
+      skip_actions=[sa.collect {|e| "action_name == '#{e}'"}.join(' || ')]
+    end
+    desired=[filter, filter, kind, skip_actions]
     ours=['ApplicationController',self.class.to_s.chomp('Test')].
         collect do |class_name|
       filter_chain.select {|e| e.klass.to_s==class_name}
     end.flatten(1)
     have=ours.collect {|e| [e.raw_filter, e.filter, e.kind, e.per_key.fetch(
         :unless)]}
-    assert have.include?(desired), ["Found:",
+    assert have.include?(desired), ['Found:',
         have.collect {|e| e.uniq.inspect},
-        "Desired: :#{filter.to_s}, #{ua.inspect}"].join("\n")
+        'Desired:',
+        [filter,kind,sa].collect {|e| e.inspect}.join(', ')
+        ].join("\n")
   end
 
   def assert_select_include?(css, string)

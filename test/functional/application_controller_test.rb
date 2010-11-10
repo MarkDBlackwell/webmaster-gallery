@@ -13,16 +13,16 @@ class ApplicationControllerTest < ActionController::TestCase
     mock 'A'
   end
 
-  test "before filters should include guard http method" do
-    assert_before_filter :guard_http_method
+  test "filters should include guard http method" do
+    assert_filter :guard_http_method
   end
 
-  test "before filters should include guard logged in" do
-    assert_before_filter :guard_logged_in
+  test "filters should include guard logged in" do
+    assert_filter :guard_logged_in
   end
 
-  test "before filters should include verify authenticity token" do
-    assert_before_filter :verify_authenticity_token
+  test "filters should include verify authenticity token" do
+    assert_filter :verify_authenticity_token
   end
 
 end
