@@ -61,6 +61,12 @@ class SessionsCreateControllerTest < ActionController::TestCase
     assert_equal true, session[:logged_in]
   end
 
+  test "should suppress the buttons if cookies (session store) blocked" do
+    request.cookies.clear
+    post 'create'
+    assert_equal true, assigns(:suppress_buttons)
+  end
+
   test "should flash if cookies (session store) blocked" do
     request.cookies.clear
     post 'create'

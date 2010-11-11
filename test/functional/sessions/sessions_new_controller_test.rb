@@ -41,6 +41,12 @@ class SessionsNewControllerTest < ActionController::TestCase
     assert_nil flash[:notice]
   end
 
+  test "should suppress the buttons" do
+    session[:logged_in] = nil
+    get :new
+    assert_equal true, assigns(:suppress_buttons)
+  end
+
   test "should have one password form" do
     get :new
     assert_select 'form.password', 1

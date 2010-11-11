@@ -20,4 +20,4 @@
 <%=     button_to 'log out', {:controller => :sessions, :action => :destroy},
             :method => :delete -%>
 <%    end -%>
-<%  end -%><%= %>
+<%  end unless @suppress_buttons -%><%= %>

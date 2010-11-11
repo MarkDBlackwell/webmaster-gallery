@@ -7,6 +7,7 @@ class SessionsController < ApplicationController
       flash[:notice]='You already were logged in.'
       redirect_to :action => 'edit'
     end
+    @suppress_buttons=true
   end
 
   def create

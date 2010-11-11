@@ -18,6 +18,12 @@ class ApplicationButtonsPartialTest < ActionView::TestCase
     assert_select 'div.manage-session', 1
   end
 
+  test "should obey the suppress buttons flag" do
+    @suppress_buttons=true
+    render :partial => 'application/buttons'
+    assert_select 'div.manage-session', 0
+  end
+
   test "should render an edit button" do
     render :partial => 'application/buttons'
     session_buttons_include? 'edit'

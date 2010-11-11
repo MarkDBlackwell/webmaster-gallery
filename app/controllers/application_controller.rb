@@ -36,6 +36,7 @@ class ApplicationController < ActionController::Base
 
   def handle_missing_cookies
       flash.now[:error]='Cookies required, or session timed out.'
+      @suppress_buttons=true
       render :controller => 'sessions', :action => 'new'
   end
 
