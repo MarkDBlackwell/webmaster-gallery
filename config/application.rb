@@ -1,6 +1,9 @@
 require File.expand_path('../boot', __FILE__)
 
-require 'rails/all'
+# require 'rails/all'
+# Removed 'action_mailer' from the list.
+%w[action_controller active_record active_resource rails/test_unit].each {|e|
+    require "#{e}/railtie"}
 
 # If you have a Gemfile, require the gems listed there, including any gems
 # you've limited to :test, :development, or :production.

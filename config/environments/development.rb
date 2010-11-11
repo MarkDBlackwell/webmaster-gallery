@@ -15,7 +15,10 @@ Gallery::Application.configure do
   config.action_controller.perform_caching = false
 
   # Don't care if the mailer can't send
+begin
   config.action_mailer.raise_delivery_errors = false
+rescue NoMethodError
+end
 
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log
