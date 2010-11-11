@@ -9,9 +9,11 @@ class PicturesThumbnailPartialTest < ActionView::TestCase
 #    flunk
   end
 
-  test "should render partial" do
-    @picture=Picture.find(:all).first
-    render :partial => 'pictures/thumbnail', :locals => {:picture => @picture}
+  test "should render" do
+#    @picture=Picture.find(:all).first
+    a=[:partial => 'pictures/thumbnail', :locals => {:picture => nil}]
+    render *a
+    assert_template *a
   end
 
 end

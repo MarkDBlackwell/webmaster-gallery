@@ -9,8 +9,10 @@ class PicturesGalleryPartialTest < ActionView::TestCase
 #    flunk
   end
 
-  test "should render partial" do
-    render :partial => 'pictures/gallery'
+  test "should render" do
+    a=[:partial => 'pictures/gallery']
+    render *a
+    assert_template *a
   end
 
   test "should render a picture within a gallery" do
@@ -126,13 +128,11 @@ class PicturesGalleryPartialTest < ActionView::TestCase
   def picture_two
     @pictures = Picture.find(:all)
     pictures(:one).destroy
-#    gallery
     render :partial => 'pictures/gallery'
   end
 
   def render_all_pictures
     @pictures = Picture.find(:all)
-#    gallery
     render :partial => 'pictures/gallery'
   end
 

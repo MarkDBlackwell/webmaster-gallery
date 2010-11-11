@@ -9,8 +9,10 @@ class PicturesAllTagsPartialTest < ActionView::TestCase
 #    flunk
   end
 
-  test "should render partial" do
-    render :partial => 'pictures/all_tags'
+  test "should render" do
+    a=[:partial => 'pictures/all_tags']
+    render *a
+    assert_template *a
   end
 
   test "should render a tag within a list of all tags" do
@@ -28,7 +30,6 @@ class PicturesAllTagsPartialTest < ActionView::TestCase
 
   def render_all_tags
     @all_tags = Tag.find(:all)
-#    alltags
     render :partial => 'pictures/all_tags'
   end
 
@@ -37,7 +38,6 @@ class PicturesAllTagsPartialTest < ActionView::TestCase
 # ArgumentError: wrong number of arguments (1 for 0)
 #    tags(:one).destroy
     @all_tags = Tag.find :all, :conditions => ["name = ?", 'two-name']
-#    render_all_tags
     render :partial => 'pictures/all_tags'
   end
 

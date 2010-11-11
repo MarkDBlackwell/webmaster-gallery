@@ -9,9 +9,11 @@ class PicturesPicturePartialTest < ActionView::TestCase
 #    flunk
   end
 
-  test "should render partial" do
-    @picture=pictures(:two)
-    render :partial => 'pictures/picture', :locals => {:picture => @picture}
+  test "should render" do
+#    @picture=pictures(:two)
+    a[:partial => 'pictures/picture', :locals => {:picture => nil}]
+    render *a
+    assert_template *a
   end
 
   test "should render a single picture" do

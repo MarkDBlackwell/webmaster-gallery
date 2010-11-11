@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class PicturesTagsHelperTest < ActionView::TestCase
+class PicturesAllTagsHelperTest < ActionView::TestCase
   include PicturesPrivateAllHelperTest
   tests PicturesHelper
 

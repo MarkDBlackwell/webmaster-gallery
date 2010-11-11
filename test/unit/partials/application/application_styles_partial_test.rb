@@ -9,13 +9,12 @@ class ApplicationStylesPartialTest < ActionView::TestCase
 #    flunk
   end
 
-  test "should render partial" do
+  test "should render" do
     render :partial => 'application/styles'
   end
 
   test "shouldn't display a picture commit button" do
     render :partial => 'application/styles'
-    see_output
     style_include? 'div.picture > form > input[name=commit] {display: none}'
   end
 

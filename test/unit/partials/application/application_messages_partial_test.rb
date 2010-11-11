@@ -9,7 +9,7 @@ class ApplicationMessagesPartialTest < ActionView::TestCase
 #    flunk
   end
 
-  test "should render partial" do
+  test "should render" do
     render :partial => 'application/messages'
   end
 
