@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
 # GET /session/new
     if session[:logged_in]
       flash[:notice]='You already were logged in.'
-      redirect_to :action => 'edit'
+      redirect_to :action => :edit
     end
     @suppress_buttons=true
   end
@@ -14,7 +14,7 @@ class SessionsController < ApplicationController
 # POST /session
     if session[:logged_in]
       flash[:notice]='You already were logged in.'
-      redirect_to :action => 'edit'
+      redirect_to :action => :edit
     else
      clear_session
      if cookies.empty?
@@ -22,10 +22,10 @@ class SessionsController < ApplicationController
       else
         if get_password != params[:password]
           flash[:error]='Password incorrect.'
-          redirect_to :action => 'new'
+          redirect_to :action => :new
         else
           session[:logged_in]=true
-          redirect_to :action => 'edit'
+          redirect_to :action => :edit
         end
       end
     end
@@ -44,7 +44,7 @@ class SessionsController < ApplicationController
     ((Dir.entries(d) - %w[. ..]).collect {|e| [d,e]} << [d,'..','index.html']).
         collect {|a| a.join('/')}.each {|e| File.delete(e) if File.exist?(e)}
     @all_tags = Tag.all
-    render :action => 'show'
+    render :action => :show
   end
 
   def show
@@ -58,7 +58,7 @@ class SessionsController < ApplicationController
     clear_session
     flash[:notice] = was_logged_in.blank? ? "You weren't logged in." :
       'Logged out successfully.'
-    redirect_to :action => 'new'
+    redirect_to :action => :new
   end
 
 #-------------

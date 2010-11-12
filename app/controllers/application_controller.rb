@@ -31,13 +31,13 @@ class ApplicationController < ActionController::Base
     raise if message.blank?
     clear_session
     flash[:error]=message
-    redirect_to :controller => 'sessions', :action => 'new'
+    redirect_to :controller => :sessions, :action => :new
   end
 
   def handle_missing_cookies
       flash.now[:error]='Cookies required, or session timed out.'
       @suppress_buttons=true
-      render :controller => 'sessions', :action => 'new'
+      render :controller => :sessions, :action => :new
   end
 
   def invalid_authenticity_token

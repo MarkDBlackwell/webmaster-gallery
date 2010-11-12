@@ -17,19 +17,19 @@ class SessionsEditControllerTest < ActionController::TestCase
 
   test "happy path" do
     session[:logged_in]=true
-    get 'edit'
+    get :edit
     assert_response :success
   end
 
   test "should redirect to new if not logged in" do
     session[:logged_in]=nil
-    get 'edit'
+    get :edit
     assert_redirected_to :action => :new
   end
 
   test "should render edit if logged in" do
     session[:logged_in]=true
-    get 'edit'
+    get :edit
     assert_template :edit
   end
 

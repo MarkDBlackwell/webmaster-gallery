@@ -7,4 +7,5 @@ class BrowsingTest < ActionDispatch::PerformanceTest
     flunk # See if rake task, 'test' runs this file.
     get '/'
   end
+
 end

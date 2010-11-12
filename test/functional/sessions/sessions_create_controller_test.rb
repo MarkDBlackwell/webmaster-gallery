@@ -25,7 +25,7 @@ class SessionsCreateControllerTest < ActionController::TestCase
 
   test "should reset the session" do
     session[:something]='something'
-    post 'create'
+    post :create
     assert_nil session[:something]
   end
 
@@ -35,7 +35,7 @@ class SessionsCreateControllerTest < ActionController::TestCase
 # Doesn't get rescued by application controller:
 #    raise ActionController::InvalidAuthenticityToken
 # Try to POST with invalid authenticity token.
-#    post 'create', :try_this => 'hello'
+#    post :create, :try_this => 'hello'
 #    assert_equal 'hello', params[:try_this]
 # Didn't find 'config':
 #    config.action_controller.allow_forgery_protection = true
@@ -43,11 +43,11 @@ class SessionsCreateControllerTest < ActionController::TestCase
 #    puts LoginController.inspect
 #    class LoginController;def rescue_action(e);raise e;end;end
 # See params and session.
-#    post 'create', {:try_this => 'in params'}, {:try_this => 'in session'}
+#    post :create, {:try_this => 'in params'}, {:try_this => 'in session'}
 #    puts response
 #    puts response.methods.sort
 #    puts request.session
-#    post 'create'
+#    post :create
 #    session[:try_this]='hello'
 #    puts session.sort
 #    assigns["try_this"]='in assigns'
@@ -63,13 +63,13 @@ class SessionsCreateControllerTest < ActionController::TestCase
 
   test "should suppress the buttons if cookies (session store) blocked" do
     request.cookies.clear
-    post 'create'
+    post :create
     assert_equal true, assigns(:suppress_buttons)
   end
 
   test "should flash if cookies (session store) blocked" do
     request.cookies.clear
-    post 'create'
+    post :create
     assert_select 'div.error', 'Cookies required, or session timed out.'
   end
 
@@ -118,19 +118,19 @@ class SessionsCreateControllerTest < ActionController::TestCase
 
   test "should redirect to edit without asking password if already logged in" do
     session[:logged_in]=true
-    post 'create'
+    post :create
     assert_redirected_to :action => :edit
   end
 
   test "should flash so, when already logged in" do
     session[:logged_in]=true
-    post 'create'
+    post :create
     assert_equal 'You already were logged in.', flash[:notice]
   end
 
   test "should not flash on wrong password when already logged in" do
     session[:logged_in]=true
-    post 'create', :password => 'example wrong password'
+    post :create, :password => 'example wrong password'
     assert_equal 'You already were logged in.', flash[:notice]
     assert_blank flash[:error]
   end
