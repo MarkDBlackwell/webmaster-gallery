@@ -36,8 +36,8 @@ class SessionsNewControllerTest < ActionController::TestCase
     flash.now[:notice]='anything'
     flash[:notice]='anything'
     get :new
-# TODO: assert nil or blank?
-    assert_nil flash[:notice]
+    assert_blank flash.now[:notice]
+    assert_blank flash[:notice]
   end
 
   test "should suppress the buttons" do

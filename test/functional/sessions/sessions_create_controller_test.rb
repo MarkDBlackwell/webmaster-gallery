@@ -26,7 +26,7 @@ class SessionsCreateControllerTest < ActionController::TestCase
   test "should reset the session" do
     session[:something]='something'
     post :create
-    assert_nil session[:something]
+    assert_blank session[:something]
   end
 
   test "how to test should handle invalid authenticity token?" do

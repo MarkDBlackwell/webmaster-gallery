@@ -26,7 +26,7 @@ class SessionsDestroyControllerTest < ActionController::TestCase
   test "should reset the session" do
     session[:something]=true
     delete :destroy
-    assert_nil session[:something]
+    assert_blank session[:something]
   end
 
   test "should remove the session cookie" do
@@ -60,7 +60,7 @@ class SessionsDestroyControllerTest < ActionController::TestCase
   test "should log out if logged in" do
     session[:logged_in]=true
     delete :destroy
-    assert_nil session[:logged_in]
+    assert_blank session[:logged_in]
   end
 
   test "should flash a notice of log out if logged in" do
