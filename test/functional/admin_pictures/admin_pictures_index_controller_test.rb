@@ -30,18 +30,9 @@ class AdminPicturesIndexControllerTest < ActionController::TestCase
   end
 
   test "should render the right template" do
-# TODO  test "should render the right template" do
-    assert Date::today < Date::new(2010,11,15), 'Test unwritten.'
-#    session[:logged_in]=true
-#    get :index
-#    list = ['gallery','picture','all_tags'].collect do |e|
-#        ['','pictures/'].collect {|prefix| "#{prefix}_#{e}"}
-#    end.flatten!
-#    list = ['_picture','pictures/_gallery','_all_tags','pictures/_picture',
-#       '_gallery','pictures/_all_tags']
-#puts list
-#    assert_template :controller => :admin_pictures, :action => :index,
-#        :partial => list
+    session[:logged_in]=true
+    get :index
+    assert_template :index
   end
 
   test "should render a list of all tags, once" do

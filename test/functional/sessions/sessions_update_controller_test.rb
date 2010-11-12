@@ -27,7 +27,7 @@ class SessionsUpdateControllerTest < ActionController::TestCase
   test "should redirect to new if not logged in" do
     session[:logged_in]=nil
     put 'update'
-    assert_redirected_to :action => 'new'
+    assert_redirected_to :action => :new
   end
 
 #-------------
@@ -36,7 +36,7 @@ class SessionsUpdateControllerTest < ActionController::TestCase
   test "should render show" do
     session[:logged_in]=true
     put 'update'
-    assert_template 'show'
+    assert_template :show
   end
 
   test "should add and remove tags" do

@@ -47,7 +47,7 @@ class SessionsDestroyControllerTest < ActionController::TestCase
   test "should redirect to new if not already logged in" do
     session[:logged_in]=nil
     delete :destroy
-    assert_redirected_to :action => 'new'
+    assert_redirected_to :action => :new
   end
 
 #-------------
@@ -56,7 +56,7 @@ class SessionsDestroyControllerTest < ActionController::TestCase
   test "should redirect to new if logged in" do
     session[:logged_in]=true
     delete :destroy
-    assert_redirected_to :action => 'new'
+    assert_redirected_to :action => :new
   end
 
   test "should log out if logged in" do

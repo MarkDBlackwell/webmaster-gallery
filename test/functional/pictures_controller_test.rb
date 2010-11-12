@@ -76,6 +76,8 @@ class PicturesControllerTest < ActionController::TestCase
   end
 
   test "index should render right webmaster page file" do
+# TODO  test "index should render right webmaster page file" do
+    assert Date::today < Date::new(2010,11,26), 'Test unwritten.'
 # TODO: Could not get this test to work.
 #    get :index
 #print 'assigns(:pictures) '; p assigns(:pictures)
