@@ -15,7 +15,7 @@ class SessionsCreateControllerTest < ActionController::TestCase
 
   test "routing" do
     assert_routing({:path => '/session', :method => :post},
-      :controller => 'sessions', :action => 'create')
+      :controller => :sessions.to_s, :action => :create.to_s)
   end
 
   test "happy path" do

@@ -8,8 +8,8 @@ class AdminPicturesEditControllerTest < ActionController::TestCase
   end
 
   test "routing" do
-    assert_routing '/admin_pictures/2/edit', :controller => 'admin_pictures',
-        :action => 'edit', :id => '2'
+    assert_routing '/admin_pictures/2/edit', :controller =>
+        :admin_pictures.to_s, :action => :edit.to_s, :id => '2'
   end
 
   test "should redirect to /session/new if not logged in" do

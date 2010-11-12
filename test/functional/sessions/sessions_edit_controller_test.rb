@@ -12,7 +12,7 @@ class SessionsEditControllerTest < ActionController::TestCase
 
   test "routing" do
     assert_routing({:path => '/session/edit', :method => :get},
-      :controller => 'sessions', :action => 'edit')
+      :controller => :sessions.to_s, :action => :edit.to_s)
   end
 
   test "happy path" do

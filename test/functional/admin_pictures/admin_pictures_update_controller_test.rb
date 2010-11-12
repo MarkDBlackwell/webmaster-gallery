@@ -9,7 +9,8 @@ class AdminPicturesUpdateControllerTest < ActionController::TestCase
 
   test "routing" do
     assert_routing({:path => '/admin_pictures/2', :method => 'put'},
-        :controller => 'admin_pictures', :action => 'update', :id => '2')
+        :controller => :admin_pictures.to_s, :action => :update.to_s,
+        :id => '2')
   end
 
   test "should redirect to /session/new if not logged in" do

@@ -15,7 +15,7 @@ class SessionsDestroyControllerTest < ActionController::TestCase
 
   test "routing" do
     assert_routing({:path => '/session', :method => :delete},
-      :controller => 'sessions', :action => 'destroy')
+      :controller => :sessions.to_s, :action => :destroy.to_s)
   end
 
   test "happy path" do

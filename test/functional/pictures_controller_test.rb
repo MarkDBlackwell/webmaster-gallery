@@ -9,17 +9,18 @@ class PicturesControllerTest < ActionController::TestCase
   end
 
   test "routing /" do
-    assert_routing '/', :controller => 'pictures', :action => 'index'
+    assert_routing '/', :controller => :pictures.to_s, :action => :index.to_s
   end
 
   test "routing /pictures/some_tag" do
-    assert_routing '/pictures/some_tag', :controller => 'pictures',
-      :action => 'index', :tag => 'some_tag'
+    assert_routing '/pictures/some_tag', :controller => :pictures.to_s,
+      :action => :index.to_s, :tag => 'some_tag'
   end
 
   test "should raise exception on bad route /pictures" do
     assert_raise(ActionController::RoutingError) do
-      assert_routing '/pictures', :controller => 'pictures', :action => 'index'
+      assert_routing '/pictures', :controller => :pictures.to_s, :action =>
+          :index.to_s
     end
   end
 
@@ -31,16 +32,16 @@ class PicturesControllerTest < ActionController::TestCase
         Proc.new do |action,hash|
           route = hash.empty? ? '' : "pictures/#{hash[:tag]}"
           assert_generates route,
-              {:controller => 'pictures', :action => action}.merge(hash),
+              {:controller => :pictures, :action => action}.merge(hash),
               {}, {}, 'In assert_generates proc, '\
               "route #{route}, action #{action}, hash #{hash.to_yaml}."
         end,
         ]
     [{},{:tag => 'something'}].each do |e_hash|
       procs.each do |e_proc|
-        e_proc.call('index', e_hash) # A valid action should be okay.
+        e_proc.call(:index, e_hash) # A valid action should be okay.
         assert_raise(ActionController::RoutingError) do
-          e_proc.call 'uncached_index', e_hash
+          e_proc.call :uncached_index, e_hash
         end
       end
     end
