@@ -8,7 +8,7 @@ class AdminPicturesShowControllerTest < ActionController::TestCase
   end
 
   test "routing" do
-    assert_routing({:path => '/admin_pictures/2', :method => 'get'},
+    assert_routing({:path => '/admin_pictures/2', :method => :get},
         :controller => :admin_pictures.to_s, :action => :show.to_s, :id => '2')
   end
 
