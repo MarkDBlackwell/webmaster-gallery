@@ -11,6 +11,7 @@ class ApplicationButtonsPartialTest < ActionView::TestCase
 
   test "should render" do
     render :partial => 'application/buttons'
+    assert_template :partial => 'application/_buttons'
   end
 
   test "should include manage-session div" do

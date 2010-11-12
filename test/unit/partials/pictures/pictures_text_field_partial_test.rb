@@ -11,7 +11,7 @@ class PicturesTextFieldPartialTest < ActionView::TestCase
 
   test "should render" do
     render *@args
-    assert_template *@args
+    assert_template :partial => 'pictures/_text_field'
   end
 
   test "should render div for field" do
@@ -19,9 +19,9 @@ class PicturesTextFieldPartialTest < ActionView::TestCase
     assert_select 'div.title'
   end
 
-  test "should render something" do
+  test "should render a model attribute" do
     render *@args
-    assert_select 'div.title', @field_value
+    assert_select 'div.title', @value
   end
 
   test "should render labels" do
@@ -40,12 +40,12 @@ class PicturesTextFieldPartialTest < ActionView::TestCase
   private
 
   def setup
-    @picture=Picture.new
-    @field_value='some_title'
-    @field=:title
-    @picture[@field]=@field_value
-    @args=[:partial => 'pictures/text_field', :locals => {:record => @picture,
-        :name => @field}]
+    r=Picture.new
+    n=:title
+    @value='some_title'
+    r[n]=@value
+    @args=[:partial => 'pictures/text_field', :locals => {:record => r,
+        :name => n}]
   end
 
 end

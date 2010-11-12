@@ -10,9 +10,9 @@ class PicturesTagPartialTest < ActionView::TestCase
   end
 
   test "should render" do
-    a[:partial => 'pictures/tag', :locals => {:tag => nil}]
-    render *a
-    assert_template *a
+    tag=Tag.find(:first)
+    render :partial => 'pictures/tag', :locals => {:tag => tag}
+    assert_template :partial => 'pictures/_tag'
   end
 
 end

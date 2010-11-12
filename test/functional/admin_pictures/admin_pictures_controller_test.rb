@@ -13,8 +13,12 @@ class AdminPicturesControllerTest < ActionController::TestCase
         :logged_in => true)
   end
 
-  test "filters should include render common but skip some actions" do
-    assert_filter :common_flags, :index
+  test "filters should include find all tags" do
+    assert_filter :find_all_tags
+  end
+
+  test "filters should include find picture except index action" do
+    assert_filter :find_picture, :index
   end
 
   test "get actions should include manage-session div" do

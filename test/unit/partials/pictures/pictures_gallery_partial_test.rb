@@ -10,9 +10,8 @@ class PicturesGalleryPartialTest < ActionView::TestCase
   end
 
   test "should render" do
-    a=[:partial => 'pictures/gallery']
-    render *a
-    assert_template *a
+    render_all_pictures
+    assert_template :partial => 'pictures/_gallery'
   end
 
   test "should render a picture within a gallery" do

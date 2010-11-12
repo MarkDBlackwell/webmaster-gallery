@@ -10,9 +10,8 @@ class PicturesAllTagsPartialTest < ActionView::TestCase
   end
 
   test "should render" do
-    a=[:partial => 'pictures/all_tags']
-    render *a
-    assert_template *a
+    render_all_tags
+    assert_template :partial => 'pictures/_all_tags'
   end
 
   test "should render a tag within a list of all tags" do

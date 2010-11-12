@@ -10,22 +10,21 @@ class PicturesPicturePartialTest < ActionView::TestCase
   end
 
   test "should render" do
-#    @picture=pictures(:two)
-    a[:partial => 'pictures/picture', :locals => {:picture => nil}]
-    render *a
-    assert_template *a
+    picture=pictures(:two)
+    render :partial => 'pictures/picture', :locals => {:picture => picture}
+    assert_template :partial => 'pictures/_picture'
   end
 
   test "should render a single picture" do
-    @picture=pictures(:two)
-    render :partial => 'pictures/picture', :locals => {:picture => @picture}
+    picture=pictures(:two)
+    render :partial => 'pictures/picture', :locals => {:picture => picture}
     assert_select 'div.picture', 1
   end
 
   test "should render the right picture" do
-    @picture=pictures(:two)
-    render :partial => 'pictures/picture', :locals => {:picture => @picture}
-    assert_select "div.picture[id=picture_#{@picture.id}]"
+    picture=pictures(:two)
+    render :partial => 'pictures/picture', :locals => {:picture => picture}
+    assert_select "div.picture[id=picture_#{picture.id}]"
   end
 
 end

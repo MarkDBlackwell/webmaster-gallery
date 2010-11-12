@@ -11,6 +11,7 @@ class ApplicationStylesPartialTest < ActionView::TestCase
 
   test "should render" do
     render :partial => 'application/styles'
+    assert_template :partial => 'application/_styles'
   end
 
   test "shouldn't display a picture commit button" do
