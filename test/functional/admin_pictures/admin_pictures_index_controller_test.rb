@@ -18,7 +18,6 @@ class AdminPicturesIndexControllerTest < ActionController::TestCase
   end
 
   test "should redirect to /session/new if not logged in" do
-    session[:logged_in]=nil
     get :index
     assert_redirected_to :controller => :sessions, :action => :new
   end

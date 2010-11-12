@@ -51,7 +51,7 @@ class SessionsControllerTest < ActionController::TestCase
   test "should render session buttons" do
 # TODO: change to test that the application/buttons partial was rendered once.
     [:edit, :show].each do |action|
-      session[:logged_in] = true
+      session[:logged_in]=true
       get action
       assert_select 'div.manage-session', 1, "Action #{action}"
     end

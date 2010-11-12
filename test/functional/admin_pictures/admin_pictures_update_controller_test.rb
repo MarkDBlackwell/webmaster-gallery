@@ -14,7 +14,6 @@ class AdminPicturesUpdateControllerTest < ActionController::TestCase
   end
 
   test "should redirect to /session/new if not logged in" do
-    session[:logged_in]=nil
     put :update, :id => '2'
     assert_redirected_to :controller => :sessions, :action => :new
   end

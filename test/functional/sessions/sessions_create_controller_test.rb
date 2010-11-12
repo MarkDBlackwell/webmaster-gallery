@@ -56,7 +56,6 @@ class SessionsCreateControllerTest < ActionController::TestCase
   end
 
   test "should log in" do
-    session[:logged_in]=nil
     login
     assert_equal true, session[:logged_in]
   end
@@ -93,13 +92,11 @@ class SessionsCreateControllerTest < ActionController::TestCase
 # Wrong password, not already logged in tests:
 
   test "should redirect to new on wrong password if not already logged in" do
-    session[:logged_in]=nil
     login 'example wrong password'
     assert_redirected_to :action => :new
   end
 
   test "should flash on wrong password if not already logged in" do
-    session[:logged_in]=nil
     login 'example wrong password'
     assert_equal 'Password incorrect.', flash[:error]
   end
@@ -108,7 +105,6 @@ class SessionsCreateControllerTest < ActionController::TestCase
 # Right password, not already logged in tests:
 
   test "should redirect to edit on right password if not already logged in" do
-    session[:logged_in]=nil
     login
     assert_redirected_to :action => :edit
   end

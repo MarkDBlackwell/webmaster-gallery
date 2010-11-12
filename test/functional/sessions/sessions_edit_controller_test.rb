@@ -22,7 +22,6 @@ class SessionsEditControllerTest < ActionController::TestCase
   end
 
   test "should redirect to new if not logged in" do
-    session[:logged_in]=nil
     get :edit
     assert_redirected_to :action => :new
   end

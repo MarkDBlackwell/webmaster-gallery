@@ -25,7 +25,6 @@ class SessionsShowControllerTest < ActionController::TestCase
   end
 
   test "should redirect to new if not logged in" do
-    session[:logged_in]=nil
     get :show
     assert_redirected_to :action => :new
   end

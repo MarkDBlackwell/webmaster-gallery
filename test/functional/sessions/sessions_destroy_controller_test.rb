@@ -14,8 +14,8 @@ class SessionsDestroyControllerTest < ActionController::TestCase
   end
 
   test "routing" do
-    assert_routing({:path => '/session', :method => :delete},
-      :controller => :sessions.to_s, :action => :destroy.to_s)
+    assert_routing({:path => '/session', :method => :delete}, :controller =>
+      :sessions.to_s, :action => :destroy.to_s)
   end
 
   test "happy path" do
@@ -24,7 +24,7 @@ class SessionsDestroyControllerTest < ActionController::TestCase
   end
 
   test "should reset the session" do
-    session[:something] = true
+    session[:something]=true
     delete :destroy
     assert_nil session[:something]
   end
@@ -39,13 +39,11 @@ class SessionsDestroyControllerTest < ActionController::TestCase
 # Not already logged in tests:
 
   test "should flash a notice if not already logged in" do
-    session[:logged_in]=nil
     delete :destroy
     assert_equal "You weren't logged in.", flash[:notice]
   end
 
   test "should redirect to new if not already logged in" do
-    session[:logged_in]=nil
     delete :destroy
     assert_redirected_to :action => :new
   end

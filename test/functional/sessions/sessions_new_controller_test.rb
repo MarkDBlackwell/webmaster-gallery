@@ -11,12 +11,11 @@ class SessionsNewControllerTest < ActionController::TestCase
   end
 
   test "routing" do
-    assert_routing({:path => '/session/new', :method => :get},
-      :controller => :sessions.to_s, :action => :new.to_s)
+    assert_routing({:path => '/session/new', :method => :get}, :controller =>
+        :sessions.to_s, :action => :new.to_s)
   end
 
   test "happy path" do
-    session[:logged_in]=nil
     get :new
     assert_response :success
   end
@@ -42,7 +41,6 @@ class SessionsNewControllerTest < ActionController::TestCase
   end
 
   test "should suppress the buttons" do
-    session[:logged_in] = nil
     get :new
     assert_equal true, assigns(:suppress_buttons)
   end
