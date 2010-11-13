@@ -62,7 +62,8 @@ class SessionsNewControllerTest < ActionController::TestCase
 
   test "should prompt for password" do
     get :new
-    assert_select 'p', :count => 1, :text => "Type the password and hit 'Enter'."
+    assert_select 'p', :count => 1, :text =>
+        "Type the password and hit 'Enter'."
   end
 
 end

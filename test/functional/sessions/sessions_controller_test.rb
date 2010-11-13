@@ -19,8 +19,8 @@ class SessionsControllerTest < ActionController::TestCase
 
   test "sessions should expire after a duration of inactivity" do
     assert_nothing_raised do
-      assert_equal 20.minutes, Gallery::Application.config.
-          session_options.fetch(:expire_after)
+      assert_equal 20.minutes, Gallery::Application.config.session_options.
+          fetch(:expire_after)
     end
   end
 

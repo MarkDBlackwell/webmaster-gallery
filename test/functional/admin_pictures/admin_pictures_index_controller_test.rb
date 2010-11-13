@@ -35,17 +35,17 @@ class AdminPicturesIndexControllerTest < ActionController::TestCase
   end
 
   test "should render a list of all tags, once" do
-# TODO: change to test that the pictures/all_tags partial was rendered once.
     session[:logged_in]=true
     get :index
     assert_select 'div.all-tags', 1
+    assert_template :partial => 'pictures/_all_tags', :count => 1
   end
 
   test "should render a gallery, once" do
-# TODO: change to test that the pictures/gallery partial was rendered with the right locals.
     session[:logged_in]=true
     get :index
     assert_select 'div.gallery', 1
+    assert_template :partial => 'pictures/_gallery', :count => 1
   end
 
   test "pictures should be editable" do

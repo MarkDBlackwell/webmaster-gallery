@@ -14,8 +14,8 @@ class SessionsUpdateControllerTest < ActionController::TestCase
   end
 
   test "routing" do
-    assert_routing({:path => '/session', :method => :put},
-      :controller => :sessions.to_s, :action => :update.to_s)
+    assert_routing({:path => '/session', :method => :put}, :controller =>
+        :sessions.to_s, :action => :update.to_s)
   end
 
   test "happy path" do
@@ -41,7 +41,7 @@ class SessionsUpdateControllerTest < ActionController::TestCase
   test "should add and remove tags" do
     session[:logged_in]=true
     put :update
-    assert_equal ['one','three'], Tag.find(:all).collect(&:name).sort
+    assert_equal %w[one three], Tag.find(:all).collect(&:name).sort
   end
 
   test "should add and remove pictures" do
@@ -52,7 +52,7 @@ class SessionsUpdateControllerTest < ActionController::TestCase
     DirectoryPicture.expects(:find).returns [a,b]
     session[:logged_in]=true
     put :update
-    assert_equal ['one','three'], Picture.find(:all).collect(&:filename).sort
+    assert_equal %w[one three], Picture.find(:all).collect(&:filename).sort
   end
 
   test "should expire a cached pictures index page" do

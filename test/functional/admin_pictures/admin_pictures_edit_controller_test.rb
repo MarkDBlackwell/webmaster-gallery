@@ -24,18 +24,22 @@ class AdminPicturesEditControllerTest < ActionController::TestCase
   end
 
   test "should render a single picture" do
-# TODO: change to test that the pictures/picture partial was rendered once.
     session[:logged_in]=true
     get :edit, :id => pictures(:two).id
     assert_select 'div.picture', 1
+    assert_template :partial => 'pictures/_picture', :count => 1
   end
 
   test "should render the right picture" do
-# TODO: change to test that the pictures/picture partial was rendered with the locals for the right picture.
+    picture=pictures(:two)
+    id=picture.id
     session[:logged_in]=true
-    id=pictures(:two).id
     get :edit, :id => id
     assert_select "div.picture[id=picture_#{id}]"
+# TODO: change to test that the pictures/picture partial was rendered with the locals for the right picture.
+# Did not work:
+#    assert_template :partial => 'pictures/_picture', :locals => {:picture =>
+#        picture}
   end
 
 end
