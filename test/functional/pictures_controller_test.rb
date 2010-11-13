@@ -18,7 +18,7 @@ class PicturesControllerTest < ActionController::TestCase
   end
 
   test "should raise exception on bad route /pictures" do
-    assert_raise(ActionController::RoutingError) do
+    assert_raise ActionController::RoutingError do
       assert_routing '/pictures', :controller => :pictures.to_s, :action =>
           :index.to_s
     end
@@ -40,7 +40,7 @@ class PicturesControllerTest < ActionController::TestCase
     [{},{:tag => 'something'}].each do |e_hash|
       procs.each do |e_proc|
         e_proc.call(:index, e_hash) # A valid action should be okay.
-        assert_raise(ActionController::RoutingError) do
+        assert_raise ActionController::RoutingError do
           e_proc.call :uncached_index, e_hash
         end
       end

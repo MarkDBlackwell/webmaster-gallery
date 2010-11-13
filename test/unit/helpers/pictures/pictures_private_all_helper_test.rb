@@ -3,7 +3,7 @@ module PicturesPrivateAllHelperTest
   private
 
   def render_all_pictures
-    @pictures = Picture.find(:all)
+    @pictures = Picture.find(:all) # pictures(:all) did not work.
     gallery
   end
 

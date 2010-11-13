@@ -1,8 +1,9 @@
 ENV["RAILS_ENV"] = "test"
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
-%w[ unit/helpers/pictures/pictures_private_all_helper
-    functional/sessions/sessions_private_all_controller
+%w[
+unit/helpers/pictures/pictures_private_all_helper
+functional/sessions/sessions_private_all_controller
     ].each do |e|
   require File.expand_path("../#{e}_test", __FILE__)
 end
@@ -14,8 +15,7 @@ class ActiveSupport::TestCase
   # -- they do not yet inherit this setting
   fixtures :all
 
-  # Add more helper methods to be used by all tests here...
-
+#-------------
   private
 
   def assert_after_filter(*args)
@@ -40,10 +40,9 @@ class ActiveSupport::TestCase
     end.flatten(1)
     have=ours.collect {|e| [e.raw_filter, e.filter, e.kind, e.per_key.fetch(
         :unless)]}
-    assert have.include?(desired), ['Found:',
-        have.collect {|e| e.uniq.inspect},
-        'Desired:',
-        [filter,kind,sa].collect {|e| e.inspect}.join(', ')
+    assert have.include?(desired), [
+        'Found:', have.collect {|e| e.uniq.inspect},
+        'Desired:', [filter,kind,sa].collect {|e| e.inspect}.join(', '),
         ].join("\n")
   end
 
@@ -67,10 +66,8 @@ class ActiveSupport::TestCase
   end
 
   def try_wrong_methods(actions, options=nil, params=nil)
-
 # Reference: 'ActionController - PROPFIND and other HTTP request methods':
 # at http://railsforum.com/viewtopic.php?id=30137
-
     should_redirect = {:controller => :sessions, :action => :new}
     restful_methods = {
         :index   => :get,
@@ -82,11 +79,12 @@ class ActiveSupport::TestCase
         :destroy => :delete,
         }
     actions.each do |action|
-      (ActionController::Request::HTTP_METHODS - [restful_methods[action].
-          to_s] ).each do |bad_method|
+      (ActionController::Request::HTTP_METHODS - [restful_methods.fetch(action).
+          to_s]).each do |bad_method|
         session[:logged_in]=true
         process action, options, params, nil, bad_method
-        assert_redirected_to(should_redirect, "Action #{action}, method #{bad_method}.")
+        assert_redirected_to should_redirect,
+            "Action #{action}, method #{bad_method}."
       end
     end
   end

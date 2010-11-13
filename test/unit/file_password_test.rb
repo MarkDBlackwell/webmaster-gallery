@@ -63,14 +63,12 @@ class FilePasswordTest < ActiveSupport::TestCase
   end
 
   test "a find without all should raise a model exception" do
-    begin
+    assert_raise FilePassword::FindError do
       FilePassword.find
-      flunk
-    rescue FilePassword::FindError
     end
   end
 
-  test "in find, a too-short password should produce an error" do
+  test "in find, a too-short password should have an error" do
     short = clear_text_password.slice(0..8) + "\n"
     @f.rewind
     mock_file
