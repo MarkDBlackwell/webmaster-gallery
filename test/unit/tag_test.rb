@@ -10,9 +10,7 @@ class TagTest < ActiveSupport::TestCase
   end
 
   test "find all" do
-# TODO  test "find all" do
-    assert Date::today < Date::new(2010,11,26), 'Test unwritten.'
-#    assert_equal 2, Tag.find(:all).length
+    assert_equal 2, Tag.find(:all).length
   end
 
 end

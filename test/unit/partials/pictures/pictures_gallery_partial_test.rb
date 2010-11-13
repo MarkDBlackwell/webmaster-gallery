@@ -121,12 +121,13 @@ class PicturesGalleryPartialTest < ActionView::TestCase
   private
 
   def filename_matcher(s)
-    %r@^/images/gallery/#{s}\?\d+$@
+#    %r@^/images/gallery/#{s}\?\d+$@
+    %r:^/images/gallery/#{s}\?\d+$:
   end
 
   def picture_two
-    @pictures = Picture.find(:all)
     pictures(:one).destroy
+    @pictures = Picture.find(:all)
     render :partial => 'pictures/gallery'
   end
 

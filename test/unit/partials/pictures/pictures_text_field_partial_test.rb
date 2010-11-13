@@ -40,12 +40,12 @@ class PicturesTextFieldPartialTest < ActionView::TestCase
   private
 
   def setup
-    r=Picture.new
-    n=:title
+    record=Picture.new
+    name=:title
     @value='some_title'
-    r[n]=@value
-    @args=[:partial => 'pictures/text_field', :locals => {:record => r,
-        :name => n}]
+    record[name]=@value
+    @args=[:partial => 'pictures/text_field', :locals => {:record => record,
+        :name => name}]
   end
 
 end

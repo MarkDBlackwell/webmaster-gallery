@@ -10,7 +10,7 @@ class PicturesThumbnailPartialTest < ActionView::TestCase
   end
 
   test "should render" do
-    picture=Picture.find(:all).first
+    picture=pictures(:two)
     render :partial => 'pictures/thumbnail', :locals => {:picture => picture}
     assert_template :partial => 'pictures/_thumbnail'
   end

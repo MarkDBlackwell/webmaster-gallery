@@ -10,7 +10,7 @@ class PicturesTagPartialTest < ActionView::TestCase
   end
 
   test "should render" do
-    tag=Tag.find(:first)
+    tag=Tag.find(:first) # Using 'tags(:two)' did not call the right method.
     render :partial => 'pictures/tag', :locals => {:tag => tag}
     assert_template :partial => 'pictures/_tag'
   end

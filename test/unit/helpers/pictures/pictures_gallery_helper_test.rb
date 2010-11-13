@@ -9,8 +9,8 @@ class PicturesGalleryHelperTest < ActionView::TestCase
   end
 
   test "should render partial" do
-# TODO test "should render partial" do
-    assert Date::today < Date::new(2010,11,26), 'Test unwritten.'
+    gallery
+    assert_template :partial => 'pictures/_gallery'
   end
 
   test "should render a gallery, once" do
