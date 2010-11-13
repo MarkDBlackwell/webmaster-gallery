@@ -51,7 +51,7 @@ class AdminPicturesIndexControllerTest < ActionController::TestCase
   test "pictures should be editable" do
     session[:logged_in]=true
     get :index
-    assert_not_nil assigns(:editable)
+    assert_present assigns(:editable)
   end
 
 end
