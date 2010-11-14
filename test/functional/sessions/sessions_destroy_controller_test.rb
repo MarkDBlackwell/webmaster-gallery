@@ -19,12 +19,13 @@ class SessionsDestroyControllerTest < ActionController::TestCase
   end
 
   test "happy path" do
+    pretend_logged_in
     delete :destroy
     assert_response :redirect
   end
 
   test "should reset the session" do
-    session[:something]=true
+    pretend_logged_in
     delete :destroy
     assert_blank session[:something]
   end
@@ -39,11 +40,13 @@ class SessionsDestroyControllerTest < ActionController::TestCase
 # Not already logged in tests:
 
   test "should flash a notice if not already logged in" do
+    set_cookies
     delete :destroy
     assert_equal "You weren't logged in.", flash[:notice]
   end
 
   test "should redirect to new if not already logged in" do
+    set_cookies
     delete :destroy
     assert_redirected_to :action => :new
   end
@@ -52,19 +55,19 @@ class SessionsDestroyControllerTest < ActionController::TestCase
 # Logged-in tests:
 
   test "should redirect to new if logged in" do
-    session[:logged_in]=true
+    pretend_logged_in
     delete :destroy
     assert_redirected_to :action => :new
   end
 
   test "should log out if logged in" do
-    session[:logged_in]=true
+    pretend_logged_in
     delete :destroy
     assert_blank session[:logged_in]
   end
 
   test "should flash a notice of log out if logged in" do
-    session[:logged_in]=true
+    pretend_logged_in
     delete :destroy
     assert_equal 'Logged out successfully.', flash[:notice]
   end

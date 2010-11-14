@@ -1,10 +1,10 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery
+  before_filter :cookies_required
   before_filter :guard_http_method
   before_filter :guard_logged_in
+  protect_from_forgery
 
 # Per http://railsforum.com/viewtopic.php?id=24298 :
-
   rescue_from ActionController::InvalidAuthenticityToken,
     :with => :invalid_authenticity_token
 
@@ -12,15 +12,20 @@ class ApplicationController < ActionController::Base
   private
 
   def clear_session
-    session.to_hash.keys.each {|e| session.delete e}
-#    (session.to_hash.keys - ['flash']).each {|e| session.delete e}
+    a = session.to_hash.keys - ['flash']
+    a += ['flash'] # Seems to work.
+    a.each {|e| session.delete e}
+  end
+
+  def cookies_required
+    handle_missing_cookies if cookies.empty? # action_dispatch.cookies
   end
 
   def guard_http_method
     i=[:create,:destroy,:update].index request.parameters.fetch(:action).to_sym
-    method=i ? [:post,:delete,:put].at(i) : :get
+    restful_method=i.present? ? [:post,:delete,:put].at(i) : :get
     handle_bad_request 'Improper http verb.' unless
-        request.request_method_symbol==method
+        request.request_method_symbol==restful_method
   end
 
   def guard_logged_in
@@ -35,15 +40,15 @@ class ApplicationController < ActionController::Base
   end
 
   def handle_missing_cookies
-      flash.now[:error]='Cookies required, or session timed out.'
-      @suppress_buttons=true
-      render :controller => :sessions, :action => :new
+    clear_session
+    flash.now[:error]='Cookies required, or session timed out.'
+    @suppress_buttons=true
+    render :controller => :sessions, :action => :new
   end
 
   def invalid_authenticity_token
-    cookies.empty? ? # action_dispatch.cookies
-       handle_missing_cookies : 
-       handle_bad_request('Invalid authenticity token.')
+    cookies.empty? ? handle_missing_cookies : 
+        handle_bad_request('Invalid authenticity token.')
   end
 
 end

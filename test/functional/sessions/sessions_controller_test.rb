@@ -13,8 +13,9 @@ class SessionsControllerTest < ActionController::TestCase
     assert_filter :guard_logged_in, [:create,:destroy,:new]
   end
 
-  test "should redirect to sessions new on wrong method" do
-    try_wrong_methods [:create, :destroy, :edit, :new, :show, :update]
+  test "webmaster directory location should be configured" do
+    assert_equal Gallery::Application.config.webmaster,
+        "#{Rails.root}/test/fixtures/files/webmaster"
   end
 
   test "sessions should expire after a duration of inactivity" do
@@ -24,13 +25,40 @@ class SessionsControllerTest < ActionController::TestCase
     end
   end
 
-  test "webmaster directory location should be configured" do
-    assert_equal Gallery::Application.config.webmaster,
-        "#{Rails.root}/test/fixtures/files/webmaster"
+  test "should redirect to sessions new on wrong http method" do
+    try_wrong_methods [:create, :destroy, :edit, :new, :show, :update]
+  end
+
+#-------------
+# Cookies blocked tests:
+
+  test "should flash if cookies (session store) blocked while already "\
+       "logged in" do
+    session[:logged_in]=true
+    request.cookies.clear
+    post :create, :password => get_password
+    assert_select 'div.error', 'Cookies required, or session timed out.'
+  end
+
+  test "should not flash so, if cookies not blocked" do
+    login
+    assert_select 'div.notice', 0
+    assert_select 'div.error', 0
+  end
+
+  test "should render session buttons" do
+    [:edit,:show].each_with_index do |action,i|
+      pretend_logged_in
+      get action
+      assert_select 'div.manage-session', 1, "Action #{action}"
+      assert_template({:partial => 'application/_buttons', :count => i + 1},
+          "Action #{action}") # Count mounts up.
+    end
   end
 
   test "should render pretty html source" do
 # TODO: move this to application controller, or split this into buttons, styles, etc.? 
+    set_cookies
     get :new
     divs = %w[manage-session edit show admin-pictures-index user-pictures-index
         destroy]
@@ -46,15 +74,6 @@ class SessionsControllerTest < ActionController::TestCase
 # Should not be able to find any of those divs:
     assert altered1.gsub!(Regexp.new(s1),'').blank?, (see_output(a1);'Div class=')
     assert altered2.gsub!(Regexp.new(s2),'').blank?, (see_output(a2);'Other')
-  end
-
-  test "should render session buttons" do
-# TODO: change to test that the application/buttons partial was rendered once.
-    [:edit, :show].each do |action|
-      session[:logged_in]=true
-      get action
-      assert_select 'div.manage-session', 1, "Action #{action}"
-    end
   end
 
 end

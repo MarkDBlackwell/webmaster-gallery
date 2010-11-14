@@ -14,12 +14,13 @@ class AdminPicturesUpdateControllerTest < ActionController::TestCase
   end
 
   test "should redirect to /session/new if not logged in" do
+    set_cookies
     put :update, :id => '2'
     assert_redirected_to :controller => :sessions, :action => :new
   end
 
   test "happy path" do
-    session[:logged_in]=true
+    pretend_logged_in
     put :update, :id => pictures(:two).id
     assert_response :success
   end

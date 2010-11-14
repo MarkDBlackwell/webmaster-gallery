@@ -55,6 +55,11 @@ class ActiveSupport::TestCase
     @controller._process_action_callbacks
   end
 
+  def pretend_logged_in
+    session[:logged_in]=true
+    set_cookies
+  end
+
   def see_output(s=nil)
     f=File.new("#{Rails.root}/out/see-output",'w')
     if s.blank?
@@ -63,6 +68,10 @@ class ActiveSupport::TestCase
     end
     f.print s
     f.close
+  end
+
+  def set_cookies
+    request.cookies[:not_empty]='not_empty'
   end
 
   def try_wrong_methods(actions, options=nil, params=nil)
@@ -81,7 +90,7 @@ class ActiveSupport::TestCase
     actions.each do |action|
       (ActionController::Request::HTTP_METHODS - [restful_methods.fetch(action).
           to_s]).each do |bad_method|
-        session[:logged_in]=true
+        pretend_logged_in
         process action, options, params, nil, bad_method
         assert_redirected_to should_redirect,
             "Action #{action}, method #{bad_method}."

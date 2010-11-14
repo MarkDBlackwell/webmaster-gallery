@@ -13,27 +13,28 @@ class AdminPicturesEditControllerTest < ActionController::TestCase
   end
 
   test "should redirect to /session/new if not logged in" do
+    set_cookies
     get :edit, :id => '2'
     assert_redirected_to :controller => :sessions, :action => :new
   end
 
   test "happy path" do
-    session[:logged_in]=true
+    pretend_logged_in
     get :edit, :id => pictures(:two).id
     assert_response :success
   end
 
   test "should render a single picture" do
-    session[:logged_in]=true
+    pretend_logged_in
     get :edit, :id => pictures(:two).id
     assert_select 'div.picture', 1
     assert_template :partial => 'pictures/_picture', :count => 1
   end
 
   test "should render the right picture" do
+    pretend_logged_in
     picture=pictures(:two)
     id=picture.id
-    session[:logged_in]=true
     get :edit, :id => id
     assert_select "div.picture[id=picture_#{id}]"
 # TODO: change to test that the pictures/picture partial was rendered with the locals for the right picture.

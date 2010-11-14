@@ -25,8 +25,9 @@ class AdminPicturesControllerTest < ActionController::TestCase
 # TODO: Add similar tests for styles, messages & action content divs.
 # TODO: Or, move to an application layout test.
     [:edit, :index, :show].each do |action|
-      session[:logged_in]=true
-      get action, {:id => pictures(:two).id}, :logged_in => true
+      pretend_logged_in
+#      get action, {:id => pictures(:two).id}, :logged_in => true
+      get action, {:id => pictures(:two).id}
       assert_select 'div.manage-session', 1, "Action #{action}"
       assert_template({:partial => 'application/_buttons'}, "Action #{action}")
     end

@@ -19,12 +19,13 @@ class SessionsShowControllerTest < ActionController::TestCase
   end
 
   test "happy path" do
-    session[:logged_in]=true
+    pretend_logged_in
     get :show
     assert_response :success
   end
 
   test "should redirect to new if not logged in" do
+    set_cookies
     get :show
     assert_redirected_to :action => :new
   end
