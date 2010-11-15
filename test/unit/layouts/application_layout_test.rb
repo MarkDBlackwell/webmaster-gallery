@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ApplicationLayoutTest < ActionView::TestCase
+class AllLayoutTest < ActionView::TestCase
   helper PicturesHelper
 
   test "should include this file" do
@@ -53,7 +53,7 @@ class ApplicationLayoutTest < ActionView::TestCase
        "session buttons are suppressed" do
     assert_select 'body div.manage-session', 1
     setup :@suppress_buttons => true
-    assert_select 'body div.manage-session', 2 # Cumulative.
+    assert_select 'body div.manage-session', 1
   end
 
   test "body should include one action content div" do
@@ -76,6 +76,7 @@ class ApplicationLayoutTest < ActionView::TestCase
   end
 
   def setup(*args)
+    setup_with_controller unless args.empty?
     render_layout "#{Rails.root}/app/views/layouts/application", *args
   end
 

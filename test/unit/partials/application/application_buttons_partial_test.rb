@@ -16,9 +16,8 @@ class ApplicationButtonsPartialTest < ActionView::TestCase
 
   test "should obey the suppress buttons flag" do
     assert_select 'div.manage-session div', 5
-    @suppress_buttons=true
-    setup
-    assert_select 'div.manage-session div', 5 # Cumulative
+    setup {@suppress_buttons=true}
+    assert_select 'div.manage-session div', 0
   end
 
   test "should render an edit button" do
@@ -45,8 +44,16 @@ class ApplicationButtonsPartialTest < ActionView::TestCase
     assert_select css, 1
   end
 
-  def setup
+  def setup(&block)
+    setup_if_block_given &block
     render :partial => 'application/buttons'
+  end
+
+  def setup_if_block_given
+    if block_given?
+      setup_with_controller
+      yield
+    end
   end
 
 end
