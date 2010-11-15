@@ -3,6 +3,7 @@ require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 %w[
 unit/helpers/pictures/pictures_private_all_helper
+unit/layouts/private_all_layout
 functional/sessions/sessions_private_all_controller
     ].each do |e|
   require File.expand_path("../#{e}_test", __FILE__)
