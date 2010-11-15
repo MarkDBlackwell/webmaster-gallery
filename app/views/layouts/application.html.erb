@@ -11,5 +11,5 @@
 <%= render :partial => 'application/buttons' -%>
 <% alltags %>
 <!--Action content-->
-<%= yield %>
+<%= content_tag 'div', yield, :class => 'action-content' -%><%= %>
 </body></html>

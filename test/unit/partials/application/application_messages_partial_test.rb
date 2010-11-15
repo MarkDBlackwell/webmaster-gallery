@@ -2,16 +2,23 @@ require 'test_helper'
 
 class ApplicationMessagesPartialTest < ActionView::TestCase
 
-#-------------
-# Find method tests:
-
   test "should include this file" do
 #    flunk
   end
 
   test "should render" do
-    render :partial => 'application/messages'
     assert_template :partial => 'application/_messages'
+  end
+
+  test "should include one messages div" do
+    assert_select 'div.messages', 1
+  end
+
+#-------------
+  private
+
+  def setup
+    render :partial => 'application/messages'
   end
 
 end
