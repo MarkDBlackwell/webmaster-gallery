@@ -21,6 +21,11 @@ class ApplicationControllerTest < ActionController::TestCase
     assert_logoff :cookies_required
   end
 
+  test "if cookies (session store) are blocked, should render sessions/new" do
+    @controller.expects(:render).with(:template => 'sessions/new')
+    @controller.send :cookies_required
+  end
+
   test "filters should include guard HTTP method" do
     assert_filter :guard_http_method
   end

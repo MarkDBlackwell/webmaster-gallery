@@ -43,7 +43,7 @@ class ApplicationController < ActionController::Base
     clear_session
     flash.now[:error]='Cookies required, or session timed out.'
     @suppress_buttons=true
-    render :controller => :sessions, :action => :new
+    render :template => 'sessions/new'
   end
 
   def invalid_authenticity_token
