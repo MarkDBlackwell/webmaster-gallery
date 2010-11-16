@@ -1,4 +1,4 @@
-module PicturesPrivateAllHelperTest
+module PicturesHelperTestShared
 
   private
 

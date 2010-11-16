@@ -1,0 +1,6 @@
+cd /home/mark/rails-apps/gallery/test/unit/helpers/pictures
+git mv private.rb shared.rb
+cd /home/mark/rails-apps/gallery/test/unit/layouts
+git mv private.rb shared.rb
+cd /home/mark/rails-apps/gallery/test/functional/sessions
+git mv private.rb shared.rb

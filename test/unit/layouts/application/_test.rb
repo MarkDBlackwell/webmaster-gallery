@@ -2,7 +2,7 @@ require 'test_helper'
 should_include_this_file
 
 class ApplicationLayoutTest < ActionView::TestCase
-  include PrivateLayoutTest
+  include LayoutTestShared
   helper PicturesHelper
 
   test "should render manage session buttons once" do

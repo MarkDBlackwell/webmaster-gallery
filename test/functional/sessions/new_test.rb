@@ -2,7 +2,7 @@ require 'test_helper'
 should_include_this_file
 
 class SessionsNewControllerTest < ActionController::TestCase
-  include SessionsPrivateAllControllerTest
+  include SessionsControllerTestShared
   tests SessionsController
 
 # -> Prompts webmaster to log in.

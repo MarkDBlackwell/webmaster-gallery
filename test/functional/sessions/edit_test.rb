@@ -2,7 +2,7 @@ require 'test_helper'
 should_include_this_file
 
 class SessionsEditControllerTest < ActionController::TestCase
-  include SessionsPrivateAllControllerTest
+  include SessionsControllerTestShared
   tests SessionsController
 
 # -> Webmaster reviews filesystem changes.

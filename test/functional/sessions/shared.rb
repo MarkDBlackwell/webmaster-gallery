@@ -1,4 +1,4 @@
-module SessionsPrivateAllControllerTest
+module SessionsControllerTestShared
 
   private
 

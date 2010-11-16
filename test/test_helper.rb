@@ -4,7 +4,7 @@ require 'rails/test_help'
 Find.find("#{Rails.root}/test") do |path|
   b=File.basename(path)
   Find.prune if FileTest.directory?(path) && ?.==b[0]
-  require File.expand_path(path.chomp('.rb'),'/') if 'private.rb'==b
+  require File.expand_path(path.chomp('.rb'),'/') if 'shared.rb'==b
 end
 
 class Object

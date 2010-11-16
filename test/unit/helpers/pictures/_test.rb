@@ -2,7 +2,7 @@ require 'test_helper'
 should_include_this_file
 
 class PicturesHelperTest < ActionView::TestCase
-  include PicturesPrivateAllHelperTest
+  include PicturesHelperTestShared
 
   test "should render pretty html source" do
 # TODO: split up.

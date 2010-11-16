@@ -2,7 +2,7 @@ require 'test_helper'
 should_include_this_file
 
 class PicturesAllTagsHelperTest < ActionView::TestCase
-  include PicturesPrivateAllHelperTest
+  include PicturesHelperTestShared
   tests PicturesHelper
 
   test "should render partial" do
