@@ -1,11 +1,8 @@
 require 'test_helper'
+should_include_this_file
 
 class PicturesHelperTest < ActionView::TestCase
   include PicturesPrivateAllHelperTest
-
-  test "rake should include this file" do
-#    flunk
-  end
 
   test "should render pretty html source" do
 # TODO: split up.

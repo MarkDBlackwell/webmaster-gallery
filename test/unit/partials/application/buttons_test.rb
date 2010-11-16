@@ -1,10 +1,7 @@
 require 'test_helper'
+should_include_this_file
 
 class ApplicationButtonsPartialTest < ActionView::TestCase
-
-  test "should include this file" do
-#    flunk
-  end
 
   test "should render" do
     assert_template :partial => 'application/_buttons'

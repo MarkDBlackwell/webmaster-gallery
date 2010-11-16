@@ -1,12 +1,9 @@
 require 'test_helper'
+should_include_this_file
 
 class PicturesControllerTest < ActionController::TestCase
 
 # Index action tests:
-
-  test "should include this file" do
-#    flunk
-  end
 
   test "routing /" do
     assert_routing '/', :controller => :pictures.to_s, :action => :index.to_s

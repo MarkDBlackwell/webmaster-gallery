@@ -1,13 +1,10 @@
 require 'test_helper'
+should_include_this_file
 
 class PictureTest < ActiveSupport::TestCase
 
 #-------------
 # Find method tests:
-
-  test "should include this file" do
-#    flunk
-  end
 
   test "the truth" do
 # TODO  test "the truth" do

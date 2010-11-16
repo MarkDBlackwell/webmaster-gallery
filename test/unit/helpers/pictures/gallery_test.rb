@@ -1,12 +1,9 @@
 require 'test_helper'
+should_include_this_file
 
 class PicturesGalleryHelperTest < ActionView::TestCase
   include PicturesPrivateAllHelperTest
   tests PicturesHelper
-
-  test "should include this file" do
-#    flunk
-  end
 
   test "should render partial" do
     gallery

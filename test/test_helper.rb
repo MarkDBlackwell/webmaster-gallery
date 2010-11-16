@@ -7,6 +7,14 @@ Find.find("#{Rails.root}/test") do |path|
   require File.expand_path(path.chomp('.rb'),'/') if 'private.rb'==b
 end
 
+class Object
+  def should_include_this_file
+    f=File.new("#{Rails.root}/out/test-should-include",'a')
+    f.print "#{caller.first}\n"
+    f.close
+  end
+end
+
 class ActiveSupport::TestCase
   # Setup all fixtures in test/fixtures/*.(yml|csv) for all tests in alphabetical order.
   #

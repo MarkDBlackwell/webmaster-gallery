@@ -1,11 +1,8 @@
 require 'test_helper'
+should_include_this_file
 
 class AdminPicturesTemplateTest < ActionView::TestCase
   helper PicturesHelper
-
-  test "should include this file" do
-#    flunk
-  end
 
   test "views should include something" do
     %w[index single].each do |view|

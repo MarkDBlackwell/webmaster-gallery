@@ -1,12 +1,9 @@
 require 'test_helper'
+should_include_this_file
 
 class LayoutTest < ActionView::TestCase
   include PrivateLayoutTest
   helper PicturesHelper
-
-  test "should include this file" do
-#    flunk
-  end
 
   test "should have the right document type" do
     assert_doctype

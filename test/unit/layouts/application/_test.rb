@@ -1,12 +1,9 @@
 require 'test_helper'
+should_include_this_file
 
 class ApplicationLayoutTest < ActionView::TestCase
   include PrivateLayoutTest
   helper PicturesHelper
-
-  test "should include this file" do
-#    flunk
-  end
 
   test "should render manage session buttons once" do
     assert_template :partial => 'application/_buttons', :count => 1

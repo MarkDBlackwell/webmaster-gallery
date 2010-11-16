@@ -1,13 +1,10 @@
 require 'test_helper'
+should_include_this_file
 
 class SessionsControllerTest < ActionController::TestCase
   include SessionsPrivateAllControllerTest
 
 # All actions tests:
-
-  test "should include this file" do
-#    flunk
-  end
 
   test "guard logged in should skip some actions" do
     assert_filter :guard_logged_in, [:create,:destroy,:new]

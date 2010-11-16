@@ -1,10 +1,7 @@
 require 'test_helper'
+should_include_this_file
 
 class PicturesGalleryPartialTest < ActionView::TestCase
-
-  test "should include this file" do
-#    flunk
-  end
 
   test "should render" do
     render_all_pictures

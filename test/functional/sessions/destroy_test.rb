@@ -1,4 +1,5 @@
 require 'test_helper'
+should_include_this_file
 
 class SessionsDestroyControllerTest < ActionController::TestCase
   include SessionsPrivateAllControllerTest
@@ -8,10 +9,6 @@ class SessionsDestroyControllerTest < ActionController::TestCase
 
 #-------------
 # General tests:
-
-  test "should include this file" do
-#    flunk
-  end
 
   test "routing" do
     assert_routing({:path => '/session', :method => :delete}, :controller =>

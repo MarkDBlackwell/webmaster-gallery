@@ -1,12 +1,9 @@
 require 'test_helper'
+should_include_this_file
 
 class AdminPicturesControllerTest < ActionController::TestCase
 
 # All actions tests:
-
-  test "should include this file" do
-#    flunk
-  end
 
   test "should redirect to sessions new on wrong method" do
     try_wrong_methods [:edit, :index, :show, :update], {:id => '2'},

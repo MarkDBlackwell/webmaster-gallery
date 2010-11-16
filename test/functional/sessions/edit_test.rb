@@ -1,14 +1,11 @@
 require 'test_helper'
+should_include_this_file
 
 class SessionsEditControllerTest < ActionController::TestCase
   include SessionsPrivateAllControllerTest
   tests SessionsController
 
 # -> Webmaster reviews filesystem changes.
-
-  test "should include this file" do
-#    flunk
-  end
 
   test "routing" do
     assert_routing({:path => '/session/edit', :method => :get}, :controller =>

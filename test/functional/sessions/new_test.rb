@@ -1,14 +1,11 @@
 require 'test_helper'
+should_include_this_file
 
 class SessionsNewControllerTest < ActionController::TestCase
   include SessionsPrivateAllControllerTest
   tests SessionsController
 
 # -> Prompts webmaster to log in.
-
-  test "should include this file" do
-#    flunk
-  end
 
   test "routing" do
     assert_routing({:path => '/session/new', :method => :get}, :controller =>

@@ -1,10 +1,7 @@
 require 'test_helper'
+should_include_this_file
 
 class SessionsHelperTest < ActionView::TestCase
-
-  test "should include this file" do
-#    flunk
-  end
 
   test "should be no Sessions helpers, or write tests" do
     f=File.open("#{Rails.root}/app/helpers/sessions_helper.rb",'r')

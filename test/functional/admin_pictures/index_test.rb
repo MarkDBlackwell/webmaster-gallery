@@ -1,11 +1,8 @@
 require 'test_helper'
+should_include_this_file
 
 class AdminPicturesIndexControllerTest < ActionController::TestCase
   tests AdminPicturesController
-
-  test "should include this file" do
-#    flunk
-  end
 
   test "routing" do
     assert_routing '/admin_pictures', :controller => :admin_pictures.to_s,

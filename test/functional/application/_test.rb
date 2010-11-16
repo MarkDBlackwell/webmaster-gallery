@@ -1,10 +1,7 @@
 require 'test_helper'
+should_include_this_file
 
 class ApplicationControllerTest < ActionController::TestCase
-
-  test "should include this file" do
-#    flunk
-  end
 
   test "should allow mocking with Mocha" do
 # Needed 'rails plugin install git://github.com/floehopper/mocha.git

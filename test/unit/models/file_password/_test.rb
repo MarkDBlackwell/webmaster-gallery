@@ -1,13 +1,10 @@
 require 'test_helper'
+should_include_this_file
 
 class FilePasswordTest < ActiveSupport::TestCase
 
 #-------------
 # All methods tests:
-
-  test "should include this file" do
-#    flunk
-  end
 
 #  test "should connect to NullDB" do
 # Needed to run:
