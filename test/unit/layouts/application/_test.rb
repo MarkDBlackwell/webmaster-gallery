@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class ApplicationLayoutTest < ActionView::TestCase
-  include PrivateAllLayoutTest
+  include PrivateLayoutTest
   helper PicturesHelper
 
   test "should include this file" do

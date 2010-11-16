@@ -1,12 +1,10 @@
 ENV["RAILS_ENV"] = "test"
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
-%w[
-unit/helpers/pictures/pictures_private_all_helper
-unit/layouts/private_all_layout
-functional/sessions/sessions_private_all_controller
-    ].each do |e|
-  require File.expand_path("../#{e}_test", __FILE__)
+Find.find("#{Rails.root}/test") do |path|
+  b=File.basename(path)
+  Find.prune if FileTest.directory?(path) && ?.==b[0]
+  require File.expand_path(path.chomp('.rb'),'/') if 'private.rb'==b
 end
 
 class ActiveSupport::TestCase

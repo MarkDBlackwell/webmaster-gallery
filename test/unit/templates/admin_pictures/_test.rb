@@ -1,7 +1,7 @@
 require 'test_helper'
 
-class AdminPicturesViewTest < ActionView::TestCase
-  tests PicturesHelper
+class AdminPicturesTemplateTest < ActionView::TestCase
+  helper PicturesHelper
 
   test "should include this file" do
 #    flunk

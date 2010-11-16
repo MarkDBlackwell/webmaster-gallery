@@ -1,4 +1,4 @@
-module PrivateAllLayoutTest
+module PrivateLayoutTest
 
   private
 
