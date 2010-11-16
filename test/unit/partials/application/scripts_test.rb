@@ -19,7 +19,7 @@ class ApplicationScriptsPartialTest < ActionView::TestCase
   test "scripts div should include certain script tags in order" do
     %w[prototype effects dragdrop controls rails application].
         each_with_index do |e,i|
-      assert_select "div.scripts title + #{'* + '*i} script[src=?]",
+      assert_select "div.scripts > #{'script + '*i} script[src=?]",
           Regexp.new(%Q@/javascripts/#{e}\\.js\\?\\d*\\z@)
     end
   end

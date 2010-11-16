@@ -101,6 +101,10 @@ class LayoutTest < ActionView::TestCase
     render_all_layouts {super}
   end
 
+  def assert_template(*args)
+    render_all_layouts {super}
+  end
+
   def render_all_layouts
     @filenames.each do |f|
       setup_with_controller if @need_reload
@@ -112,7 +116,7 @@ class LayoutTest < ActionView::TestCase
 
   def setup(*args)
     @instance_variables=args
-    @need_reload=false
+    @need_reload=false unless args
     unless @filenames
       d="#{Rails.root}/app/views/layouts"
       @filenames=((Dir.entries d) - %w[.. .]).

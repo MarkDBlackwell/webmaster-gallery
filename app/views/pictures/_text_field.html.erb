@@ -1,3 +1,4 @@
+<%=   content_tag :div, :class => 'text-field' do -%>
 <%=     content_tag :div, :class => name.to_s do -%>
 <%=       if @edit_fields 
             text_field record, name
@@ -7,4 +8,5 @@
 <%       if @show_labels
 -%> &nbsp; (name.to_s) <%
           end
-        end %>
+        end
+      end %>
