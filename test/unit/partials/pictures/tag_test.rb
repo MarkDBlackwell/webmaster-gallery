@@ -7,6 +7,10 @@ class PicturesTagPartialTest < ActionView::TestCase
     assert_template :partial => 'pictures/_tag'
   end
 
+  test "should include one tag div" do
+    assert_select 'div.tag', 1
+  end
+
 #-------------
   private
 

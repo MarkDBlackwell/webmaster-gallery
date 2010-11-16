@@ -7,7 +7,7 @@ class ApplicationButtonsPartialTest < ActionView::TestCase
     assert_template :partial => 'application/_buttons'
   end
 
-  test "should include manage-session div" do
+  test "should include one manage-session div" do
     assert_select 'div.manage-session', 1
   end
 

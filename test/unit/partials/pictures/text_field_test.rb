@@ -8,6 +8,11 @@ class PicturesTextFieldPartialTest < ActionView::TestCase
     assert_template :partial => 'pictures/_text_field'
   end
 
+  test "should include one text-field div" do
+    render *@args
+    assert_select 'div.text-field', 1
+  end
+
   test "should render div for field" do
     render *@args
     assert_select 'div.title'

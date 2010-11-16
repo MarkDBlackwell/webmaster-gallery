@@ -7,6 +7,10 @@ class PicturesThumbnailPartialTest < ActionView::TestCase
     assert_template :partial => 'pictures/_thumbnail'
   end
 
+  test "should include one thumbnail div" do
+    assert_select 'div.thumbnail', 1
+  end
+
 #-------------
   private
 

@@ -5,47 +5,88 @@ class LayoutTest < ActionView::TestCase
   include LayoutTestShared
   helper PicturesHelper
 
-  test "should have the right document type" do
-    assert_doctype
+  test "should render manage session buttons once" do
+    assert_template :partial => 'application/_buttons', :count => 1
+  end
+
+  test "should render messages once" do
+    assert_template :partial => 'application/_messages', :count => 1
+  end
+
+  test "should render scripts once" do
+    assert_template :partial => 'application/_scripts', :count => 1
+  end
+
+  test "should render styles once" do
+    assert_template :partial => 'application/_styles', :count => 1
   end
 
 #-------------
 # Html tests:
 
+  test "should have the right document type" do
+    assert_doctype
+  end
+
   test "should be one html tag" do
     assert_select 'html', 1
   end
 
-  test "html tag should include one head tag" do
+  test "html tag should include one head, first" do
+    assert_select 'head', 1
     assert_select 'html head', 1
+    assert_select 'html > head:first-child', 1
   end
 
-  test "head tag should first include one title tag" do
+  test "html tag should include one body, last" do
+    assert_select 'body', 1
+    assert_select 'html body', 1
+    assert_select 'html > body:last-child', 1
+  end
+
+#-------------
+# Head tests:
+
+  test "head should include one title, first" do
+    assert_select 'title', 1
     assert_select 'head title', 1
     assert_select 'head > title:first-child', 1
   end
 
-  test "head tag should include six script tags" do
-    assert_select 'head script', 6
-    assert_select 'head script[type=text/javascript]', 6
+  test "head should include one scripts div, after the title" do
+    assert_select 'div.scripts', 1
+    assert_select 'head title + div.scripts', 1
   end
 
-  test "head tag should include certain script tags in order" do
-    %w[prototype effects dragdrop controls rails application].
-        each_with_index do |e,i|
-      assert_select "head title + #{'* + '*i} script[src=?]",
-          Regexp.new(%Q@/javascripts/#{e}\\.js\\?\\d*\\z@)
-    end
+  test "should be one style tag" do
+    assert_select 'style', 1
   end
 
-  test "head tag should include one style tag" do
-    assert_select 'head style', 1
-    assert_select 'head > style:last-child', 1
-    assert_select 'head style.styles[type=text/css]', 1
+  test "head should include one styles div, last" do
+    assert_select 'div.styles', 1
+    assert_select 'head > div.styles:last-child', 1
   end
 
-  test "html tag should include one body tag" do
-    assert_select 'html body', 1
+#-------------
+# Body tests:
+
+  test "body should include one messages div" do
+    assert_select 'div.messages', 1
+    assert_select 'body div.messages', 1
+  end
+
+  test "body should include one manage-session div whether or not manage- "\
+       "session buttons are suppressed" do
+    assert_select 'div.manage-session', 1
+    assert_select 'body div.manage-session', 1
+    setup :@suppress_buttons => true
+    assert_select 'div.manage-session', 1
+    assert_select 'body div.manage-session', 1
+  end
+
+  test "body should include one action content div" do
+    assert_select 'div.action-content', 1
+    assert_select 'body div.action-content', 1
   end
 
 #-------------
@@ -64,12 +105,13 @@ class LayoutTest < ActionView::TestCase
     @filenames.each do |f|
       setup_with_controller if @need_reload
       @need_reload=true
-      render_layout f
+      render_layout f, *@instance_variables
       yield
     end
   end
 
-  def setup
+  def setup(*args)
+    @instance_variables=args
     @need_reload=false
     unless @filenames
       d="#{Rails.root}/app/views/layouts"

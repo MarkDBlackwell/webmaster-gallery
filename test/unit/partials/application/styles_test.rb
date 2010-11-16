@@ -7,9 +7,14 @@ class ApplicationStylesPartialTest < ActionView::TestCase
     assert_template :partial => 'application/_styles'
   end
 
+  test "should include one styles div" do
+    assert_select 'div.styles', 1
+  end
+
   test "should include one style tag" do
     assert_select 'style', 1
     assert_select 'style.styles', 1
+    assert_select 'style.styles[type=text/css]', 1
   end
 
   test "shouldn't display a picture commit button" do

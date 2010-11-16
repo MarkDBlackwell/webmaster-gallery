@@ -8,6 +8,11 @@ class PicturesGalleryPartialTest < ActionView::TestCase
     assert_template :partial => 'pictures/_gallery'
   end
 
+  test "should include one gallery div" do
+    render_all_pictures
+    assert_select 'div.gallery', 1
+  end
+
   test "should render a picture within a gallery" do
     render_all_pictures
     assert_select 'div.gallery > div.picture'

@@ -7,7 +7,7 @@ class PicturesPicturePartialTest < ActionView::TestCase
     assert_template :partial => 'pictures/_picture'
   end
 
-  test "should render a single picture" do
+  test "should include one picture div" do
     assert_select 'div.picture', 1
   end
 

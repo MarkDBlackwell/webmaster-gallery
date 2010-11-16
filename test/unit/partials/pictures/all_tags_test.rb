@@ -8,6 +8,11 @@ class PicturesAllTagsPartialTest < ActionView::TestCase
     assert_template :partial => 'pictures/_all_tags'
   end
 
+  test "should include one all-tags div" do
+    render_all_tags
+    assert_select 'div.all-tags', 1
+  end
+
   test "should render a tag within a list of all tags" do
     render_all_tags
     assert_select 'div.all-tags > div.tag'
