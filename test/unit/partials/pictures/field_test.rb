@@ -3,6 +3,7 @@ should_include_this_file
 
 class PicturesFieldPartialTest < ActionView::TestCase
   include PartialTestShared
+  helper PicturesHelper
 
   test "should render" do
     assert_template :partial => 'pictures/_field'
@@ -30,6 +31,7 @@ class PicturesFieldPartialTest < ActionView::TestCase
   test "should be editable" do
     assert_select 'div.field > div.title > input', 0
     setup {@edit_fields=true}
+    see_output
     assert_select 'div.field > div.title > input', 1
   end
 
@@ -39,7 +41,8 @@ class PicturesFieldPartialTest < ActionView::TestCase
   def setup(&block)
 # Naming this method, 'render' and using 'super', failed somehow.
     controller_yield &block
-    (record=Picture.new)[field=:title]=(field_value='some_title')
+    record=Picture.new
+    record[field=:title]=(field_value='some_title')
     render :partial => 'pictures/field', :locals => {:record => record,
         :field => field}
   end
