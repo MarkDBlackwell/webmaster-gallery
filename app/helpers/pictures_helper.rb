@@ -5,14 +5,15 @@ module PicturesHelper
   end
 
   def field_helper(record,field)
-    s=raw(@edit_fields ? text_field(record, field) : record[field])
-    s+=raw(content_tag :div, raw(" &nbsp; #{field}"), :class => 'label') if
+    concat( @edit_fields ? text_field(record, field) : record[field] )
+    concat( content_tag :div, raw(" &nbsp; #{field}"), :class => 'label') if
         @show_labels
-    s
+    nil
   end
 
   def gallery
     concat( render :partial => 'pictures/gallery')
+    nil
   end
 
 end
