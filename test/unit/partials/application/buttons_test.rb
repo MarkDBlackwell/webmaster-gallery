@@ -7,14 +7,14 @@ class ApplicationButtonsPartialTest < ActionView::TestCase
     assert_template :partial => 'application/_buttons'
   end
 
-  test "should include one manage-session div" do
-    assert_select 'div.manage-session', 1
+  test "should include one session-buttons div" do
+    assert_select 'div.session-buttons', 1
   end
 
   test "should obey the suppress buttons flag" do
-    assert_select 'div.manage-session div', 5
+    assert_select 'div.session-buttons div', 5
     setup {@suppress_buttons=true}
-    assert_select 'div.manage-session div', 0
+    assert_select 'div.session-buttons div', 0
   end
 
   test "should render an edit button" do
@@ -37,7 +37,7 @@ class ApplicationButtonsPartialTest < ActionView::TestCase
   private
 
   def session_buttons_include?(s)
-    css = "div.manage-session > div.#{s} > form.button_to"
+    css = "div.session-buttons > div.#{s} > form.button_to"
     assert_select css, 1
   end
 

@@ -1,8 +1,9 @@
 <!--Messages-->
-<%= content_tag 'div', :class => 'messages' do -%>
-<%=   content_tag 'div', flash[:notice], :class => 'notice',
-          :id => 'notice' if flash[:notice] -%>
-<%=   content_tag 'div', flash[:error],  :class => 'notice error',
-          :id => 'error'  if flash[:error] -%>
-<%=   "\n" if flash[:notice] || flash[:error] -%>
+<%= content_tag 'div', :class => 'messages' do -%><%= %>
+<%    [steady='notice','error'].each do |type| -%>
+<%      if (message=flash[type.to_sym]).present? -%>
+<%        s = type==steady ? steady : "#{steady} #{type}" -%>
+<%=       content_tag 'div', message, :class => s, :id => type -%>
+<%      end -%>
+<%    end -%>
 <%  end -%><%= %>

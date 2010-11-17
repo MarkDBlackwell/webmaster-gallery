@@ -7,10 +7,6 @@ class ApplicationStylesPartialTest < ActionView::TestCase
     assert_template :partial => 'application/_styles'
   end
 
-  test "should include one styles div" do
-    assert_select 'div.styles', 1
-  end
-
   test "should include one style tag" do
     assert_select 'style', 1
     assert_select 'style.styles', 1
@@ -30,7 +26,7 @@ class ApplicationStylesPartialTest < ActionView::TestCase
   end
 
   test "session buttons should be horizontal" do
-    style_include? 'div.manage-session * {display: inline}'
+    style_include? 'div.session-buttons * {display: inline}'
   end
 
 #-------------

@@ -1,5 +1,5 @@
-<!--Buttons-->
-<%= content_tag 'div', :class => 'manage-session' do %>
+<!--Session buttons-->
+<%= content_tag 'div', :class => 'session-buttons' do %>
 <%    unless @suppress_buttons -%>
 <%=     content_tag 'div', :class => 'edit' do -%>
 <%=       button_to 'files', {:controller => :sessions,

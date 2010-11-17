@@ -5,7 +5,7 @@ class LayoutTest < ActionView::TestCase
   include LayoutTestShared
   helper PicturesHelper
 
-  test "should render manage session buttons once" do
+  test "should render session buttons once" do
     assert_template :partial => 'application/_buttons', :count => 1
   end
 
@@ -58,13 +58,9 @@ class LayoutTest < ActionView::TestCase
     assert_select 'head title + div.scripts', 1
   end
 
-  test "should be one style tag" do
+  test "head should include one style tag, last" do
     assert_select 'style', 1
-  end
-
-  test "head should include one styles div, last" do
-    assert_select 'div.styles', 1
-    assert_select 'head > div.styles:last-child', 1
+    assert_select 'head > style:last-child', 1
   end
 
 #-------------
@@ -75,13 +71,13 @@ class LayoutTest < ActionView::TestCase
     assert_select 'body div.messages', 1
   end
 
-  test "body should include one manage-session div whether or not manage- "\
+  test "body should include one session-buttons div whether or not manage- "\
        "session buttons are suppressed" do
-    assert_select 'div.manage-session', 1
-    assert_select 'body div.manage-session', 1
+    assert_select 'div.session-buttons', 1
+    assert_select 'body div.session-buttons', 1
     setup :@suppress_buttons => true
-    assert_select 'div.manage-session', 1
-    assert_select 'body div.manage-session', 1
+    assert_select 'div.session-buttons', 1
+    assert_select 'body div.session-buttons', 1
   end
 
   test "body should include one action content div" do

@@ -1,9 +1,7 @@
 <!--Styles-->
-<%= content_tag 'div', :class => 'styles' do %>
-<%=   content_tag 'style', :type => 'text/css', :class => 'styles' do %>
-div.manage-session * {display: inline}
+<%= content_tag 'style', :type => 'text/css', :class => 'styles' do -%><%= %>
+div.session-buttons * {display: inline}
 div.all-tags * {display: inline}
 div.picture {display: inline-block}
 div.picture > form > input[name=commit] {display: none}
-<%    end -%>
 <%  end -%><%= %>

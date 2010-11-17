@@ -47,7 +47,7 @@ class SessionsControllerTest < ActionController::TestCase
     [:edit,:show].each_with_index do |action,i|
       pretend_logged_in
       get action
-      assert_select 'div.manage-session', 1, "Action #{action}"
+      assert_select 'div.session-buttons', 1, "Action #{action}"
       assert_template({:partial => 'application/_buttons', :count => i + 1},
           "Action #{action}") # Count mounts up.
     end
@@ -57,10 +57,13 @@ class SessionsControllerTest < ActionController::TestCase
 # TODO: move this to application controller, or split this into buttons, styles, etc.? 
     set_cookies
     get :new
-    divs = %w[manage-session edit show admin-pictures-index user-pictures-index
-        destroy]
-    other = %w[<html><head> <title> <script> <style> <!--Styles-->
-        <!--Messages--> <!--Buttons--> <!--Action\ content--> </body></html>]
+    divs = %w[
+admin-pictures-index  destroy  edit  session-buttons  show  user-pictures-index
+        ]
+    other = %w[
+<!--Action\ content-->  </body></html>  <html><head>  <!--Messages-->  <script> 
+<!--Session\ buttons-->  <style>  <!--Styles-->  <title>
+        ]
     s1 = "<div class=\"#{Regexp.union *divs }\""
     s2 =              "#{Regexp.union *other}"
 # Remove any of these divs which are at line beginnings:
