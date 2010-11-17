@@ -12,4 +12,8 @@ module PicturesHelper
     concat( render :partial => 'pictures/gallery')
   end
 
+  def label(field)
+    content_tag :div, " &nbsp; #{field}", :class => 'label' if @show_labels
+  end
+
 end

@@ -1,10 +1,6 @@
 <%= content_tag :div, :class => 'field' do -%>
 <%=   content_tag :div, :class => field do -%>
 <%=     field record, field -%>
-<%        if @show_labels %>
-<%=         content_tag :div, :class => 'label' do -%>
- &nbsp; (field.to_s) <%
-            end
-          end
-        end
-      end %>
+<%=     label field %>
+<%    end -%>
+<%  end -%>
