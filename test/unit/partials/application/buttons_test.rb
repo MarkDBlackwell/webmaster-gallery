@@ -2,6 +2,7 @@ require 'test_helper'
 should_include_this_file
 
 class ApplicationButtonsPartialTest < ActionView::TestCase
+  include PartialTestShared
 
   test "should render" do
     assert_template :partial => 'application/_buttons'
@@ -42,15 +43,8 @@ class ApplicationButtonsPartialTest < ActionView::TestCase
   end
 
   def setup(&block)
-    setup_if_block_given &block
+    controller_yield &block
     render :partial => 'application/buttons'
-  end
-
-  def setup_if_block_given
-    if block_given?
-      setup_with_controller
-      yield
-    end
   end
 
 end
