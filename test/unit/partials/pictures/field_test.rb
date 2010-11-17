@@ -5,7 +5,7 @@ class PicturesTextFieldPartialTest < ActionView::TestCase
 
   test "should render" do
     render *@args
-    assert_template :partial => 'pictures/_text_field'
+    assert_template :partial => 'pictures/_field'
   end
 
   test "should include one text-field div" do
@@ -43,7 +43,7 @@ class PicturesTextFieldPartialTest < ActionView::TestCase
     name=:title
     @value='some_title'
     record[name]=@value
-    @args=[:partial => 'pictures/text_field', :locals => {:record => record,
+    @args=[:partial => 'pictures/field', :locals => {:record => record,
         :name => name}]
   end
 
