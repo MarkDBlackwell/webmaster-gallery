@@ -39,12 +39,9 @@ class PicturesFieldPartialTest < ActionView::TestCase
   def setup(&block)
 # Naming this method, 'render' and using 'super', failed somehow.
     controller_yield &block
-    record=Picture.new
-    field_name=:title
-    field_value='some_title'
-    record[field_name]=field_value
+    (record=Picture.new)[field=:title]=(field_value='some_title')
     render :partial => 'pictures/field', :locals => {:record => record,
-        :name => field_name}
+        :field => field}
   end
 
 end
