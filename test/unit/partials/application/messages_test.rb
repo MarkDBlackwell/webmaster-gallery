@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ApplicationMessagesPartialTest < ActionView::TestCase
+class MessagesApplicationPartialTest < ActionView::TestCase
 
   test "should render" do
     assert_template :partial => 'application/_messages'

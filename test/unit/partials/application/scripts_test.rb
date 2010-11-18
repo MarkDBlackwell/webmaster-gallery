@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ApplicationScriptsPartialTest < ActionView::TestCase
+class ScriptsApplicationPartialTest < ActionView::TestCase
 
   test "should render" do
     assert_template :partial => 'application/_scripts'

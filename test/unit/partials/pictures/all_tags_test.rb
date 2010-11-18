@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class PicturesAllTagsPartialTest < ActionView::TestCase
+class AllTagsPicturesPartialTest < ActionView::TestCase
 
   test "should render" do
     render_all_tags

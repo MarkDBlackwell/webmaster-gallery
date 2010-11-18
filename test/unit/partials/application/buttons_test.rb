@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ApplicationButtonsPartialTest < ActionView::TestCase
+class ButtonsApplicationPartialTest < ActionView::TestCase
   include PartialTestShared
 
   test "should render" do

@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class PicturesThumbnailPartialTest < ActionView::TestCase
+class ThumbnailPicturesPartialTest < ActionView::TestCase
   include PicturesPartialTestShared
 
   test "should render" do

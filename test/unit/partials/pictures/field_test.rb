@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class PicturesFieldPartialTest < ActionView::TestCase
+class FieldPicturesPartialTest < ActionView::TestCase
   include PartialTestShared
 
   test "should render" do

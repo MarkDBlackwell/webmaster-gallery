@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class PicturesTagPartialTest < ActionView::TestCase
+class TagPicturesPartialTest < ActionView::TestCase
 
   test "should render" do
     assert_template :partial => 'pictures/_tag'

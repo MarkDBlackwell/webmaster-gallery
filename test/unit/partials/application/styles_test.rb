@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ApplicationStylesPartialTest < ActionView::TestCase
+class StylesApplicationPartialTest < ActionView::TestCase
 
   test "should render" do
     assert_template :partial => 'application/_styles'

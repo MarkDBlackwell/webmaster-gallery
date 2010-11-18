@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class PicturesGalleryHelperTest < ActionView::TestCase
+class GalleryPicturesHelperTest < ActionView::TestCase
   include PicturesHelperTestShared
   tests PicturesHelper
 
