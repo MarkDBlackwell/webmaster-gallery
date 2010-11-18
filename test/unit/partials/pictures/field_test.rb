@@ -3,7 +3,6 @@ should_include_this_file
 
 class PicturesFieldPartialTest < ActionView::TestCase
   include PartialTestShared
-  helper PicturesHelper
 
   test "should render" do
     assert_template :partial => 'pictures/_field'
