@@ -7,15 +7,40 @@ Find.find("#{Rails.root}/test") do |path|
   require File.expand_path(path.chomp('.rb'),'/') if 'shared.rb'==b
 end
 
-1.times do # Introduce a local scope.
-  f="#{Rails.root}/log/test-should-include-this-file.log"
-  File.delete f
-  SHOULD_INCLUDE_THIS_FILE_LOG=ActiveSupport::BufferedLogger.new f
+class ShouldIncludeThisFileLog
+  PREFIX='./test/'
+  THIS=PREFIX + File.basename(__FILE__)
+  def self.add
+    unless @log.present?
+      @previous='no-such'
+      f="#{Rails.root}/log/test-should-include-this-file.log"
+      begin;File.delete(f);rescue(Errno::ENOENT);end
+      @log=ActiveSupport::BufferedLogger.new f
+    end
+    a=caller(0)
+    i=a.index do |e|
+        e.start_with?(PREFIX   ) &&
+      ! e.start_with?(THIS     ) &&
+      ! e.start_with?(@previous)
+    end
+    if i.present?
+      s=a.at(i)
+      @previous=s.slice(0..s.index(?:))
+      @log.add(Logger::DEBUG, @previous)
+    end
+  end
+end
+
+class Object
+  def require_with_test_logging(*args)
+    ShouldIncludeThisFileLog.add
+    require_without_test_logging(*args)
+  end
+  alias_method_chain :require, :test_logging
 end
 
 class Object
   def should_include_this_file
-    SHOULD_INCLUDE_THIS_FILE_LOG.add( Logger::DEBUG, caller.first)
   end
 end
 
