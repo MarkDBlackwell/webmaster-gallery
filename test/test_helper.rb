@@ -23,7 +23,7 @@ class ShouldIncludeThisFileLog
       ! e.start_with?(THIS     ) &&
       ! e.start_with?(@previous)
     end
-    if i.present?
+    unless i.blank?
       s=a.at(i)
       @previous=s.slice(0..s.index(?:))
       @log.add(Logger::DEBUG, @previous)
@@ -37,11 +37,6 @@ class Object
     require_without_test_logging(*args)
   end
   alias_method_chain :require, :test_logging
-end
-
-class Object
-  def should_include_this_file
-  end
 end
 
 class ActiveSupport::TestCase

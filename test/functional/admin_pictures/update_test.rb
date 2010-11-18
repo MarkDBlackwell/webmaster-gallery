@@ -1,5 +1,4 @@
 require 'test_helper'
-should_include_this_file
 
 class AdminPicturesUpdateControllerTest < ActionController::TestCase
   tests AdminPicturesController
