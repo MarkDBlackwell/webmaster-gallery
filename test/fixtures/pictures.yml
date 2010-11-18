@@ -6,6 +6,7 @@ one:
   sequence: 1
   title: one-title
   year: 2001
+  weight: -4
 
 two:
   description: two-description
@@ -13,3 +14,4 @@ two:
   sequence: 2
   title: two-title
   year: 2002
+  weight: 2
