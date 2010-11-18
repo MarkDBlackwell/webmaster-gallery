@@ -10,11 +10,11 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101118033134) do
+ActiveRecord::Schema.define(:version => 20101118035207) do
 
   create_table "pictures", :force => true do |t|
     t.string   "filename"
-    t.integer  "sequence"
+    t.string   "sequence",    :limit => 4
     t.string   "title"
     t.string   "year",        :limit => 4
     t.string   "description"

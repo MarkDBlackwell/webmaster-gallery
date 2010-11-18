@@ -4,6 +4,6 @@ class ChangeYearToString < ActiveRecord::Migration
   end
 
   def self.down
-    change_column :pictures, :year, :integer
+    change_column :pictures, :year, :string
   end
 end

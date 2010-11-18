@@ -56,7 +56,7 @@ class PicturesGalleryPartialTest < ActionView::TestCase
 
   test "should render the right year" do
     picture_two
-    assert_select 'div.picture > form > div.field > div.year', 'two-year'
+    assert_select 'div.picture > form > div.field > div.year', '2002'
   end
 
   test "should render the right description" do
