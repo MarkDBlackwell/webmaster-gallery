@@ -29,6 +29,10 @@ class ApplicationStylesPartialTest < ActionView::TestCase
     style_include? 'div.session-buttons * {display: inline}'
   end
 
+  test "labels should be horizontal" do
+    style_include? 'div.label {display: inline-block}'
+  end
+
 #-------------
   private
 

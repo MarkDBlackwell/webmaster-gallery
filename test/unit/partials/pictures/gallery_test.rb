@@ -2,6 +2,7 @@ require 'test_helper'
 should_include_this_file
 
 class PicturesGalleryPartialTest < ActionView::TestCase
+  helper PicturesHelper
 
   test "should render" do
     render_all_pictures
@@ -25,17 +26,17 @@ class PicturesGalleryPartialTest < ActionView::TestCase
 
   test "should render a title within a picture" do
     render_all_pictures
-    assert_select 'div.picture > form > div.title'
+    assert_select 'div.picture > form > div.field > div.title'
   end
 
   test "should render a description within a picture" do
     render_all_pictures
-    assert_select 'div.picture > form > div.description'
+    assert_select 'div.picture > form > div.field > div.description'
   end
 
   test "should render a year within a picture" do
     render_all_pictures
-    assert_select 'div.picture > form > div.year'
+    assert_select 'div.picture > form > div.field > div.year'
   end
 
   test "should render a thumbnail within a picture" do
@@ -55,17 +56,17 @@ class PicturesGalleryPartialTest < ActionView::TestCase
 
   test "should render the right year" do
     picture_two
-    assert_select 'div.picture > form > div.year', 'two-year'
+    assert_select 'div.picture > form > div.field > div.year', 'two-year'
   end
 
   test "should render the right description" do
     picture_two
-    assert_select 'div.picture > form > div.description', 'two-description'
+    assert_select 'div.picture > form > div.field > div.description', 'two-description'
   end
 
   test "should render the right title" do
     picture_two
-    assert_select 'div.picture > form > div.title', 'two-title'
+    assert_select 'div.picture > form > div.field > div.title', 'two-title'
   end
 
   test "rendered image should have the right title as alt-text" do
