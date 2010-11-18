@@ -1,5 +1,15 @@
 <%= content_tag :div, :class => 'field' do -%>
 <%=   content_tag :div, :class => field do -%>
-<%      field_helper record, field -%>
+<%      value=record[field]
+        label=raw(' &nbsp; ').concat field
+        uneditables=[:filename]
+        plain=(uneditables.include? field) || ! @edit_fields
+        hide=:filename==field && ! @show_filename
+
+        unless hide -%>
+<%=       plain ? value : text_field_tag(record, field,
+              :value => value, :name => "picture[#{field}]") -%>
+<%=       content_tag :div, label, :class => 'label' if @show_labels -%>
+<%      end -%>
 <%    end -%>
 <%  end -%>
