@@ -7,11 +7,15 @@ Find.find("#{Rails.root}/test") do |path|
   require File.expand_path(path.chomp('.rb'),'/') if 'shared.rb'==b
 end
 
+1.times do # Introduce a local scope.
+  f="#{Rails.root}/log/test-should-include-this-file.log"
+  File.delete f
+  SHOULD_INCLUDE_THIS_FILE_LOG=ActiveSupport::BufferedLogger.new f
+end
+
 class Object
   def should_include_this_file
-    f=File.new("#{Rails.root}/out/test-should-include",'a')
-    f.print "#{caller.first}\n"
-    f.close
+    SHOULD_INCLUDE_THIS_FILE_LOG.add( Logger::DEBUG, caller.first)
   end
 end
 
