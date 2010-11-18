@@ -10,13 +10,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101011231115) do
+ActiveRecord::Schema.define(:version => 20101118033134) do
 
   create_table "pictures", :force => true do |t|
     t.string   "filename"
     t.integer  "sequence"
     t.string   "title"
-    t.string   "year"
+    t.string   "year",        :limit => 4
     t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"
