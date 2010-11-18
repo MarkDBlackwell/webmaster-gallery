@@ -18,7 +18,8 @@ class AdminPicturesController < ApplicationController
 
   def update
     pp=params[:picture]
-    [:description,:title,:year].each do |e|
+# Don't copy filename, id, or sequence.
+    [:description,:precedence,:title,:year].each do |e|
       @picture[e]=pp.fetch e if pp.has_key? e
     end unless pp.blank?
     @picture.save ? render_show : render_edit
@@ -49,7 +50,7 @@ class AdminPicturesController < ApplicationController
   def render_single
     @show_filename=true
 # Rendering a partial did not pick up the application layout.
-    render :single
+    render :template => 'admin_pictures/single'
   end
 
 end

@@ -28,6 +28,10 @@ class PicturesPicturePartialTest < ActionView::TestCase
     assert_select 'div.picture > form > div.field > div.filename'
   end
 
+  test "should render a precedence within a picture" do
+    assert_select 'div.picture > form > div.field > div.precedence'
+  end
+
   test "should render a sequence within a picture" do
     assert_select 'div.picture > form > div.field > div.sequence'
   end
@@ -42,10 +46,6 @@ class PicturesPicturePartialTest < ActionView::TestCase
 
   test "should render the right title" do
     assert_select 'div.picture > form > div.field > div.title', 'two-title'
-  end
-
-  test "should render a weight within a picture" do
-    assert_select 'div.picture > form > div.field > div.weight'
   end
 
   test "should render a year within a picture" do
