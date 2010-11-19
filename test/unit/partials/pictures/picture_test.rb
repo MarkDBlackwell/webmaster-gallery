@@ -26,8 +26,8 @@ class PicturePicturesPartialTest < SharedPartialTest
     assert_select 'div.picture > form > div.field > div.filename'
   end
 
-  test "should render a precedence within a picture" do
-    assert_select 'div.picture > form > div.field > div.precedence'
+  test "should render a weight within a picture" do
+    assert_select 'div.picture > form > div.field > div.weight'
   end
 
   test "should render a sequence within a picture" do

@@ -6,7 +6,7 @@
 <%=     submit_tag if @edit_fields -%><%= %>
 <%=     render :partial => 'pictures/thumbnail', :locals => {:picture =>
             picture} -%>
-<%      [:filename, :sequence, :title, :description, :year, :precedence].
+<%      [:filename, :sequence, :title, :description, :year, :weight].
             each do |field| -%><%= %>
 <%=       render :partial => 'pictures/field', :locals => {:record => picture,
               :field => field} -%>

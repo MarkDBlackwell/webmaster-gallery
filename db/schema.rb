@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101118163911) do
+ActiveRecord::Schema.define(:version => 20101119213450) do
 
   create_table "pictures", :force => true do |t|
     t.string   "filename"
@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(:version => 20101118163911) do
     t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "precedence",  :limit => 2
+    t.string   "weight",      :limit => 2
   end
 
   create_table "tags", :force => true do |t|

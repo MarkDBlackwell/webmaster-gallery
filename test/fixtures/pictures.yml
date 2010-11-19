@@ -3,15 +3,15 @@
 one:
   description: one-description
   filename: one.jpg
-  precedence: -4
   sequence: 1
   title: one-title
+  weight: -4
   year: 2001
 
 two:
   description: two-description
   filename: two.png
-  precedence: 2
   sequence: 2
   title: two-title
+  weight: 2
   year: 2002

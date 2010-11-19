@@ -19,7 +19,7 @@ class AdminPicturesController < ApplicationController
   def update
     pp=params[:picture]
 # Don't copy filename, id, or sequence.
-    [:description,:precedence,:title,:year].each do |e|
+    [:description,:title,:weight,:year].each do |e|
       @picture[e]=pp.fetch e if pp.has_key? e
     end unless pp.blank?
     @picture.save ? render_show : render_edit
