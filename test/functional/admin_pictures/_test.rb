@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class AdminPicturesControllerTest < ActionController::TestCase
+class AdminPicturesControllerTest < SharedControllerTest
 
 # All actions tests:
 

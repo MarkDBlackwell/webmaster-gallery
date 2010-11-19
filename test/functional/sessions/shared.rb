@@ -1,4 +1,4 @@
-class SharedSessionsControllerTest < ActionController::TestCase
+class SharedSessionsControllerTest < SharedControllerTest
 
   private
 

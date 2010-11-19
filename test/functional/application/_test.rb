@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ApplicationControllerTest < ActionController::TestCase
+class ApplicationControllerTest < SharedControllerTest
 
   test "should allow mocking with Mocha" do
 # Needed 'rails plugin install git://github.com/floehopper/mocha.git

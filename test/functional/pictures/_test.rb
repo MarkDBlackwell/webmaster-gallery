@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class PicturesControllerTest < ActionController::TestCase
+class PicturesControllerTest < SharedControllerTest
 
 # Index action tests:
 
