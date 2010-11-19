@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class AllPicturesHelperTest < PicturesHelperTest
+class AllPicturesHelperTest < SharedPicturesHelperTest
   tests PicturesHelper
 
   test "should render pretty html source" do

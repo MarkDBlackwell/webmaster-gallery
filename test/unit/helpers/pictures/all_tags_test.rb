@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class AllTagsPicturesHelperTest < PicturesHelperTest
+class AllTagsPicturesHelperTest < SharedPicturesHelperTest
   tests PicturesHelper
 
   test "should render partial" do

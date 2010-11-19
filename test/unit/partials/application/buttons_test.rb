@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ButtonsApplicationPartialTest < PartialTest
+class ButtonsApplicationPartialTest < SharedPartialTest
 
   test "should render" do
     assert_template :partial => 'application/_buttons'

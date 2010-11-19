@@ -1,4 +1,4 @@
-class LayoutTest < ActionView::TestCase
+class SharedLayoutTest < ActionView::TestCase
 
   private
 

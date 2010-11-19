@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class FieldPicturesPartialTest < PartialTest
+class FieldPicturesPartialTest < SharedPartialTest
 
   test "should render" do
     assert_template :partial => 'pictures/_field'

@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ThumbnailPicturesPartialTest < PicturesPartialTest
+class ThumbnailPicturesPartialTest < SharedPicturesPartialTest
 
   test "should render" do
     assert_template :partial => 'pictures/_thumbnail'

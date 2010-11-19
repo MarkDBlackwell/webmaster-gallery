@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class TagPicturesPartialTest < PicturesPartialTest
+class TagPicturesPartialTest < SharedPicturesPartialTest
 
   test "should render" do
     assert_template :partial => 'pictures/_tag'
