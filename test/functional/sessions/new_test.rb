@@ -11,8 +11,7 @@ class NewSessionsControllerTest < SharedSessionsControllerTest
   end
 
   test "happy path" do
-    set_cookies
-    get :new
+    happy_path
     assert_response :success
   end
 
@@ -31,27 +30,23 @@ class NewSessionsControllerTest < SharedSessionsControllerTest
   test "should clear the flash" do
     flash.now[:notice]='anything'
     flash[:notice]='anything'
-    set_cookies
-    get :new
+    happy_path
     assert_blank flash.now[:notice]
     assert_blank flash[:notice]
   end
 
   test "should suppress the session management buttons" do
-    set_cookies
-    get :new
+    happy_path
     assert_equal true, assigns(:suppress_buttons)
   end
 
   test "should have one password form" do
-    set_cookies
-    get :new
+    happy_path
     assert_select 'form.password', 1
   end
 
   test "should have one password form with method post" do
-    set_cookies
-    get :new
+    happy_path
     assert_select 'form.password[method=post]', 1
   end
 
@@ -61,10 +56,17 @@ class NewSessionsControllerTest < SharedSessionsControllerTest
   end
 
   test "should prompt for password" do
-    set_cookies
-    get :new
+    happy_path
     assert_select 'p', :count => 1, :text =>
         "Type the password and hit 'Enter'."
+  end
+
+#-------------
+  private
+
+  def happy_path
+    set_cookies
+    get :new
   end
 
 end

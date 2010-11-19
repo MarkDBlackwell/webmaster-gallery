@@ -53,12 +53,12 @@ class CreateSessionsControllerTest < SharedSessionsControllerTest
 
   test "happy path; should redirect to edit on right password if not "\
        "already logged in" do
-    login
+    happy_path
     assert_redirected_to :action => :edit
   end
 
   test "should log in" do
-    login
+    happy_path
     assert_equal true, session[:logged_in]
   end
 
@@ -66,18 +66,25 @@ class CreateSessionsControllerTest < SharedSessionsControllerTest
 
   test "logging in should reset the session" do
     session[:something]='something'
-    login
+    happy_path
     assert_blank session[:something]
   end
 
   test "shouldn't make a pictures layout file" do
-    login
+    happy_path
     assert_equal false, pictures_in_layouts_directory?
   end
 
   test "shouldn't read the webmaster page file" do
     fn="#{Gallery::Application.config.webmaster}/page.html.erb"
     remove_read_permission(fn) {login}
+  end
+
+#-------------
+  private
+
+  def happy_path
+    login
   end
 
 end

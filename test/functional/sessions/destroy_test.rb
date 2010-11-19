@@ -14,14 +14,12 @@ class DestroySessionsControllerTest < SharedSessionsControllerTest
   end
 
   test "happy path" do
-    pretend_logged_in
-    delete :destroy
+    happy_path
     assert_response :redirect
   end
 
   test "should reset the session" do
-    pretend_logged_in
-    delete :destroy
+    happy_path
     assert_blank session[:something]
   end
 
@@ -50,21 +48,26 @@ class DestroySessionsControllerTest < SharedSessionsControllerTest
 # Logged-in tests:
 
   test "should redirect to new if logged in" do
-    pretend_logged_in
-    delete :destroy
+    happy_path
     assert_redirected_to :action => :new
   end
 
   test "should log out if logged in" do
-    pretend_logged_in
-    delete :destroy
+    happy_path
     assert_blank session[:logged_in]
   end
 
   test "should flash a notice of log out if logged in" do
+    happy_path
+    assert_equal 'Logged out successfully.', flash[:notice]
+  end
+
+#-------------
+  private
+
+  def happy_path
     pretend_logged_in
     delete :destroy
-    assert_equal 'Logged out successfully.', flash[:notice]
   end
 
 end

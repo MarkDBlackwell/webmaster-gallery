@@ -31,11 +31,13 @@ class SessionsControllerTest < SharedSessionsControllerTest
        "logged in" do
     session[:logged_in]=true
     request.cookies.clear
+# TODO: change to do all actions.
     post :create, :password => get_password
     assert_select 'div.error', 'Cookies required, or session timed out.'
   end
 
   test "should not flash so, if cookies not blocked" do
+# TODO: change to do all actions.
     login
     assert_select 'div.notice', 0
     assert_select 'div.error', 0

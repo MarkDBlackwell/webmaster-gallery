@@ -11,8 +11,7 @@ class EditSessionsControllerTest < SharedSessionsControllerTest
   end
 
   test "happy path" do
-    pretend_logged_in
-    get :edit
+    happy_path
     assert_response :success
   end
 
@@ -23,9 +22,16 @@ class EditSessionsControllerTest < SharedSessionsControllerTest
   end
 
   test "should render edit if logged in" do
+    happy_path
+    assert_template :edit
+  end
+
+#-------------
+  private
+
+  def happy_path
     pretend_logged_in
     get :edit
-    assert_template :edit
   end
 
 end

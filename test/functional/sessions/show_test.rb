@@ -14,8 +14,7 @@ class ShowSessionsControllerTest < SharedSessionsControllerTest
   end
 
   test "happy path" do
-    pretend_logged_in
-    get :show
+    happy_path
     assert_response :success
   end
 
@@ -29,5 +28,13 @@ class ShowSessionsControllerTest < SharedSessionsControllerTest
 # Already logged in tests:
 
 # TODO: what should it show?
+
+#-------------
+  private
+
+  def happy_path
+    pretend_logged_in
+    get :show
+  end
 
 end

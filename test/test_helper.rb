@@ -51,9 +51,9 @@ class ActiveSupport::TestCase
 #-------------
   private
 
-  def assert_after_filter(*args)
-    assert_filter_kind(:after,*args)
-  end
+#  def assert_after_filter(*args)
+#    assert_filter_kind(:after,*args)
+#  end
 
   def assert_filter(*args)
     assert_filter_kind(:before,*args)

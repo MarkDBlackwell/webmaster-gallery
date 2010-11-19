@@ -14,7 +14,7 @@ class UpdateSessionsControllerTest < SharedSessionsControllerTest
   end
 
   test "happy path" do
-    put_update
+    happy_path
     assert_response :success
   end
 
@@ -28,12 +28,12 @@ class UpdateSessionsControllerTest < SharedSessionsControllerTest
 # Already logged in tests:
 
   test "should render show" do
-    put_update
+    happy_path
     assert_template :show
   end
 
   test "should add and remove tags" do
-    put_update
+    happy_path
     assert_equal %w[one three], Tag.find(:all).collect(&:name).sort
   end
 
@@ -43,38 +43,38 @@ class UpdateSessionsControllerTest < SharedSessionsControllerTest
     a.expects(:filename).returns 'one'
     b.expects(:filename).returns 'three'
     DirectoryPicture.expects(:find).returns [a,b]
-    put_update
+    happy_path
     assert_equal %w[one three], Picture.find(:all).collect(&:filename).sort
   end
 
   test "should expire a cached pictures index page" do
     fn = "#{Rails.root}/public/index.html"
     File.open(fn,'w').close
-    put_update
+    happy_path
     assert_equal false, File.exist?(fn), "#{fn} cache expiration failed."
   end
 
   test "should expire a cached pictures index page for a tag" do
     fn = "#{Rails.root}/public/pictures/two-name.html"
     File.open(fn,'w').close
-    put_update
+    happy_path
     assert_equal false, File.exist?(fn), "#{fn} cache expiration failed."
   end
 
   test "shouldn't make a pictures layout file" do
-    put_update
+    happy_path
     assert_equal false, pictures_in_layouts_directory?
   end
 
   test "shouldn't read the webmaster page file" do
     fn="#{Gallery::Application.config.webmaster}/page.html.erb"
-    remove_read_permission(fn) {put_update}
+    remove_read_permission(fn) {happy_path}
   end
 
 #-------------
   private
 
-  def put_update
+  def happy_path
     pretend_logged_in
     put :update
   end
