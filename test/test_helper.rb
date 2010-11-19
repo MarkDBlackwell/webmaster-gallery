@@ -51,11 +51,6 @@ class ActiveSupport::TestCase
 #-------------
   private
 
-  def pretend_logged_in
-    session[:logged_in]=true
-    set_cookies
-  end
-
   def see_output(s=nil)
     f=File.new("#{Rails.root}/out/see-output",'w')
     if s.blank?

@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class UpdateAdminPicturesControllerTest < ActionController::TestCase
+class UpdateAdminPicturesControllerTest < SharedControllerTest
   tests AdminPicturesController
 
   test "routing" do

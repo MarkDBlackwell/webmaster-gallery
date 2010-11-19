@@ -31,6 +31,11 @@ class SharedControllerTest < ActionController::TestCase
     @controller._process_action_callbacks
   end
 
+  def pretend_logged_in
+    session[:logged_in]=true
+    set_cookies
+  end
+
   def try_wrong_methods(actions, options=nil, params=nil)
 # Reference: 'ActionController - PROPFIND and other HTTP request methods':
 # at http://railsforum.com/viewtopic.php?id=30137
