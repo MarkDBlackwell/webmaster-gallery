@@ -20,35 +20,38 @@ class IndexAdminPicturesControllerTest < ActionController::TestCase
   end
 
   test "happy path" do
-    pretend_logged_in
-    get :index
+    happy_path
     assert_response :success
   end
 
   test "should render the right template" do
-    pretend_logged_in
-    get :index
+    happy_path
     assert_template :index
   end
 
   test "should render a list of all tags, once" do
-    pretend_logged_in
-    get :index
+    happy_path
     assert_select 'div.all-tags', 1
     assert_template :partial => 'pictures/_all_tags', :count => 1
   end
 
   test "should render a gallery, once" do
-    pretend_logged_in
-    get :index
+    happy_path
     assert_select 'div.gallery', 1
     assert_template :partial => 'pictures/_gallery', :count => 1
   end
 
   test "pictures should be editable" do
+    happy_path
+    assert_present assigns(:editable)
+  end
+
+#-------------
+  private
+
+  def happy_path
     pretend_logged_in
     get :index
-    assert_present assigns(:editable)
   end
 
 end

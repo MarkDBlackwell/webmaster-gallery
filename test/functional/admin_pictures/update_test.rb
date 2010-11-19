@@ -16,9 +16,16 @@ class UpdateAdminPicturesControllerTest < ActionController::TestCase
   end
 
   test "happy path" do
+    happy_path
+    assert_response :success
+  end
+
+#-------------
+  private
+
+  def happy_path
     pretend_logged_in
     put :update, :id => pictures(:two).id
-    assert_response :success
   end
 
 end

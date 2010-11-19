@@ -15,28 +15,33 @@ class EditAdminPicturesControllerTest < ActionController::TestCase
   end
 
   test "happy path" do
-    pretend_logged_in
-    get :edit, :id => pictures(:two).id
+    happy_path
     assert_response :success
   end
 
   test "should render a single picture" do
-    pretend_logged_in
-    get :edit, :id => pictures(:two).id
+    happy_path
     assert_select 'div.picture', 1
     assert_template :partial => 'pictures/_picture', :count => 1
   end
 
   test "should render the right picture" do
-    pretend_logged_in
     picture=pictures(:two)
     id=picture.id
-    get :edit, :id => id
+    happy_path
     assert_select "div.picture[id=picture_#{id}]"
 # TODO: change to test that the pictures/picture partial was rendered with the locals for the right picture.
 # Did not work:
 #    assert_template :partial => 'pictures/_picture', :locals => {:picture =>
 #        picture}
+  end
+
+#-------------
+  private
+
+  def happy_path
+    pretend_logged_in
+    get :edit, :id => pictures(:two).id
   end
 
 end

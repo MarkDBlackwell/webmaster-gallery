@@ -50,7 +50,7 @@ class PicturesControllerTest < ActionController::TestCase
   test "index should cache a page" do
     fn="#{Rails.root}/public/index.html"
     File.delete(fn) if File.exist?(fn)
-    get :index
+    happy_path
     assert_equal true, 0 < File.size(fn), "#{fn} caching failed."
   end
 
@@ -62,12 +62,12 @@ class PicturesControllerTest < ActionController::TestCase
   end
 
   test "happy path" do
-    get :index
+    happy_path
     assert_response :success
   end
 
   test "index should obtain a page" do
-    get :index
+    happy_path
 # TODO: what is this test for?
   end
 
@@ -75,13 +75,20 @@ class PicturesControllerTest < ActionController::TestCase
 # TODO  test "index should render right webmaster page file" do
     assert Date::today < Date::new(2010,11,26), 'Test unwritten.'
 # TODO: Could not get this test to work.
-#    get :index
+#    happy_path
 #print 'assigns(:pictures) '; p assigns(:pictures)
 #    assert_template :file => "#{Gallery::Application.config.webmaster}/page"
 #,
 #        :partial => 'pictures/pictures',
 #        :locals => {:pictures => assigns(:pictures)}
 #        :locals => nil
+  end
+
+#-------------
+  private
+
+  def happy_path
+    get :index
   end
 
 end
