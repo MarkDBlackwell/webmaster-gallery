@@ -1,7 +1,7 @@
 require 'test_helper'
 
-class PicturesHelperTest < ActionView::TestCase
-  include PicturesHelperTestShared
+class AllPicturesHelperTest < PicturesHelperTest
+  tests PicturesHelper
 
   test "should render pretty html source" do
 # TODO: split up.

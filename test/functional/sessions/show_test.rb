@@ -1,7 +1,6 @@
 require 'test_helper'
 
-class ShowSessionsControllerTest < ActionController::TestCase
-  include SessionsControllerTestShared
+class ShowSessionsControllerTest < SharedSessionsControllerTest
   tests SessionsController
 
 # -> Webmaster reviews database problems.

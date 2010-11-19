@@ -1,7 +1,6 @@
 require 'test_helper'
 
-class LayoutTest < ActionView::TestCase
-  include LayoutTestShared
+class AllLayoutTest < LayoutTest
   helper PicturesHelper
 
   test "should render session buttons once" do

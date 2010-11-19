@@ -1,7 +1,6 @@
 require 'test_helper'
 
-class SessionsControllerTest < ActionController::TestCase
-  include SessionsControllerTestShared
+class SessionsControllerTest < SharedSessionsControllerTest
 
 # All actions tests:
 

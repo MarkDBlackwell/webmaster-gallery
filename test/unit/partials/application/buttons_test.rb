@@ -1,7 +1,6 @@
 require 'test_helper'
 
-class ButtonsApplicationPartialTest < ActionView::TestCase
-  include PartialTestShared
+class ButtonsApplicationPartialTest < PartialTest
 
   test "should render" do
     assert_template :partial => 'application/_buttons'

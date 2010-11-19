@@ -1,7 +1,6 @@
 require 'test_helper'
 
-class DestroySessionsControllerTest < ActionController::TestCase
-  include SessionsControllerTestShared
+class DestroySessionsControllerTest < SharedSessionsControllerTest
   tests SessionsController
 
 # <- Webmaster logs out.

@@ -1,7 +1,6 @@
 require 'test_helper'
 
-class PicturePicturesPartialTest < ActionView::TestCase
-  include PartialTestShared
+class PicturePicturesPartialTest < PartialTest
 
   test "should render" do
     assert_template :partial => 'pictures/_picture'

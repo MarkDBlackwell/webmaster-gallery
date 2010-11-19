@@ -1,7 +1,6 @@
 require 'test_helper'
 
-class GalleryPicturesHelperTest < ActionView::TestCase
-  include PicturesHelperTestShared
+class GalleryPicturesHelperTest < PicturesHelperTest
   tests PicturesHelper
 
   test "should render partial" do

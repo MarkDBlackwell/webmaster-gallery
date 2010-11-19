@@ -1,4 +1,4 @@
-module SessionsControllerTestShared
+class SharedSessionsControllerTest < ActionController::TestCase
 
   private
 

@@ -1,4 +1,4 @@
-module PicturesHelperTestShared
+class PicturesHelperTest < ActionView::TestCase
 
   private
 

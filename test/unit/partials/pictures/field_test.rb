@@ -1,7 +1,6 @@
 require 'test_helper'
 
-class FieldPicturesPartialTest < ActionView::TestCase
-  include PartialTestShared
+class FieldPicturesPartialTest < PartialTest
 
   test "should render" do
     assert_template :partial => 'pictures/_field'
