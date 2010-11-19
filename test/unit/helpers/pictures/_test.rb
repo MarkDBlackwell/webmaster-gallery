@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class PicturesHelperTest < SharedPicturesHelperTest
-#  tests PicturesHelper
 
   test "should render pretty html source" do
 # TODO: split up.

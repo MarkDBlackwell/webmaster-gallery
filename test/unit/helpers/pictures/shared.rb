@@ -1,4 +1,5 @@
 class SharedPicturesHelperTest < ActionView::TestCase
+# 'tests PicturesHelper' did not work, here.
 
   private
 

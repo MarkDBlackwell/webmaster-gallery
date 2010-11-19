@@ -61,8 +61,4 @@ class ActiveSupport::TestCase
     f.close
   end
 
-  def set_cookies
-    request.cookies[:not_empty]='not_empty'
-  end
-
 end
