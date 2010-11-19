@@ -17,16 +17,23 @@ class AdminPicturesControllerTest < SharedControllerTest
     assert_filter :find_picture, :index
   end
 
-  test "get actions should include session-buttons div" do
+  [:edit, :index, :show].each do |action|
+    test "get #{action} should render session buttons" do
 # TODO: Add similar tests for styles, messages & action content divs.
 # TODO: Or, move to an application layout test.
-    [:edit, :index, :show].each do |action|
       pretend_logged_in
-#      get action, {:id => pictures(:two).id}, :logged_in => true
-      get action, {:id => pictures(:two).id}
-      assert_select 'div.session-buttons', 1, "Action #{action}"
-      assert_template({:partial => 'application/_buttons'}, "Action #{action}")
+      get action, :id => pictures(:two).id
+      assert_blank_assigns :suppress_buttons
+      assert_select 'div.session-buttons', 1
+      assert_template :partial => 'application/_buttons'
     end
+  end
+
+#-------------
+  private
+
+  def assert_blank_assigns(symbol)
+    assert_blank assigns(symbol), "@#{symbol}"
   end
 
 end

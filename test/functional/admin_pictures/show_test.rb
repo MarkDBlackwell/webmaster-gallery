@@ -30,10 +30,6 @@ class ShowAdminPicturesControllerTest < SharedControllerTest
     id=picture.id
     happy_path
     assert_select "div.picture[id=picture_#{id}]"
-# TODO: change to test that the pictures/picture partial was rendered with the locals for the right picture.
-# Did not work:
-#    assert_template :partial => 'pictures/_picture', :locals => {:picture =>
-#        picture}
   end
 
 #-------------
