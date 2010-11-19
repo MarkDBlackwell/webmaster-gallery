@@ -51,15 +51,6 @@ class ActiveSupport::TestCase
 #-------------
   private
 
-  def assert_select_include?(css, string)
-    assert_select css, Regexp.new(Regexp.escape string)
-  end
-
-  def filter_chain
-    assert_raise(NoMethodError) {super} # Notice if Rails re-supports this method.
-    @controller._process_action_callbacks
-  end
-
   def pretend_logged_in
     session[:logged_in]=true
     set_cookies
