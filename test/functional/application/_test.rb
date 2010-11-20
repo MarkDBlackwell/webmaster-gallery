@@ -50,7 +50,7 @@ class ApplicationControllerTest < SharedControllerTest
 
   test "if authenticity token is invalid, should log out" do
 # How to test filter, ':verify_authenticity_token'?
-# Alter token in cookies.
+# TODO: Alter token in cookies.
     assert_logoff :invalid_authenticity_token
   end
 

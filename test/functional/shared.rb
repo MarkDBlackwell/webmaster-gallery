@@ -36,15 +36,8 @@ class SharedControllerTest < ActionController::TestCase
     set_cookies
   end
 
-  def set_cookies
-    request.cookies[:not_empty]='not_empty'
-  end
-
-  def try_wrong_methods(action, options=nil, params=nil)
-# Reference: 'ActionController - PROPFIND and other HTTP request methods':
-# at http://railsforum.com/viewtopic.php?id=30137
-    should_redirect = {:controller => :sessions, :action => :new}
-    restful_methods = {
+  def restful_methods
+    {
         :index   => :get,
         :new     => :get,
         :create  => :post,
@@ -53,6 +46,16 @@ class SharedControllerTest < ActionController::TestCase
         :show    => :get,
         :destroy => :delete,
         }
+  end
+
+  def set_cookies
+    request.cookies[:not_empty]='not_empty'
+  end
+
+  def try_wrong_methods(action, options=nil, params=nil)
+# Reference: 'ActionController - PROPFIND and other HTTP request methods':
+# at http://railsforum.com/viewtopic.php?id=30137
+    should_redirect = {:controller => :sessions, :action => :new}
     (ActionController::Request::HTTP_METHODS - [restful_methods.fetch(action).
         to_s]).each do |bad_method|
       pretend_logged_in

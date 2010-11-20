@@ -20,26 +20,21 @@ class PicturesControllerTest < SharedControllerTest
     end
   end
 
-  test "should be no route for 'uncached_index' action" do
-    procs = [
-        Proc.new do |action,hash|
-          get action, hash
-        end,
-        Proc.new do |action,hash|
-          route = hash.empty? ? '' : "pictures/#{hash[:tag]}"
-          assert_generates route,
-              {:controller => :pictures, :action => action}.merge(hash),
-              {}, {}, 'In assert_generates proc, '\
-              "route #{route}, action #{action}, hash #{hash.to_yaml}."
-        end,
-        ]
-    [{},{:tag => 'something'}].each do |e_hash|
-      procs.each do |e_proc|
-        e_proc.call(:index, e_hash) # A valid action should be okay.
+  [{:tag=>'some_tag'},Hash.new].each do |e|
+    s=e.inspect
+    2.times do |i|
+      test "should be no route for action, 'uncached_index' on #{[s,i]}" do
+        a=[:uncached_index, e]
         assert_raise ActionController::RoutingError do
-          e_proc.call :uncached_index, e_hash
+          try_route *a if 0==i
+          get *a       if 1==i
         end
       end
+    end
+    test "on the other hand, index should be okay on #{s}" do
+      a=[:index, e]
+      try_route *a
+      get *a
     end
   end
 
@@ -77,8 +72,7 @@ class PicturesControllerTest < SharedControllerTest
 # TODO: Could not get this test to work.
 #    happy_path
 #print 'assigns(:pictures) '; p assigns(:pictures)
-#    assert_template :file => "#{Gallery::Application.config.webmaster}/page"
-#,
+#    assert_template :file => "#{Gallery::Application.config.webmaster}/page",
 #        :partial => 'pictures/pictures',
 #        :locals => {:pictures => assigns(:pictures)}
 #        :locals => nil
@@ -89,6 +83,12 @@ class PicturesControllerTest < SharedControllerTest
 
   def happy_path
     get :index
+  end
+
+  def try_route(action,hash)
+    route = hash.empty? ? '' : "pictures/#{hash[:tag]}"
+    assert_generates route, {:controller => :pictures, :action => action}.
+        merge(hash), {}, {}, "route #{route}"
   end
 
 end

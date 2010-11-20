@@ -28,11 +28,12 @@ class NewSessionsControllerTest < SharedSessionsControllerTest
   end
 
   test "should clear the flash" do
-    flash.now[:notice]='anything'
-    flash[:notice]='anything'
+    k,v=:notice,'anything'
+    flash.store(k,v)
+    flash.now[k]=v
     happy_path
-    assert_blank flash.now[:notice]
-    assert_blank flash[:notice]
+    assert_equal false, (flash.key? k)
+    assert_blank flash.now[k]
   end
 
   test "should suppress the session management buttons" do

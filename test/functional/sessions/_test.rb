@@ -29,29 +29,28 @@ class SessionsControllerTest < SharedSessionsControllerTest
 #-------------
 # Cookies blocked tests:
 
-  test "should flash if cookies (session store) blocked while already "\
-       "logged in" do
-    session[:logged_in]=true
-    request.cookies.clear
-# TODO: change to do all actions.
-    post :create, :password => get_password
-    assert_select 'div.error', 'Cookies required, or session timed out.'
+  [:new, :create, :edit, :update, :show, :destroy].each do |action|
+    test "#{action} should flash if cookies (session store) blocked while "\
+       "already logged in" do
+      session[:logged_in]=true
+      request.cookies.clear
+      process action, nil, {:password => get_password}, nil, restful_methods.
+          fetch(action).to_s
+      assert_select 'div.error', 'Cookies required, or session timed out.'
+    end
+    test "#{action} should not flash so, if cookies not blocked" do
+      login
+      assert_select 'div.notice', 0
+      assert_select 'div.error', 0
+    end
   end
 
-  test "should not flash so, if cookies not blocked" do
-# TODO: change to do all actions.
-    login
-    assert_select 'div.notice', 0
-    assert_select 'div.error', 0
-  end
-
-  test "should render session buttons" do
-    [:edit,:show].each_with_index do |action,i|
+  [:edit,:show].each_with_index do |action,i|
+    test "get #{action} should render session buttons" do
       pretend_logged_in
       get action
-      assert_select 'div.session-buttons', 1, "Action #{action}"
-      assert_template({:partial => 'application/_buttons', :count => i + 1},
-          "Action #{action}") # Count mounts up.
+      assert_select 'div.session-buttons', 1
+      assert_template({:partial => 'application/_buttons'}, 1)
     end
   end
 
