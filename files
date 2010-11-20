@@ -1,10 +1,11 @@
 #!/bin/sh
 # Author: Mark D. Blackwell
 # Date written: November 5, 2010
-# Date last changed: November 5, 2010
+# Date last changed: November 20, 2010
 # Usage:
 #   files <directories>
 # For example:
 #   files test/* test/unit/helpers/*
+#   files app/views/*/[!_]*
 
 find -P $@ -maxdepth 0 -name 'old-*' -prune -o -type f -exec `which ls` {} +
