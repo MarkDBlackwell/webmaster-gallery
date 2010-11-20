@@ -113,7 +113,7 @@ class AllLayoutTest < SharedLayoutTest
     @need_reload=false unless args
     unless @filenames
       d="#{Rails.root}/app/views/layouts"
-      @filenames=((Dir.entries d) - %w[.. .]).
+      @filenames=((Dir.entries d) - %w[. ..]).
           collect {|e| "#{d}/#{e.chomp '.html.erb'}" }
     end
   end

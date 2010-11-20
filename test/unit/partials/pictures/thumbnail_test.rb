@@ -10,24 +10,26 @@ class ThumbnailPicturesPartialTest < SharedPicturesPartialTest
     assert_select 'div.thumbnail', 1
   end
 
-  test "should render an image within a thumbnail" do 
-    assert_select 'div.thumbnail > * > img'
+  test "should render an single image within a thumbnail" do 
+    assert_select 'div.thumbnail > * > img', 1
   end
 
   test "rendered image should have the right thumbnail filename" do
     assert_select '[src=?]', filename_matcher('two-t.png')
   end
 
-  test "rendered image should have the right title as alt-text" do
+  test "rendered image should have once the right title as alt-text" do
+# NOTE: Did not work: assert_select '[alt=?]', :text => 'two-title', :count => 1
+    assert_select '[alt]', 1
     assert_select '[alt=?]', 'two-title'
   end
 
-  test "should render an anchor within a thumbnail" do 
-    assert_select 'div.thumbnail > a'
+  test "should render a single anchor within a thumbnail" do 
+    assert_select 'div.thumbnail > a', 1
   end
 
-  test "should render an image within an anchor" do 
-    assert_select 'a > img'
+  test "should render a single image within an anchor" do 
+    assert_select 'a > img', 1
   end
 
   test "rendered thumbnail anchor should be a link" do

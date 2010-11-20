@@ -3,13 +3,13 @@ class SharedLayoutTest < ActionView::TestCase
   private
 
   def render_layout(filename, instance_variables={})
-# Sample arguments to render:
+# To achieve the following invocation of render, for example:
 #   render :file => "#{Rails.root}/app/views/layouts/application", :locals =>
 #       {:@suppress_buttons => true}
-# Would be called this way:
+# Invoke in this way:
 #   render_layout :@suppress_buttons => true
 # Another way to do it:
-#    @controller.instance_variable_set(:@suppress_buttons,true)
+#    @controller.instance_variable_set(:@suppress_buttons, true)
 #-------------
     render :file => filename, :locals => instance_variables
   end

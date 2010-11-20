@@ -3,15 +3,15 @@
 one:
   description: one-description
   filename: one.jpg
-  sequence: 1
+  sequence: one-sequence
   title: one-title
-  weight: -4
+  weight: one-weight
   year: 2001
 
 two:
   description: two-description
   filename: two.png
-  sequence: 2
+  sequence: two-sequence
   title: two-title
-  weight: 2
+  weight: two-weight
   year: 2002

@@ -3,13 +3,25 @@ require 'test_helper'
 class AdminPicturesTemplateTest < ActionView::TestCase
   helper PicturesHelper
 
-  test "views should include something" do
-    %w[index single].each do |view|
+  %w[index single].each do |template|
+    test "#{template} should include something" do
       @pictures=Picture.all
       @picture=Picture.first
-      render :template => "admin_pictures/#{view}"
-      assert_select 'div.gallery', 1, "Action #{view}"
-#      assert_template({:template => "admin_pictures/#{view}"}, "View #{view}")
+# Getting a message, 'expected no partials to be rendered'.
+#      setup_with_controller
+#      render :file => "admin_pictures/#{template}"
+#      render :file => "/admin_pictures/#{template}"
+#      render :inline => "admin_pictures/#{template}"
+#      render :template => "admin_pictures/#{template}"
+#      render :template => "admin_pictures/#{template}", :partials => true
+#      render :update => "admin_pictures/#{template}"
+#      assert_template :template => "admin_pictures/#{template}"
+
+# TODO: try stubbing the controller.
+
+      render :template => "admin_pictures/#{template}"
+      assert_select 'div.picture'
+      assert_template :partial => 'pictures/_picture'
     end
   end
 
