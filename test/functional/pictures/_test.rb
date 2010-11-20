@@ -44,7 +44,7 @@ class PicturesControllerTest < SharedControllerTest
   end
 
   test "should redirect to new on wrong method" do
-    try_wrong_methods [:index]
+    try_wrong_methods :index
   end
 
   test "index should cache a page" do

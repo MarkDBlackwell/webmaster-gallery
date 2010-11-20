@@ -20,8 +20,10 @@ class SessionsControllerTest < SharedSessionsControllerTest
     end
   end
 
-  test "should redirect to sessions new on wrong http method" do
-    try_wrong_methods [:create, :destroy, :edit, :new, :show, :update]
+  [:create, :destroy, :edit, :new, :show, :update].each do |action|
+    test "#{action} should redirect to sessions new on wrong http method" do
+      try_wrong_methods action
+    end
   end
 
 #-------------

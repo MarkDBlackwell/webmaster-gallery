@@ -4,9 +4,10 @@ class AdminPicturesControllerTest < SharedControllerTest
 
 # All actions tests:
 
-  test "should redirect to sessions new on wrong method" do
-    try_wrong_methods [:edit, :index, :show, :update], {:id => '2'},
-        :logged_in => true
+  [:edit, :index, :show, :update].each do |action|
+    test "#{action} should redirect to sessions new on wrong method" do
+      try_wrong_methods action, {:id => '2'}, :logged_in => true
+    end
   end
 
   test "filters should include find all tags" do
