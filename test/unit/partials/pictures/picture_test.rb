@@ -2,54 +2,43 @@ require 'test_helper'
 
 class PicturePicturesPartialTest < SharedPartialTest
 
+# 13 tests, 33 assertions
+
   test "should render" do
     assert_template :partial => 'pictures/_picture'
   end
 
+  prefix='div.picture'
   test "should include one picture div" do
-    assert_select 'div.picture', 1
+    s="#{prefix}"
+    assert_select "div.picture", 1
   end
 
   test "should render a single, right picture" do
-    assert_select 'div.picture[id]', 1
+    assert_select "div.picture[id]", 1
     assert_select "div.picture[id=picture_#{@picture.id}]", 1
   end
 
-  test "should render a single, right description within a picture" do
-    assert_select 'div.picture > form > div.field > div.description', :text =>
-        'two-description', :count => 1
-    assert_select_single 'div.picture > form > div.field > div.description',
-        'two-description'
+#  prefix='div.picture > form > div.'
+  test "should render a single thumbnail within a picture" do
+    assert_select "div.picture > form > div.thumbnail", 1
+  end
+
+  prefix='div.picture > form > div.field > div.'
+  test "should render a single, right year within a picture" do
+    has_one "#{prefix}year", '2002'
+  end
+
+  %w[description sequence title weight].each do |unique|
+    test "should render a single, right #{unique} within a picture" do
+      has_one "#{prefix}#{unique}", "two-#{unique}"
+    end
   end
 
   test "should render a single, right filename within a picture if show "\
        "filename" do
-    assert_select_single('div.picture > form > div.field > div.filename',
-        'two.png') {setup {@show_filename = true}}
-  end
-
-  test "should render a single, right sequence within a picture" do
-    assert_select 'div.picture > form > div.field > div.sequence', :text =>
-        'two-sequence', :count => 1
-  end
-
-  test "should render a single thumbnail within a picture" do
-    assert_select 'div.picture > form > div.thumbnail', 1
-  end
-
-  test "should render a single, right title within a picture" do
-    assert_select 'div.picture > form > div.field > div.title', :text =>
-        'two-title', :count => 1
-  end
-
-  test "should render a single, right weight within a picture" do
-    assert_select 'div.picture > form > div.field > div.weight', :text =>
-        'two-weight', :count => 1
-  end
-
-  test "should render a single, right year within a picture" do
-    assert_select 'div.picture > form > div.field > div.year', :text =>
-        '2002', :count => 1
+    has_one("#{prefix}filename",
+        'two.png') {@show_filename = true}
   end
 
   test "should render a single edit div within a picture if editable" do
@@ -59,16 +48,16 @@ class PicturePicturesPartialTest < SharedPartialTest
   end
 
   test "should render a single button within an edit div if editable" do
-    assert_select 'div.picture > div.edit > form.button_to', 0
+    assert_select 'div.picture > div.edit > form.button_to', false
     setup {@editable = true}
     assert_select 'div.picture > div.edit > form.button_to', 1
   end
 
   test "rendered button within an edit div should have method get" do
-    assert_select 'div.edit > form.button_to[method]', 0
+    assert_select 'div.picture > div.edit > form.button_to[method]', false
     setup {@editable = true}
-    assert_select 'div.edit > form.button_to[method]', 1
-    assert_select 'div.edit > form.button_to[method=?]', 'get'
+    assert_select 'div.picture > div.edit > form.button_to[method]', 1
+    assert_select 'div.picture > div.edit > form.button_to[method=?]', 'get'
   end
 
 #-------------
