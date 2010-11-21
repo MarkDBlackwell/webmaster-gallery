@@ -2,7 +2,7 @@ class SharedPartialTest < ActionView::TestCase
 
   private
 
-  def assert_select_single(selector,v=raise)
+  def has_one(selector,v)
     innermost=selector.split(' ').last
     values=[v,'']
     final=0
@@ -14,7 +14,7 @@ class SharedPartialTest < ActionView::TestCase
           assert_select innermost, :text => text, :count => count
         end
       end
-      yield unless in_final
+      setup {yield} unless in_final
     end
   end
 
