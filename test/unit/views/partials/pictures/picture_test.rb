@@ -2,6 +2,8 @@ require 'test_helper'
 
 class PicturePicturesPartialTest < SharedPartialTest
 
+#TODO: possibly use http://github.com/justinfrench/formtastic
+
   test "should render" do
     assert_template :partial => 'pictures/_picture'
   end
