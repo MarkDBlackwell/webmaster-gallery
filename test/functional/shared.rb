@@ -38,13 +38,13 @@ class SharedControllerTest < ActionController::TestCase
 
   def restful_methods
     {
-        :index   => :get,
-        :new     => :get,
-        :create  => :post,
-        :edit    => :get,
-        :update  => :put,
-        :show    => :get,
-        :destroy => :delete,
+        :index   => :GET,
+        :new     => :GET,
+        :create  => :POST,
+        :edit    => :GET,
+        :update  => :PUT,
+        :show    => :GET,
+        :destroy => :DELETE,
         }
   end
 

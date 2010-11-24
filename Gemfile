@@ -1,9 +1,14 @@
 source 'http://rubygems.org'
 
+# Bundle Rails 3.0.0:
 # gem 'rails', '3.0.0'
 
+# Bundle Rails 3.0.2:
+gem 'rails', '3.0.2'
+
 # Bundle edge Rails instead:
-gem 'rails', :git => 'git://github.com/rails/rails.git'
+# gem 'rails', :git => 'git://github.com/rails/rails.git'
+# gem 'rack', :git => 'git://github.com/rack/rack.git'
 
 gem 'sqlite3-ruby', '1.2.5', :require => 'sqlite3'
 
