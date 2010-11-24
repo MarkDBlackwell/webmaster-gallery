@@ -27,7 +27,6 @@ class SharedControllerTest < ActionController::TestCase
   end
 
   def filter_chain
-    assert_raise(NoMethodError) {super} # Notice if Rails re-supports this method.
     @controller._process_action_callbacks
   end
 

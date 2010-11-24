@@ -16,7 +16,7 @@ class ShouldIncludeThisFileLog
     unless @log.present?
       @previous='no-such'
       f="#{Rails.root}/out/test-should-include-this-file.log"
-      begin;File.delete(f);rescue(Errno::ENOENT);end
+      FileUtils.rm  f, :force => true
       @log=ActiveSupport::BufferedLogger.new f
     end
     a=caller(0)
