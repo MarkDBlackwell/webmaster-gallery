@@ -3,7 +3,7 @@ require 'test_helper'
 class StylesApplicationPartialTest < ActionView::TestCase
 
   test "should render" do
-    assert_template :partial => 'application/_styles'
+    assert_template :partial => 'application/_styles', :count => 1
   end
 
   test "should include one style tag" do

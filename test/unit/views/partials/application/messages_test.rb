@@ -3,7 +3,7 @@ require 'test_helper'
 class MessagesApplicationPartialTest < ActionView::TestCase
 
   test "should render" do
-    assert_template :partial => 'application/_messages'
+    assert_template :partial => 'application/_messages', :count => 1
   end
 
   test "should include one messages div" do

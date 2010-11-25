@@ -20,8 +20,9 @@ class AdminPicturesTemplateTest < ActionView::TestCase
 # TODO: try stubbing the controller.
 
       render :template => "admin_pictures/#{template}"
-      assert_select 'div.picture'
-      assert_template :partial => 'pictures/_picture'
+      n='index'==template ? 2 : 1
+      assert_select 'div.picture', n
+      assert_template :partial => 'pictures/_picture', :count => n
     end
   end
 

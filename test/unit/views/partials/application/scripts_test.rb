@@ -3,7 +3,7 @@ require 'test_helper'
 class ScriptsApplicationPartialTest < ActionView::TestCase
 
   test "should render" do
-    assert_template :partial => 'application/_scripts'
+    assert_template :partial => 'application/_scripts', :count => 1
   end
 
   test "should include one scripts div" do

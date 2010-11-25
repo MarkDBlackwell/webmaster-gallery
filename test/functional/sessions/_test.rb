@@ -50,7 +50,7 @@ class SessionsControllerTest < SharedSessionsControllerTest
       pretend_logged_in
       get action
       assert_select 'div.session-buttons', 1
-      assert_template({:partial => 'application/_buttons'}, 1)
+      assert_template :partial => 'application/_buttons', :count => 1
     end
   end
 

@@ -4,7 +4,7 @@ class GalleryPicturesPartialTest < ActionView::TestCase
   helper PicturesHelper
 
   test "should render" do
-    assert_template :partial => 'pictures/_gallery'
+    assert_template :partial => 'pictures/_gallery', :count => 1
   end
 
   test "should include one gallery div" do

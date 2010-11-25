@@ -3,7 +3,7 @@ require 'test_helper'
 class ButtonsApplicationPartialTest < SharedPartialTest
 
   test "should render" do
-    assert_template :partial => 'application/_buttons'
+    assert_template :partial => 'application/_buttons', :count => 1
   end
 
   test "should include one session-buttons div" do

@@ -4,7 +4,7 @@ class AllTagsPicturesPartialTest < ActionView::TestCase
 
   test "should render" do
     render_all_tags
-    assert_template :partial => 'pictures/_all_tags'
+    assert_template :partial => 'pictures/_all_tags', :count => 1
   end
 
   test "should include one all-tags div" do

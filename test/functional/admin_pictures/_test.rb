@@ -36,7 +36,7 @@ class AdminPicturesControllerTest < SharedControllerTest
       get action, :id => pictures(:two).id
       assert_blank_assigns :suppress_buttons
       assert_select 'div.session-buttons', 1
-      assert_template :partial => 'application/_buttons'
+      assert_template :partial => 'application/_buttons', :count => 1
     end
   end
 

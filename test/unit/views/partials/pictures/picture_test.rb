@@ -5,7 +5,7 @@ class PicturePicturesPartialTest < SharedPartialTest
 #TODO: possibly use http://github.com/justinfrench/formtastic
 
   test "should render" do
-    assert_template :partial => 'pictures/_picture'
+    assert_template :partial => 'pictures/_picture', :count => 1
   end
 
   test "should include one picture div" do
@@ -15,6 +15,7 @@ class PicturePicturesPartialTest < SharedPartialTest
   test "should render a single, right picture" do
     assert_select 'div.picture[id]', 1
     assert_select "div.picture[id=picture_#{@picture.id}]", 1
+    assert_select "[id=picture_#{@picture.id}]", 1
   end
 
   test "should render a single thumbnail within a picture" do

@@ -3,7 +3,7 @@ require 'test_helper'
 class FieldPicturesPartialTest < SharedPartialTest
 
   test "should render" do
-    assert_template :partial => 'pictures/_field'
+    assert_template :partial => 'pictures/_field', :count => 1
   end
 
   test "should include one field div" do

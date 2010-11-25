@@ -3,7 +3,7 @@ require 'test_helper'
 class TagPicturesPartialTest < SharedPicturesPartialTest
 
   test "should render" do
-    assert_template :partial => 'pictures/_tag'
+    assert_template :partial => 'pictures/_tag', :count => 1
   end
 
   test "should include one tag div" do
