@@ -31,10 +31,12 @@ class SharedControllerTest < ActionController::TestCase
   end
 
   def get_password
-    f=File.new("#{Gallery::Application.config.webmaster}/password.txt", 'r')
-    result = f.readline("\n").chomp "\n"
-    f.close
-    result
+    if @_password.blank?
+      f=File.new("#{Gallery::Application.config.webmaster}/password.txt", 'r')
+      @_password=f.readline("\n").chomp "\n"
+      f.close
+    end
+    @_password
   end
 
   def pretend_logged_in

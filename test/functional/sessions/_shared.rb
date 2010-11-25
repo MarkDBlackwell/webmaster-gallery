@@ -3,10 +3,10 @@ class SharedSessionsControllerTest < SharedControllerTest
 
   private
 
-  def login(password=nil)
-    password=get_password unless password.present?
+  def login(p=nil)
+    p=get_password unless p.present?
     set_cookies
-    post :create, :password => password
+    post :create, :password => p
   end
 
   def pictures_in_layouts_directory?
