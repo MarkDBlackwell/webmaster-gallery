@@ -2,16 +2,15 @@ require 'test_helper'
 
 class SessionsControllerTest < SharedSessionsControllerTest
 
-# All actions tests:
   ACTIONS=[:create, :destroy, :edit, :new, :show, :update]
-
-  test "guard logged in should skip some actions" do
-    assert_filter :guard_logged_in, [:create,:destroy,:new]
-  end
 
   test "webmaster directory location should be configured" do
     assert_equal Gallery::Application.config.webmaster,
         "#{Rails.root}/test/fixtures/files/webmaster"
+  end
+
+  test "guard logged in should skip some actions" do
+    assert_filter :guard_logged_in, [:create,:destroy,:new]
   end
 
   test "sessions should expire after a duration of inactivity" do
@@ -21,15 +20,9 @@ class SessionsControllerTest < SharedSessionsControllerTest
     end
   end
 
-#  [:create, :destroy, :edit, :new, :show, :update].each do |action|
-
-  ACTIONS.each do |action|
-    test "#{action} should redirect to sessions new on wrong http method" do
-      try_wrong_methods action
-    end
-  end
-
   test_cookies_blocked ACTIONS
+
+  test_wrong_http_methods ACTIONS
 
   [:edit,:show].each_with_index do |action,i|
     test "get #{action} should render session buttons" do

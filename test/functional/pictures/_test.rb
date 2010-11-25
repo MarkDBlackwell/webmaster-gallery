@@ -20,6 +20,8 @@ class PicturesControllerTest < SharedControllerTest
     end
   end
 
+  test_wrong_http_methods :index
+
   [{:tag=>'some_tag'},Hash.new].each do |e|
     s=e.inspect
     2.times do |i|
@@ -36,10 +38,6 @@ class PicturesControllerTest < SharedControllerTest
       try_route *a
       get *a
     end
-  end
-
-  test "should redirect to new on wrong method" do
-    try_wrong_methods :index
   end
 
   test "index should cache a page" do

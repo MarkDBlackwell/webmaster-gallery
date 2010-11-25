@@ -2,7 +2,6 @@ require 'test_helper'
 
 class AdminPicturesControllerTest < SharedAdminPicturesControllerTest
 
-# All actions tests:
   ACTIONS=[:edit, :index, :show, :update]
 
   test "alert me when rendering a partial picks up the application layout" do
@@ -17,13 +16,7 @@ class AdminPicturesControllerTest < SharedAdminPicturesControllerTest
 
   test_cookies_blocked ACTIONS
 
-#  [:edit, :index, :show, :update].each do |action|
-
-  ACTIONS.each do |action|
-    test "#{action} should redirect to sessions new on wrong method" do
-      try_wrong_methods action, {:id => '2'}, :logged_in => true
-    end
-  end
+  test_wrong_http_methods ACTIONS, {:id => '2'}, :logged_in => true
 
   test "filters should include find all tags" do
     assert_filter :find_all_tags

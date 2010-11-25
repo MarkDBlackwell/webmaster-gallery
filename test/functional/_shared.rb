@@ -71,15 +71,20 @@ class SharedControllerTest < ActionController::TestCase
     end
   end
 
-  def try_wrong_methods(action, options=nil, params=nil)
+  def self.test_wrong_http_methods(a, options=nil, params=nil)
 # Reference: 'ActionController - PROPFIND and other HTTP request methods':
 # at http://railsforum.com/viewtopic.php?id=30137
     should_redirect = {:controller => :sessions, :action => :new}
-    (ActionController::Request::HTTP_METHODS - [RESTFUL_METHODS.fetch(action).
-        to_s]).each do |bad_method|
-      pretend_logged_in
-      process action, options, params, nil, bad_method
-      assert_redirected_to should_redirect, bad_method
+    (a.kind_of?(Array) ? a : [a]).each do |action|
+      (ActionController::Request::HTTP_METHODS - [RESTFUL_METHODS.fetch(action).
+          to_s]).each do |bad_method|
+        test "#{action} should redirect to sessions new on wrong http method "\
+             "#{bad_method}" do
+          pretend_logged_in
+          process action, options, params, nil, bad_method
+          assert_redirected_to should_redirect, bad_method
+        end
+      end
     end
   end
 
