@@ -4,6 +4,16 @@ class AdminPicturesControllerTest < SharedControllerTest
 
 # All actions tests:
 
+  test "alert me when rendering a partial picks up the application layout" do
+    f="#{Rails.root}/app/views/admin_pictures/_single.html.erb"
+    FileUtils.touch f
+    @controller.expects(:template).returns(:partial)
+    pretend_logged_in
+    get :show, :id => pictures(:two).id
+    assert_select 'div.action-content', false
+    FileUtils.rm f
+  end
+
   [:edit, :index, :show, :update].each do |action|
     test "#{action} should redirect to sessions new on wrong method" do
       try_wrong_methods action, {:id => '2'}, :logged_in => true

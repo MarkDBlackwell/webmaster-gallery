@@ -49,8 +49,11 @@ class AdminPicturesController < ApplicationController
 
   def render_single
     @show_filename=true
-# Rendering a partial did not pick up the application layout.
-    render :template => 'admin_pictures/single'
+    render template => 'admin_pictures/single'
+  end
+
+  def template # For testing purposes.
+    :template
   end
 
 end

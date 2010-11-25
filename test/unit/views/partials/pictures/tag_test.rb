@@ -14,7 +14,7 @@ class TagPicturesPartialTest < SharedPicturesPartialTest
   private
 
   def setup
-    tag=Tag.find(:first) # Using 'tags(:two)' did not call the right method.
+    tag=tags(:two)
     render :partial => 'pictures/tag', :locals => {:tag => tag}
   end
 

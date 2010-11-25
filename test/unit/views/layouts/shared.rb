@@ -1,4 +1,5 @@
 class SharedLayoutTest < ActionView::TestCase
+  helper PicturesHelper
 
   private
 

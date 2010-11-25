@@ -1,10 +1,9 @@
 class SharedPicturesHelperTest < ActionView::TestCase
-# 'tests PicturesHelper' did not work, here.
+  tests PicturesHelper
 
   private
 
   def render_all_pictures
-# pictures(:all) did not work.
     @pictures = Picture.find(:all)
     gallery
   end

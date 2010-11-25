@@ -30,10 +30,16 @@ class EditAdminPicturesControllerTest < SharedControllerTest
     id=picture.id
     happy_path
     assert_select "div.picture[id=picture_#{id}]"
-# Testing that the partial was rendered with the locals for the right picture
-# did not work because of a bug in lines 99-102 of assert_template:
-#    assert_template :partial => 'pictures/_picture', :locals => {:picture =>
-#        picture}
+  end
+
+  test "alert me when testing a partial was rendered with the right locals "\
+       "works: when a bug in lines 99-102 of assert_template is fixed" do
+    picture=pictures(:two)
+    happy_path
+    assert_raise NoMethodError do
+      assert_template :partial => 'pictures/_picture', :locals => {:picture =>
+          picture}
+    end
   end
 
 #-------------

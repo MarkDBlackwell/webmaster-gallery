@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class AllLayoutTest < SharedLayoutTest
-  helper PicturesHelper
 
   test "should render session buttons once" do
     assert_template :partial => 'application/_buttons', :count => 1

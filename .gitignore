@@ -1,6 +1,7 @@
 .bundle
 assert-delay
 db/*.sqlite3
+db/*.sqlite3-journal
 log/
 out/
 public/images/gallery/

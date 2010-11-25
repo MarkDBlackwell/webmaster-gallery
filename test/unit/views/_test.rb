@@ -17,7 +17,8 @@ class ViewsTest < ActionView::TestCase
         assert_equal 'def', s
       end
     else
-    test "multiple tests using the same block parameter name should fail" do
+    test "alert me when multiple tests using s, the same block parameter "\
+         "name, work" do
       assert_raise RuntimeError do
         %w[bcd].each do |s|
           test "multiple tests (#{s}) should work" do

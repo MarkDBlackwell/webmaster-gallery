@@ -2,6 +2,12 @@ require 'test_helper'
 
 class PicturesHelperTest < SharedPicturesHelperTest
 
+  test "alert me when this works" do
+    assert_raise StandardError do
+      pictures(:all)
+    end
+  end
+
   test "should render pretty html source" do
 # TODO: split up.
     render_all_tags
