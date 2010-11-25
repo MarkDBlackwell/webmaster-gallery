@@ -42,14 +42,14 @@ class PicturesControllerTest < SharedControllerTest
 
   test "index should cache a page" do
     fn="#{Rails.root}/public/index.html"
-    File.delete(fn) if File.exist?(fn)
+    FileUtils.rm fn, :force => true
     happy_path
     assert_equal true, 0 < File.size(fn), "#{fn} caching failed."
   end
 
   test "index should cache the page for a tag" do
     fn="#{Rails.root}/public/pictures/some_tag.html"
-    File.delete(fn) if File.exist?(fn)
+    FileUtils.rm fn, :force => true
     get :index, :tag => 'some_tag'
     assert_equal true, 0 < File.size(fn), "#{fn} caching failed."
   end

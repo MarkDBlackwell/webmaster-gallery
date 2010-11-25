@@ -42,7 +42,7 @@ class SessionsController < ApplicationController
     realign_records(DirectoryPicture,Picture,:filename)
     d = "#{Rails.root}/public/pictures"
     ((Dir.entries(d) - %w[. ..]).collect {|e| [d,e]} << [d,'..','index.html']).
-        collect {|a| a.join('/')}.each {|e| File.delete(e) if File.exist?(e)}
+        collect {|a| a.join('/')}.each {|e| FileUtils.rm e, :force => true}
     @all_tags = Tag.all
     render :action => :show
   end
