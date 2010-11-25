@@ -70,11 +70,6 @@ class SharedControllerTest < ActionController::TestCase
             restful_methods.fetch(action).to_s
         assert_select 'div.error', 'Cookies required, or session timed out.'
       end
-#      test "#{action} should not flash so, if cookies not blocked" do
-#        login
-#        assert_select 'div.notice', 0
-#        assert_select 'div.error', 0
-#      end
     end
   end
 

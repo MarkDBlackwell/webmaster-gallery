@@ -14,6 +14,12 @@ class NewSessionsControllerTest < SharedSessionsControllerTest
     assert_response :success
   end
 
+  test "should not flash if cookies not blocked" do
+    happy_path
+    assert_select 'div.notice', false
+    assert_select 'div.error', false
+  end
+
   test "should redirect to edit if already logged in" do
     pretend_logged_in
     get :new
