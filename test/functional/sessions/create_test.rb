@@ -50,11 +50,15 @@ class CreateSessionsControllerTest < SharedSessionsControllerTest
 #-------------
 # Right password, not already logged in tests:
 
+=begin
   test "happy path; should redirect to edit on right password if not "\
        "already logged in" do
     happy_path
     assert_redirected_to :action => :edit
   end
+=end
+
+  test_happy_path :edit
 
   test "should log in" do
     happy_path

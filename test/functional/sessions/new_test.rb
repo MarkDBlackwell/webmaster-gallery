@@ -9,10 +9,7 @@ class NewSessionsControllerTest < SharedSessionsControllerTest
         :sessions.to_s, :action => :new.to_s)
   end
 
-  test "happy path" do
-    happy_path
-    assert_response :success
-  end
+  test_happy_path
 
   test "should not flash if cookies not blocked" do
     happy_path

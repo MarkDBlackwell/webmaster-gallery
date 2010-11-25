@@ -12,10 +12,7 @@ class DestroySessionsControllerTest < SharedSessionsControllerTest
       :sessions.to_s, :action => :destroy.to_s)
   end
 
-  test "happy path" do
-    happy_path
-    assert_response :redirect
-  end
+  test_happy_path :new
 
   test "should reset the session" do
     happy_path

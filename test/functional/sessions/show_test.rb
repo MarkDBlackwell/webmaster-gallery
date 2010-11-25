@@ -12,10 +12,7 @@ class ShowSessionsControllerTest < SharedSessionsControllerTest
         :sessions.to_s, :action => :show.to_s)
   end
 
-  test "happy path" do
-    happy_path
-    assert_response :success
-  end
+  test_happy_path
 
   test "should redirect to new if not logged in" do
     set_cookies

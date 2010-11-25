@@ -71,6 +71,17 @@ class SharedControllerTest < ActionController::TestCase
     end
   end
 
+  def self.test_happy_path(action=nil)
+    test "happy path" do
+      happy_path
+      if action.present?
+        assert_redirected_to :action => action
+      else
+        assert_response :success
+      end
+    end
+  end
+
   def self.test_wrong_http_methods(a, options=nil, params=nil)
 # Reference: 'ActionController - PROPFIND and other HTTP request methods':
 # at http://railsforum.com/viewtopic.php?id=30137

@@ -13,10 +13,7 @@ class EditAdminPicturesControllerTest < SharedAdminPicturesControllerTest
     assert_redirected_to :controller => :sessions, :action => :new
   end
 
-  test "happy path" do
-    happy_path
-    assert_response :success
-  end
+  test_happy_path
 
   test "should render a single picture" do
     happy_path

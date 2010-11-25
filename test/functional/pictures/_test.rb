@@ -54,10 +54,7 @@ class PicturesControllerTest < SharedControllerTest
     assert_equal true, 0 < File.size(fn), "#{fn} caching failed."
   end
 
-  test "happy path" do
-    happy_path
-    assert_response :success
-  end
+  test_happy_path
 
   test "index should obtain a page" do
     happy_path
