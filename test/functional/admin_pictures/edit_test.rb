@@ -8,7 +8,8 @@ class EditAdminPicturesControllerTest < SharedAdminPicturesControllerTest
   end
 
   test "should redirect to /session/new if not logged in" do
-    set_cookies
+    pretend_logged_in
+    session[:logged_in]=nil
     get :edit, :id => '2'
     assert_redirected_to :controller => :sessions, :action => :new
   end

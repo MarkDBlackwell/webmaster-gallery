@@ -12,7 +12,8 @@ class EditSessionsControllerTest < SharedSessionsControllerTest
   test_happy_path
 
   test "should redirect to new if not logged in" do
-    set_cookies
+    pretend_logged_in
+    session[:logged_in]=nil
     get :edit
     assert_redirected_to :action => :new
   end

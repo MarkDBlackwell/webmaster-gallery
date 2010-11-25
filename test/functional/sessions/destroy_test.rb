@@ -35,7 +35,8 @@ class DestroySessionsControllerTest < SharedSessionsControllerTest
   end
 
   test "should redirect to new if not already logged in" do
-    set_cookies
+    pretend_logged_in
+    session[:logged_in]=nil
     delete :destroy
     assert_redirected_to :action => :new
   end

@@ -13,7 +13,8 @@ class IndexAdminPicturesControllerTest < SharedAdminPicturesControllerTest
   end
 
   test "should redirect to /session/new if not logged in" do
-    set_cookies
+    pretend_logged_in
+    session[:logged_in]=nil
     get :index
     assert_redirected_to :controller => :sessions, :action => :new
   end
