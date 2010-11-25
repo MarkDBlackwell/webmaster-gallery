@@ -51,12 +51,32 @@ class SharedControllerTest < ActionController::TestCase
     request.cookies[:not_empty]='not_empty'
   end
 
+=begin
   def try_cookies_blocked(action)
       pretend_logged_in
       request.cookies.clear
       process action, nil, {:password => get_password}, nil, restful_methods.
           fetch(action).to_s
       assert_select 'div.error', 'Cookies required, or session timed out.'
+  end
+=end
+
+  def self.test_cookies_blocked(a)
+    a.each do |action|
+      test "#{action} should flash if cookies (session store) blocked even "\
+           "if already logged in" do
+        pretend_logged_in
+        request.cookies.clear
+        process action, nil, {:password => get_password}, nil, restful_methods.
+            fetch(action).to_s
+        assert_select 'div.error', 'Cookies required, or session timed out.'
+      end
+      test "#{action} should not flash so, if cookies not blocked" do
+        login
+        assert_select 'div.notice', 0
+        assert_select 'div.error', 0
+      end
+    end
   end
 
   def try_wrong_methods(action, options=nil, params=nil)

@@ -26,20 +26,7 @@ class SessionsControllerTest < SharedSessionsControllerTest
     end
   end
 
-#-------------
-# Cookies blocked tests:
-
-  [:new, :create, :edit, :update, :show, :destroy].each do |action|
-    test "#{action} should flash if cookies (session store) blocked even "\
-       "if already logged in" do
-      try_cookies_blocked action
-    end
-    test "#{action} should not flash so, if cookies not blocked" do
-      login
-      assert_select 'div.notice', 0
-      assert_select 'div.error', 0
-    end
-  end
+  test_cookies_blocked [:new, :create, :edit, :update, :show, :destroy]
 
   [:edit,:show].each_with_index do |action,i|
     test "get #{action} should render session buttons" do
