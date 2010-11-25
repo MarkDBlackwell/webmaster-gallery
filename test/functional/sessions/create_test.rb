@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class CreateSessionsControllerTest < SharedSessionsControllerTest
-  tests SessionsController
 
 # <- Webmaster logs in.
 

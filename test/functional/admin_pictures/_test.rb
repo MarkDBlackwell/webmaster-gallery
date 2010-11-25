@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class AdminPicturesControllerTest < SharedControllerTest
+class AdminPicturesControllerTest < SharedAdminPicturesControllerTest
 
 # All actions tests:
 

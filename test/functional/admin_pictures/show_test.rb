@@ -1,7 +1,6 @@
 require 'test_helper'
 
-class ShowAdminPicturesControllerTest < SharedControllerTest
-  tests AdminPicturesController
+class ShowAdminPicturesControllerTest < SharedAdminPicturesControllerTest
 
   test "routing" do
     assert_routing({:path => '/admin_pictures/2', :method => :get},

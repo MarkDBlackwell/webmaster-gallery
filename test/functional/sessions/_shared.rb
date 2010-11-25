@@ -1,4 +1,5 @@
 class SharedSessionsControllerTest < SharedControllerTest
+  tests SessionsController
 
   private
 

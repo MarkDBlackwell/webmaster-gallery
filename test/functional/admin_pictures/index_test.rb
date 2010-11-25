@@ -1,7 +1,6 @@
 require 'test_helper'
 
-class IndexAdminPicturesControllerTest < SharedControllerTest
-  tests AdminPicturesController
+class IndexAdminPicturesControllerTest < SharedAdminPicturesControllerTest
 
   test "routing" do
     assert_routing '/admin_pictures', :controller => :admin_pictures.to_s,
@@ -27,6 +26,9 @@ class IndexAdminPicturesControllerTest < SharedControllerTest
   test "should render the right template" do
     happy_path
     assert_template :index
+# TODO: move to an alert test:
+    assert_template :index, :count => 0
+    assert_template :index, 0
   end
 
   test "should render a list of all tags, once" do

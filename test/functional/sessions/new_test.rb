@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class NewSessionsControllerTest < SharedSessionsControllerTest
-  tests SessionsController
 
 # -> Prompts webmaster to log in.
 

@@ -1,15 +1,15 @@
 #!/usr/bin/env ruby
 # Author: Mark D. Blackwell
 # Date written: around November 1, 2010
-# Date last changed: November 20, 2010
+# Date last changed: November 25, 2010
 # Renames files.
 # Usage:
 #   find-rename
 
 require 'find'
 require 'fileutils'
-OLD_NAME='private.rb'
-NEW_NAME='shared.rb'
+OLD_NAME='shared.rb'
+NEW_NAME='_shared.rb'
 Find.find([Dir.pwd,'test'].join("/")) do |path|
   b=File.basename(path)
   Find.prune if FileTest.directory?(path) && ?.==b[0]
