@@ -51,6 +51,14 @@ class SharedControllerTest < ActionController::TestCase
     request.cookies[:not_empty]='not_empty'
   end
 
+  def try_cookies_blocked(action)
+      pretend_logged_in
+      request.cookies.clear
+      process action, nil, {:password => get_password}, nil, restful_methods.
+          fetch(action).to_s
+      assert_select 'div.error', 'Cookies required, or session timed out.'
+  end
+
   def try_wrong_methods(action, options=nil, params=nil)
 # Reference: 'ActionController - PROPFIND and other HTTP request methods':
 # at http://railsforum.com/viewtopic.php?id=30137

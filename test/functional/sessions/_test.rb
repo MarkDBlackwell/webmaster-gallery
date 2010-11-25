@@ -30,13 +30,9 @@ class SessionsControllerTest < SharedSessionsControllerTest
 # Cookies blocked tests:
 
   [:new, :create, :edit, :update, :show, :destroy].each do |action|
-    test "#{action} should flash if cookies (session store) blocked while "\
-       "already logged in" do
-      session[:logged_in]=true
-      request.cookies.clear
-      process action, nil, {:password => get_password}, nil, restful_methods.
-          fetch(action).to_s
-      assert_select 'div.error', 'Cookies required, or session timed out.'
+    test "#{action} should flash if cookies (session store) blocked even "\
+       "if already logged in" do
+      try_cookies_blocked action
     end
     test "#{action} should not flash so, if cookies not blocked" do
       login
