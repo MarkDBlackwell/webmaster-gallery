@@ -2,6 +2,16 @@ class SharedControllerTest < ActionController::TestCase
 
   private
 
+  RESTFUL_METHODS={
+      :index   => :GET,
+      :new     => :GET,
+      :create  => :POST,
+      :edit    => :GET,
+      :update  => :PUT,
+      :show    => :GET,
+      :destroy => :DELETE,
+      }
+
   def assert_filter(*args)
     assert_filter_kind(:before,*args)
   end
@@ -44,18 +54,6 @@ class SharedControllerTest < ActionController::TestCase
     set_cookies
   end
 
-  def restful_methods
-    {
-        :index   => :GET,
-        :new     => :GET,
-        :create  => :POST,
-        :edit    => :GET,
-        :update  => :PUT,
-        :show    => :GET,
-        :destroy => :DELETE,
-        }
-  end
-
   def set_cookies
     request.cookies[:not_empty]='not_empty'
   end
@@ -67,7 +65,7 @@ class SharedControllerTest < ActionController::TestCase
         pretend_logged_in
         request.cookies.clear
         process action, {:id => '2'}, {:password => get_password}, nil,
-            restful_methods.fetch(action).to_s
+            RESTFUL_METHODS.fetch(action).to_s
         assert_select 'div.error', 'Cookies required, or session timed out.'
       end
     end
@@ -77,7 +75,7 @@ class SharedControllerTest < ActionController::TestCase
 # Reference: 'ActionController - PROPFIND and other HTTP request methods':
 # at http://railsforum.com/viewtopic.php?id=30137
     should_redirect = {:controller => :sessions, :action => :new}
-    (ActionController::Request::HTTP_METHODS - [restful_methods.fetch(action).
+    (ActionController::Request::HTTP_METHODS - [RESTFUL_METHODS.fetch(action).
         to_s]).each do |bad_method|
       pretend_logged_in
       process action, options, params, nil, bad_method
