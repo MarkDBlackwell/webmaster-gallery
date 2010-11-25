@@ -3,13 +3,6 @@ class SharedSessionsControllerTest < SharedControllerTest
 
   private
 
-  def get_password
-    f=File.new("#{Gallery::Application.config.webmaster}/password.txt", 'r')
-    result = f.readline("\n").chomp "\n"
-    f.close
-    result
-  end
-
   def login(password=nil)
     password=get_password unless password.present?
     set_cookies

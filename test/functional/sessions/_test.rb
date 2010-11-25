@@ -3,6 +3,7 @@ require 'test_helper'
 class SessionsControllerTest < SharedSessionsControllerTest
 
 # All actions tests:
+  ACTIONS=[:create, :destroy, :edit, :new, :show, :update]
 
   test "guard logged in should skip some actions" do
     assert_filter :guard_logged_in, [:create,:destroy,:new]
@@ -20,13 +21,15 @@ class SessionsControllerTest < SharedSessionsControllerTest
     end
   end
 
-  [:create, :destroy, :edit, :new, :show, :update].each do |action|
+#  [:create, :destroy, :edit, :new, :show, :update].each do |action|
+
+  ACTIONS.each do |action|
     test "#{action} should redirect to sessions new on wrong http method" do
       try_wrong_methods action
     end
   end
 
-  test_cookies_blocked [:new, :create, :edit, :update, :show, :destroy]
+  test_cookies_blocked ACTIONS
 
   [:edit,:show].each_with_index do |action,i|
     test "get #{action} should render session buttons" do

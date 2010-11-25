@@ -3,6 +3,7 @@ require 'test_helper'
 class AdminPicturesControllerTest < SharedAdminPicturesControllerTest
 
 # All actions tests:
+  ACTIONS=[:edit, :index, :show, :update]
 
   test "alert me when rendering a partial picks up the application layout" do
     f="#{Rails.root}/app/views/admin_pictures/_single.html.erb"
@@ -14,7 +15,11 @@ class AdminPicturesControllerTest < SharedAdminPicturesControllerTest
     FileUtils.rm f
   end
 
-  [:edit, :index, :show, :update].each do |action|
+  test_cookies_blocked ACTIONS
+
+#  [:edit, :index, :show, :update].each do |action|
+
+  ACTIONS.each do |action|
     test "#{action} should redirect to sessions new on wrong method" do
       try_wrong_methods action, {:id => '2'}, :logged_in => true
     end
