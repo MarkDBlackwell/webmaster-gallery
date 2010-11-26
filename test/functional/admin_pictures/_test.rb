@@ -3,6 +3,9 @@ require 'test_helper'
 class AdminPicturesControllerTest < SharedAdminPicturesControllerTest
 
   ACTIONS=[:edit, :index, :show, :update]
+  test_cookies_blocked ACTIONS
+  test_if_not_logged_in_redirect_from  ACTIONS
+  test_wrong_http_methods ACTIONS, {:id => '2'}, :logged_in => true
 
   test "alert me when rendering a partial picks up the application layout" do
     f="#{Rails.root}/app/views/admin_pictures/_single.html.erb"
@@ -13,12 +16,6 @@ class AdminPicturesControllerTest < SharedAdminPicturesControllerTest
     assert_select 'div.action-content', false
     FileUtils.rm f
   end
-
-  test_cookies_blocked ACTIONS
-
-  test_wrong_http_methods ACTIONS, {:id => '2'}, :logged_in => true
-
-  test_if_not_logged_in_redirect_from  ACTIONS, :id => '2'
 
   test "filters should include find all tags" do
     assert_filter :find_all_tags

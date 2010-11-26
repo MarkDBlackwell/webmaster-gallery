@@ -3,6 +3,9 @@ require 'test_helper'
 class SessionsControllerTest < SharedSessionsControllerTest
 
   ACTIONS=[:create, :destroy, :edit, :new, :show, :update]
+  test_cookies_blocked ACTIONS
+  test_if_not_logged_in_redirect_from  ACTIONS - [:create, :new]
+  test_wrong_http_methods ACTIONS
 
   test "webmaster directory location should be configured" do
     assert_equal Gallery::Application.config.webmaster,
@@ -19,12 +22,6 @@ class SessionsControllerTest < SharedSessionsControllerTest
           fetch(:expire_after)
     end
   end
-
-  test_cookies_blocked ACTIONS
-
-  test_wrong_http_methods ACTIONS
-
-  test_if_not_logged_in_redirect_from  ACTIONS - [:create, :new]
 
   [:edit,:show].each_with_index do |action,i|
     test "get #{action} should render session buttons" do
