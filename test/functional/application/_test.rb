@@ -37,7 +37,7 @@ class ApplicationControllerTest < SharedControllerTest
   end
 
   test "filters should include verify authenticity token" do
-# The macro, 'protect_from_forgery', makes verify- and calls invalid-.
+# The macro, 'protect_from_forgery', makes verify-A.T. and calls invalid-A.T.
     assert_filter :verify_authenticity_token
   end
 

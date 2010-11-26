@@ -14,42 +14,20 @@ class CreateSessionsControllerTest < SharedSessionsControllerTest
   end
 
 #-------------
-# Wrong password, not already logged in tests:
+# Wrong password tests:
 
-  test "should redirect to new on wrong password if not already logged in" do
+  test "should redirect to new on wrong password" do
     login 'example wrong password'
     assert_redirected_to :action => :new
   end
 
-  test "should flash on wrong password if not already logged in" do
+  test "should flash on wrong password" do
     login 'example wrong password'
     assert_equal 'Password incorrect.', flash[:error]
   end
 
 #-------------
-# Already logged in tests:
-
-  test "should redirect to edit without asking password if already logged in" do
-    pretend_logged_in
-    post :create
-    assert_redirected_to :action => :edit
-  end
-
-  test "should flash so, when already logged in" do
-    pretend_logged_in
-    post :create
-    assert_equal 'You already were logged in.', flash[:notice]
-  end
-
-  test "should not flash on wrong password when already logged in" do
-    pretend_logged_in
-    post :create, :password => 'example wrong password'
-    assert_blank flash[:error]
-    assert_equal 'You already were logged in.', flash[:notice]
-  end
-
-#-------------
-# Right password, not already logged in tests:
+# Right password tests:
 
   test "should log in" do
     happy_path
@@ -62,12 +40,12 @@ class CreateSessionsControllerTest < SharedSessionsControllerTest
     assert_blank session[:something]
   end
 
-  test "shouldn't make a pictures layout file" do
+  test "logging in shouldn't make a pictures layout file" do
     happy_path
     assert_equal false, pictures_in_layouts_directory?
   end
 
-  test "shouldn't read the webmaster page file" do
+  test "logging in shouldn't read the webmaster page file" do
     fn="#{Gallery::Application.config.webmaster}/page.html.erb"
     remove_read_permission(fn) {login}
   end
