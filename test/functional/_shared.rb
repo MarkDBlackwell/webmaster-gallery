@@ -71,7 +71,7 @@ class SharedControllerTest < ActionController::TestCase
     end
   end
 
-  def self.test_happy_path(action=nil)
+  def self.test_happy_path_response(action=nil)
     test "happy path" do
       happy_path
       if action.present?
@@ -79,6 +79,15 @@ class SharedControllerTest < ActionController::TestCase
       else
         assert_response :success
       end
+    end
+  end
+
+  def self.test_if_not_logged_in_redirect_from(action, options=nil, params=nil)
+    test "should redirect to sessions new if not logged in" do
+      pretend_logged_in
+      session[:logged_in]=nil
+      process action, options, params, nil, RESTFUL_METHODS.fetch(action).to_s
+      assert_redirected_to :controller => :sessions, :action => :new
     end
   end
 

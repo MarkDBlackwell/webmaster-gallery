@@ -9,14 +9,9 @@ class EditSessionsControllerTest < SharedSessionsControllerTest
         :sessions.to_s, :action => :edit.to_s)
   end
 
-  test_happy_path
+  test_happy_path_response
 
-  test "should redirect to new if not logged in" do
-    pretend_logged_in
-    session[:logged_in]=nil
-    get :edit
-    assert_redirected_to :action => :new
-  end
+  test_if_not_logged_in_redirect_from :edit
 
   test "should render edit if logged in" do
     happy_path

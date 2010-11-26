@@ -12,7 +12,7 @@ class DestroySessionsControllerTest < SharedSessionsControllerTest
       :sessions.to_s, :action => :destroy.to_s)
   end
 
-  test_happy_path :new
+  test_happy_path_response :new
 
   test "should reset the session" do
     happy_path
@@ -34,12 +34,7 @@ class DestroySessionsControllerTest < SharedSessionsControllerTest
     assert_equal "You weren't logged in.", flash[:notice]
   end
 
-  test "should redirect to new if not already logged in" do
-    pretend_logged_in
-    session[:logged_in]=nil
-    delete :destroy
-    assert_redirected_to :action => :new
-  end
+  test_if_not_logged_in_redirect_from :destroy
 
 #-------------
 # Logged-in tests:

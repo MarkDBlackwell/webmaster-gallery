@@ -8,14 +8,9 @@ class UpdateAdminPicturesControllerTest < SharedAdminPicturesControllerTest
         :id => '2')
   end
 
-  test "should redirect to /session/new if not logged in" do
-    pretend_logged_in
-    session[:logged_in]=nil
-    put :update, :id => '2'
-    assert_redirected_to :controller => :sessions, :action => :new
-  end
+  test_if_not_logged_in_redirect_from :update, :id => '2'
 
-  test_happy_path
+  test_happy_path_response
 
 #-------------
   private

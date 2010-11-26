@@ -7,14 +7,9 @@ class EditAdminPicturesControllerTest < SharedAdminPicturesControllerTest
         :admin_pictures.to_s, :action => :edit.to_s, :id => '2'
   end
 
-  test "should redirect to /session/new if not logged in" do
-    pretend_logged_in
-    session[:logged_in]=nil
-    get :edit, :id => '2'
-    assert_redirected_to :controller => :sessions, :action => :new
-  end
+  test_if_not_logged_in_redirect_from :edit, :id => '2'
 
-  test_happy_path
+  test_happy_path_response
 
   test "should render a single picture" do
     happy_path

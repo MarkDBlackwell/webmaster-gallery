@@ -12,14 +12,9 @@ class UpdateSessionsControllerTest < SharedSessionsControllerTest
         :sessions.to_s, :action => :update.to_s)
   end
 
-  test_happy_path
+  test_happy_path_response
 
-  test "should redirect to new if not logged in" do
-    pretend_logged_in
-    session[:logged_in]=nil
-    put :update
-    assert_redirected_to :action => :new
-  end
+  test_if_not_logged_in_redirect_from :update
 
 #-------------
 # Already logged in tests:

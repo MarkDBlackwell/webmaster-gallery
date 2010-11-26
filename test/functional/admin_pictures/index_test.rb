@@ -12,14 +12,9 @@ class IndexAdminPicturesControllerTest < SharedAdminPicturesControllerTest
         :admin_pictures.to_s, :action => :index.to_s, :tag => 'some_tag'
   end
 
-  test "should redirect to /session/new if not logged in" do
-    pretend_logged_in
-    session[:logged_in]=nil
-    get :index
-    assert_redirected_to :controller => :sessions, :action => :new
-  end
+  test_if_not_logged_in_redirect_from :index
 
-  test_happy_path
+  test_happy_path_response
 
   test "should render the right template" do
     happy_path
