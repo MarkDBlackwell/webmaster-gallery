@@ -5,7 +5,7 @@ class AdminPicturesControllerTest < SharedAdminPicturesControllerTest
   ACTIONS=[:edit, :index, :show, :update]
   test_cookies_blocked ACTIONS
   test_if_not_logged_in_redirect_from  ACTIONS
-  test_wrong_http_methods ACTIONS, {:id => '2'}, :logged_in => true
+  test_wrong_http_methods ACTIONS
 
   test "alert me when rendering a partial picks up the application layout" do
     f="#{Rails.root}/app/views/admin_pictures/_single.html.erb"
