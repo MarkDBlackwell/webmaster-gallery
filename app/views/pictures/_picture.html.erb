@@ -2,8 +2,10 @@
 <%= div_for picture do -%><%= %>
 <%=   form_for picture, :url => {:controller => 'admin_pictures',
           :action => action, :id => picture.id},
-          :html => {:method => method} do |f| -%>
-<%=     submit_tag if @edit_fields -%><%= %>
+          :html => {:method => method} do |f| -%><%= %>
+<%      begin -%>
+<%=       submit_tag -%><%= %>
+<%      end if @edit_fields -%>
 <%=     render :partial => 'pictures/thumbnail', :locals => {:picture =>
             picture} -%>
 <%      [:filename, :sequence, :title, :description, :year, :weight].
@@ -12,6 +14,7 @@
               :field => field} -%>
 <%      end # Each. -%>
 <%    end # Form_for. -%>
+<%= %>
 <%=   content_tag :div, :class => 'edit' do -%>
 <%=     button_to 'edit', {:controller => :admin_pictures, :action => :edit,
             :id => picture.id}, :method => :get -%>

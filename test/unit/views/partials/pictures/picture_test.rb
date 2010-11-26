@@ -9,7 +9,9 @@ class PicturePicturesPartialTest < SharedPartialTest
   end
 
   test "should render pretty html source" do
-    check_pretty_html_source nil, %w[field picture thumbnail ], 'form'
+    setup {@edit_fields = @editable = @show_filename = true}
+    check_pretty_html_source nil, %w[edit field picture thumbnail ],
+        'form accept'
   end
 
   test "should include one picture div" do
