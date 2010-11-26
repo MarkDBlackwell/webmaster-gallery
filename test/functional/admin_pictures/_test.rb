@@ -5,6 +5,7 @@ class AdminPicturesControllerTest < SharedAdminPicturesControllerTest
   ACTIONS=[:edit, :index, :show, :update]
   test_cookies_blocked ACTIONS
   test_if_not_logged_in_redirect_from  ACTIONS
+  test_should_render_session_buttons ACTIONS - [:update]
   test_wrong_http_methods ACTIONS
 
   test "alert me when rendering a partial picks up the application layout" do
@@ -23,25 +24,6 @@ class AdminPicturesControllerTest < SharedAdminPicturesControllerTest
 
   test "filters except index action should include find picture" do
     assert_filter :find_picture, :index
-  end
-
-  [:edit, :index, :show].each do |action|
-    test "get #{action} should render session buttons" do
-# TODO: Add similar tests for styles, messages & action content divs.
-# TODO: Or, move to an application layout test.
-      pretend_logged_in
-      get action, :id => pictures(:two).id
-      assert_blank_assigns :suppress_buttons
-      assert_select 'div.session-buttons', 1
-      assert_template :partial => 'application/_buttons', :count => 1
-    end
-  end
-
-#-------------
-  private
-
-  def assert_blank_assigns(symbol)
-    assert_blank assigns(symbol), "@#{symbol}"
   end
 
 end

@@ -12,6 +12,10 @@ class SharedControllerTest < ActionController::TestCase
       :destroy => :DELETE,
       }
 
+  def assert_blank_assigns(symbol)
+    assert_blank assigns(symbol), "@#{symbol}"
+  end
+
   def assert_filter(*args)
     assert_filter_kind(:before,*args)
   end
@@ -56,6 +60,20 @@ class SharedControllerTest < ActionController::TestCase
 
   def set_cookies
     request.cookies[:not_empty]='not_empty'
+  end
+
+  def self.test_should_render_session_buttons(a)
+    a.each_with_index do |action,i|
+      test "get #{action} should render session buttons" do
+# TODO: Add similar tests for styles, messages & action content divs.
+# TODO: Or, move to an application layout test.
+        pretend_logged_in
+        get action, :id => pictures(:two).id
+        assert_blank_assigns :suppress_buttons
+        assert_select 'div.session-buttons', 1
+        assert_template :partial => 'application/_buttons', :count => 1
+      end
+    end
   end
 
   def self.test_cookies_blocked(a)

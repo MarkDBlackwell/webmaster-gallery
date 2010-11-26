@@ -5,6 +5,7 @@ class SessionsControllerTest < SharedSessionsControllerTest
   ACTIONS=[:create, :destroy, :edit, :new, :show, :update]
   test_cookies_blocked ACTIONS
   test_if_not_logged_in_redirect_from  ACTIONS - [:create, :new]
+  test_should_render_session_buttons ACTIONS - [:create,:destroy,:new,:update]
   test_wrong_http_methods ACTIONS
 
   test "webmaster directory location should be configured" do
@@ -20,15 +21,6 @@ class SessionsControllerTest < SharedSessionsControllerTest
     assert_nothing_raised do
       assert_equal 20.minutes, Gallery::Application.config.session_options.
           fetch(:expire_after)
-    end
-  end
-
-  [:edit,:show].each_with_index do |action,i|
-    test "get #{action} should render session buttons" do
-      pretend_logged_in
-      get action
-      assert_select 'div.session-buttons', 1
-      assert_template :partial => 'application/_buttons', :count => 1
     end
   end
 
