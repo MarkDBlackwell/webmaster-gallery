@@ -18,6 +18,10 @@ class AdminPicturesControllerTest < SharedAdminPicturesControllerTest
 
   test_wrong_http_methods ACTIONS, {:id => '2'}, :logged_in => true
 
+  ACTIONS.each do |action|
+    test_if_not_logged_in_redirect_from  action, :id => '2'
+  end
+
   test "filters should include find all tags" do
     assert_filter :find_all_tags
   end

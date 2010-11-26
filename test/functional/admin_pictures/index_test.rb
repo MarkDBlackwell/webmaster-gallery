@@ -12,8 +12,6 @@ class IndexAdminPicturesControllerTest < SharedAdminPicturesControllerTest
         :admin_pictures.to_s, :action => :index.to_s, :tag => 'some_tag'
   end
 
-  test_if_not_logged_in_redirect_from :index
-
   test_happy_path_response
 
   test "should render the right template" do

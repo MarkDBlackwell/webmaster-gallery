@@ -8,8 +8,6 @@ class UpdateAdminPicturesControllerTest < SharedAdminPicturesControllerTest
         :id => '2')
   end
 
-  test_if_not_logged_in_redirect_from :update, :id => '2'
-
   test_happy_path_response
 
 #-------------

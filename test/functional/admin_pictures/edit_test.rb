@@ -7,8 +7,6 @@ class EditAdminPicturesControllerTest < SharedAdminPicturesControllerTest
         :admin_pictures.to_s, :action => :edit.to_s, :id => '2'
   end
 
-  test_if_not_logged_in_redirect_from :edit, :id => '2'
-
   test_happy_path_response
 
   test "should render a single picture" do
