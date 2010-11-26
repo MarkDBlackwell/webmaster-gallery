@@ -1,4 +1,5 @@
-class SharedLayoutTest < ActionView::TestCase
+#class SharedLayoutTest < ActionView::TestCase
+class SharedLayoutTest < SharedViewTest
   helper PicturesHelper
 
   private

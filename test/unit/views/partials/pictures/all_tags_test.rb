@@ -2,6 +2,8 @@ require 'test_helper'
 
 class AllTagsPicturesPartialTest < ActionView::TestCase
 
+#pretty html
+
   test "should render" do
     render_all_tags
     assert_template :partial => 'pictures/_all_tags', :count => 1

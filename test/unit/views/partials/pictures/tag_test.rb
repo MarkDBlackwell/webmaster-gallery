@@ -2,6 +2,8 @@ require 'test_helper'
 
 class TagPicturesPartialTest < SharedPicturesPartialTest
 
+#pretty html
+
   test "should render" do
     assert_template :partial => 'pictures/_tag', :count => 1
   end

@@ -3,6 +3,8 @@ require 'test_helper'
 class GalleryPicturesPartialTest < ActionView::TestCase
   helper PicturesHelper
 
+#pretty html
+
   test "should render" do
     assert_template :partial => 'pictures/_gallery', :count => 1
   end

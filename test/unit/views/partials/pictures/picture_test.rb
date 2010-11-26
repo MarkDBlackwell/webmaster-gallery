@@ -4,6 +4,8 @@ class PicturePicturesPartialTest < SharedPartialTest
 
 #TODO: possibly use http://github.com/justinfrench/formtastic
 
+#pretty html
+
   test "should render" do
     assert_template :partial => 'pictures/_picture', :count => 1
   end

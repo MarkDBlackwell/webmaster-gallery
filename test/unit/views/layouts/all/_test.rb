@@ -2,6 +2,24 @@ require 'test_helper'
 
 class AllLayoutTest < SharedLayoutTest
 
+  test "should render pretty html source" do
+# Move to others:
+# tag gallery picture thumbnail field edit
+# TODO: maybe split this into buttons, styles partials, etc.
+    check_pretty_html_source(
+           %w[
+Action\ content  All\ tags  Messages  Scripts  Session\ buttons  Styles
+        ], %w[
+action-content admin-pictures-index all-tags destroy edit messages scripts 
+session-buttons show user-pictures-index 
+        ], %w[
+/body></html  !DOCTYPE\ html  /head></body  html><head  script
+script\ src="/javascripts/  style  /style  title
+        ], %w[
+div.
+        ])
+  end
+
   test "should render session buttons once" do
     assert_template :partial => 'application/_buttons', :count => 1
   end
@@ -115,6 +133,10 @@ class AllLayoutTest < SharedLayoutTest
       @filenames=((Dir.entries d) - %w[. ..]).
           collect {|e| "#{d}/#{e.chomp '.html.erb'}" }
     end
+  end
+
+  def check_pretty_html_source(*args)
+    render_all_layouts {super}
   end
 
 end

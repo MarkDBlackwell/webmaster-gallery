@@ -2,6 +2,8 @@ require 'test_helper'
 
 class ThumbnailPicturesPartialTest < SharedPicturesPartialTest
 
+#pretty html
+
   test "alert me if Rails enables these semantics" do
     assert_template 'pictures/_thumbnail', 0
     assert_template({:partial => 'pictures/_thumbnail'}, 0)

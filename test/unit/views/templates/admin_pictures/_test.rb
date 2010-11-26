@@ -3,6 +3,8 @@ require 'test_helper'
 class AdminPicturesTemplateTest < ActionView::TestCase
   helper PicturesHelper
 
+#pretty html
+
   %w[index single].each do |template|
     test "#{template} should include something" do
       @pictures=Picture.all

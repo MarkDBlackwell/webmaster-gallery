@@ -2,6 +2,8 @@ require 'test_helper'
 
 class StylesApplicationPartialTest < ActionView::TestCase
 
+#pretty html
+
   test "should render" do
     assert_template :partial => 'application/_styles', :count => 1
   end

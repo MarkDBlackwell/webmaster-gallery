@@ -2,6 +2,8 @@ require 'test_helper'
 
 class ViewsTest < ActionView::TestCase
 
+#pretty html
+
   %w[abc def ghi].each do |s|
     case s
     when 'abc'

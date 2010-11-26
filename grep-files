@@ -1,7 +1,7 @@
 #!/bin/sh
 # Author: Mark D. Blackwell
 # Date written: November 5, 2010
-# Date last changed: November 22, 2010
+# Date last changed: November 26, 2010
 
 # Usage:
 #   grep-files <regexp>
@@ -15,5 +15,5 @@ grep --exclude=*\.sqlite3 \
 --exclude-dir=out \
 --exclude-dir=vendor \
 --ignore-case \
---recursive --files-with-matches --regexp=$1 .
-# By hand:  grep -irle <regexp> <directory>
+--recursive --files-with-matches --regexp=$1 . | sort
+# By hand:  grep -irle <regexp> <directory> | sort

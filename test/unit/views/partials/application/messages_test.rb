@@ -2,6 +2,8 @@ require 'test_helper'
 
 class MessagesApplicationPartialTest < ActionView::TestCase
 
+#pretty html
+
   test "should render" do
     assert_template :partial => 'application/_messages', :count => 1
   end

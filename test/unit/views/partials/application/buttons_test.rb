@@ -2,6 +2,8 @@ require 'test_helper'
 
 class ButtonsApplicationPartialTest < SharedPartialTest
 
+#pretty html
+
   test "should render" do
     assert_template :partial => 'application/_buttons', :count => 1
   end
