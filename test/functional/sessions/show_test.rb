@@ -14,8 +14,6 @@ class ShowSessionsControllerTest < SharedSessionsControllerTest
 
   test_happy_path_response
 
-  test_if_not_logged_in_redirect_from :show
-
 #-------------
 # Already logged in tests:
 

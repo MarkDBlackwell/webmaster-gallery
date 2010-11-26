@@ -83,7 +83,7 @@ class SharedControllerTest < ActionController::TestCase
   end
 
   def self.test_if_not_logged_in_redirect_from(action, options=nil, params=nil)
-    test "should redirect to sessions new if not logged in" do
+    test "#{action} should redirect to sessions new if not logged in" do
       pretend_logged_in
       session[:logged_in]=nil
       process action, options, params, nil, RESTFUL_METHODS.fetch(action).to_s

@@ -11,8 +11,6 @@ class EditSessionsControllerTest < SharedSessionsControllerTest
 
   test_happy_path_response
 
-  test_if_not_logged_in_redirect_from :edit
-
   test "should render edit if logged in" do
     happy_path
     assert_template :edit

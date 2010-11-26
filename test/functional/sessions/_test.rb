@@ -24,6 +24,10 @@ class SessionsControllerTest < SharedSessionsControllerTest
 
   test_wrong_http_methods ACTIONS
 
+  (ACTIONS - [:create, :new]).each do |action|
+    test_if_not_logged_in_redirect_from  action
+  end
+
   [:edit,:show].each_with_index do |action,i|
     test "get #{action} should render session buttons" do
       pretend_logged_in

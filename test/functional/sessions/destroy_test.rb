@@ -34,8 +34,6 @@ class DestroySessionsControllerTest < SharedSessionsControllerTest
     assert_equal "You weren't logged in.", flash[:notice]
   end
 
-  test_if_not_logged_in_redirect_from :destroy
-
 #-------------
 # Logged-in tests:
 
