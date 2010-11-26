@@ -3,7 +3,9 @@ require 'test_helper'
 class AdminPicturesTemplateTest < ActionView::TestCase
   helper PicturesHelper
 
-#pretty html
+  test "should render pretty html source" do
+#    check_pretty_html_source
+  end
 
   %w[index single].each do |template|
     test "#{template} should include something" do

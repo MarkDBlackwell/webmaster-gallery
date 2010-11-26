@@ -1,12 +1,15 @@
 require 'test_helper'
 
-class AllTagsPicturesPartialTest < ActionView::TestCase
-
-#pretty html
+class AllTagsPicturesPartialTest < SharedViewTest
 
   test "should render" do
     render_all_tags
     assert_template :partial => 'pictures/_all_tags', :count => 1
+  end
+
+  test "should render pretty html source" do
+    render_all_tags
+    check_pretty_html_source 'All tags', %w[all-tags tag]
   end
 
   test "should include one all-tags div" do

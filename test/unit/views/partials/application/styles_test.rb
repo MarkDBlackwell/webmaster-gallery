@@ -1,11 +1,13 @@
 require 'test_helper'
 
-class StylesApplicationPartialTest < ActionView::TestCase
-
-#pretty html
+class StylesApplicationPartialTest < SharedViewTest
 
   test "should render" do
     assert_template :partial => 'application/_styles', :count => 1
+  end
+
+  test "should render pretty html source" do
+    check_pretty_html_source 'Styles', nil, %w[style /style], 'div.'
   end
 
   test "should include one style tag" do

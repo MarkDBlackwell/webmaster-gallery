@@ -4,10 +4,12 @@ class PicturePicturesPartialTest < SharedPartialTest
 
 #TODO: possibly use http://github.com/justinfrench/formtastic
 
-#pretty html
-
   test "should render" do
     assert_template :partial => 'pictures/_picture', :count => 1
+  end
+
+  test "should render pretty html source" do
+    check_pretty_html_source nil, %w[field picture thumbnail ], 'form'
   end
 
   test "should include one picture div" do

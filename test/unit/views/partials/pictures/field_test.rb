@@ -2,10 +2,12 @@ require 'test_helper'
 
 class FieldPicturesPartialTest < SharedPartialTest
 
-#pretty html
-
   test "should render" do
     assert_template :partial => 'pictures/_field', :count => 1
+  end
+
+  test "should render pretty html source" do
+    check_pretty_html_source nil, 'field'
   end
 
   test "should include one field div" do

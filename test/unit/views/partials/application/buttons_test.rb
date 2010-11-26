@@ -2,10 +2,14 @@ require 'test_helper'
 
 class ButtonsApplicationPartialTest < SharedPartialTest
 
-#pretty html
-
   test "should render" do
     assert_template :partial => 'application/_buttons', :count => 1
+  end
+
+  test "should render pretty html source" do
+    check_pretty_html_source 'Session buttons', %w[
+        admin-pictures-index  destroy  edit  session-buttons  show
+        user-pictures-index  ]
   end
 
   test "should include one session-buttons div" do

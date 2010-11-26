@@ -6,7 +6,8 @@ class SharedViewTest < ActionView::TestCase
     type   = %w[  section  div            tag  other  ]
     prefix = %w[  <!--     <div\ class="  <           ]
     suffix = %w[  -->      "                          ]
-    args=*a.collect {|e| e.kind_of?(Array) ? e : [e]}
+# TODO: find presence method.
+    args=*a.collect {|e| e=e.blank? ? [] : e; e.kind_of?(Array) ? e : [e] }
 # TODO: change to some array method like pad.
     args << [] until type.length==args.length
     [prefix,suffix].each {|a| a << '' until type.length==a.length }

@@ -1,11 +1,13 @@
 require 'test_helper'
 
-class ScriptsApplicationPartialTest < ActionView::TestCase
-
-#pretty html
+class ScriptsApplicationPartialTest < SharedViewTest
 
   test "should render" do
     assert_template :partial => 'application/_scripts', :count => 1
+  end
+
+  test "should render pretty html source" do
+    check_pretty_html_source 'Scripts', 'scripts', 'script'
   end
 
   test "should include one scripts div" do

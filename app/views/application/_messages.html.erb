@@ -3,7 +3,7 @@
 <%    [steady='notice','error'].each do |type| -%>
 <%      if (message=flash[type.to_sym]).present? -%>
 <%        s = type==steady ? steady : "#{steady} #{type}" -%>
-<%=       content_tag 'div', message, :class => s, :id => type -%>
+<%=       content_tag 'div', message, :class => s, :id => type -%><%= %>
 <%      end -%>
 <%    end -%>
 <%  end -%><%= %>

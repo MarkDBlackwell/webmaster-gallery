@@ -1,4 +1,4 @@
-class SharedPartialTest < ActionView::TestCase
+class SharedPartialTest < SharedViewTest
 
   private
 

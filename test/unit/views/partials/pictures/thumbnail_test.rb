@@ -2,7 +2,9 @@ require 'test_helper'
 
 class ThumbnailPicturesPartialTest < SharedPicturesPartialTest
 
-#pretty html
+  test "should render pretty html source" do
+    check_pretty_html_source nil, 'thumbnail'
+  end
 
   test "alert me if Rails enables these semantics" do
     assert_template 'pictures/_thumbnail', 0

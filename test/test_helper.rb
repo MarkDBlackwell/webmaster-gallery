@@ -2,12 +2,14 @@ ENV["RAILS_ENV"] = "test"
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 REQUIRE_TEST_BASENAME='_shared.rb'
+paths=[]
 Find.find("#{Rails.root}/test") do |path|
   b=File.basename(path)
   Find.prune if FileTest.directory?(path) && ?.==b[0]
-  require File.expand_path(path.chomp('.rb'),start='/') if
+  paths << File.expand_path(path.chomp('.rb'),start='/') if
       REQUIRE_TEST_BASENAME==b
 end
+paths.sort.each {|e| require e}
 
 class ShouldIncludeThisFileLog
   PREFIX='./test/'
