@@ -3,6 +3,7 @@ require 'test_helper'
 class DestroySessionsControllerTest < SharedSessionsControllerTest
 
 # <- Webmaster logs out.
+  test_happy_path_response :new
 
 #-------------
 # General tests:
@@ -11,8 +12,6 @@ class DestroySessionsControllerTest < SharedSessionsControllerTest
     assert_routing({:path => '/session', :method => :delete}, :controller =>
       :sessions.to_s, :action => :destroy.to_s)
   end
-
-  test_happy_path_response :new
 
   test "should reset the session" do
     happy_path

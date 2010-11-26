@@ -3,6 +3,8 @@ require 'test_helper'
 class PicturesControllerTest < SharedControllerTest
 
 # Index action tests:
+  test_happy_path_response
+  test_wrong_http_methods :index
 
   test "routing /" do
     assert_routing '/', :controller => :pictures.to_s, :action => :index.to_s
@@ -19,8 +21,6 @@ class PicturesControllerTest < SharedControllerTest
           :index.to_s
     end
   end
-
-  test_wrong_http_methods :index
 
   [{:tag=>'some_tag'},Hash.new].each do |e|
     s=e.inspect
@@ -53,8 +53,6 @@ class PicturesControllerTest < SharedControllerTest
     get :index, :tag => 'some_tag'
     assert_equal true, 0 < File.size(fn), "#{fn} caching failed."
   end
-
-  test_happy_path_response
 
   test "index should obtain a page" do
     happy_path

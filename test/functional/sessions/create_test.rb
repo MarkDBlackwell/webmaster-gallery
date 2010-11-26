@@ -3,6 +3,7 @@ require 'test_helper'
 class CreateSessionsControllerTest < SharedSessionsControllerTest
 
 # <- Webmaster logs in.
+  test_happy_path_response :edit
 
 #-------------
 # General tests:
@@ -49,8 +50,6 @@ class CreateSessionsControllerTest < SharedSessionsControllerTest
 
 #-------------
 # Right password, not already logged in tests:
-
-  test_happy_path_response :edit
 
   test "should log in" do
     happy_path

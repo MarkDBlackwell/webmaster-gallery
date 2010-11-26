@@ -2,6 +2,8 @@ require 'test_helper'
 
 class IndexAdminPicturesControllerTest < SharedAdminPicturesControllerTest
 
+  test_happy_path_response
+
   test "routing" do
     assert_routing '/admin_pictures', :controller => :admin_pictures.to_s,
       :action => :index.to_s
@@ -11,8 +13,6 @@ class IndexAdminPicturesControllerTest < SharedAdminPicturesControllerTest
     assert_routing '/admin_pictures/some_tag', :controller =>
         :admin_pictures.to_s, :action => :index.to_s, :tag => 'some_tag'
   end
-
-  test_happy_path_response
 
   test "should render the right template" do
     happy_path

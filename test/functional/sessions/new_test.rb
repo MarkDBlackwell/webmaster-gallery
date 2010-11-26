@@ -3,13 +3,12 @@ require 'test_helper'
 class NewSessionsControllerTest < SharedSessionsControllerTest
 
 # -> Prompts webmaster to log in.
+  test_happy_path_response
 
   test "routing" do
     assert_routing({:path => '/session/new', :method => :get}, :controller =>
         :sessions.to_s, :action => :new.to_s)
   end
-
-  test_happy_path_response
 
   test "should not flash if cookies not blocked" do
     happy_path

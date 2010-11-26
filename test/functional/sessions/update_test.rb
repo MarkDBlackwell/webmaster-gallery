@@ -3,6 +3,7 @@ require 'test_helper'
 class UpdateSessionsControllerTest < SharedSessionsControllerTest
 
 # <- Webmaster approves filesystem changes.
+  test_happy_path_response
 
 #-------------
 # General tests:
@@ -11,8 +12,6 @@ class UpdateSessionsControllerTest < SharedSessionsControllerTest
     assert_routing({:path => '/session', :method => :put}, :controller =>
         :sessions.to_s, :action => :update.to_s)
   end
-
-  test_happy_path_response
 
 #-------------
 # Already logged in tests:

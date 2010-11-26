@@ -3,6 +3,7 @@ require 'test_helper'
 class ShowSessionsControllerTest < SharedSessionsControllerTest
 
 # -> Webmaster reviews database problems.
+  test_happy_path_response
 
 #-------------
 # General tests:
@@ -11,8 +12,6 @@ class ShowSessionsControllerTest < SharedSessionsControllerTest
     assert_routing({:path => '/session', :method => :get}, :controller =>
         :sessions.to_s, :action => :show.to_s)
   end
-
-  test_happy_path_response
 
 #-------------
 # Already logged in tests:
