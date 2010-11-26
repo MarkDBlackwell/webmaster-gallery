@@ -22,7 +22,7 @@ class AdminPicturesControllerTest < SharedAdminPicturesControllerTest
     assert_filter :find_all_tags
   end
 
-  test "filters except index action should include find picture" do
+  test "filters should include find picture except index action" do
     assert_filter :find_picture, :index
   end
 

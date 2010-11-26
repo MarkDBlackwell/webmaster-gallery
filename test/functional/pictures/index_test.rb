@@ -7,6 +7,9 @@ class IndexPicturesControllerTest < SharedControllerTest
   test_happy_path_response
   test_wrong_http_methods :index
 
+#-------------
+# Routing tests:
+
   test "routing /" do
     assert_routing '/', :controller => :pictures.to_s, :action => :index.to_s
   end
@@ -23,6 +26,9 @@ class IndexPicturesControllerTest < SharedControllerTest
     end
   end
 
+#-------------
+# Caching tests:
+
   test "index should cache a page" do
     fn="#{Rails.root}/public/index.html"
     FileUtils.rm fn, :force => true
@@ -36,6 +42,9 @@ class IndexPicturesControllerTest < SharedControllerTest
     get :index, :tag => 'some_tag'
     assert_equal true, 0 < File.size(fn), "#{fn} caching failed."
   end
+
+#-------------
+# Page file tests:
 
   test "index should obtain a page" do
     happy_path

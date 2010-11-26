@@ -9,7 +9,8 @@ class PicturesHelperTest < SharedPicturesHelperTest
   end
 
   test "should render pretty html source" do
-# TODO: split up.
+# TODO: maybe move this to application view test.
+# TODO: maybe split this into buttons, styles partials, etc.
     render_all_tags
     render_all_pictures
     divs = %w[all-tags tag gallery picture thumbnail field edit]

@@ -22,8 +22,8 @@ class EditAdminPicturesControllerTest < SharedAdminPicturesControllerTest
     assert_select "div.picture[id=picture_#{id}]"
   end
 
-  test "alert me when testing a partial was rendered with the right locals "\
-       "works: when a bug in lines 99-102 of assert_template is fixed" do
+  test "alert me when testing works, that a partial was rendered with the "\
+       "right locals: when a bug in lines 99-102 of assert_template is fixed" do
     picture=pictures(:two)
     happy_path
     assert_raise NoMethodError do

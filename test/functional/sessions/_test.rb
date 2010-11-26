@@ -8,24 +8,13 @@ class SessionsControllerTest < SharedSessionsControllerTest
   test_should_render_session_buttons ACTIONS - [:create,:destroy,:new,:update]
   test_wrong_http_methods ACTIONS
 
-  test "webmaster directory location should be configured" do
-    assert_equal Gallery::Application.config.webmaster,
-        "#{Rails.root}/test/fixtures/files/webmaster"
-  end
-
   test "guard logged in should skip some actions" do
     assert_filter :guard_logged_in, [:create,:destroy,:new]
   end
 
-  test "sessions should expire after a duration of inactivity" do
-    assert_nothing_raised do
-      assert_equal 20.minutes, Gallery::Application.config.session_options.
-          fetch(:expire_after)
-    end
-  end
-
   test "should render pretty html source" do
-# TODO: move this to application controller, or split this into buttons, styles, etc.? 
+# TODO: maybe move this to application view test.
+# TODO: maybe split this into buttons, styles partials, etc.
     set_cookies
     get :new
     divs = %w[

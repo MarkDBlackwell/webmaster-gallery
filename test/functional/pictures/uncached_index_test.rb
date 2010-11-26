@@ -3,11 +3,11 @@ require 'test_helper'
 class UncachedIndexPicturesControllerTest < SharedControllerTest
   tests PicturesController
 
-  [{:tag=>'some_tag'},Hash.new].each do |e|
-    s=e.inspect
+  [{},{:tag=>'some_tag'}].each do |hash|
+    s=hash.inspect
     2.times do |i|
       test "should be no route for action, 'uncached_index' on #{[s,i]}" do
-        a=[:uncached_index, e]
+        a=[:uncached_index, hash]
         assert_raise ActionController::RoutingError do
           try_route *a if 0==i
           get *a       if 1==i
@@ -15,7 +15,7 @@ class UncachedIndexPicturesControllerTest < SharedControllerTest
       end
     end
     test "on the other hand, index should be okay on #{s}" do
-      a=[:index, e]
+      a=[:index, hash]
       try_route *a
       get *a
     end
