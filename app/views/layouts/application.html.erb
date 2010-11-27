@@ -4,11 +4,9 @@
 <%= render :partial => 'application/scripts' -%>
 <%= render :partial => 'application/styles' -%>
 </head><body>
-<%# Place things in here to see: -%>
-<%= @debug -%>
 <%= render :partial => 'application/messages' -%>
 <%= render :partial => 'application/buttons' -%>
-<% alltags %>
+<%= render :partial => 'pictures/all_tags' -%>
 <!--Action content-->
 <%= content_tag 'div', yield, :class => 'action-content' -%><%= %>
 </body></html>

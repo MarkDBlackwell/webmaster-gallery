@@ -22,19 +22,7 @@ class IndexAdminPicturesControllerTest < SharedAdminPicturesControllerTest
     assert_template :index, 0
   end
 
-  test "should render a list of all tags, once" do
-    happy_path
-    assert_select 'div.all-tags', 1
-    assert_template :partial => 'pictures/_all_tags', :count => 1
-  end
-
-  test "should render a gallery, once" do
-    happy_path
-    assert_select 'div.gallery', 1
-    assert_template :partial => 'pictures/_gallery', :count => 1
-  end
-
-  test "pictures should be editable" do
+  test "gallery pictures should be editable" do
     happy_path
     assert_present assigns(:editable)
   end

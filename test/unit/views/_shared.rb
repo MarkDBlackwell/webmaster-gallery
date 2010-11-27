@@ -8,6 +8,7 @@ class SharedViewTest < ActionView::TestCase
     suffix = %w[  -->      "                          ]
 # TODO: find presence method.
     args=*a.collect {|e| e=e.blank? ? [] : e; e.kind_of?(Array) ? e : [e] }
+    args=args.present? ? args : []
 # TODO: change to some array method like pad.
     args << [] until type.length==args.length
     [prefix,suffix].each {|a| a << '' until type.length==a.length }

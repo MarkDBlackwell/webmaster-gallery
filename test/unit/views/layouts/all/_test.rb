@@ -14,8 +14,8 @@ script\ src="/javascripts/  style  /style  title
         ], %w[  div. ])
   end
 
-  test "should render session buttons once" do
-    assert_template :partial => 'application/_buttons', :count => 1
+  test "should render a list of all tags once" do
+    assert_template :partial => 'pictures/_all_tags', :count => 1
   end
 
   test "should render messages once" do
@@ -24,6 +24,10 @@ script\ src="/javascripts/  style  /style  title
 
   test "should render scripts once" do
     assert_template :partial => 'application/_scripts', :count => 1
+  end
+
+  test "should render session buttons once" do
+    assert_template :partial => 'application/_buttons', :count => 1
   end
 
   test "should render styles once" do
@@ -87,6 +91,11 @@ script\ src="/javascripts/  style  /style  title
     setup :@suppress_buttons => true
     assert_select 'div.session-buttons', 1
     assert_select 'body div.session-buttons', 1
+  end
+
+  test "body should include one all-tags div" do
+    assert_select 'div.all-tags', 1
+    assert_select 'body div.all-tags', 1
   end
 
   test "body should include one action content div" do

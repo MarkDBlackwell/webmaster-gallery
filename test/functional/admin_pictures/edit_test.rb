@@ -9,19 +9,6 @@ class EditAdminPicturesControllerTest < SharedAdminPicturesControllerTest
         :admin_pictures.to_s, :action => :edit.to_s, :id => '2'
   end
 
-  test "should render a single picture" do
-    happy_path
-    assert_select 'div.picture', 1
-    assert_template :partial => 'pictures/_picture', :count => 1
-  end
-
-  test "should render the right picture" do
-    picture=pictures(:two)
-    id=picture.id
-    happy_path
-    assert_select "div.picture[id=picture_#{id}]"
-  end
-
   test "alert me when testing works, that a partial was rendered with the "\
        "right locals: when a bug in lines 99-102 of assert_template is fixed" do
     picture=pictures(:two)

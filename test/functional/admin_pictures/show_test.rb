@@ -9,19 +9,6 @@ class ShowAdminPicturesControllerTest < SharedAdminPicturesControllerTest
         :controller => :admin_pictures.to_s, :action => :show.to_s, :id => '2')
   end
 
-  test "should render a single picture" do
-    happy_path
-    assert_select 'div.picture', 1
-    assert_template :partial => 'pictures/_picture', :count => 1
-  end
-
-  test "should render the right picture" do
-    picture=pictures(:two)
-    id=picture.id
-    happy_path
-    assert_select "div.picture[id=picture_#{id}]"
-  end
-
 #-------------
   private
 

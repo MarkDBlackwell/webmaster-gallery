@@ -13,7 +13,7 @@ class AdminPicturesControllerTest < SharedAdminPicturesControllerTest
     FileUtils.touch f
     @controller.expects(:template).returns(:partial)
     pretend_logged_in
-    get :show, :id => pictures(:two).id
+    get :show, :id => pictures(:two).id # For example.
     assert_select 'div.action-content', false
     FileUtils.rm f
   end

@@ -42,27 +42,6 @@ class NewSessionsControllerTest < SharedSessionsControllerTest
     assert_equal true, assigns(:suppress_buttons)
   end
 
-  test "should have one password form" do
-    happy_path
-    assert_select 'form.password', 1
-  end
-
-  test "should have one password form with method post" do
-    happy_path
-    assert_select 'form.password[method=post]', 1
-  end
-
-  test "should have one form with password field" do
-    get :new
-    assert_select 'form > input#password', 1
-  end
-
-  test "should prompt for password" do
-    happy_path
-    assert_select 'p', :count => 1, :text =>
-        "Type the password and hit 'Enter'."
-  end
-
 #-------------
   private
 
