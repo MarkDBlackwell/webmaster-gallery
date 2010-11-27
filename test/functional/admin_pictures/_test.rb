@@ -19,6 +19,14 @@ class AdminPicturesControllerTest < SharedAdminPicturesControllerTest
     FileUtils.rm f
   end
 
+  test "another alert-me" do
+    pretend_logged_in
+    get :index
+# When Rails enables these semantics:
+    assert_template :index, :count => 0
+    assert_template :index, 0
+  end
+
   test "filters should include find all tags" do
     assert_filter :find_all_tags
   end

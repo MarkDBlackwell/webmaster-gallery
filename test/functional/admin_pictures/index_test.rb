@@ -17,9 +17,6 @@ class IndexAdminPicturesControllerTest < SharedAdminPicturesControllerTest
   test "should render the right template" do
     happy_path
     assert_template :index
-# TODO: move to an alert test:
-    assert_template :index, :count => 0
-    assert_template :index, 0
   end
 
   test "gallery pictures should be editable" do

@@ -55,7 +55,7 @@ class ViewsTest < ActionView::TestCase
           @picture}
     end
 
-# If Rails enables these semantics:
+# When Rails enables these semantics:
     assert_template 'pictures/_thumbnail', 0
     assert_template({:partial => 'pictures/_thumbnail'}, 0)
     assert_select '[alt=?]', {:text => 'two-title'}, 0
