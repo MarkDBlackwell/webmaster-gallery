@@ -10,8 +10,7 @@ require 'fileutils'
 require 'digest/sha2'
 
 clear_text_string='apple'
-name=%w[/home mark rails-apps gallery test fixtures files 
-file_password 
+name=%w[/home mark rails-apps gallery test fixtures files file_password 
   encrypted-password.txt].join('/')
 f=File.new(name,'w')
 s=Digest::SHA2.digest(clear_text_string)
