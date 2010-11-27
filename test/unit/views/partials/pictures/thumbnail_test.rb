@@ -6,18 +6,6 @@ class ThumbnailPicturesPartialTest < SharedPicturesPartialTest
     check_pretty_html_source nil, 'thumbnail'
   end
 
-  test "alert me if Rails enables these semantics" do
-    assert_template 'pictures/_thumbnail', 0
-    assert_template({:partial => 'pictures/_thumbnail'}, 0)
-    assert_select '[alt=?]', {:text => 'two-title'}, 0
-    assert_select '[alt=?]', {:text => 'two-title', :count => 1}, 0
-# These work:
-#    assert_template :partial => 'pictures/_thumbnail', :count => 1
-#    assert_select 'div.thumbnail', 1
-#    assert_select '[alt=?]', 'two-title', 1
-#    assert_select '[src=?]', filename_matcher('two-t.png'), 1
-  end
-
   test "should render" do
     assert_template :partial => 'pictures/_thumbnail', :count => 1
   end
