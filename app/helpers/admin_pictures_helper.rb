@@ -1,2 +1,0 @@
-module AdminPicturesHelper
-end
