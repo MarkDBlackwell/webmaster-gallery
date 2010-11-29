@@ -2,9 +2,6 @@ require 'test_helper'
 
 class SessionsControllerTest < SharedSessionsControllerTest
 
-#-------------
-# All actions tests:
-
   test "filters" do
     assert_filter :cookies_required
     assert_filter :guard_http_method

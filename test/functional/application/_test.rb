@@ -6,10 +6,10 @@ class ApplicationControllerTest < SharedControllerTest
 # Configuration tests:
 
   test "sessions should expire after a duration of inactivity" do
-    assert_nothing_raised do
+#    assert_nothing_raised do
       assert_equal 20.minutes, Gallery::Application.config.session_options.
           fetch(:expire_after)
-    end
+#    end
   end
 
   test "webmaster directory location should be configured" do
@@ -53,37 +53,37 @@ class ApplicationControllerTest < SharedControllerTest
 # HTTP methods tests:
 
   test "on right HTTP method, should not log out" do
-    session[:logged_in]=true
-    request.parameters[:action]='anything' # HTTP method defaults to 'get'.
+    pretend_logged_in
+    action_anything
     @controller.send :guard_http_method
     assert_equal true, session[:logged_in]
   end
 
-  test "on wrong HTTP method, should log out" do
-    request.parameters[:action]='anything'
-    request.expects(:request_method_symbol).at_least_once.returns(:bad_method)
-    assert_logoff :guard_http_method
-  end
-
-  test "on wrong HTTP method, should redirect to sessions new" do
-    request.parameters[:action]=:index
-    request.expects(:request_method_symbol).at_least_once.returns(:bad_method)
+  test "on wrong HTTP method, should log out and redirect to sessions new" do
+    pretend_logged_in
+    action_anything
+    bad_method
     expect_sessions_new_redirect
     @controller.send :guard_http_method
+    assert_blank session[:logged_in]
   end
 
 #-------------
 # Guard logged-in tests:
 
   test "if not logged in, should redirect to sessions new" do
-    expect_sessions_new_redirect
     pretend_logged_in
     session[:logged_in]=nil
+    expect_sessions_new_redirect
     @controller.send :guard_logged_in
   end
 
 #-------------
   private
+
+  def action_anything
+    request.parameters[:action]='anything' # HTTP method defaults to 'get'.
+  end
 
   def assert_logoff(filter)
     @controller.stubs :render
@@ -91,6 +91,10 @@ class ApplicationControllerTest < SharedControllerTest
     session[:logged_in]=true
     @controller.send filter
     assert_blank session[:logged_in]
+  end
+
+  def bad_method
+    request.expects(:request_method_symbol).at_least_once.returns(:bad_method)
   end
 
   def expect_sessions_new_redirect
