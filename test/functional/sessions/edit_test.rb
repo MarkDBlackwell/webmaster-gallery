@@ -3,6 +3,7 @@ require 'test_helper'
 class EditSessionsControllerTest < SharedSessionsControllerTest
 
 # -> Webmaster reviews filesystem changes.
+
   test_happy_path_response
 
   test "routing" do

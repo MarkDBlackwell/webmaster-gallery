@@ -5,21 +5,15 @@ class IndexPicturesControllerTest < SharedControllerTest
 
 # -> Ordinary user views gallery.
   test_happy_path_response
-#  test_wrong_http_methods :index
 
 #-------------
 # Routing tests:
 
-  test "routing /" do
+  test "routing..." do
     assert_routing '/', :controller => :pictures.to_s, :action => :index.to_s
-  end
-
-  test "routing /pictures/some_tag" do
     assert_routing '/pictures/some_tag', :controller => :pictures.to_s,
       :action => :index.to_s, :tag => 'some_tag'
-  end
-
-  test "should raise exception on bad route /pictures" do
+# Should raise exception on bad route /pictures:
     assert_raise ActionController::RoutingError do
       assert_routing '/pictures', :controller => :pictures.to_s, :action =>
           :index.to_s

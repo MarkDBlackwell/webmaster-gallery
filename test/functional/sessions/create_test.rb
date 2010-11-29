@@ -3,10 +3,11 @@ require 'test_helper'
 class CreateSessionsControllerTest < SharedSessionsControllerTest
 
 # <- Webmaster logs in.
-  test_happy_path_response :edit
 
 #-------------
 # General tests:
+
+  test_happy_path_response :edit
 
   test "routing" do
     assert_routing({:path => '/session', :method => :post}, :controller =>
@@ -16,33 +17,26 @@ class CreateSessionsControllerTest < SharedSessionsControllerTest
 #-------------
 # Wrong password tests:
 
-  test "should redirect to new on wrong password" do
+  test "when password wrong..." do
     login 'example wrong password'
+# Should redirect to new:
     assert_redirected_to :action => :new
-  end
-
-  test "should flash on wrong password" do
-    login 'example wrong password'
+# Should flash:
     assert_equal 'Password incorrect.', flash[:error]
   end
 
 #-------------
 # Right password tests:
 
-  test "should log in" do
-    happy_path
-    assert_equal true, session[:logged_in]
-  end
-
-  test "logging in should reset the session" do
+  test "when password right..." do
+# Logging in should reset the session:
     session[:something]='something'
-    happy_path
+    login
     assert_blank session[:something]
-  end
-
-  test "logging in shouldn't make a pictures layout file" do
-    happy_path
+# Logging in shouldn't make a pictures layout file:
     assert_equal false, pictures_in_layouts_directory?
+# Should log in:
+    assert_equal true, session[:logged_in]
   end
 
   test "logging in shouldn't read the webmaster page file" do

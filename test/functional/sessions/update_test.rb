@@ -3,10 +3,6 @@ require 'test_helper'
 class UpdateSessionsControllerTest < SharedSessionsControllerTest
 
 # <- Webmaster approves filesystem changes.
-  test_happy_path_response
-
-#-------------
-# General tests:
 
   test "routing" do
     assert_routing({:path => '/session', :method => :put}, :controller =>
@@ -14,50 +10,36 @@ class UpdateSessionsControllerTest < SharedSessionsControllerTest
   end
 
 #-------------
-# Already logged in tests:
+# Happy path tests:
 
-  test "should render show" do
-    happy_path
+  test_happy_path_response
+
+  test "happy path..." do
+# Shouldn't read the webmaster page file:
+    f="#{Gallery::Application.config.webmaster}/page.html.erb"
+    remove_read_permission(f) {happy_path}
+# Should render show:
     assert_template :show
-  end
-
-  test "should add and remove tags" do
-    happy_path
-    assert_equal %w[one three], Tag.find(:all).collect(&:name).sort
-  end
-
-  test "should add and remove pictures" do
-    a=DirectoryPicture.new
-    b=DirectoryPicture.new
-    a.expects(:filename).returns 'one'
-    b.expects(:filename).returns 'three'
-    DirectoryPicture.expects(:find).returns [a,b]
-    happy_path
-    assert_equal %w[one three], Picture.find(:all).collect(&:filename).sort
-  end
-
-  test "should expire a cached pictures index page" do
-    fn = "#{Rails.root}/public/index.html"
-    File.open(fn,'w').close
-    happy_path
-    assert_equal false, File.exist?(fn), "#{fn} cache expiration failed."
-  end
-
-  test "should expire a cached pictures index page for a tag" do
-    fn = "#{Rails.root}/public/pictures/two-name.html"
-    File.open(fn,'w').close
-    happy_path
-    assert_equal false, File.exist?(fn), "#{fn} cache expiration failed."
-  end
-
-  test "shouldn't make a pictures layout file" do
-    happy_path
+# Shouldn't make a pictures layout file:
     assert_equal false, pictures_in_layouts_directory?
   end
 
-  test "shouldn't read the webmaster page file" do
-    fn="#{Gallery::Application.config.webmaster}/page.html.erb"
-    remove_read_permission(fn) {happy_path}
+  test "should add and remove pictures and tags" do
+    expected = %w[one three]
+    DirectoryPicture.expects(:find).returns expected.collect {|e|
+        (p=DirectoryPicture.new).expects(:filename).returns e; p }
+    happy_path
+    assert_equal expected, Picture.find(:all).collect(&:filename).sort
+    assert_equal expected, Tag.    find(:all).collect(    &:name).sort
+  end
+
+  test "should expire cached pictures pages for one and all tags" do
+    pages = %w[index pictures/two-name].collect {|e|
+        "#{Rails.root}/public/#{e}.html" }
+    FileUtils.touch pages
+    happy_path
+    pages.each {|e| assert_equal false, File.exist?(e),
+        "#{e} cache expiration failed." }
   end
 
 #-------------
