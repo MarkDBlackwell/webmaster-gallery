@@ -81,19 +81,6 @@ class SharedControllerTest < ActionController::TestCase
     request.cookies[:not_empty]='not_empty'
   end
 
-  def self.test_cookies_blocked(a)
-    a.each do |action|
-      test "#{action} should flash if cookies (session store) blocked even "\
-           "if already logged in" do
-        pretend_logged_in
-        request.cookies.clear
-        process action, {:id => '2'}, {:password => get_password}, nil,
-            RESTFUL_METHODS.fetch(action).to_s
-        assert_select 'div.error', 'Cookies required, or session timed out.'
-      end
-    end
-  end
-
   def self.test_happy_path_response(action=nil)
     test "happy path" do
       happy_path

@@ -40,6 +40,15 @@ class ApplicationControllerTest < SharedControllerTest
     @controller.send :cookies_required
   end
 
+  test "if cookies (session store) are blocked, should flash even if already "\
+       "logged in" do
+    pretend_logged_in
+    request.cookies.clear
+    @controller.stubs :render
+    @controller.send :cookies_required
+    assert_equal 'Cookies required, or session timed out.', flash.now[:error]
+  end
+
 #-------------
 # HTTP methods tests:
 

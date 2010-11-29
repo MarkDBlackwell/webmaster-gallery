@@ -2,6 +2,21 @@ require 'test_helper'
 
 class AdminPicturesControllerTest < SharedAdminPicturesControllerTest
 
+#-------------
+# All actions tests:
+
+  test "filters" do
+    assert_filter :cookies_required
+    assert_filter :find_all_tags
+    assert_filter_skips :find_picture, :index
+    assert_filter :guard_http_method
+    assert_filter :guard_logged_in
+    assert_filter :verify_authenticity_token
+  end
+
+#-------------
+# Alert me tests:
+
   test "alert me (show)..." do
 # When rendering a partial picks up the application layout:
     f="#{Rails.root}/app/views/admin_pictures/_single.html.erb"
@@ -20,17 +35,5 @@ class AdminPicturesControllerTest < SharedAdminPicturesControllerTest
     assert_template :index, :count => 0
     assert_template :index, 0
   end
-
-  test "filters" do
-    assert_filter :cookies_required
-    assert_filter :find_all_tags
-    assert_filter_skips :find_picture, :index
-    assert_filter :guard_http_method
-    assert_filter :guard_logged_in
-    assert_filter :verify_authenticity_token
-  end
-
-  ACTIONS=[:edit, :index, :show, :update]
-  test_cookies_blocked ACTIONS
 
 end

@@ -9,6 +9,9 @@ class ViewsTest < ActionView::TestCase
     mock 'A'
   end
 
+#-------------
+# Alert me tests:
+
 # Test of multiple tests:
   %w[abc def ghi].each do |s|
     case s
@@ -38,7 +41,7 @@ class ViewsTest < ActionView::TestCase
     end
   end
 
-  test "alert me" do
+  test "alert me..." do
 # When this works:
     assert_raise StandardError do
       pictures(:all)
