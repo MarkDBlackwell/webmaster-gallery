@@ -3,8 +3,9 @@ class ApplicationController < ActionController::Base
   before_filter :guard_http_method
   before_filter :guard_logged_in
 # Per http://railsforum.com/viewtopic.php?id=24298 :
+
   protect_from_forgery # Creates a before-filter which raises the next error.
-       # The filter is called, 'verify_authenticity_token'.
+# Its before-filter is called, 'verify_authenticity_token'.
   rescue_from ActionController::InvalidAuthenticityToken,
                      :with => :invalid_authenticity_token
 
@@ -18,7 +19,10 @@ class ApplicationController < ActionController::Base
   end
 
   def cookies_required
-    handle_missing_cookies if cookies.empty? # action_dispatch.cookies
+    if cookies.empty? # action_dispatch.cookies
+      clear_session # For testing.
+      redirect_to :controller => :sessions, :action => :new
+    end
   end
 
   def guard_http_method
@@ -41,15 +45,8 @@ class ApplicationController < ActionController::Base
     redirect_to :controller => :sessions, :action => :new
   end
 
-  def handle_missing_cookies
-    clear_session
-    flash.now[:error]='Cookies required, or session timed out.'
-    @suppress_buttons=true
-    render :template => 'sessions/new'
-  end
-
   def invalid_authenticity_token
-    cookies.empty? ? handle_missing_cookies : 
+    cookies.empty? ? cookies_required : 
         handle_bad_request('Invalid authenticity token.')
   end
 

@@ -6,10 +6,8 @@ class ApplicationControllerTest < SharedControllerTest
 # Configuration tests:
 
   test "sessions should expire after a duration of inactivity" do
-#    assert_nothing_raised do
-      assert_equal 20.minutes, Gallery::Application.config.session_options.
-          fetch(:expire_after)
-#    end
+    assert_equal 20.minutes, Gallery::Application.config.session_options.
+        fetch(:expire_after)
   end
 
   test "webmaster directory location should be configured" do
@@ -18,62 +16,61 @@ class ApplicationControllerTest < SharedControllerTest
   end
 
 #-------------
-# Authenticity token tests:
+# Verify_authenticity_token filter tests:
 
-  test "if authenticity token is invalid, should log out" do
+  test "when authenticity token is invalid..." do
 # How to test filter, ':verify_authenticity_token'?
 # TODO: Alter token in cookies.
-    assert_logoff :invalid_authenticity_token
-  end
-
-#-------------
-# Cookies tests:
-
-  test "if cookies (session store) are blocked, should log out" do
-    assert_logoff :cookies_required
-  end
-
-  test "if cookies (session store) are blocked, should render sessions/new" do
-    @controller.expects(:render).with(:template => 'sessions/new')
-# TODO: change to redirect. Only sessions/new should render with flash.now:
-#    expect_sessions_new_redirect
-    @controller.send :cookies_required
-  end
-
-  test "if cookies (session store) are blocked, should flash even if already "\
-       "logged in" do
     pretend_logged_in
-    request.cookies.clear
-    @controller.stubs :render
-    @controller.send :cookies_required
-    assert_equal 'Cookies required, or session timed out.', flash.now[:error]
-  end
-
-#-------------
-# HTTP methods tests:
-
-  test "on right HTTP method, should not log out" do
-    pretend_logged_in
-    action_anything
-    @controller.send :guard_http_method
-    assert_equal true, session[:logged_in]
-  end
-
-  test "on wrong HTTP method, should log out and redirect to sessions new" do
-    pretend_logged_in
-    action_anything
-    bad_method
+# Should redirect:
     expect_sessions_new_redirect
-    @controller.send :guard_http_method
+    @controller.send :invalid_authenticity_token
+# Should log out:
     assert_blank session[:logged_in]
   end
 
 #-------------
-# Guard logged-in tests:
+# Cookies_required filter tests:
 
-  test "if not logged in, should redirect to sessions new" do
+  test "when cookies (session store) are blocked..." do
+    pretend_logged_in
+    request.cookies.clear
+# Should redirect:
+    expect_sessions_new_redirect
+    @controller.send :cookies_required
+# Should log out:
+    assert_blank session[:logged_in]
+  end
+
+#-------------
+# Guard_http_method filter tests:
+
+  test "when wrong HTTP method..." do
+    pretend_logged_in
+    action_anything
+    bad_method
+# Should redirect:
+    expect_sessions_new_redirect
+    @controller.send :guard_http_method
+# Should log out:
+    assert_blank session[:logged_in]
+  end
+
+  test "when right HTTP method..." do
+    pretend_logged_in
+    action_anything
+    @controller.send :guard_http_method
+# Should not log out:
+    assert_equal true, session[:logged_in]
+  end
+
+#-------------
+# Guard_logged_in filter tests:
+
+  test "when not already logged in..." do
     pretend_logged_in
     session[:logged_in]=nil
+# Should redirect:
     expect_sessions_new_redirect
     @controller.send :guard_logged_in
   end
@@ -83,14 +80,6 @@ class ApplicationControllerTest < SharedControllerTest
 
   def action_anything
     request.parameters[:action]='anything' # HTTP method defaults to 'get'.
-  end
-
-  def assert_logoff(filter)
-    @controller.stubs :render
-    @controller.stubs :redirect_to
-    session[:logged_in]=true
-    @controller.send filter
-    assert_blank session[:logged_in]
   end
 
   def bad_method

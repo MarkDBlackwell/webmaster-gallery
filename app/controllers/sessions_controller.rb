@@ -1,34 +1,35 @@
 class SessionsController < ApplicationController
+  skip_before_filter :cookies_required, :only => :new
   skip_before_filter :guard_logged_in, :only => [:create, :destroy, :new]
 
   def new
 # GET /session/new
-    if session[:logged_in]
+    @suppress_buttons=true
+    case
+    when cookies.empty? # action_dispatch.cookies
+      clear_session
+      flash.now[:error]='Cookies required, or session timed out.'
+    when session[:logged_in]
       flash[:notice]='You already were logged in.'
       redirect_to :action => :edit
     end
-    @suppress_buttons=true
   end
 
   def create
 # POST /session
+    next_action=:edit
     if session[:logged_in]
       flash[:notice]='You already were logged in.'
-      redirect_to :action => :edit
     else
-     clear_session
-     if cookies.empty?
-        handle_missing_cookies
+      clear_session
+      if get_password != params[:password]
+        flash[:error]='Password incorrect.'
+        next_action=:new
       else
-        if get_password != params[:password]
-          flash[:error]='Password incorrect.'
-          redirect_to :action => :new
-        else
-          session[:logged_in]=true
-          redirect_to :action => :edit
-        end
+        session[:logged_in]=true
       end
     end
+    redirect_to :action => next_action
   end
 
   def edit

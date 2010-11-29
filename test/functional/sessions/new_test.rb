@@ -10,35 +10,33 @@ class NewSessionsControllerTest < SharedSessionsControllerTest
         :sessions.to_s, :action => :new.to_s)
   end
 
-  test "should not flash if cookies not blocked" do
-    happy_path
-    assert_select 'div.notice', false
-    assert_select 'div.error', false
+  test "when cookies (session store) are blocked..." do
+    pretend_logged_in
+    request.cookies.clear
+    get :new
+    assert_template :new
+# Log off:
+    assert_blank session[:logged_in]
+# Flash even if already logged in:
+    assert_equal 'Cookies required, or session timed out.', flash.now[:error]
   end
 
-  test "should redirect to edit if already logged in" do
+  test "when already logged in..." do
     pretend_logged_in
     get :new
+# Redirect:
     assert_redirected_to :action => :edit
-  end
-
-  test "should flash a notice if already logged in" do
-    pretend_logged_in
-    get :new
     assert_equal "You already were logged in.", flash[:notice]
   end
 
-  test "should clear the flash" do
-    k,v=:notice,'anything'
-    flash.store(k,v)
-    flash.now[k]=v
+  test "happy path..." do
     happy_path
-    assert_equal false, (flash.key? k)
-    assert_blank flash.now[k]
-  end
-
-  test "should suppress the session management buttons" do
-    happy_path
+# Should not flash:
+    assert_blank flash.now[:notice]
+    assert_blank flash.now[:error]
+    assert_select 'div.notice', false
+    assert_select 'div.error', false
+# Suppress the session management buttons:
     assert_equal true, assigns(:suppress_buttons)
     assert_select 'div.session-buttons', 1
     assert_template :partial => 'application/_buttons', :count => 1
