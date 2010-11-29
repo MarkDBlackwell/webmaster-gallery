@@ -40,6 +40,8 @@ class NewSessionsControllerTest < SharedSessionsControllerTest
   test "should suppress the session management buttons" do
     happy_path
     assert_equal true, assigns(:suppress_buttons)
+    assert_select 'div.session-buttons', 1
+    assert_template :partial => 'application/_buttons', :count => 1
   end
 
 #-------------

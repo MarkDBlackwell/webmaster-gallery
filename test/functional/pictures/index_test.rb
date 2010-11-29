@@ -5,7 +5,7 @@ class IndexPicturesControllerTest < SharedControllerTest
 
 # -> Ordinary user views gallery.
   test_happy_path_response
-  test_wrong_http_methods :index
+#  test_wrong_http_methods :index
 
 #-------------
 # Routing tests:
@@ -44,7 +44,7 @@ class IndexPicturesControllerTest < SharedControllerTest
   end
 
 #-------------
-# Page file tests:
+# Webmaster page file tests:
 
   test "index should obtain a page" do
     happy_path

@@ -2,11 +2,11 @@ class ApplicationController < ActionController::Base
   before_filter :cookies_required
   before_filter :guard_http_method
   before_filter :guard_logged_in
-  protect_from_forgery
-
 # Per http://railsforum.com/viewtopic.php?id=24298 :
+  protect_from_forgery # Creates a before-filter which raises the next error.
+       # The filter is called, 'verify_authenticity_token'.
   rescue_from ActionController::InvalidAuthenticityToken,
-    :with => :invalid_authenticity_token
+                     :with => :invalid_authenticity_token
 
 #-------------
   private
@@ -22,6 +22,8 @@ class ApplicationController < ActionController::Base
   end
 
   def guard_http_method
+# Reference: 'ActionController - PROPFIND and other HTTP request methods':
+# at http://railsforum.com/viewtopic.php?id=30137
     i=[:create,:destroy,:update].index request.parameters.fetch(:action).to_sym
     restful_method=i.present? ? [:post,:delete,:put].at(i) : :get
     handle_bad_request 'Improper http verb.' unless

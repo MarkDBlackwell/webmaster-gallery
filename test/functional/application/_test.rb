@@ -20,11 +20,6 @@ class ApplicationControllerTest < SharedControllerTest
 #-------------
 # Authenticity token tests:
 
-  test "filters should include verify authenticity token" do
-# The macro, 'protect_from_forgery', makes verify-A.T. and calls invalid-A.T.
-    assert_filter :verify_authenticity_token
-  end
-
   test "if authenticity token is invalid, should log out" do
 # How to test filter, ':verify_authenticity_token'?
 # TODO: Alter token in cookies.
@@ -34,25 +29,19 @@ class ApplicationControllerTest < SharedControllerTest
 #-------------
 # Cookies tests:
 
-  test "filters should include cookies required" do
-    assert_filter :cookies_required
-  end
-
   test "if cookies (session store) are blocked, should log out" do
     assert_logoff :cookies_required
   end
 
   test "if cookies (session store) are blocked, should render sessions/new" do
     @controller.expects(:render).with(:template => 'sessions/new')
+# TODO: change to redirect. Only sessions/new should render with flash.now:
+#    expect_sessions_new_redirect
     @controller.send :cookies_required
   end
 
 #-------------
 # HTTP methods tests:
-
-  test "filters should include guard HTTP method" do
-    assert_filter :guard_http_method
-  end
 
   test "on right HTTP method, should not log out" do
     session[:logged_in]=true
@@ -67,11 +56,21 @@ class ApplicationControllerTest < SharedControllerTest
     assert_logoff :guard_http_method
   end
 
-#-------------
-# Logged-in tests:
+  test "on wrong HTTP method, should redirect to sessions new" do
+    request.parameters[:action]=:index
+    request.expects(:request_method_symbol).at_least_once.returns(:bad_method)
+    expect_sessions_new_redirect
+    @controller.send :guard_http_method
+  end
 
-  test "filters should include guard logged in" do
-    assert_filter :guard_logged_in
+#-------------
+# Guard logged-in tests:
+
+  test "if not logged in, should redirect to sessions new" do
+    expect_sessions_new_redirect
+    pretend_logged_in
+    session[:logged_in]=nil
+    @controller.send :guard_logged_in
   end
 
 #-------------
@@ -83,6 +82,11 @@ class ApplicationControllerTest < SharedControllerTest
     session[:logged_in]=true
     @controller.send filter
     assert_blank session[:logged_in]
+  end
+
+  def expect_sessions_new_redirect
+    @controller.expects(:redirect_to).with(:controller => :sessions, :action =>
+        :new)
   end
 
 end

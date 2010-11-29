@@ -16,8 +16,8 @@ class SharedControllerTest < ActionController::TestCase
     assert_blank assigns(symbol), "@#{symbol}"
   end
 
-  def assert_filter(*args)
-    assert_filter_kind(:before,*args)
+  def assert_filter(filter)
+    assert_filter_kind(:before,filter,[])
   end
 
   def assert_filter_kind(kind,filter,sa=nil)
@@ -37,6 +37,25 @@ class SharedControllerTest < ActionController::TestCase
     assert have.include?(desired), [
         'Found:', have.collect {|e| e.uniq.inspect},
         'Desired:', [filter,kind,sa].collect {|e| e.inspect}.join(', '),
+        ].join("\n")
+  end
+
+  def assert_filter_skips(filter, actions)
+    assert_filter_kind(:before,filter,actions)
+  end
+
+  def assert_no_filter(filter)
+    assert_no_filter_kind(:before,filter)
+  end
+
+  def assert_no_filter_kind(kind,filter)
+    undesired=[filter, filter, kind]
+    class_name=self.class.to_s.chomp('Test')
+    ours=filter_chain.select {|e| e.klass.to_s==class_name}
+    have=ours.collect {|e| [e.raw_filter, e.filter, e.kind]}
+    assert_equal false, have.include?(undesired), [
+        'Found:', have.collect {|e| e.uniq.inspect},
+        'Undesired:', [filter,kind].collect {|e| e.inspect}.join(', '),
         ].join("\n")
   end
 
@@ -62,20 +81,6 @@ class SharedControllerTest < ActionController::TestCase
     request.cookies[:not_empty]='not_empty'
   end
 
-  def self.test_should_render_session_buttons(a)
-    a.each_with_index do |action,i|
-      test "get #{action} should render session buttons" do
-# TODO: Add similar tests for styles, messages & action content divs.
-# TODO: Or, move to an application layout test.
-        pretend_logged_in
-        get action, :id => pictures(:two).id
-        assert_blank_assigns :suppress_buttons
-        assert_select 'div.session-buttons', 1
-        assert_template :partial => 'application/_buttons', :count => 1
-      end
-    end
-  end
-
   def self.test_cookies_blocked(a)
     a.each do |action|
       test "#{action} should flash if cookies (session store) blocked even "\
@@ -96,35 +101,6 @@ class SharedControllerTest < ActionController::TestCase
         assert_redirected_to :action => action
       else
         assert_response :success
-      end
-    end
-  end
-
-  def self.test_if_not_logged_in_redirect_from(a)
-    a.each do |action|
-      test "#{action} should redirect to sessions new if not logged in" do
-        pretend_logged_in
-        session[:logged_in]=nil
-        process action, {:id => '2'}, nil, nil, RESTFUL_METHODS.fetch(action
-            ).to_s
-        assert_redirected_to :controller => :sessions, :action => :new
-      end
-    end
-  end
-
-  def self.test_wrong_http_methods(a)
-# Reference: 'ActionController - PROPFIND and other HTTP request methods':
-# at http://railsforum.com/viewtopic.php?id=30137
-    should_redirect = {:controller => :sessions, :action => :new}
-    (a.kind_of?(Array) ? a : [a]).each do |action|
-      (ActionController::Request::HTTP_METHODS - [RESTFUL_METHODS.fetch(action).
-          to_s]).each do |bad_method|
-        test "#{action} should redirect to sessions new on wrong http method "\
-             "#{bad_method}" do
-          pretend_logged_in
-          process action, {:id => '2'}, nil, nil, bad_method
-          assert_redirected_to should_redirect, bad_method
-        end
       end
     end
   end
