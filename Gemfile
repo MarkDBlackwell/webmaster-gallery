@@ -30,7 +30,11 @@ gem 'sqlite3-ruby', '1.2.5', :require => 'sqlite3'
 # group :development, :test do
 #   gem 'webrat'
 # end
+
+group :development, :test do
 # Broke testing, somehow:
-#group :development, :test do
 #  gem 'mocha'
-#end
+  gem 'autotest-rails'
+  gem 'ZenTest'
+  gem 'redgreen'
+end
