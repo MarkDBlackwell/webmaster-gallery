@@ -14,7 +14,7 @@ script\ src="/javascripts/  style  /style  title
         ], %w[  div. ])
   end
 
-  test "partials..." do
+  test "partial rendering..." do
     layouts do
 # Should render a list of all tags once:
       assert_template :partial => 'pictures/_all_tags', :count => 1

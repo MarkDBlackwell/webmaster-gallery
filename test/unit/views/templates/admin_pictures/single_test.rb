@@ -2,11 +2,9 @@ require 'test_helper'
 
 class SingleAdminPicturesTemplateTest < SharedViewTest
 
-  test "should render pretty html source" do
+  test "happy path..." do
+# Should render pretty html source:
     check_pretty_html_source
-  end
-
-  test "single..." do
 # Should render:
     assert_template @template
 # Should render a single picture:

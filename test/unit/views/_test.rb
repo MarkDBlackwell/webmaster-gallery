@@ -46,7 +46,6 @@ class ViewsTest < ActionView::TestCase
     assert_raise StandardError do
       pictures(:all)
     end
-
 # (Partial-rendering alerts setup):
     @picture=pictures(:two)
     render :partial => 'pictures/thumbnail', :locals => {:picture => @picture}
@@ -57,7 +56,6 @@ class ViewsTest < ActionView::TestCase
       assert_template :partial => 'pictures/_thumbnail', :locals => {:picture =>
           @picture}
     end
-
 # When Rails enables these semantics:
     assert_template 'pictures/_thumbnail', 0
     assert_template({:partial => 'pictures/_thumbnail'}, 0)

@@ -2,11 +2,9 @@ require 'test_helper'
 
 class ThumbnailPicturesPartialTest < SharedPicturesPartialTest
 
-  test "should render pretty html source" do
+  test "happy path..." do
+# Should render pretty html source:
     check_pretty_html_source nil, 'thumbnail'
-  end
-
-  test "thumbnail partial..." do
 # Should render:
     assert_template :partial => 'pictures/_thumbnail', :count => 1
 # There should be a single thumbnail div:

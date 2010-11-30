@@ -2,10 +2,6 @@ require 'test_helper'
 
 class FieldPicturesPartialTest < SharedPartialTest
 
-  test "should render pretty html source" do
-    check_pretty_html_source nil, 'field'
-  end
-
   test "should render labels" do
     assert_select 'div.field > div.title > div.label', 0
     setup {@show_labels=true}
@@ -18,7 +14,9 @@ class FieldPicturesPartialTest < SharedPartialTest
     assert_select 'div.field > div.title > input', 1
   end
 
-  test "field partial..." do
+  test "happy path..." do
+# Should render pretty html source:
+    check_pretty_html_source nil, 'field'
 # Should render:
     assert_template :partial => 'pictures/_field', :count => 1
 # Should include one field div:

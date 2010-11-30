@@ -2,11 +2,9 @@ require 'test_helper'
 
 class MessagesApplicationPartialTest < SharedViewTest
 
-  test "should render pretty html source" do
+  test "happy path..." do
+# Should render pretty html source:
     check_pretty_html_source 'Messages', %w[messages notice notice\ error]
-  end
-
-  test "messages partial" do
 # Should render:
     assert_template :partial => 'application/_messages', :count => 1
 # Should include one messages div:

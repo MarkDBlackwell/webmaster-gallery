@@ -2,10 +2,6 @@ require 'test_helper'
 
 class ScriptsApplicationPartialTest < SharedViewTest
 
-  test "should render pretty html source" do
-    check_pretty_html_source 'Scripts', 'scripts', 'script'
-  end
-
   test "scripts div should include certain script tags in order" do
     %w[prototype effects dragdrop controls rails application].
         each_with_index do |e,i|
@@ -14,7 +10,9 @@ class ScriptsApplicationPartialTest < SharedViewTest
     end
   end
 
-  test "scripts partial..." do
+  test "happy path..." do
+# Should render pretty html source:
+    check_pretty_html_source 'Scripts', 'scripts', 'script'
 # Should render:
     assert_template :partial => 'application/_scripts', :count => 1
 # Should include one scripts div:

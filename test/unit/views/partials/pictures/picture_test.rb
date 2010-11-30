@@ -4,16 +4,16 @@ class PicturePicturesPartialTest < SharedPartialTest
 
 #TODO: possibly use http://github.com/justinfrench/formtastic
 
-  test "should render pretty html source" do
-    setup {@edit_fields = @editable = @show_filename = true}
-    check_pretty_html_source nil, %w[edit field picture thumbnail ],
-        'form accept'
-  end
-
   %w[description sequence title weight].each do |unique|
     test "should render a single, right #{unique} within a picture" do
       has_one "div.picture > form > div.field > div.#{unique}", "two-#{unique}"
     end
+  end
+
+  test "should render pretty html source" do
+    setup {@edit_fields = @editable = @show_filename = true}
+    check_pretty_html_source nil, %w[edit field picture thumbnail ],
+        'form accept'
   end
 
   test "if show filename..." do
@@ -36,7 +36,7 @@ class PicturePicturesPartialTest < SharedPartialTest
     assert_select 'div.picture > div.edit > form.button_to[method=?]', 'get'
   end
 
-  test "picture partial..." do
+  test "happy path..." do
 # Should render:
     assert_template :partial => 'pictures/_picture', :count => 1
 # Should include one picture div:

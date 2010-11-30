@@ -2,11 +2,9 @@ require 'test_helper'
 
 class NewSessionsTemplateTest < SharedViewTest
 
-  test "should render pretty html source" do
+  test "happy path..." do
+# Should render pretty html source:
     check_pretty_html_source nil, nil, %w[form input\ id="password p]
-  end
-
-  test "new..." do
 # Should render:
     assert_template @template
 # Should have one password form with method post:

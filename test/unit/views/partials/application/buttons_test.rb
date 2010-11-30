@@ -2,19 +2,17 @@ require 'test_helper'
 
 class ButtonsApplicationPartialTest < SharedPartialTest
 
-  test "should render pretty html source" do
-    check_pretty_html_source 'Session buttons', %w[
-        admin-pictures-index  destroy  edit  session-buttons  show
-        user-pictures-index  ]
-  end
-
   test "should obey the suppress buttons flag" do
     assert_select 'div.session-buttons div', 5
     setup {@suppress_buttons=true}
     assert_select 'div.session-buttons div', 0
   end
 
-  test "buttons partial..." do
+  test "happy path..." do
+# Should render pretty html source:
+    check_pretty_html_source 'Session buttons', %w[
+        admin-pictures-index  destroy  edit  session-buttons  show
+        user-pictures-index  ]
 # Should render:
     assert_template :partial => 'application/_buttons', :count => 1
 # Should include one session-buttons div:

@@ -3,12 +3,10 @@ require 'test_helper'
 class GalleryPicturesPartialTest < SharedViewTest
   helper PicturesHelper
 
-  test "should render pretty html source" do
+  test "happy path..." do
+# Should render pretty html source:
     check_pretty_html_source 'Pictures',
         %w[ field gallery picture thumbnail ], 'form'
-  end
-
-  test "gallery partial..." do
 # Should render:
     assert_template :partial => 'pictures/_gallery', :count => 1
 # Should include one gallery div:

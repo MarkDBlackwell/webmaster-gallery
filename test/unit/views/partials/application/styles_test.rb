@@ -2,11 +2,9 @@ require 'test_helper'
 
 class StylesApplicationPartialTest < SharedViewTest
 
-  test "should render pretty html source" do
+  test "happy path..." do
+# Should render pretty html source:
     check_pretty_html_source 'Styles', nil, %w[style /style], 'div.'
-  end
-
-  test "styles partial..." do
 # Should render:
     assert_template :partial => 'application/_styles', :count => 1
 # Should include one style tag:
