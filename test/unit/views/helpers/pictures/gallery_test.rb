@@ -2,11 +2,10 @@ require 'test_helper'
 
 class GalleryPicturesHelperTest < SharedPicturesHelperTest
 
-  test "should render partial" do
+  test "happy path..." do
+# Should render partial:
     assert_template :partial => 'pictures/_gallery', :count => 1
-  end
-
-  test "should render a gallery, once" do
+# Should render a gallery, once:
     assert_select 'div.gallery', 1
   end
 

@@ -2,21 +2,8 @@ require 'test_helper'
 
 class ScriptsApplicationPartialTest < SharedViewTest
 
-  test "should render" do
-    assert_template :partial => 'application/_scripts', :count => 1
-  end
-
   test "should render pretty html source" do
     check_pretty_html_source 'Scripts', 'scripts', 'script'
-  end
-
-  test "should include one scripts div" do
-    assert_select 'div.scripts', 1
-  end
-
-  test "scripts div should include six script tags" do
-    assert_select 'div.scripts script', 6
-    assert_select 'div.scripts script[type=text/javascript]', 6
   end
 
   test "scripts div should include certain script tags in order" do
@@ -25,6 +12,16 @@ class ScriptsApplicationPartialTest < SharedViewTest
       assert_select "div.scripts > #{'script + '*i} script[src=?]",
           Regexp.new(%Q@/javascripts/#{e}\\.js\\?\\d*\\z@)
     end
+  end
+
+  test "scripts partial..." do
+# Should render:
+    assert_template :partial => 'application/_scripts', :count => 1
+# Should include one scripts div:
+    assert_select 'div.scripts', 1
+# Scripts div should include six script tags:
+    assert_select 'div.scripts script', 6
+    assert_select 'div.scripts script[type=text/javascript]', 6
   end
 
 #-------------

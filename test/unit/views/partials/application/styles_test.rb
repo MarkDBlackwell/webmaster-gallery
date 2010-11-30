@@ -2,37 +2,26 @@ require 'test_helper'
 
 class StylesApplicationPartialTest < SharedViewTest
 
-  test "should render" do
-    assert_template :partial => 'application/_styles', :count => 1
-  end
-
   test "should render pretty html source" do
     check_pretty_html_source 'Styles', nil, %w[style /style], 'div.'
   end
 
-  test "should include one style tag" do
+  test "styles partial..." do
+# Should render:
+    assert_template :partial => 'application/_styles', :count => 1
+# Should include one style tag:
     assert_select 'style', 1
     assert_select 'style.styles', 1
     assert_select 'style.styles[type=text/css]', 1
-  end
-
-  test "shouldn't display a picture commit button" do
+# Shouldn't display a picture commit button:
     style_include? 'div.picture > form > input[name=commit] {display: none}'
-  end
-
-  test "should render a styling suggestion for a list of all tags" do
+# Should render a styling suggestion for a list of all tags:
     style_include? 'div.all-tags * {display: inline}'
-  end
-
-  test "should render a gallery styling suggestion" do
+# Should render a gallery styling suggestion:
     style_include? 'div.picture {display: inline-block}'
-  end
-
-  test "session buttons should be horizontal" do
+# Session buttons should be horizontal:
     style_include? 'div.session-buttons * {display: inline}'
-  end
-
-  test "labels should be horizontal" do
+# Labels should be horizontal:
     style_include? 'div.label {display: inline-block}'
   end
 

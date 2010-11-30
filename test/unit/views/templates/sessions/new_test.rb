@@ -2,24 +2,19 @@ require 'test_helper'
 
 class NewSessionsTemplateTest < SharedViewTest
 
-  test "should render" do
-    assert_template @template
-  end
-
   test "should render pretty html source" do
     check_pretty_html_source nil, nil, %w[form input\ id="password p]
   end
 
-  test "should have one password form with method post" do
+  test "new..." do
+# Should render:
+    assert_template @template
+# Should have one password form with method post:
     assert_select 'form.password', 1
     assert_select 'form.password[method=post]', 1
-  end
-
-  test "should have one form with password field" do
+# Should have one form with password field:
     assert_select 'form > input#password', 1
-  end
-
-  test "should prompt for password" do
+# Should prompt for password:
     assert_select 'p', :count => 1, :text =>
         "Type the password and hit 'Enter'."
   end

@@ -2,20 +2,17 @@ require 'test_helper'
 
 class SingleAdminPicturesTemplateTest < SharedViewTest
 
-  test "should render" do
-    assert_template @template
-  end
-
   test "should render pretty html source" do
     check_pretty_html_source
   end
 
-  test "should render a single picture" do
+  test "single..." do
+# Should render:
+    assert_template @template
+# Should render a single picture:
     assert_select 'div.picture', 1
     assert_template :partial => 'pictures/_picture', :count => 1
-  end
-
-  test "should render the right picture" do
+# Should render the right picture:
     assert_select "div.picture[id=picture_#{@picture.id}]"
   end
 

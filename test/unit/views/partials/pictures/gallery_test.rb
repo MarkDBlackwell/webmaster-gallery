@@ -3,24 +3,19 @@ require 'test_helper'
 class GalleryPicturesPartialTest < SharedViewTest
   helper PicturesHelper
 
-  test "should render" do
-    assert_template :partial => 'pictures/_gallery', :count => 1
-  end
-
   test "should render pretty html source" do
     check_pretty_html_source 'Pictures',
         %w[ field gallery picture thumbnail ], 'form'
   end
 
-  test "should include one gallery div" do
+  test "gallery partial..." do
+# Should render:
+    assert_template :partial => 'pictures/_gallery', :count => 1
+# Should include one gallery div:
     assert_select 'div.gallery', 1
-  end
-
-  test "should render a picture within a gallery" do
+# Should render a picture within a gallery:
     assert_select 'div.gallery > div.picture'
-  end
-
-  test "should render all the pictures" do
+# Should render all the pictures:
     assert_select 'div.gallery > div.picture', 2
   end
 

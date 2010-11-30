@@ -48,8 +48,8 @@ class ViewsTest < ActionView::TestCase
     end
 
 # (Partial-rendering alerts setup):
-  @picture=pictures(:two)
-  render :partial => 'pictures/thumbnail', :locals => {:picture => @picture}
+    @picture=pictures(:two)
+    render :partial => 'pictures/thumbnail', :locals => {:picture => @picture}
 
 # When testing, that a partial was rendered with the right locals, works (i.e.,
 # when a bug in lines 99-102 of assert_template gets fixed):
@@ -63,8 +63,7 @@ class ViewsTest < ActionView::TestCase
     assert_template({:partial => 'pictures/_thumbnail'}, 0)
     assert_select '[alt=?]', {:text => 'two-title'}, 0
     assert_select '[alt=?]', {:text => 'two-title', :count => 1}, 0
-
-# These semantics work:
+# (These semantics work):
 #    assert_template :partial => 'pictures/_thumbnail', :count => 1
 #    assert_select 'div.thumbnail', 1
 #    assert_select '[alt=?]', 'two-title', 1

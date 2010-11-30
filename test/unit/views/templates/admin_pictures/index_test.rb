@@ -2,15 +2,14 @@ require 'test_helper'
 
 class IndexAdminPicturesTemplateTest < SharedViewTest
 
-  test "should render" do
-    assert_template @template
-  end
-
   test "should render pretty html source" do
     check_pretty_html_source
   end
 
-  test "should render a gallery, once" do
+  test "index..." do
+# Should render:
+    assert_template @template
+# Should render a gallery, once:
     assert_template :partial => 'pictures/_gallery', :count => 1
   end
 
