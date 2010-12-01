@@ -19,7 +19,7 @@ class AdminPicturesControllerTest < SharedAdminPicturesControllerTest
 
   test "alert me (show)..." do
 # When rendering a partial picks up the application layout:
-    f=Path.root.join *%w[app views admin_pictures _single.html.erb]
+    f=App.root.join *%w[app views admin_pictures _single.html.erb]
     FileUtils.touch f
     @controller.expects(:template).returns(:partial)
     pretend_logged_in

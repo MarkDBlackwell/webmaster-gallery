@@ -49,7 +49,7 @@ class IndexPicturesControllerTest < SharedControllerTest
 # TODO: Could not get this test to work.
 #    happy_path
 #print 'assigns(:pictures) '; p assigns(:pictures)
-#    assert_template :file => Path.webmaster.join('page'),
+#    assert_template :file => App.webmaster.join('page'),
 #        :partial => 'pictures/pictures',
 #        :locals => {:pictures => assigns(:pictures)}
 #        :locals => nil
@@ -64,7 +64,7 @@ class IndexPicturesControllerTest < SharedControllerTest
 
   def verify_cache(a)
     args=(a.kind_of?(Array) ? a.clone : [a] ).unshift 'public'
-    f=Path.root.join *args
+    f=App.root.join *args
     FileUtils.rm f, :force => true
     yield
     assert_equal true, 0 < f.size?, "#{f} caching failed."

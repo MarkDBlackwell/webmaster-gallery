@@ -11,7 +11,7 @@ class PicturesController < ApplicationController
   def uncached_index
     @all_tags = Tag.all
     @pictures = Picture.all
-    render :file => Path.webmaster.join('page'), :layout => false
+    render :file => App.webmaster.join('page'), :layout => false
   end
 
 end

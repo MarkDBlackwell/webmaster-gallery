@@ -55,7 +55,7 @@ class SharedControllerTest < ActionController::TestCase
 
   def get_password
     if @_password.blank?
-      f=Path.webmaster.join('password.txt').open 'r'
+      f=App.webmaster.join('password.txt').open 'r'
       @_password=f.readline("\n").chomp "\n"
       f.close
     end

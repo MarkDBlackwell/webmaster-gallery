@@ -40,7 +40,7 @@ class CreateSessionsControllerTest < SharedSessionsControllerTest
   end
 
   test "logging in shouldn't read the webmaster page file" do
-    f=Path.webmaster.join 'page.html.erb'
+    f=App.webmaster.join 'page.html.erb'
     remove_read_permission(f) {login}
   end
 

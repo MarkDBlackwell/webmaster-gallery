@@ -10,7 +10,7 @@ class FileTag
   def self.find (*args)
     raise FindError unless args.include? :all
     f=MyFile.my_new(  # MyFile.new didn't work.
-        Path.webmaster.join('tags.txt'), 'r')
+        App.webmaster.join('tags.txt'), 'r')
     collection=f.readlines("\n").collect {|e|
         (tag=FileTag.new).name=e.chomp "\n"; tag}
     f.close

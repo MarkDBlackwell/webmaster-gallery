@@ -1,6 +1,6 @@
-class Path
+class App
 
-  a=[ %w[root], %w[webmaster] ]
+  a=[ %w[root], %w[session_options webmaster] ]
   %w[app config].each_with_index do |group,i|
     a.at(i).each do |e|
       self.class_eval "def self.#{e}() #{group}.#{e} end"

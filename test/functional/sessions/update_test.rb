@@ -16,7 +16,7 @@ class UpdateSessionsControllerTest < SharedSessionsControllerTest
 
   test "happy path..." do
 # Shouldn't read the webmaster page file:
-    f=Path.webmaster.join 'page.html.erb'
+    f=App.webmaster.join 'page.html.erb'
     remove_read_permission(f) {happy_path}
 # Should render show:
     assert_template :show
@@ -35,7 +35,7 @@ class UpdateSessionsControllerTest < SharedSessionsControllerTest
 
   test "should expire cached pictures pages for one and all tags" do
     pages = %w[index pictures/two-name].collect {|e|
-        Path.root.join 'public', "#{e}.html" }
+        App.root.join 'public', "#{e}.html" }
     FileUtils.touch pages
     happy_path
     pages.each {|e| assert_equal false, e.exist?,

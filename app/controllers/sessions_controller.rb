@@ -64,7 +64,7 @@ class SessionsController < ApplicationController
   private
 
   def delete_cache
-    public=Path.root.join 'public'
+    public=App.root.join 'public'
     delete=[public.join 'index.html']
     p=public.join 'pictures'
     p.find do |path|

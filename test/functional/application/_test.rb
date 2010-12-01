@@ -6,13 +6,12 @@ class ApplicationControllerTest < SharedControllerTest
 # Configuration tests:
 
   test "sessions should expire after a duration of inactivity" do
-    assert_equal 20.minutes, Gallery::Application.config.session_options.
-        fetch(:expire_after)
+    assert_equal 20.minutes, App.session_options.fetch(:expire_after)
   end
 
   test "webmaster directory location should be configured" do
-    assert_equal Path.webmaster,
-        (Path.root.join *%w[test fixtures files webmaster])
+    assert_equal App.webmaster,
+        (App.root.join *%w[test fixtures files webmaster])
   end
 
 #-------------

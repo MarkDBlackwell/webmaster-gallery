@@ -10,7 +10,7 @@ class FilePassword
   def self.find (*args)
     raise FindError unless args.include? :all
     f=MyFile.my_new(  # MyFile.new didn't work.
-        Path.webmaster.join('password.txt'), 'r')
+        App.webmaster.join('password.txt'), 'r')
     (password=FilePassword.new).password=f.readline("\n").chomp "\n"
     f.close
     collection=[password]
