@@ -2,16 +2,6 @@ class SharedControllerTest < ActionController::TestCase
 
   private
 
-  RESTFUL_METHODS={
-      :index   => :GET,
-      :new     => :GET,
-      :create  => :POST,
-      :edit    => :GET,
-      :update  => :PUT,
-      :show    => :GET,
-      :destroy => :DELETE,
-      }
-
   def assert_blank_assigns(symbol)
     assert_blank assigns(symbol), "@#{symbol}"
   end
@@ -65,7 +55,7 @@ class SharedControllerTest < ActionController::TestCase
 
   def get_password
     if @_password.blank?
-      f=File.new("#{Gallery::Application.config.webmaster}/password.txt", 'r')
+      f=Gallery::Application.config.webmaster.join('password.txt').open 'r'
       @_password=f.readline("\n").chomp "\n"
       f.close
     end

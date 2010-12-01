@@ -19,13 +19,14 @@ class AdminPicturesControllerTest < SharedAdminPicturesControllerTest
 
   test "alert me (show)..." do
 # When rendering a partial picks up the application layout:
-    f="#{Rails.root}/app/views/admin_pictures/_single.html.erb"
+    f=Gallery::Application.root.join *%w[
+        app views admin_pictures _single.html.erb]
     FileUtils.touch f
     @controller.expects(:template).returns(:partial)
     pretend_logged_in
     get :show, :id => pictures(:two).id # For example.
     assert_select 'div.action-content', false
-    FileUtils.rm f
+    f.delete
   end
 
   test "alert me (index)..." do

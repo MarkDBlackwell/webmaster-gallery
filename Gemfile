@@ -32,8 +32,7 @@ gem 'sqlite3-ruby', '1.2.5', :require => 'sqlite3'
 # end
 
 group :development, :test do
-# Broke testing, somehow:
-#  gem 'mocha'
+#  gem 'mocha' # Broke testing, somehow.
   gem 'autotest-rails'
   gem 'ZenTest'
   gem 'redgreen'

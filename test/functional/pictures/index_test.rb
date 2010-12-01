@@ -24,17 +24,15 @@ class IndexPicturesControllerTest < SharedControllerTest
 # Caching tests:
 
   test "index should cache a page" do
-    fn="#{Rails.root}/public/index.html"
-    FileUtils.rm fn, :force => true
-    happy_path
-    assert_equal true, 0 < File.size(fn), "#{fn} caching failed."
+    verify_cache 'index.html' do
+      happy_path
+    end
   end
 
   test "index should cache the page for a tag" do
-    fn="#{Rails.root}/public/pictures/some_tag.html"
-    FileUtils.rm fn, :force => true
-    get :index, :tag => 'some_tag'
-    assert_equal true, 0 < File.size(fn), "#{fn} caching failed."
+    verify_cache %w[pictures some_tag.html] do
+      get :index, :tag => 'some_tag'
+    end
   end
 
 #-------------
@@ -51,7 +49,7 @@ class IndexPicturesControllerTest < SharedControllerTest
 # TODO: Could not get this test to work.
 #    happy_path
 #print 'assigns(:pictures) '; p assigns(:pictures)
-#    assert_template :file => "#{Gallery::Application.config.webmaster}/page",
+#    assert_template :file => Gallery::Application.config.webmaster.join('page'),
 #        :partial => 'pictures/pictures',
 #        :locals => {:pictures => assigns(:pictures)}
 #        :locals => nil
@@ -62,6 +60,14 @@ class IndexPicturesControllerTest < SharedControllerTest
 
   def happy_path
     get :index
+  end
+
+  def verify_cache(a)
+    args=(a.kind_of?(Array) ? a.clone : [a] ).unshift 'public'
+    f=Gallery::Application.root.join *args
+    FileUtils.rm f, :force => true
+    yield
+    assert_equal true, 0 < f.size?, "#{f} caching failed."
   end
 
 end

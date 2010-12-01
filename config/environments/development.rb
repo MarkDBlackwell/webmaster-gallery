@@ -27,6 +27,6 @@ end
   config.action_dispatch.best_standards_support = :builtin
 
 # Location of webmaster directory:
-  config.webmaster = "#{Rails.root}/test/fixtures/files/webmaster"
+  config.webmaster = root.join *%w[test fixtures files webmaster]
 end
 

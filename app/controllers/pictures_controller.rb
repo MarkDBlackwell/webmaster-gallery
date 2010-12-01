@@ -11,7 +11,7 @@ class PicturesController < ApplicationController
   def uncached_index
     @all_tags = Tag.all
     @pictures = Picture.all
-    render :file => "#{Gallery::Application.config.webmaster}/page",
+    render :file => Gallery::Application.config.webmaster.join('page'),
         :layout => false
   end
 

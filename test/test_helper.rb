@@ -3,11 +3,10 @@ require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 REQUIRE_TEST_BASENAME='_shared.rb'
 paths=[]
-Find.find("#{Rails.root}/test") do |path|
-  b=File.basename(path)
-  Find.prune if FileTest.directory?(path) && ?.==b[0]
-  paths << File.expand_path(path.chomp('.rb'),start='/') if
-      REQUIRE_TEST_BASENAME==b
+Gallery::Application.root.join('test').find do |path|
+  b=path.basename.to_s
+  Find.prune if path.directory? && ?.==b[0]
+  paths << path.dirname.join(b.chomp '.rb') if REQUIRE_TEST_BASENAME==b
 end
 paths.sort.each {|e| require e}
 
@@ -17,7 +16,7 @@ class ShouldIncludeThisFileLog
   def self.add
     unless @log.present?
       @previous='no-such'
-      f="#{Rails.root}/out/test-should-include-this-file.log"
+      f=Gallery::Application.root.join 'out/test-should-include-this-file.log'
       FileUtils.rm  f, :force => true
       @log=ActiveSupport::BufferedLogger.new f
     end
@@ -54,7 +53,7 @@ class ActiveSupport::TestCase
   private
 
   def see_output(s=nil)
-    f=File.new("#{Rails.root}/out/see-output",'w')
+    f=Gallery::Application.root.join('out/see-output').open 'w'
     if s.blank?
       begin s=response.body; rescue NameError; end
       begin s=rendered;      rescue NameError; end

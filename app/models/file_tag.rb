@@ -9,15 +9,12 @@ class FileTag
 
   def self.find (*args)
     raise FindError unless args.include? :all
-    f = MyFile.my_new( # MyFile.new didn't work.
-      "#{Gallery::Application.config.webmaster}/tags.txt", 'r')
-    result = f.readlines.collect do |e|
-      ft = FileTag.new
-      ft.name = e.chomp
-      ft
-    end
+    f=MyFile.my_new(  # MyFile.new didn't work.
+        Gallery::Application.config.webmaster.join('tags.txt'), 'r')
+    collection=f.readlines("\n").collect {|e|
+        (tag=FileTag.new).name=e.chomp "\n"; tag}
     f.close
-    result
+    collection
   end
 
   class FindError < Exception

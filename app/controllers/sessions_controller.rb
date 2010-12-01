@@ -41,9 +41,7 @@ class SessionsController < ApplicationController
 # PUT /session
     realign_records(FileTag,Tag,:name)
     realign_records(DirectoryPicture,Picture,:filename)
-    d = "#{Rails.root}/public/pictures"
-    ((Dir.entries(d) - %w[. ..]).collect {|e| [d,e]} << [d,'..','index.html']).
-        collect {|a| a.join('/')}.each {|e| FileUtils.rm e, :force => true}
+    delete_cache
     @all_tags = Tag.all
     render :action => :show
   end
@@ -64,6 +62,18 @@ class SessionsController < ApplicationController
 
 #-------------
   private
+
+  def delete_cache
+    public=Gallery::Application.root.join 'public'
+    delete=[public.join 'index.html']
+    p=public.join 'pictures'
+    p.find do |path|
+      next if path==p
+      Find.prune if path.directory?
+      delete << path
+    end
+    delete.each {|e| FileUtils.rm e, :force => true}
+  end
 
   def get_password
     FilePassword.find(:all).first.password

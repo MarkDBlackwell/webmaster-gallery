@@ -105,9 +105,12 @@ script\ src="/javascripts/  style  /style  title
     @instance_variables=args
     @need_reload=false unless args
     unless @filenames
-      d="#{Rails.root}/app/views/layouts"
-      @filenames=((Dir.entries d) - %w[. ..]).
-          collect {|e| "#{d}/#{e.chomp '.html.erb'}" }
+      @filenames=[]
+      Gallery::Application.root.join('app/views/layouts').find do |path|
+        b=path.basename.to_s
+        Find.prune if path.directory? && ?.==b[0]
+        @filenames << path.dirname.join(b.chomp '.html.erb') if path.file?
+      end
     end
   end
 

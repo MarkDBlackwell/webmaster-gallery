@@ -1,0 +1,8 @@
+echo "the second password, 'Password:' is for Windows."
+sudo ~/mount-holmes
+git gc
+rake log:clear
+cd ~
+tar -cvvjf gallery.bz2 ~/rails-apps/gallery/
+mv gallery.bz2 /mnt/holmes
+echo 'permission errors can be ignored'

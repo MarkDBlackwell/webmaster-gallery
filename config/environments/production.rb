@@ -48,7 +48,8 @@ Gallery::Application.configure do
   config.active_support.deprecation = :notify
 
 # Location of webmaster directory:
-#  config.webmaster = "#{Rails.root}/test/fixtures/files/webmaster"
+# In test and development environments, this is:
+#  config.webmaster = root.join *%w[test fixtures files webmaster]
 # Set this in some way that web hosts will allow. (In a Unix environment
 # variable? or in a start parameter?):
   config.webmaster =

@@ -30,7 +30,7 @@ class FilePasswordTest < ActiveSupport::TestCase
   end
 
   test "find should open the correct password file" do
-    mock_file.with("#{Gallery::Application.config.webmaster}/password.txt", 'r')
+    mock_file.with(Gallery::Application.config.webmaster.join('password.txt'), 'r')
     find
   end
 
@@ -92,11 +92,11 @@ class FilePasswordTest < ActiveSupport::TestCase
   end
 
   def setup
-    @f=File.new("#{Gallery::Application.config.webmaster}/password.txt", 'r')
+    @f=Gallery::Application.config.webmaster.join('password.txt').open 'r'
   end
 
   def teardown
-    @f.close unless @f.nil? || @f.closed?
+    @f.close unless @f.blank? || @f.closed?
   end
 
 end

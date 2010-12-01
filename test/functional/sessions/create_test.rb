@@ -40,8 +40,8 @@ class CreateSessionsControllerTest < SharedSessionsControllerTest
   end
 
   test "logging in shouldn't read the webmaster page file" do
-    fn="#{Gallery::Application.config.webmaster}/page.html.erb"
-    remove_read_permission(fn) {login}
+    f=Gallery::Application.config.webmaster.join 'page.html.erb'
+    remove_read_permission(f) {login}
   end
 
 #-------------
