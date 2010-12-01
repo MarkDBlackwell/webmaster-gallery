@@ -1,11 +1,11 @@
 class FileTag
   include ActiveModel::Validations
 
+  attr_accessor :name
+
   validates_each :name do |record, attr, value|
     record.errors.add attr, 'contains /' if value.include? ?/
   end
-
-  attr_accessor :name
 
   def self.find (*args)
     raise FindError unless args.include? :all
@@ -20,10 +20,4 @@ class FileTag
   class FindError < Exception
   end
 
-end
-
-class MyFile
-  def self.my_new(*args)
-    File.new(*args)
-  end
 end

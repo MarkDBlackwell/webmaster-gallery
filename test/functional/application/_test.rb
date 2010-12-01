@@ -13,7 +13,7 @@ class ApplicationControllerTest < SharedControllerTest
   test "webmaster directory location should be configured" do
     assert_equal \
          Gallery::Application.config.webmaster,
-        (Gallery::Application.root.join *%w[test fixtures files webmaster])
+        (Path.root.join *%w[test fixtures files webmaster])
   end
 
 #-------------

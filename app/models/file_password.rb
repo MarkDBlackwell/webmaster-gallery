@@ -9,21 +9,14 @@ class FilePassword
 
   def self.find (*args)
     raise FindError unless args.include? :all
-    f = MyFile.my_new(  # MyFile.new didn't work.
+    f=MyFile.my_new(  # MyFile.new didn't work.
         Gallery::Application.config.webmaster.join('password.txt'), 'r')
-    fp = FilePassword.new
-    fp.password = f.readline("\n").chomp "\n"
+    (password=FilePassword.new).password=f.readline("\n").chomp "\n"
     f.close
-    [fp]
+    collection=[password]
   end
 
   class FindError < Exception
   end
 
-end
-
-class MyFile
-  def self.my_new(*args)
-    File.new(*args)
-  end
 end

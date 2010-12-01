@@ -10,8 +10,7 @@ class SharedSessionsControllerTest < SharedControllerTest
   end
 
   def pictures_in_layouts_directory?
-    Gallery::Application.root.join(*%w[app views layouts pictures.html.erb]).
-         exist?
+    Path.root.join(*%w[app views layouts pictures.html.erb]).exist?
   end
 
   def remove_read_permission(path)

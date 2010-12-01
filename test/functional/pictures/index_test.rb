@@ -64,7 +64,7 @@ class IndexPicturesControllerTest < SharedControllerTest
 
   def verify_cache(a)
     args=(a.kind_of?(Array) ? a.clone : [a] ).unshift 'public'
-    f=Gallery::Application.root.join *args
+    f=Path.root.join *args
     FileUtils.rm f, :force => true
     yield
     assert_equal true, 0 < f.size?, "#{f} caching failed."

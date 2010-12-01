@@ -106,7 +106,7 @@ script\ src="/javascripts/  style  /style  title
     @need_reload=false unless args
     unless @filenames
       @filenames=[]
-      Gallery::Application.root.join('app/views/layouts').find do |path|
+      Path.root.join('app/views/layouts').find do |path|
         b=path.basename.to_s
         Find.prune if path.directory? && ?.==b[0]
         @filenames << path.dirname.join(b.chomp '.html.erb') if path.file?
