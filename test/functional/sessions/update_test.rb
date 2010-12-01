@@ -16,7 +16,6 @@ class UpdateSessionsControllerTest < SharedSessionsControllerTest
 
   test "happy path..." do
 # Shouldn't read the webmaster page file:
-#    f=Gallery::Application.config.webmaster.join 'page.html.erb'
     f=Path.webmaster.join 'page.html.erb'
     remove_read_permission(f) {happy_path}
 # Should render show:

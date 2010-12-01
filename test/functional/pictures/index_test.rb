@@ -49,7 +49,7 @@ class IndexPicturesControllerTest < SharedControllerTest
 # TODO: Could not get this test to work.
 #    happy_path
 #print 'assigns(:pictures) '; p assigns(:pictures)
-#    assert_template :file => Gallery::Application.config.webmaster.join('page'),
+#    assert_template :file => Path.webmaster.join('page'),
 #        :partial => 'pictures/pictures',
 #        :locals => {:pictures => assigns(:pictures)}
 #        :locals => nil
