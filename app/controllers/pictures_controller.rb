@@ -1,7 +1,7 @@
 class PicturesController < ApplicationController
   caches_page :index
   skip_before_filter :cookies_required,
-                     :guard_logged_in
+      :guard_logged_in
 
   def index
 # The sessions controller (update action) should delete these cached pages.

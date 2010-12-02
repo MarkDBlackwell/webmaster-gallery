@@ -1,7 +1,7 @@
 class AdminPicturesController < ApplicationController
   helper PicturesHelper
   before_filter :find_all_tags
-  before_filter :find_picture, :except => :index
+  before_filter :single, :except => :index
 
   def edit
     render_edit
@@ -17,11 +17,11 @@ class AdminPicturesController < ApplicationController
   end
 
   def update
-    pp=params[:picture]
+    p=params[:picture]
 # Don't copy filename, id, or sequence.
     [:description,:title,:weight,:year].each do |e|
-      @picture[e]=pp.fetch e if pp.has_key? e
-    end unless pp.blank?
+      @picture[e]=p.fetch e if p.has_key? e
+    end unless p.blank?
     @picture.save ? render_show : render_edit
   end
 
@@ -30,10 +30,6 @@ class AdminPicturesController < ApplicationController
 
   def find_all_tags
     @all_tags=Tag.all
-  end
-
-  def find_picture
-    @picture = Picture.find(params[:id])
   end
 
   def render_edit
@@ -48,8 +44,12 @@ class AdminPicturesController < ApplicationController
   end
 
   def render_single
-    @show_filename=true
     render template => 'admin_pictures/single'
+  end
+
+  def single
+    @show_filename=true
+    @picture = Picture.find(params[:id])
   end
 
   def template # For testing purposes.

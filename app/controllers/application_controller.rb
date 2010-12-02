@@ -2,10 +2,9 @@ class ApplicationController < ActionController::Base
   before_filter :cookies_required
   before_filter :guard_http_method
   before_filter :guard_logged_in
-# Per http://railsforum.com/viewtopic.php?id=24298 :
-
-  protect_from_forgery # Creates a before-filter which raises the next error.
-# Its before-filter is called, 'verify_authenticity_token'.
+  protect_from_forgery # Creates a before filter which raises the next error.
+# Per http://railsforum.com/viewtopic.php?id=24298 , its
+#     before filter is called, 'verify_authenticity_token'.
   rescue_from ActionController::InvalidAuthenticityToken,
                      :with => :invalid_authenticity_token
 
