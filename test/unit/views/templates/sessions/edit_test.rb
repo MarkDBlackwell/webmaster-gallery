@@ -6,7 +6,7 @@ class EditSessionsTemplateTest < SharedViewTest
 # Should render:
     assert_template @template
 # Should render difference, once:
-    assert_template :partial => 'sessions/_difference', :count => 1
+    assert_partial 'sessions/_difference', 1
   end
 
 #-------------

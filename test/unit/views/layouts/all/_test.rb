@@ -17,15 +17,15 @@ script\ src="/javascripts/  style  /style  title
   test "partial rendering..." do
     layouts do
 # Should render a list of all tags once:
-      assert_template :partial => 'pictures/_all_tags', :count => 1
+      assert_partial 'pictures/_all_tags', 1
 # Should render messages once:
-      assert_template :partial => 'application/_messages', :count => 1
+      assert_partial 'application/_messages', 1
 # Should render scripts once:
-      assert_template :partial => 'application/_scripts', :count => 1
+      assert_partial 'application/_scripts', 1
 # Should render session buttons once:
-      assert_template :partial => 'application/_buttons', :count => 1
+      assert_partial 'application/_buttons', 1
 # Should render styles once:
-      assert_template :partial => 'application/_styles', :count => 1
+      assert_partial 'application/_styles', 1
     end
   end
 

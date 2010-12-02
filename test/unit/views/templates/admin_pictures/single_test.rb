@@ -9,7 +9,7 @@ class SingleAdminPicturesTemplateTest < SharedViewTest
     assert_template @template
 # Should render a single picture:
     assert_select 'div.picture', 1
-    assert_template :partial => 'pictures/_picture', :count => 1
+    assert_partial 'pictures/_picture', 1
 # Should render the right picture:
     assert_select "div.picture[id=picture_#{@picture.id}]"
   end

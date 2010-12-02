@@ -4,7 +4,7 @@ class GalleryPicturesHelperTest < SharedPicturesHelperTest
 
   test "happy path..." do
 # Should render partial:
-    assert_template :partial => 'pictures/_gallery', :count => 1
+    assert_partial 'pictures/_gallery', 1
 # Should render a gallery, once:
     assert_select 'div.gallery', 1
   end

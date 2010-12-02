@@ -2,6 +2,19 @@ class SharedViewTest < ActionView::TestCase
 
   private
 
+  def assert_partial(*args)
+    a=[args].flatten
+    p=c=nil
+    a.each do |e|
+      p = e if e.kind_of? String
+      c = e if e.kind_of? Integer
+    end
+    p = @partial if p.blank?
+    c = 1 if c.blank?
+    # ActionController::TemplateAssertions#:
+    assert_template :partial => p, :count => c
+  end
+
   def check_pretty_html_source(*a)
     type   = %w[  section  div            tag  other  ]
     prefix = %w[  <!--     <div\ class="  <           ]

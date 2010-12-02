@@ -2,11 +2,6 @@ class SharedPartialTest < SharedViewTest
 
   private
 
-  def assert_partial(c=1, p=@partial)
-    # ActionController::TemplateAssertions#:
-    assert_template :partial => p, :count => c
-  end
-
   def controller_yield
 # Without setup_with_controller, another render appends the response, increasing
 # any assert_select counts.

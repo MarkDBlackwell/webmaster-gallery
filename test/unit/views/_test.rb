@@ -85,6 +85,11 @@ class ViewsTest < ActionView::TestCase
     assert_select '[alt=?]', {:text => 'two-title', :count => 0}, 0
     assert_select '[alt=?]', {:text => 'two-title', :count => 1}, 0
     these_work
+#    assert_template App.webmaster.join('page2')
+#    assert_template :file => App.webmaster.join('page'),
+#        :partial => 'pictures/pictures',
+#        :locals => {:pictures => assigns(:pictures)}
+#        :locals => nil
   end
 
   def these_work

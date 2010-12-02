@@ -44,15 +44,8 @@ class IndexPicturesControllerTest < SharedControllerTest
   end
 
   test "index should render right webmaster page file" do
-# TODO  test "index should render right webmaster page file" do
-    assert Date::today < Date::new(2010,12,10), 'Test unwritten.'
-# TODO: Could not get this test to work.
-#    happy_path
-#print 'assigns(:pictures) '; p assigns(:pictures)
-#    assert_template :file => App.webmaster.join('page'),
-#        :partial => 'pictures/pictures',
-#        :locals => {:pictures => assigns(:pictures)}
-#        :locals => nil
+    happy_path
+    assert_equal 1, @templates.fetch(App.webmaster.join('page').to_s)
   end
 
 #-------------

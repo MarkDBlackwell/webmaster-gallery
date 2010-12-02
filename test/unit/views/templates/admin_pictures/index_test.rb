@@ -8,7 +8,7 @@ class IndexAdminPicturesTemplateTest < SharedViewTest
 # Should render:
     assert_template @template
 # Should render a gallery, once:
-    assert_template :partial => 'pictures/_gallery', :count => 1
+    assert_partial 'pictures/_gallery', 1
   end
 
 #-------------

@@ -4,7 +4,7 @@ class AllTagsPicturesHelperTest < SharedPicturesHelperTest
 
   test "happy path..." do
 # Should render partial:
-    assert_template :partial => 'pictures/_all_tags', :count => 1
+    assert_partial 'pictures/_all_tags', 1
 # Should render a list of all tags:
     assert_select 'div.all-tags', 1
   end
