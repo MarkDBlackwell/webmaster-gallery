@@ -38,7 +38,7 @@ class PicturePicturesPartialTest < SharedPartialTest
 
   test "happy path..." do
 # Should render:
-    assert_partial @partial, 1
+    assert_partial
 # Should include one picture div:
     assert_select 'div.picture', 1
 # Should render a single, right picture:

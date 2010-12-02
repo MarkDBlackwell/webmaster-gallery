@@ -18,7 +18,7 @@ class FieldPicturesPartialTest < SharedPartialTest
 # Should render pretty html source:
     check_pretty_html_source nil, 'field'
 # Should render:
-    assert_partial @partial, 1
+    assert_partial
 # Should include one field div:
     assert_select 'div.field', 1
 # Should render div for field:

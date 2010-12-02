@@ -14,7 +14,7 @@ class ButtonsApplicationPartialTest < SharedPartialTest
         admin-pictures-index  destroy  edit  session-buttons  show
         user-pictures-index  ]
 # Should render:
-    assert_partial @partial, 1
+    assert_partial
 # Should include one session-buttons div:
     assert_select 'div.session-buttons', 1
 # Should render an edit button:

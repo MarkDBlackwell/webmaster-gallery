@@ -2,7 +2,7 @@ class SharedPartialTest < SharedViewTest
 
   private
 
-  def assert_partial(p, c)
+  def assert_partial(c=1, p=@partial)
     # ActionController::TemplateAssertions#:
     assert_template :partial => p, :count => c
   end

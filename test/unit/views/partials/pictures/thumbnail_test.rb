@@ -6,7 +6,7 @@ class ThumbnailPicturesPartialTest < SharedPicturesPartialTest
 # Should render pretty html source:
     check_pretty_html_source nil, 'thumbnail'
 # Should render:
-    assert_partial @partial, 1
+    assert_partial
 # There should be a single thumbnail div:
     assert_select 'div.thumbnail', 1
 # There should be a single anchor, which should link to the right picture:

@@ -6,7 +6,7 @@ class MessagesApplicationPartialTest < SharedPartialTest
 # Should render pretty html source:
     check_pretty_html_source 'Messages', %w[messages notice notice\ error]
 # Should render:
-    assert_partial @partial, 1
+    assert_partial
 # Should include one messages div:
     assert_select 'div.messages', 1
   end

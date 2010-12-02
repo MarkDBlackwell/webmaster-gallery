@@ -8,7 +8,7 @@ class GalleryPicturesPartialTest < SharedPartialTest
     check_pretty_html_source 'Pictures',
         %w[ field gallery picture thumbnail ], 'form'
 # Should render:
-    assert_partial @partial, 1
+    assert_partial
 # Should include one gallery div:
     assert_select 'div.gallery', 1
 # Should render a picture within a gallery:

@@ -14,7 +14,7 @@ class ScriptsApplicationPartialTest < SharedPartialTest
 # Should render pretty html source:
     check_pretty_html_source 'Scripts', 'scripts', 'script'
 # Should render:
-    assert_partial @partial, 1
+    assert_partial
 # Should include one scripts div:
     assert_select 'div.scripts', 1
 # Scripts div should include six script tags:

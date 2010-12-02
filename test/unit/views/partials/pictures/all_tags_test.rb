@@ -12,7 +12,7 @@ class AllTagsPicturesPartialTest < SharedPartialTest
 # Should render pretty html source:
     check_pretty_html_source 'All tags', %w[all-tags tag]
 # Should render:
-    assert_partial @partial, 1
+    assert_partial
 # Should include one all-tags div:
     assert_select 'div.all-tags', 1
 # Should render a tag within a list of all tags:

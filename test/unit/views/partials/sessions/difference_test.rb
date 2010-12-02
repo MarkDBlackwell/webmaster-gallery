@@ -4,7 +4,7 @@ class DifferenceSessionsPartialTest < SharedPartialTest
 
   test "happy path..." do
 # Should render:
-    assert_partial @partial, 1
+    assert_partial
   end
 
 #-------------
