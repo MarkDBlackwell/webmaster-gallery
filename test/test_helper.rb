@@ -12,7 +12,7 @@ paths.sort.each {|e| require e}
 
 class ShouldIncludeThisFileLog
   PREFIX='./test/'
-  THIS=PREFIX + File.basename(__FILE__)
+  THIS=PREFIX + Pathname(__FILE__).basename.to_s
   def self.add
     unless @log.present?
       @previous='no-such'

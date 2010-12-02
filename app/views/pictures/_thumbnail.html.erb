@@ -1,8 +1,8 @@
-<%=     content_tag :div, :class => 'thumbnail' do -%>
-<%        s = picture.filename
-          extension = File.extname s -%>
-<%=       content_tag :a, :href => image_path(['gallery', s].join('/')) do -%>
-<%=         image_tag ['gallery', s.chomp(extension) + '-t' + extension].
-                join('/'), :alt => picture.title -%>
-<%        end -%>
-<%      end -%>
+<%= content_tag :div, :class => 'thumbnail' do -%>
+<%    p=Pathname('gallery').join picture.filename -%>
+<%    x=p.extname.to_s -%>
+<%    t=Pathname(p.to_s.chomp(x) + '-t' + x) -%>
+<%=   content_tag :a, :href => image_path(p.to_s) do -%>
+<%=     image_tag t.to_s, :alt => picture.title -%>
+<%    end -%>
+<%  end -%>

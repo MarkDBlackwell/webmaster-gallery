@@ -1,0 +1,18 @@
+#!/bin/sh
+# Author: Mark D. Blackwell
+# Date written: December 1, 2010
+# Date last changed: December 1, 2010
+
+# Usage:
+#   grep-files-c <regexp>
+
+grep --exclude=*\.sqlite3 \
+--exclude-dir=\.git \
+--exclude-dir=db \
+--exclude-dir=javascripts \
+--exclude-dir=log \
+--exclude-dir=migrate \
+--exclude-dir=out \
+--exclude-dir=vendor \
+--recursive --files-with-matches --regexp=$1 . | sort
+# By hand:  grep -rle <regexp> <directory> | sort
