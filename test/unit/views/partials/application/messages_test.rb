@@ -1,12 +1,12 @@
 require 'test_helper'
 
-class MessagesApplicationPartialTest < SharedViewTest
+class MessagesApplicationPartialTest < SharedPartialTest
 
   test "happy path..." do
 # Should render pretty html source:
     check_pretty_html_source 'Messages', %w[messages notice notice\ error]
 # Should render:
-    assert_template :partial => 'application/_messages', :count => 1
+    assert_partial @partial, 1
 # Should include one messages div:
     assert_select 'div.messages', 1
   end
@@ -16,7 +16,7 @@ class MessagesApplicationPartialTest < SharedViewTest
 
   def setup
     [:error,:notice].each {|e| flash.now[e]="some #{e}" }
-    render :partial => 'application/messages'
+    render_partial @partial='application/messages'
   end
 
 end

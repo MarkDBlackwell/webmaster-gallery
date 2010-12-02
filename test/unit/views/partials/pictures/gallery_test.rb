@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class GalleryPicturesPartialTest < SharedViewTest
+class GalleryPicturesPartialTest < SharedPartialTest
   helper PicturesHelper
 
   test "happy path..." do
@@ -8,7 +8,7 @@ class GalleryPicturesPartialTest < SharedViewTest
     check_pretty_html_source 'Pictures',
         %w[ field gallery picture thumbnail ], 'form'
 # Should render:
-    assert_template :partial => 'pictures/_gallery', :count => 1
+    assert_partial @partial, 1
 # Should include one gallery div:
     assert_select 'div.gallery', 1
 # Should render a picture within a gallery:
@@ -22,7 +22,7 @@ class GalleryPicturesPartialTest < SharedViewTest
 
   def setup
     @pictures = Picture.find(:all)
-    render :partial => 'pictures/gallery'
+    render_partial @partial='pictures/gallery'
   end
 
 end

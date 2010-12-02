@@ -2,6 +2,21 @@ class SharedPartialTest < SharedViewTest
 
   private
 
+  def assert_partial(s, c)
+    p=s.clone.insert s.index(?/)+1, '_'
+    # ActionController::TemplateAssertions#:
+    assert_template :partial => p, :count => c
+  end
+
+  def controller_yield
+# Without setup_with_controller, another render appends the response, increasing
+# any assert_select counts.
+    if block_given?
+      setup_with_controller
+      yield
+    end
+  end
+
   def has_one(selector,v)
     innermost=selector.split(' ').last
     values=[v,'']
@@ -18,12 +33,12 @@ class SharedPartialTest < SharedViewTest
     end
   end
 
-  def controller_yield
-# Without setup_with_controller, another render appends the response, increasing
-# any assert_select counts.
-    if block_given?
-      setup_with_controller
-      yield
+  def render_partial(p,local_assigns={})
+    # ActionView::TestCase::Behavior#, which invokes ActionView::Rendering#:
+    if local_assigns.blank? # Work around bugs:
+      render :partial => p
+    else
+      render p, local_assigns
     end
   end
 

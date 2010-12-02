@@ -14,7 +14,7 @@ class ButtonsApplicationPartialTest < SharedPartialTest
         admin-pictures-index  destroy  edit  session-buttons  show
         user-pictures-index  ]
 # Should render:
-    assert_template :partial => 'application/_buttons', :count => 1
+    assert_partial @partial, 1
 # Should include one session-buttons div:
     assert_select 'div.session-buttons', 1
 # Should render an edit button:
@@ -37,7 +37,7 @@ class ButtonsApplicationPartialTest < SharedPartialTest
 
   def setup(&block)
     controller_yield &block
-    render :partial => 'application/buttons'
+    render_partial @partial='application/buttons'
   end
 
 end

@@ -1,4 +1,4 @@
-class SharedPicturesPartialTest < SharedViewTest
+class SharedPicturesPartialTest < SharedPartialTest
 
   private
 

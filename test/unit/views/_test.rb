@@ -66,6 +66,9 @@ class ViewsTest < ActionView::TestCase
 #    assert_select 'div.thumbnail', 1
 #    assert_select '[alt=?]', 'two-title', 1
 #    assert_select '[src=?]', filename_matcher('two-t.png'), 1
+# When Rails implements these method names I use:
+    assert_raise(NoMethodError) {assert_partial() }
+    assert_raise(NoMethodError) {render_partial() }
   end
 
 end

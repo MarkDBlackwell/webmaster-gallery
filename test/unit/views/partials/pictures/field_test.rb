@@ -18,7 +18,7 @@ class FieldPicturesPartialTest < SharedPartialTest
 # Should render pretty html source:
     check_pretty_html_source nil, 'field'
 # Should render:
-    assert_template :partial => 'pictures/_field', :count => 1
+    assert_partial @partial, 1
 # Should include one field div:
     assert_select 'div.field', 1
 # Should render div for field:
@@ -36,8 +36,8 @@ class FieldPicturesPartialTest < SharedPartialTest
     controller_yield &block
     record=Picture.new
     record[field=:title]='some_title'
-    render :partial => 'pictures/field', :locals => {:record => record,
-        :field => field}
+    render_partial @partial='pictures/field', :record => record,
+        :field => field
   end
 
 end

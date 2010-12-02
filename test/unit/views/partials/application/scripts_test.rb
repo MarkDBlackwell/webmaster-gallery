@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ScriptsApplicationPartialTest < SharedViewTest
+class ScriptsApplicationPartialTest < SharedPartialTest
 
   test "scripts div should include certain script tags in order" do
     %w[prototype effects dragdrop controls rails application].
@@ -14,7 +14,7 @@ class ScriptsApplicationPartialTest < SharedViewTest
 # Should render pretty html source:
     check_pretty_html_source 'Scripts', 'scripts', 'script'
 # Should render:
-    assert_template :partial => 'application/_scripts', :count => 1
+    assert_partial @partial, 1
 # Should include one scripts div:
     assert_select 'div.scripts', 1
 # Scripts div should include six script tags:
@@ -26,7 +26,7 @@ class ScriptsApplicationPartialTest < SharedViewTest
   private
 
   def setup
-    render :partial => 'application/scripts'
+    render_partial @partial='application/scripts'
   end
 
 end

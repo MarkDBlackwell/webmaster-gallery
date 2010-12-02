@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class AllTagsPicturesPartialTest < SharedViewTest
+class AllTagsPicturesPartialTest < SharedPartialTest
 
   test "should render the right tag name" do
     tag_two
@@ -12,7 +12,7 @@ class AllTagsPicturesPartialTest < SharedViewTest
 # Should render pretty html source:
     check_pretty_html_source 'All tags', %w[all-tags tag]
 # Should render:
-    assert_template :partial => 'pictures/_all_tags', :count => 1
+    assert_partial @partial, 1
 # Should include one all-tags div:
     assert_select 'div.all-tags', 1
 # Should render a tag within a list of all tags:
@@ -24,7 +24,11 @@ class AllTagsPicturesPartialTest < SharedViewTest
 
   def render_all_tags
     @all_tags = Tag.find(:all)
-    render :partial => 'pictures/all_tags'
+    render_partial
+  end
+
+  def render_partial
+    super @partial='pictures/all_tags'
   end
 
   def tag_two
@@ -32,7 +36,7 @@ class AllTagsPicturesPartialTest < SharedViewTest
 # ArgumentError: wrong number of arguments (1 for 0)
 #    tags(:one).destroy
     @all_tags = Tag.find :all, :conditions => ["name = ?", 'two-name']
-    render :partial => 'pictures/all_tags'
+    render_partial
   end
 
 end

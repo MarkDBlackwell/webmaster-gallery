@@ -38,7 +38,7 @@ class PicturePicturesPartialTest < SharedPartialTest
 
   test "happy path..." do
 # Should render:
-    assert_template :partial => 'pictures/_picture', :count => 1
+    assert_partial @partial, 1
 # Should include one picture div:
     assert_select 'div.picture', 1
 # Should render a single, right picture:
@@ -57,7 +57,7 @@ class PicturePicturesPartialTest < SharedPartialTest
   def setup(&block)
     controller_yield &block
     @picture=pictures(:two)
-    render :partial => 'pictures/picture', :locals => {:picture => @picture}
+    render_partial @partial='pictures/picture', :picture => @picture
   end
 
 end
