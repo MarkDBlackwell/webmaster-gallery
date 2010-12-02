@@ -36,7 +36,7 @@ class FieldPicturesPartialTest < SharedPartialTest
     controller_yield &block
     record=Picture.new
     record[field=:title]='some_title'
-    render_partial @partial='pictures/field', :record => record,
+    render_partial 'pictures/field', :record => record,
         :field => field
   end
 

@@ -11,7 +11,7 @@ class DifferenceSessionsPartialTest < SharedPartialTest
   private
 
   def setup
-    render_partial @partial='sessions/difference'
+    render_partial 'sessions/difference'
   end
 
 end

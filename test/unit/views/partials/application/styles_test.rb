@@ -31,7 +31,7 @@ class StylesApplicationPartialTest < SharedPartialTest
   end
 
   def setup
-    render_partial @partial='application/styles'
+    render_partial 'application/styles'
   end
 
   def style_include?(substring)

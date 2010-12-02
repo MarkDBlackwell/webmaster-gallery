@@ -2,8 +2,7 @@ class SharedPartialTest < SharedViewTest
 
   private
 
-  def assert_partial(s, c)
-    p=s.clone.insert s.index(?/)+1, '_'
+  def assert_partial(p, c)
     # ActionController::TemplateAssertions#:
     assert_template :partial => p, :count => c
   end
@@ -40,6 +39,7 @@ class SharedPartialTest < SharedViewTest
     else
       render p, local_assigns
     end
+    @partial=p.clone.insert p.index(?/)+1, '_'
   end
 
 end

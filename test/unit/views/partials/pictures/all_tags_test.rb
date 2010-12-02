@@ -28,7 +28,7 @@ class AllTagsPicturesPartialTest < SharedPartialTest
   end
 
   def render_partial
-    super @partial='pictures/all_tags'
+    super 'pictures/all_tags'
   end
 
   def tag_two

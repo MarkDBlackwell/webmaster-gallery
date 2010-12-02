@@ -16,7 +16,7 @@ class MessagesApplicationPartialTest < SharedPartialTest
 
   def setup
     [:error,:notice].each {|e| flash.now[e]="some #{e}" }
-    render_partial @partial='application/messages'
+    render_partial 'application/messages'
   end
 
 end

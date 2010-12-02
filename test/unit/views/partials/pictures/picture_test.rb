@@ -57,7 +57,7 @@ class PicturePicturesPartialTest < SharedPartialTest
   def setup(&block)
     controller_yield &block
     @picture=pictures(:two)
-    render_partial @partial='pictures/picture', :picture => @picture
+    render_partial 'pictures/picture', :picture => @picture
   end
 
 end

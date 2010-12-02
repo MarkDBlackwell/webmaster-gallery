@@ -37,7 +37,7 @@ class ButtonsApplicationPartialTest < SharedPartialTest
 
   def setup(&block)
     controller_yield &block
-    render_partial @partial='application/buttons'
+    render_partial 'application/buttons'
   end
 
 end

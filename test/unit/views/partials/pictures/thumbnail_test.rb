@@ -28,7 +28,7 @@ class ThumbnailPicturesPartialTest < SharedPicturesPartialTest
 
   def setup
     picture=pictures(:two)
-    render_partial @partial='pictures/thumbnail', :picture => picture
+    render_partial 'pictures/thumbnail', :picture => picture
   end
 
 end

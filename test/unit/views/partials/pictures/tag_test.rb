@@ -16,7 +16,7 @@ class TagPicturesPartialTest < SharedPicturesPartialTest
 
   def setup
     tag=tags(:two)
-    render_partial @partial='pictures/tag', :tag => tag
+    render_partial 'pictures/tag', :tag => tag
   end
 
 end

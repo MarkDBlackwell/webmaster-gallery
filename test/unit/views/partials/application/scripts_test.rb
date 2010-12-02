@@ -26,7 +26,7 @@ class ScriptsApplicationPartialTest < SharedPartialTest
   private
 
   def setup
-    render_partial @partial='application/scripts'
+    render_partial 'application/scripts'
   end
 
 end

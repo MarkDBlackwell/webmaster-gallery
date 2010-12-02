@@ -22,7 +22,7 @@ class GalleryPicturesPartialTest < SharedPartialTest
 
   def setup
     @pictures = Picture.find(:all)
-    render_partial @partial='pictures/gallery'
+    render_partial 'pictures/gallery'
   end
 
 end
