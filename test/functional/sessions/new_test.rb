@@ -4,8 +4,6 @@ class NewSessionsControllerTest < SharedSessionsControllerTest
 
 # -> Prompts webmaster to log in.
 
-  test_happy_path_response
-
   test "routing" do
     assert_routing({:path => '/session/new', :method => :get}, :controller =>
         :sessions.to_s, :action => :new.to_s)
@@ -31,17 +29,16 @@ class NewSessionsControllerTest < SharedSessionsControllerTest
     assert_redirected_to :action => :edit
   end
 
+  test_happy_path_response
+
   test "happy path..." do
     happy_path
 # Should suppress the session management buttons:
     assert_equal true, assigns(:suppress_buttons)
-    assert_select 'div.session-buttons', 1
-    assert_template :partial => 'application/_buttons', :count => 1
 # Should not flash:
+    assert_response :success
     assert_blank flash.now[:notice]
     assert_blank flash.now[:error]
-    assert_select 'div.notice', false
-    assert_select 'div.error', false
   end
 
 #-------------
