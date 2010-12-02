@@ -41,34 +41,58 @@ class ViewsTest < ActionView::TestCase
     end
   end
 
-  test "alert me..." do
-# When this works:
-    assert_raise StandardError do
-      pictures(:all)
-    end
-# (Partial-rendering alerts setup):
-    @picture=pictures(:two)
-    render :partial => 'pictures/thumbnail', :locals => {:picture => @picture}
-
-# When testing, that a partial was rendered with the right locals, works (i.e.,
-# when a bug in lines 99-102 of assert_template gets fixed):
+  test "alert me (implementation)..." do
+# When Rails implements my method names:
+    assert_raise(NoMethodError) {assert_partial() }
+    assert_raise(NoMethodError) {render_partial() }
+# When fixtures :all works:
+    assert_raise(StandardError) {pictures :all}
+# When testing, that a partial was rendered with the right locals, works
+# (i.e., when a bug in lines 99-102 of assert_template is fixed):
     assert_raise NoMethodError do
-      assert_template :partial => 'pictures/_thumbnail', :locals => {:picture =>
-          @picture}
+      assert_template :partial => 'c/_p', :locals => {:a => 'a'}
     end
 # When Rails enables these semantics:
+    assert_raise ActionView::Template::Error do
+      render 'pictures/thumbnail', :locals => {:picture => pictures(:two)}
+    end
+    assert_raise ActionView::Template::Error do
+      render :partial => 'pictures/thumbnail', :picture => pictures(:two)
+    end
+  end
+
+  test "alert me (partial, neither keyword)..." do
+    render 'pictures/thumbnail', :picture => pictures(:two)
+    partial_assertions
+  end
+
+  test "alert me (partial, both keywords)..." do
+    render :partial => 'pictures/thumbnail', :locals => {:picture =>
+        pictures(:two)}
+    partial_assertions
+  end
+
+#-------------
+  private
+
+  def partial_assertions
+# How can I tell when Rails implements this (without '_')?:
+#   assert_template :partial => 'pictures/thumbnail'
+# When Rails enables these semantics (and finds a partial):
     assert_template 'pictures/_thumbnail', 0
     assert_template({:partial => 'pictures/_thumbnail'}, 0)
     assert_select '[alt=?]', {:text => 'two-title'}, 0
+    assert_select '[alt=?]', {:text => 'two-title', :count => 0}, 0
     assert_select '[alt=?]', {:text => 'two-title', :count => 1}, 0
+    these_work
+  end
+
+  def these_work
 # (These semantics work):
-#    assert_template :partial => 'pictures/_thumbnail', :count => 1
-#    assert_select 'div.thumbnail', 1
-#    assert_select '[alt=?]', 'two-title', 1
-#    assert_select '[src=?]', filename_matcher('two-t.png'), 1
-# When Rails implements these method names I use:
-    assert_raise(NoMethodError) {assert_partial() }
-    assert_raise(NoMethodError) {render_partial() }
+    assert_template :partial => 'pictures/_thumbnail', :count => 1
+    assert_select 'div.thumbnail', 1
+    assert_select '[alt=?]', 'two-title', 1
+    assert_select '[src=?]', %r:^/images/gallery/two-t.png\?\d+$: , 1
   end
 
 end

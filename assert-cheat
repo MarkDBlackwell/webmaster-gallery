@@ -1,5 +1,1 @@
-# These work:
-    assert_template :partial => 'pictures/_thumbnail', :count => 1
-    assert_select 'div.thumbnail', 1
-    assert_select '[alt=?]', 'two-title', 1
-    assert_select '[src=?]', filename_matcher('two-t.png'), 1
+./grep-files when.rails
