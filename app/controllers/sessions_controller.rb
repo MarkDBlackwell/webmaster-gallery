@@ -31,6 +31,9 @@ class SessionsController < ApplicationController
 
   def edit
 # GET /session/edit
+    s='review group'
+    @review_groups=[s,s]
+    @approval_group='approval group'
   end
 
   def update

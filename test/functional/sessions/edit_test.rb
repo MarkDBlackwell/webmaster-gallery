@@ -11,9 +11,14 @@ class EditSessionsControllerTest < SharedSessionsControllerTest
         :sessions.to_s, :action => :edit.to_s)
   end
 
-  test "should render edit if logged in" do
+  test "happy path (if logged in)..." do
     happy_path
+# Should render edit:
     assert_template :edit
+# Should assign:
+    %w[approval_group review_groups].each do |e|
+      assert_present assigns(e), "Should assign @#{e}"
+    end
   end
 
 #-------------

@@ -1,4 +1,12 @@
-<h1>Sessions#edit</h1>
-<p>Find me in app/views/sessions/edit.html.erb</p>
-<%= render :partial => 'sessions/review_group', :collection=>@review_groups -%>
-<%= render :partial => 'sessions/review_group', :locals => @approval_group -%>
+<%= render :partial => 'sessions/review_group', :collection =>
+        @review_groups -%>
+<%= content_tag :div, :class => 'approve' do -%>
+<%    if @approval_group -%>
+<%=     render :partial => 'sessions/review_group', :object =>
+            @approval_group -%>
+<%=     form_for @approval_group, :url => {:controller => :sessions, :action =>
+            :show}, :html => {:method => :get} do |f| -%><%= %>
+<%=       submit_tag('approve') -%><%= %>
+<%      end -%>
+<%    end -%>
+<%  end -%>

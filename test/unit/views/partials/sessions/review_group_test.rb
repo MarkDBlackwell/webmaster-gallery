@@ -5,6 +5,7 @@ class ReviewGroupSessionsPartialTest < SharedPartialTest
   test "happy path..." do
 # Should render:
     assert_partial
+    assert_select 'div.review-group', 1
   end
 
 #-------------
