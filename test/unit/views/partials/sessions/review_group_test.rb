@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class DifferenceSessionsPartialTest < SharedPartialTest
+class ReviewGroupSessionsPartialTest < SharedPartialTest
 
   test "happy path..." do
 # Should render:
@@ -11,7 +11,7 @@ class DifferenceSessionsPartialTest < SharedPartialTest
   private
 
   def setup
-    render_partial 'sessions/difference'
+    render_partial 'sessions/review_group'
   end
 
 end
