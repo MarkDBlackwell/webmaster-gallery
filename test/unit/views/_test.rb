@@ -52,13 +52,29 @@ class ViewsTest < ActionView::TestCase
     assert_raise NoMethodError do
       assert_template :partial => 'c/_p', :locals => {:a => 'a'}
     end
+# Set up:
+    r=Struct.new(:list,:message).new([],'message')
 # When Rails enables these semantics:
-    assert_raise ActionView::Template::Error do
-      render 'pictures/thumbnail', :locals => {:picture => pictures(:two)}
-    end
     assert_raise ActionView::Template::Error do
       render :partial => 'pictures/thumbnail', :picture => pictures(:two)
     end
+    assert_raise ActionView::Template::Error do
+      render 'pictures/thumbnail', :locals => {:picture => pictures(:two)}
+    end
+    assert_raise NameError do
+      render 'sessions/review_group', r
+    end
+    assert_raise ActionView::Template::Error do
+      render 'sessions/review_group', locals => {:review_group => r}
+    end
+    assert_raise ActionView::Template::Error do
+      render 'sessions/review_group', locals => {:object => r}
+    end
+    assert_raise ActionView::Template::Error do
+      render 'sessions/review_group', :object => r
+    end
+# Works:
+    render 'sessions/review_group', :review_group => r
   end
 
   test "alert me (partial, neither keyword)..." do

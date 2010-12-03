@@ -4,8 +4,8 @@
 <%    if @approval_group -%>
 <%=     render :partial => 'sessions/review_group', :object =>
             @approval_group -%>
-<%=     form_for @approval_group, :url => {:controller => :sessions, :action =>
-            :show}, :html => {:method => :get} do |f| -%><%= %>
+<%=     form_for @approval_group.list, :url => {:controller => :sessions,
+            :action => :show}, :html => {:method => :get} do |f| -%><%= %>
 <%=       submit_tag('approve') -%><%= %>
 <%      end -%>
 <%    end -%>

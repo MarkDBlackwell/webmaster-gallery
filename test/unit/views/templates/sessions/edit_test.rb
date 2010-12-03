@@ -30,10 +30,9 @@ class EditSessionsTemplateTest < SharedViewTest
 
   def setup
     if @template.blank?
-#      @approval_group=t=Tag.find(:all).map(&:name)
-#      p=Picture.find(:all).map(&:filename)
-      @approval_group=t=Tag.find(:all)
-      p=Picture.find(:all)
+      s=Struct.new(:list,:message)
+      @approval_group=t=s.new(Tag.find(:all),'message')
+      p=s.new(Picture.find(:all),'message')
       @review_groups=[t,p]
       @template='sessions/edit'
       render :template => @template

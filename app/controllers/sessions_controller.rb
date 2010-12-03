@@ -31,9 +31,10 @@ class SessionsController < ApplicationController
 
   def edit
 # GET /session/edit
-    s='review group'
-    @review_groups=[s,s]
-    @approval_group='approval group'
+    s=Struct.new(:list,:message)
+    @approval_group=t=s.new(Tag.find(:all),'message')
+    p=s.new(Picture.find(:all),'message')
+    @review_groups=[t,p]
   end
 
   def update

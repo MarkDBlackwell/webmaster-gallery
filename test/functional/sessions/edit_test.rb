@@ -15,9 +15,14 @@ class EditSessionsControllerTest < SharedSessionsControllerTest
     happy_path
 # Should render edit:
     assert_template :edit
-# Should assign:
+# Should assign...:
     %w[approval_group review_groups].each do |e|
       assert_present assigns(e), "Should assign @#{e}"
+    end
+# Groups should include...:
+    assigns(:review_groups).push(assigns :approval_group).each do |e|
+      assert_present e.list, 'list'
+      assert_present e.message, 'message'
     end
   end
 
