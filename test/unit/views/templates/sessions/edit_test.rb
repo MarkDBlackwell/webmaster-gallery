@@ -25,7 +25,7 @@ class EditSessionsTemplateTest < SharedViewTest
 # Approval form should include a submit button:
       assert_select 'form > input[type=submit]', 1 do
 # on which should be appropriate text:
-        assert_select 'input[value=approve]', 1
+        assert_select 'input[value=approve changes]', 1
       end
     end
 # Should render a single submit button:

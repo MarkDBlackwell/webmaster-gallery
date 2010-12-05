@@ -5,7 +5,7 @@
 <%=     form_tag({:controller => :sessions, :action => :show},
             :method => :get) do -%><%= %>
 <%=       hidden_field_tag 'approval_group', @approval_group.join(' ') -%><%= %>
-<%=       submit_tag('approve') -%><%= %>
+<%=       submit_tag('approve changes') -%><%= %>
 <%        end -%>
 <%    end -%>
 <%  end -%>
