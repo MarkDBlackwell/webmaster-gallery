@@ -2,11 +2,12 @@
 <%=   content_tag :div, :class => 'review-message' do -%>
 <%=     review_group.message %>
 <%    end -%>
-<%    f=review_group.list.first -%>
-<%    method=case -%>
-<%    when f.kind_of?(Tag) then :name -%>
-<%#     :name -%>
-<%    when f.kind_of?(Picture) then :filename -%>
+<%    a=review_group.list -%>
+<%    case -%>
+<%    when a.first.kind_of?(Tag) -%>
+<%      a=a.map(&:name) -%>
+<%    when a.first.kind_of?(Picture) -%>
+<%      a=a.map(&:filename) -%>
 <%    end -%>
-<%=   review_group.list.map(&method).sort.join(' ') -%>
+<%=   a.sort.join(' ') -%>
 <%  end -%>

@@ -31,10 +31,39 @@ class SessionsController < ApplicationController
 
   def edit
 # GET /session/edit
+         tn =( t =         Tag.find(:all) ).map(&    :name)
+    file_tn =          FileTag.find(:all)  .map(&    :name)
+         pn =( p =     Picture.find(:all) ).map(&:filename)
+    file_pn = DirectoryPicture.find(:all)  .map(&:filename)
     s=Struct.new(:list,:message)
-    @approval_group=t=s.new(Tag.find(:all),'message')
-    p=s.new(Picture.find(:all),'message')
-    @review_groups=[t,p]
+    model,operation=case
+    when ( names = (file_tn - tn) ).present?
+      [0,0]
+    when ( names = (tn - file_tn) ).present?
+      models=Tag.where(["name IN (?)", names]).all
+      [0,1]
+    when ( names = (file_pn - pn) ).present?
+      [1,0]
+    when ( names = (pn - file_pn) ).present?
+      models=Picture.where(["filename IN (?)", names]).all
+      [1,1]
+    else   names = []
+      [nil,nil]
+    end
+    @review_groups =   [s.new(file_tn, 'Tags in file:')]
+    if model.blank? || 1==model
+      @review_groups << s.new(     p,  'Existing pictures:')
+      @review_groups << s.new(file_pn, 'Pictures in directory:')
+    end
+    a=[case
+    when models.present? then models
+    when names. present? then names end]
+    if a.present?
+      a.push "#{%w[Tags Pictures].at(model    )} to be "\
+             "#{%w[added deleted].at(operation)}:"
+      @review_groups << s.new(*a)
+    end
+    @approval_group=names
   end
 
   def update

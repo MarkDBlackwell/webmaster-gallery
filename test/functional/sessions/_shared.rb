@@ -4,7 +4,7 @@ class SharedSessionsControllerTest < SharedControllerTest
   private
 
   def login(p=nil)
-    p=get_password unless p.present?
+    p=get_password if p.blank?
     set_cookies
     post :create, :password => p
   end

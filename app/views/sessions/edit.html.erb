@@ -2,11 +2,10 @@
         @review_groups -%>
 <%= content_tag :div, :class => 'approve' do -%>
 <%    if @approval_group -%>
-<%=     render :partial => 'sessions/review_group', :object =>
-            @approval_group -%>
-<%=     form_for @approval_group.list, :url => {:controller => :sessions,
-            :action => :show}, :html => {:method => :get} do |f| -%><%= %>
+<%=     form_tag({:controller => :sessions, :action => :show},
+            :method => :get) do -%><%= %>
+<%=       hidden_field_tag 'approval_group', @approval_group.join(' ') -%><%= %>
 <%=       submit_tag('approve') -%><%= %>
-<%      end -%>
+<%        end -%>
 <%    end -%>
 <%  end -%>
