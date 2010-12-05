@@ -31,11 +31,11 @@ class SessionsController < ApplicationController
 
   def edit
 # GET /session/edit
-         tn =( t =         Tag.find(:all) ).map(&    :name)
-    file_tn =          FileTag.find(:all)  .map(&    :name)
-         pn =( p =     Picture.find(:all) ).map(&:filename)
-    file_pn = DirectoryPicture.find(:all)  .map(&:filename)
-    s=Struct.new(:list,:message)
+         tn =( t =         Tag.find(:all) ).map     &:name
+    file_tn =          FileTag.find(:all)  .map     &:name
+         pn =( p =     Picture.find(:all) ).map &:filename
+    file_pn = DirectoryPicture.find(:all)  .map &:filename
+    s=Struct.new :list, :message
     model,operation=case
     when ( names = (file_tn - tn) ).present?
       [0,0]
@@ -51,7 +51,7 @@ class SessionsController < ApplicationController
       [nil,nil]
     end
     @approval_group=names
-    @review_groups =   [s.new(file_tn, 'Tags in file:')]
+    @review_groups =   [s.new file_tn, 'Tags in file:']
     unless 0==model
       @review_groups << s.new(     p,  'Existing pictures:')
       @review_groups << s.new(file_pn, 'Pictures in directory:')
@@ -63,10 +63,12 @@ class SessionsController < ApplicationController
     end
   end
 
+# Working_on
+
   def update
 # PUT /session
-    realign_records(FileTag,Tag,:name)
-    realign_records(DirectoryPicture,Picture,:filename)
+    realign_records FileTag,          Tag,         :name
+    realign_records DirectoryPicture, Picture, :filename
     delete_cache
     render :action => :show
   end
@@ -114,9 +116,9 @@ class SessionsController < ApplicationController
   end
 
   def realign_records(first, second, symbol)
-    f=first. find(:all).collect(&symbol)
-    s=second.find(:all)
-    s.each {|e| e.destroy unless f.include?(e.send symbol)}
+    f=first. find(:all).collect &symbol
+    s=second.find :all
+    s.each {|e| e.destroy unless f.include? e.send(symbol)}
     (f - s.collect(&symbol)).each {|e| second.create symbol => e}
   end
 

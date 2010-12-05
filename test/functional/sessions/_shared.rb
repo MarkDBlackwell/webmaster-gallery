@@ -9,6 +9,22 @@ class SharedSessionsControllerTest < SharedControllerTest
     post :create, :password => p
   end
 
+# Working_on
+
+  def mock_directory_pictures(expected)
+    mock_model expected, DirectoryPicture, :filename
+  end
+
+  def mock_file_tags(expected)
+    expected=Tag.find(:all).map  &:name if :all==expected
+    mock_model expected, FileTag, :name
+  end
+
+  def mock_model(expected,model,method)
+    model.expects(:find).returns(expected.
+        collect {|e| (p=model.new).expects(method).returns e; p} )
+  end
+
   def pictures_in_layouts_directory?
     App.root.join(*%w[app views layouts pictures.html.erb]).exist?
   end
