@@ -50,20 +50,17 @@ class SessionsController < ApplicationController
     else   names = []
       [nil,nil]
     end
+    @approval_group=names
     @review_groups =   [s.new(file_tn, 'Tags in file:')]
-    if model.blank? || 1==model
+    unless 0==model
       @review_groups << s.new(     p,  'Existing pictures:')
       @review_groups << s.new(file_pn, 'Pictures in directory:')
     end
-    a=[case
-    when models.present? then models
-    when names. present? then names end]
-    if a.present?
-      a.push "#{%w[Tags Pictures].at(model    )} to be "\
-             "#{%w[added deleted].at(operation)}:"
-      @review_groups << s.new(*a)
+    if (a = models || names).present?
+      @review_groups << s.new(a,
+          "#{%w[Tags Pictures].at(model    )} to be "\
+          "#{%w[added deleted].at(operation)}:")
     end
-    @approval_group=names
   end
 
   def update

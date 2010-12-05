@@ -18,18 +18,18 @@ class EditSessionsTemplateTest < SharedViewTest
 # Approval form should include an approval group...:
       assert_select 'form > input[type=hidden]', 1 do
         assert_select 'input[name=approval_group]', 1
-        assert_select 'input[id=  approval_group]', 1
+        assert_select 'input[  id=approval_group]', 1
 # which should contain the appropriate contents:
         assert_select 'input[value=?]', @approval_group.join(' ')
       end
 # Approval form should include a submit button:
-      assert_select 'form > input[type=submit]', 1
-    end
-# Should render a single submit button...:
-    assert_select 'input[type=submit]', 1 do
+      assert_select 'form > input[type=submit]', 1 do
 # on which should be appropriate text:
-      assert_select 'input[value=approve]', 1
+        assert_select 'input[value=approve]', 1
+      end
     end
+# Should render a single submit button:
+    assert_select 'input[type=submit]', 1
   end
 
 #-------------
