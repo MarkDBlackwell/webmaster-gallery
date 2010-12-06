@@ -2,6 +2,8 @@ require 'test_helper'
 
 class EditSessionsTemplateTest < SharedViewTest
 
+# Working_on
+
   test "happy path..." do
 # Should render:
     assert_template @template
@@ -13,8 +15,12 @@ class EditSessionsTemplateTest < SharedViewTest
     assert_select 'div.approve > form', 1
     assert_select 'form', 1 do
 # Should render an approval form:
-      assert_select 'form[method=get]', 1
+      assert_select 'form[method=post]', 1
       assert_select 'form[action=/session]', 1
+# Approval form should include a put method hidden input:
+      assert_select 'form > div > input[type=hidden][name=_method]', 1 do
+        assert_select 'input[value=put]', 1
+      end
 # Approval form should include an approval group...:
       assert_select 'form > input[type=hidden]', 1 do
         assert_select 'input[name=approval_group]', 1

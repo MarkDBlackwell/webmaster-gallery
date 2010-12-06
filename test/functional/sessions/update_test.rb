@@ -20,8 +20,8 @@ class UpdateSessionsControllerTest < SharedSessionsControllerTest
     remove_read_permission(f) {happy_path}
 # Shouldn't make a pictures layout file:
     assert_equal false, pictures_in_layouts_directory?
-# Should render show:
-    assert_template :show
+# Should render edit:
+    assert_template :edit
   end
 
   test "happy path should expire cached pictures pages for one and all tags" do
@@ -33,42 +33,97 @@ class UpdateSessionsControllerTest < SharedSessionsControllerTest
         "#{e} cache expiration failed." }
   end
 
-  test "happy path should add and remove pictures and tags" do
-    expected = %w[one three]
-    DirectoryPicture.expects(:find).returns expected.collect {|e|
-        (p=DirectoryPicture.new).expects(:filename).returns e; p }
-    happy_path
-    assert_equal expected, Picture.find(:all).collect(&:filename).sort
-    assert_equal expected, Tag.    find(:all).collect(    &:name).sort
-  end
-
 # Working_on
 
-  test "should add tags if file contents same" do
-#    expected=tag_names
-    expected=FileTag.find(:all).map(&:name)
-    pretend_logged_in
-    put :update # TODO: add parameters.
-    assert_equal expected, tag_names
+  test "shouldn't add tags if approved differ" do
+    prior=tag_names
+    expected, added = construct_added_tags
+    added[0]='altered'
+    run_tags expected, added
+    assert_equal prior, tag_names
   end
 
-  test "shouldn't add tags if file contents differ" do
-    expected=tag_names
-    mock_file_tags expected
-    happy_path
-    assert_equal expected, tag_names
+  test "should add tags if approved same" do
+    prior=tag_names
+    expected, added = construct_added_tags
+    run_tags expected, added
+    assert_equal added, tag_names-prior
+  end
+
+  test "shouldn't delete tags if approved differ" do
+    prior=tag_names
+    expected, deleted = construct_deleted_tags
+    deleted[0]='altered'
+    run_tags expected, deleted
+    assert_equal prior, tag_names
+  end
+
+  test "should delete tags if approved same" do
+    prior=tag_names
+    expected, deleted = construct_deleted_tags
+    run_tags expected, deleted
+    assert_equal deleted, prior-tag_names
+  end
+
+  test "shouldn't add pictures if approved differ" do
+    prior=picture_filenames
+    expected, added = construct_added_pictures
+    added[0]='altered'
+    run_pictures expected, added
+    assert_equal prior, picture_filenames
+  end
+
+  test "should add pictures if approved same" do
+    prior=picture_filenames
+    expected, added = construct_added_pictures
+    run_pictures expected, added
+    assert_equal added, picture_filenames-prior
+  end
+
+  test "shouldn't delete pictures if approved differ" do
+    prior=picture_filenames
+    expected, deleted = construct_deleted_pictures
+    deleted[0]='altered'
+    run_pictures expected, deleted
+    assert_equal prior, picture_filenames
+  end
+
+  test "should delete pictures if approved same" do
+    prior=picture_filenames
+    expected, deleted = construct_deleted_pictures
+    run_pictures expected, deleted
+    assert_equal deleted, prior-picture_filenames
   end
 
 #-------------
   private
 
-  def happy_path
+  def approve(group)
     pretend_logged_in
-    put :update
+    put :update, :commit => 'approve changes', :approval_group => group
+  end
+
+  def happy_path
+    mock_file_tags :all
+    mock_directory_pictures :all
+    pretend_logged_in
+    put :update, :commit => 'update-user-pictures'
   end
 
   def picture_filenames
     Picture.find(:all).map(&:filename).sort
+  end
+
+  def run_pictures(expected,changed)
+    mock_file_tags :all
+    mock_directory_pictures expected
+    approve changed
+  end
+
+  def run_tags(expected,changed)
+    mock_file_tags expected
+    mock_directory_pictures []
+    approve changed
   end
 
   def tag_names

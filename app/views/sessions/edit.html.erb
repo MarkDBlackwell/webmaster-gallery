@@ -1,9 +1,10 @@
 <%= render :partial => 'sessions/review_group', :collection =>
         @review_groups -%>
 <%= content_tag :div, :class => 'approve' do -%>
+<!--Working_on-->
 <%    if @approval_group -%>
-<%=     form_tag({:controller => :sessions, :action => :show},
-            :method => :get) do -%><%= %>
+<%=     form_tag({:controller => :sessions, :action => :update},
+            :method => :put) do -%><%= %>
 <%=       hidden_field_tag 'approval_group', @approval_group.join(' ') -%><%= %>
 <%=       submit_tag('approve changes') -%><%= %>
 <%        end -%>

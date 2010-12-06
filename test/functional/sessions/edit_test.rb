@@ -27,28 +27,22 @@ class EditSessionsControllerTest < SharedSessionsControllerTest
   end
 
   test "should review added tags" do
-    added=['three-name']
-    expected=Tag.find(:all).map(&:name).take(1).concat added
+    expected, added = construct_added_tags
     run_tags expected, added, 'added'
   end
 
   test "should review deleted tags" do
-    expected=Tag.find(:all).map &:name
-    deleted=expected.pop 1
+    expected, deleted = construct_deleted_tags
     run_tags expected, deleted, 'deleted'
   end
 
   test "should review added pictures" do
-    added=['three.png']
-    expected=Picture.find(:all).map(&:filename).take(1).concat added
-    mock_file_tags :all
+    expected, added = construct_added_pictures
     run_pictures expected, added, 'added'
   end
 
   test "should review deleted pictures" do
-    expected=Picture.find(:all).map &:filename
-    deleted=expected.pop 1
-    mock_file_tags :all
+    expected, deleted = construct_deleted_pictures
     run_pictures expected, deleted, 'deleted'
   end
 
@@ -79,6 +73,7 @@ class EditSessionsControllerTest < SharedSessionsControllerTest
 # Working_on
 
   def run_pictures(expected,change,s)
+    mock_file_tags :all
     mock_directory_pictures expected
     happy_path
     check_approval_group change
@@ -87,6 +82,7 @@ class EditSessionsControllerTest < SharedSessionsControllerTest
 
   def run_tags(expected,change,s)
     mock_file_tags expected
+    mock_directory_pictures []
     happy_path
     check_approval_group change
     check_review_groups 2,"Tags to be #{s}:"

@@ -3,6 +3,30 @@ class SharedSessionsControllerTest < SharedControllerTest
 
   private
 
+  def construct_added_pictures
+    added=['three.png']
+    expected=Picture.find(:all).map(&:filename).take(1).concat added
+    [expected,added]
+  end
+
+  def construct_added_tags
+    added=['three-name']
+    expected=Tag.find(:all).map(&:name).take(1).concat added
+    [expected,added]
+  end
+
+  def construct_deleted_pictures
+    expected=Picture.find(:all).map &:filename
+    deleted=expected.pop 1
+    [expected,deleted]
+  end
+
+  def construct_deleted_tags
+    expected=Tag.find(:all).map &:name
+    deleted=expected.pop 1
+    [expected,deleted]
+  end
+
   def login(p=nil)
     p=get_password if p.blank?
     set_cookies
@@ -12,6 +36,7 @@ class SharedSessionsControllerTest < SharedControllerTest
 # Working_on
 
   def mock_directory_pictures(expected)
+    expected=Picture.find(:all).map       &:filename if :all==expected
     mock_model expected, DirectoryPicture, :filename
   end
 
