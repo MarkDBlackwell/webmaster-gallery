@@ -39,7 +39,7 @@ class SessionsController < ApplicationController
   def update
 # PUT /session
     review, approval = get_groups
-    process_change(review, approval) if approval.join(' ')==params[
+    process_changed(review, approval) if approval.list.join(' ')==params[
         :approval_group]
     delete_cache if params[:approval_group].blank? && 'update-user-pictures'==
         params[:commit]
@@ -94,26 +94,27 @@ class SessionsController < ApplicationController
     when (names=(file_tn-tn)).present?
       [0,0]
     when (names=(tn-file_tn)).present?
-      models=Tag.where(["name IN (?)", names]).all
+      records=Tag.where(["name IN (?)", names]).all
       [0,1]
     when (names=(file_pn-pn)).present?
       [1,0]
     when (names=(pn-file_pn)).present?
-      models=Picture.where(["filename IN (?)", names]).all
+      records=Picture.where(["filename IN (?)", names]).all
       [1,1]
     else  names=[]
       [nil,nil]
     end
-    approval=names
-    review =   [s.new file_tn, 'Tags in file:']
+    approval=s.new names
+    review  =       [s.new file_tn, 'Tags in file:']
     unless 0==model_i
-      review << s.new(     p,  'Existing pictures:')
-      review << s.new(file_pn, 'Pictures in directory:')
+      review.concat [s.new(     p,  'Existing pictures:'),
+                     s.new(file_pn, 'Pictures in directory:')]
     end
-    if (a = models || names).present?
-      review << s.new(a,
-          "#{%w[Tags Pictures].at(    model_i)} to be "\
-          "#{%w[added deleted].at(operation_i)}:")
+    if (a = records || names).present?
+      m = %w[Tag Picture].at     model_i
+      o = %w[add   delet].at operation_i
+      approval.message = "approve #{o}ing #{m.downcase}s"
+      review << s.new(a, "#{m}s to be #{o}ed:")
     end
     [review, approval]
   end
@@ -122,7 +123,7 @@ class SessionsController < ApplicationController
     FilePassword.find(:all).first.password
   end
 
-  def process_change(review, approval)
+  def process_changed(review, approval)
     methods    = %w[name filename]
     models     = %w[Tag Picture]
     operations = %w[added deleted]
@@ -131,12 +132,12 @@ class SessionsController < ApplicationController
         "#{operations.at(e.last )}:"==review.last.message}
     return if model_i.blank?
     method=methods.at(model_i)
-    model=models.at(model_i).constantize
+    model =models .at(model_i).constantize
     case operation_i
     when 0
-      approval.each {|e| model.create method.to_sym => e}
+      approval.list.each {|e| model.create method.to_sym => e}
     when 1
-      model.where(["#{method} IN (?)", approval ]).all.each {|e| e.destroy}
+      model.where(["#{method} IN (?)", approval.list ]).all.each {|e| e.destroy}
     end
   end
 

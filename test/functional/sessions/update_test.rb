@@ -24,7 +24,8 @@ class UpdateSessionsControllerTest < SharedSessionsControllerTest
     assert_template :edit
   end
 
-  test "happy path should expire cached pictures pages for one and all tags" do
+#  test "happy path should expire cached pictures pages for one and all tags" do
+  test "sh" do
     pages = %w[index pictures/two-name].collect {|e|
         App.root.join 'public', "#{e}.html" }
     FileUtils.touch pages

@@ -5,8 +5,9 @@
 <%    if @approval_group -%>
 <%=     form_tag({:controller => :sessions, :action => :update},
             :method => :put) do -%><%= %>
-<%=       hidden_field_tag 'approval_group', @approval_group.join(' ') -%><%= %>
-<%=       submit_tag('approve changes') -%><%= %>
+<%=       hidden_field_tag 'approval_group', @approval_group.list.
+              join(' ') -%><%= %>
+<%=       submit_tag @approval_group.message -%><%= %>
 <%        end -%>
 <%    end -%>
 <%  end -%>
