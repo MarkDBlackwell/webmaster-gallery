@@ -100,7 +100,8 @@ class UpdateSessionsControllerTest < SharedSessionsControllerTest
 
   def approve(group)
     pretend_logged_in
-    put :update, :commit => 'approve changes', :approval_group => group
+    put :update, :commit => 'approve changes', :approval_group =>
+        group.join(' ')
   end
 
   def happy_path

@@ -39,39 +39,12 @@ class SessionsController < ApplicationController
   def update
 # PUT /session
     review, approval = get_groups
-#    realign_records FileTag,          Tag,         :name
-#    realign_records DirectoryPicture, Picture, :filename
-    process_change(review, approval) if approval==params[:approval_group]
-    delete_cache if params[:approval_group].blank? &&
-        'update-user-pictures'==params[:commit]
+    process_change(review, approval) if approval.join(' ')==params[
+        :approval_group]
+    delete_cache if params[:approval_group].blank? && 'update-user-pictures'==
+        params[:commit]
     render :action => :edit
   end
-
-  def process_change(review, a)
-    approval=a.split
-    methods    = %w[name filename]
-    models     = %w[Tag Picture]
-    operations = %w[added deleted]
-    model_i, operation_i = (a=[0,1]).product(a).detect {|e|
-        "#{    models.at(e.first)}s to be "\
-        "#{operations.at(e.last )}:"==review.last.message}
-    return if model_i.blank?
-    method=methods.at(model_i)
-    model=models.at(model_i).constantize
-    case operation_i
-    when 0
-      approval.each {|e| model.create method.to_sym => e}
-    when 1
-      model.where(["#{method} IN (?)", approval ]).all.each {|e| e.destroy}
-    end
-  end
-
-#  def realign_records(first, second, symbol)
-#    f=first. find(:all).collect &symbol
-#    s=second.find :all
-#    s.each {|e| e.destroy unless f.include? e.send(symbol)}
-#    (f - s.collect(&symbol)).each {|e| second.create symbol => e}
-#  end
 
   def show
 # GET /session
@@ -147,6 +120,24 @@ class SessionsController < ApplicationController
 
   def get_password
     FilePassword.find(:all).first.password
+  end
+
+  def process_change(review, approval)
+    methods    = %w[name filename]
+    models     = %w[Tag Picture]
+    operations = %w[added deleted]
+    model_i, operation_i = (a=[0,1]).product(a).detect {|e|
+        "#{    models.at(e.first)}s to be "\
+        "#{operations.at(e.last )}:"==review.last.message}
+    return if model_i.blank?
+    method=methods.at(model_i)
+    model=models.at(model_i).constantize
+    case operation_i
+    when 0
+      approval.each {|e| model.create method.to_sym => e}
+    when 1
+      model.where(["#{method} IN (?)", approval ]).all.each {|e| e.destroy}
+    end
   end
 
 end
