@@ -5,16 +5,6 @@ class SessionsController < ApplicationController
 
 # Working_on
 
-  def new
-    @suppress_buttons=true
-    case when cookies.empty? # action_dispatch.cookies
-      clear_session
-      flash.now[:error]='Cookies required, or session timed out.'
-    when session[:logged_in]
-      already_in
-    end
-  end
-
   def create
     (already_in; return) if session[:logged_in]
     clear_session
@@ -28,19 +18,6 @@ class SessionsController < ApplicationController
     redirect_to :action => action
   end
 
-  def edit
-    @review_groups, @approval_group = get_groups
-  end
-
-  def update
-    process_changed *get_groups
-    delete_cache
-    redirect_to :action => :edit
-  end
-
-  def show
-  end
-
   def destroy
     was_logged_in=session[:logged_in]
     clear_session
@@ -48,6 +25,29 @@ class SessionsController < ApplicationController
         'You weren\'t logged in.' :
         'Logged out successfully.'
     redirect_to :action => :new
+  end
+
+  def edit
+    @review_groups, @approval_group = get_groups
+  end
+
+  def new
+    @suppress_buttons=true
+    case when cookies.empty? # action_dispatch.cookies
+      clear_session
+      flash.now[:error]='Cookies required, or session timed out.'
+    when session[:logged_in]
+      already_in
+    end
+  end
+
+  def show
+  end
+
+  def update
+    process_changed *get_groups
+    delete_cache
+    redirect_to :action => :edit
   end
 
 #-------------
