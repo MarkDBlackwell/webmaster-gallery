@@ -11,7 +11,7 @@ class SharedViewTest < ActionView::TestCase
     end
     p = @partial if p.blank?
     c = 1 if c.blank?
-    # ActionController::TemplateAssertions#:
+    # ActionController::TemplateAssertions:
     assert_template :partial => p, :count => c
   end
 

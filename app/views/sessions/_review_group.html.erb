@@ -3,11 +3,13 @@
 <%=     review_group.message %>
 <%    end -%>
 <!--Working_on-->
-<%    a=review_group.list -%>
-<%=   case
-      when a.empty? then ['(none)']
-      when a.first.kind_of?(Tag    ) then a.map     &:name
-      when a.first.kind_of?(Picture) then a.map &:filename
-      else a
-      end.sort.join(' ') -%>
+<%=   content_tag :div, :class => 'review-list' do -%>
+<%      a=review_group.list -%>
+<%=     case
+        when a.empty? then ['(none)']
+        when a.first.kind_of?(Tag    ) then a.map     &:name
+        when a.first.kind_of?(Picture) then a.map &:filename
+        else a
+        end.sort.join(' ') -%>
+<%    end -%>
 <%  end -%>
