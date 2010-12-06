@@ -4,28 +4,36 @@ class EditSessionsControllerTest < SharedSessionsControllerTest
 
 # -> Webmaster reviews filesystem changes.
 
-  test_happy_path_response
-
   test "routing" do # GET
     assert_routing({:path => '/session/edit', :method => :get}, :controller =>
         :sessions.to_s, :action => :edit.to_s)
   end
 
-  test "happy path (if logged in)..." do
+  test_happy_path_response
+
+  test "happy path..." do
     happy_path
 # Should render the right template:
     assert_template :edit
-# Should assign groups:
+# Should assign approval and review groups:
     %w[approval_group review_groups].each do |e|
       assert_present assigns(e), "Should assign @#{e}"
     end
-# Review groups should include...:
-    a=assigns :approval_group
-    g=assigns(:review_groups).clone
-    (a.blank? ? g : g << a).each do |e|
+# Groups should include...:
+    (assigns(:review_groups).clone << assigns(:approval_group)).each do |e|
+# A list:
       assert_present e.list, 'list'
+# A message:
       assert_present e.message, 'message'
     end
+  end
+
+  test "if nothing to approve..." do
+    mock_file_tags :all
+    mock_directory_pictures :all
+    happy_path
+# Approval group list and message should be appropriate:
+    check_approval_group [], 'refresh'
   end
 
   test "should review added tags" do
@@ -52,7 +60,6 @@ class EditSessionsControllerTest < SharedSessionsControllerTest
   private
 
   def check_approval_group(changed,message)
-#    assert_equal changed, assigns(:approval_group), 'Approval'
     g=assigns :approval_group
 # List should be:
     assert_equal changed, g.list, 'Approval list'
