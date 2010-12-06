@@ -4,12 +4,22 @@ class DestroySessionsControllerTest < SharedSessionsControllerTest
 
 # <- Webmaster logs out.
 
-  test_happy_path_response :new
+#-------------
+# General tests:
 
-  test "routing" do
+  test "routing" do # DELETE
     assert_routing({:path => '/session', :method => :delete}, :controller =>
       :sessions.to_s, :action => :destroy.to_s)
   end
+
+  test "should remove the session cookie" do
+# TODO  test "should remove the session cookie" do
+    assert Date::today < Date::new(2010,12,10), 'Test unwritten.'
+# Reference config/initializes/session_store.rb for cookie name.
+  end
+
+#-------------
+# Not already logged in tests:
 
   test "when not already logged in..." do
     set_cookies
@@ -17,6 +27,13 @@ class DestroySessionsControllerTest < SharedSessionsControllerTest
 # Should flash a notice:
     assert_equal "You weren't logged in.", flash[:notice]
   end
+
+#-------------
+# Happy path tests:
+
+# Working_on
+
+  test_happy_path_response :new
 
   test "happy path..." do
 # Should reset the session:
@@ -27,14 +44,6 @@ class DestroySessionsControllerTest < SharedSessionsControllerTest
     assert_blank session[:logged_in]
 # Should flash a notice:
     assert_equal 'Logged out successfully.', flash[:notice]
-# Should redirect to new:
-    assert_redirected_to :action => :new
-  end
-
-  test "should remove the session cookie" do
-# TODO  test "should remove the session cookie" do
-    assert Date::today < Date::new(2010,12,10), 'Test unwritten.'
-# Reference config/initializes/session_store.rb for cookie name.
   end
 
 #-------------

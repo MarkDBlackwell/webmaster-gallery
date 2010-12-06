@@ -7,11 +7,17 @@ class ShowSessionsControllerTest < SharedSessionsControllerTest
 #-------------
 # General tests:
 
-  test_happy_path_response
-
-  test "routing" do
+  test "routing" do # GET
     assert_routing({:path => '/session', :method => :get}, :controller =>
         :sessions.to_s, :action => :show.to_s)
+  end
+
+  test_happy_path_response
+
+  test "happy path..." do
+    happy_path
+# Should render the right template:
+    assert_template :show
   end
 
 #-------------

@@ -3,11 +3,11 @@ class SessionsController < ApplicationController
   before_filter      :get_all_tags,   :except => [:create, :destroy, :new]
   skip_before_filter :guard_logged_in,  :only => [:create, :destroy, :new]
 
+# Working_on
+
   def new
-# GET /session/new
     @suppress_buttons=true
-    case
-    when cookies.empty? # action_dispatch.cookies
+    case when cookies.empty? # action_dispatch.cookies
       clear_session
       flash.now[:error]='Cookies required, or session timed out.'
     when session[:logged_in]
@@ -16,7 +16,6 @@ class SessionsController < ApplicationController
   end
 
   def create
-# POST /session
     (already_in; return) if session[:logged_in]
     clear_session
     if get_password==params[:password]
@@ -30,28 +29,19 @@ class SessionsController < ApplicationController
   end
 
   def edit
-# GET /session/edit
     @review_groups, @approval_group = get_groups
   end
 
-# Working_on
-
   def update
-# PUT /session
-    review, approval = get_groups
-    process_changed(review, approval) if approval.list.join(' ')==params[
-        :approval_group]
-    delete_cache if params[:approval_group].blank? && 'update-user-pictures'==
-        params[:commit]
-    render :action => :edit
+    process_changed *get_groups
+    delete_cache
+    redirect_to :action => :edit
   end
 
   def show
-# GET /session
   end
 
   def destroy
-# DELETE /session
     was_logged_in=session[:logged_in]
     clear_session
     flash[:notice]=was_logged_in.blank? ?
@@ -69,15 +59,16 @@ class SessionsController < ApplicationController
   end
 
   def delete_cache
+    return unless 'update-user-pictures'==params[:commit]
+    return if params[:approval_group].present?
     public=App.root.join 'public'
-    delete=[public.join 'index.html']
-    p=public.join 'pictures'
-    p.find do |path|
+    pages=[public.join 'index.html']
+    (p=public.join 'pictures').find do |path|
       next if path==p
       Find.prune if path.directory?
-      delete << path
+      pages << path
     end
-    delete.each {|e| FileUtils.rm e, :force => true}
+    pages.each {|e| FileUtils.rm e, :force => true}
   end
 
   def get_all_tags
@@ -104,17 +95,15 @@ class SessionsController < ApplicationController
     else  names=[]
       [nil,nil]
     end
-    approval=s.new names
-    review  =       [s.new file_tn, 'Tags in file:']
-    unless 0==model_i
-      review.concat [s.new(     p,  'Existing pictures:'),
-                     s.new(file_pn, 'Pictures in directory:')]
-    end
+    review  =     [s.new file_tn, 'Tags in file:']
+    review.concat [s.new(      p, 'Existing pictures:'),
+                   s.new(file_pn, 'Pictures in directory:')] unless 0==model_i
+    approval=s.new names, 'refresh'
     if (a = records || names).present?
       m = %w[Tag Picture].at     model_i
       o = %w[add   delet].at operation_i
-      approval.message = "approve #{o}ing #{m.downcase}s"
       review << s.new(a, "#{m}s to be #{o}ed:")
+      approval.message = "approve #{o}ing #{m.downcase}s"
     end
     [review, approval]
   end
@@ -124,15 +113,17 @@ class SessionsController < ApplicationController
   end
 
   def process_changed(review, approval)
-    methods    = %w[name filename]
+    return if approval.blank? || approval.list.blank? ||
+        review.blank? || review.last.blank? || review.last.message.blank?
+    return unless approval.list.join(' ')==params[:approval_group]
     models     = %w[Tag Picture]
-    operations = %w[added deleted]
+    operations = %w[add delet]
     model_i, operation_i = (a=[0,1]).product(a).detect {|e|
-        "#{    models.at(e.first)}s to be "\
-        "#{operations.at(e.last )}:"==review.last.message}
-    return if model_i.blank?
-    method=methods.at(model_i)
-    model =models .at(model_i).constantize
+        "#{models    .at(e.first)}s to be "\
+        "#{operations.at(e.last )}ed:"==review.last.message}
+    return if model_i.blank? || operation_i.blank?
+    model=models.at(model_i).constantize
+    method = %w[name filename].at(model_i)
     case operation_i
     when 0
       approval.list.each {|e| model.create method.to_sym => e}

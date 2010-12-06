@@ -22,7 +22,7 @@ class AdminPicturesController < ApplicationController
     [:description,:title,:weight,:year].each do |e|
       @picture[e]=p.fetch e if p.has_key? e
     end unless p.blank?
-    @picture.save ? render_show : render_edit
+    @picture.save ? redirect_to(:action => :show) : render_edit
   end
 
 #-------------

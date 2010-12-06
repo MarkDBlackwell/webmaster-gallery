@@ -2,11 +2,17 @@ require 'test_helper'
 
 class ShowAdminPicturesControllerTest < SharedAdminPicturesControllerTest
 
-  test_happy_path_response
-
-  test "routing" do
+  test "routing" do # GET
     assert_routing({:path => '/admin_pictures/2', :method => :get},
         :controller => :admin_pictures.to_s, :action => :show.to_s, :id => '2')
+  end
+
+  test_happy_path_response
+
+  test "happy path..." do
+    happy_path
+# Should render the right template:
+    assert_template :single
   end
 
 #-------------

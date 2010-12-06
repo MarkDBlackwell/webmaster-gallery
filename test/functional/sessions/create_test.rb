@@ -7,12 +7,12 @@ class CreateSessionsControllerTest < SharedSessionsControllerTest
 #-------------
 # General tests:
 
-  test_happy_path_response :edit
-
-  test "routing" do
+  test "routing" do # POST
     assert_routing({:path => '/session', :method => :post}, :controller =>
         :sessions.to_s, :action => :create.to_s)
   end
+
+  test_happy_path_response :edit
 
 #-------------
 # Wrong password tests:

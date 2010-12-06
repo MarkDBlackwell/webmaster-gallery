@@ -4,7 +4,7 @@ class UpdateSessionsControllerTest < SharedSessionsControllerTest
 
 # <- Webmaster approves filesystem changes.
 
-  test "routing" do
+  test "routing" do # PUT
     assert_routing({:path => '/session', :method => :put}, :controller =>
         :sessions.to_s, :action => :update.to_s)
   end
@@ -12,7 +12,7 @@ class UpdateSessionsControllerTest < SharedSessionsControllerTest
 #-------------
 # Happy path tests:
 
-  test_happy_path_response
+  test_happy_path_response :edit
 
   test "happy path..." do
 # Shouldn't read the webmaster page file:
@@ -20,12 +20,9 @@ class UpdateSessionsControllerTest < SharedSessionsControllerTest
     remove_read_permission(f) {happy_path}
 # Shouldn't make a pictures layout file:
     assert_equal false, pictures_in_layouts_directory?
-# Should render edit:
-    assert_template :edit
   end
 
-#  test "happy path should expire cached pictures pages for one and all tags" do
-  test "sh" do
+  test "happy path should expire cached pictures pages for one and all tags" do
     pages = %w[index pictures/two-name].collect {|e|
         App.root.join 'public', "#{e}.html" }
     FileUtils.touch pages

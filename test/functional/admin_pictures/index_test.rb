@@ -2,7 +2,7 @@ require 'test_helper'
 
 class IndexAdminPicturesControllerTest < SharedAdminPicturesControllerTest
 
-  test "routing..." do
+  test "routing..." do # GET
     assert_routing '/admin_pictures',
         :controller => :admin_pictures.to_s, :action => :index.to_s
 # With tag:

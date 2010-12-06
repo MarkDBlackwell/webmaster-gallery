@@ -4,12 +4,13 @@ class IndexPicturesControllerTest < SharedControllerTest
   tests PicturesController
 
 # -> Ordinary user views gallery.
+
   test_happy_path_response
 
 #-------------
 # Routing tests:
 
-  test "routing..." do
+  test "routing..." do # GET
     assert_routing '/', :controller => :pictures.to_s, :action => :index.to_s
     assert_routing '/pictures/some_tag', :controller => :pictures.to_s,
       :action => :index.to_s, :tag => 'some_tag'

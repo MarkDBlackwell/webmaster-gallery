@@ -6,14 +6,14 @@ class EditSessionsControllerTest < SharedSessionsControllerTest
 
   test_happy_path_response
 
-  test "routing" do
+  test "routing" do # GET
     assert_routing({:path => '/session/edit', :method => :get}, :controller =>
         :sessions.to_s, :action => :edit.to_s)
   end
 
   test "happy path (if logged in)..." do
     happy_path
-# Should render edit:
+# Should render the right template:
     assert_template :edit
 # Should assign groups:
     %w[approval_group review_groups].each do |e|
