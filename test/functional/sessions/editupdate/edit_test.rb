@@ -90,6 +90,7 @@ class EditSessionsControllerTest < SharedEditUpdateSessionsControllerTest
 
   def run_pictures(expected,changed,s)
     mock_file_tags :all
+    mock_directory_pictures_unpaired []
     mock_directory_pictures expected
     happy_path
     check_approval_group changed, "approve #{s}ing pictures"
@@ -98,6 +99,7 @@ class EditSessionsControllerTest < SharedEditUpdateSessionsControllerTest
 
   def run_tags(expected,changed,s)
     mock_file_tags expected
+    mock_directory_pictures_unpaired []
     mock_directory_pictures []
     happy_path
     check_approval_group changed, "approve #{s}ing tags"

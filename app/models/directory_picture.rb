@@ -15,7 +15,7 @@ class DirectoryPicture
   end
 
   def self.find_unpaired
-    []
+    collection=[]
   end
 
   class FindError < Exception

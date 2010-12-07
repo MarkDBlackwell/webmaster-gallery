@@ -40,6 +40,12 @@ class SharedSessionsControllerTest < SharedControllerTest
     mock_model expected, DirectoryPicture, :filename
   end
 
+  def mock_directory_pictures_unpaired(expected)
+    model=DirectoryPicture
+    model.expects(:find_unpaired).returns(expected.
+        collect {|e| (p=model.new).expects(:filename).returns e; p} )
+  end
+
   def mock_file_tags(expected)
     expected=Tag.find(:all).map  &:name if :all==expected
     mock_model expected, FileTag, :name
