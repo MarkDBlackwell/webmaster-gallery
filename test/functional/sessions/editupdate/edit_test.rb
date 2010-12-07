@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class EditSessionsControllerTest < SharedSessionsControllerTest
+class EditSessionsControllerTest < SharedEditUpdateSessionsControllerTest
 
 # -> Webmaster reviews filesystem changes.
 
@@ -71,11 +71,10 @@ class EditSessionsControllerTest < SharedSessionsControllerTest
     groups=assigns :review_groups
 # Count should be:
     assert_equal count, groups.length, 'Review groups count'
-# Messages should be:
-    messages=['Tags in file:','Existing pictures:','Pictures in directory:'].
-        take(count - 1).push message
     groups.each_with_index do |e,i|
-      assert_equal e.message, messages.at(i), "Review group #{i}"
+# Messages should be:
+      assert_equal (@controller.send(:review_messages).take(count - 1).
+          push message).at(i), e.message, "Review group #{i}"
     end
   end
 

@@ -7,9 +7,15 @@ class DirectoryPicture
     record.errors.add attr, 'contains /' if value.include? ?/
   end
 
+# Working_on
+
   def self.find (*args)
     raise FindError unless args.include? :all
     collection=[]
+  end
+
+  def self.find_unpaired
+    []
   end
 
   class FindError < Exception

@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class UpdateSessionsControllerTest < SharedSessionsControllerTest
+class UpdateSessionsControllerTest < SharedEditUpdateSessionsControllerTest
 
 # <- Webmaster approves filesystem changes.
 
