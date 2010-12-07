@@ -95,19 +95,21 @@ class SessionsController < ApplicationController
     else  names=[]
       [nil,nil]
     end
+    unpaired=DirectoryPicture.find_unpaired
+    approval=s.new unpaired.present? ? unpaired : names, 'refresh'
     rm=review_messages
-    review  =     [s.new(file_tn, rm.shift),
-#        s.new(DirectoryPicture.find_unpaired, rm.shift),
-        ]
-    review.concat [s.new(      p, rm.shift),
-                   s.new(file_pn, rm.shift),
-        ] unless 0==model_i
-    approval=s.new names, 'refresh'
-    if (a = records || names).present?
-      m = %w[Tag Picture].at     model_i
-      o = %w[add   delet].at operation_i
-      review << s.new(a, "#{m}s to be #{o}ed:")
-      approval.message = "approve #{o}ing #{m.downcase}s"
+    review=[s.new(file_tn,  rm.shift),
+            s.new(unpaired, rm.shift)]
+    if unpaired.blank?
+      review.concat [s.new(      p, rm.shift),
+                     s.new(file_pn, rm.shift),
+          ] unless 0==model_i
+      if (a = records || names).present?
+        m = %w[Tag Picture].at     model_i
+        o = %w[add   delet].at operation_i
+        review << s.new(a, "#{m}s to be #{o}ed:")
+        approval.message = "approve #{o}ing #{m.downcase}s"
+      end
     end
     [review, approval]
   end
@@ -139,7 +141,7 @@ class SessionsController < ApplicationController
   def review_messages
     [
         'Tags in file:',
-#        'Unpaired pictures:',
+        'Broken picture pairs:',
         'Existing pictures:',
         'Pictures in directory:',
         ]

@@ -20,11 +20,13 @@ class EditSessionsControllerTest < SharedEditUpdateSessionsControllerTest
       assert_present assigns(e), "Should assign @#{e}"
     end
 # Groups should include...:
-    (assigns(:review_groups).clone << assigns(:approval_group)).each do |e|
+    (assigns(:review_groups) << assigns(:approval_group)).
+        each_with_index do |e,i|
 # A list:
-      assert_present e.list, 'list'
+      assert_kind_of Array, e.list, "list #{i}"
 # A message:
-      assert_present e.message, 'message'
+      assert_present e.message, "message #{i}"
+      assert_kind_of String, e.message, "message #{i}"
     end
   end
 
@@ -80,6 +82,7 @@ class EditSessionsControllerTest < SharedEditUpdateSessionsControllerTest
 
   def happy_path
     pretend_logged_in
+
     get :edit
   end
 
@@ -90,7 +93,7 @@ class EditSessionsControllerTest < SharedEditUpdateSessionsControllerTest
     mock_directory_pictures expected
     happy_path
     check_approval_group changed, "approve #{s}ing pictures"
-    check_review_groups 4,"Pictures to be #{s}ed:"
+    check_review_groups 5,"Pictures to be #{s}ed:"
   end
 
   def run_tags(expected,changed,s)
@@ -98,7 +101,7 @@ class EditSessionsControllerTest < SharedEditUpdateSessionsControllerTest
     mock_directory_pictures []
     happy_path
     check_approval_group changed, "approve #{s}ing tags"
-    check_review_groups 2,"Tags to be #{s}ed:"
+    check_review_groups 3,"Tags to be #{s}ed:"
   end
 
 end
