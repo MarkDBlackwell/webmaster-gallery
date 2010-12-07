@@ -96,7 +96,7 @@ class SessionsController < ApplicationController
       [nil,nil]
     end
     unpaired=DirectoryPicture.find_unpaired
-    approval=s.new unpaired.present? ? unpaired : names, 'refresh'
+    approval=s.new unpaired.present? ? [] : names, 'refresh'
     rm=review_messages
     review=[s.new(file_tn,  rm.shift),
             s.new(unpaired, rm.shift)]

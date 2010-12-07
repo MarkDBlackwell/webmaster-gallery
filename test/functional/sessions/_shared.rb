@@ -27,6 +27,10 @@ class SharedSessionsControllerTest < SharedControllerTest
     [expected,deleted]
   end
 
+  def construct_unpaired
+    collection= %w[a b]
+  end
+
   def login(p=nil)
     p=get_password if p.blank?
     set_cookies
@@ -40,10 +44,8 @@ class SharedSessionsControllerTest < SharedControllerTest
     mock_model expected, DirectoryPicture, :filename
   end
 
-  def mock_directory_pictures_unpaired(expected)
-    model=DirectoryPicture
-    model.expects(:find_unpaired).returns(expected.
-        collect {|e| (p=model.new).expects(:filename).returns e; p} )
+  def mock_unpaired(expected)
+    DirectoryPicture.expects(:find_unpaired).returns expected
   end
 
   def mock_file_tags(expected)

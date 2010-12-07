@@ -115,14 +115,14 @@ class UpdateSessionsControllerTest < SharedEditUpdateSessionsControllerTest
 
   def run_pictures(expected,changed)
     mock_file_tags :all
-    mock_directory_pictures_unpaired []
+    mock_unpaired []
     mock_directory_pictures expected
     approve changed
   end
 
   def run_tags(expected,changed)
     mock_file_tags expected
-    mock_directory_pictures_unpaired []
+    mock_unpaired []
     mock_directory_pictures []
     approve changed
   end
