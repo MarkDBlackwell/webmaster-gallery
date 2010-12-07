@@ -80,7 +80,6 @@ class SessionsController < ApplicationController
     file_tn =          FileTag.find(:all)  .map     &:name
          pn =( p =     Picture.find(:all) ).map &:filename
     file_pn = DirectoryPicture.find(:all)  .map &:filename
-    s=Struct.new :list, :message
     model_i,operation_i=case
     when (names=(file_tn-tn)).present?
       [0,0]
@@ -95,6 +94,7 @@ class SessionsController < ApplicationController
     else  names=[]
       [nil,nil]
     end
+    s=Struct.new :list, :message
     unpaired=DirectoryPicture.find_unpaired
     approval=s.new unpaired.present? ? [] : names, 'refresh'
     rm=review_messages
@@ -102,8 +102,7 @@ class SessionsController < ApplicationController
             s.new(unpaired, rm.shift)]
     if unpaired.blank?
       review.concat [s.new(      p, rm.shift),
-                     s.new(file_pn, rm.shift),
-          ] unless 0==model_i
+                     s.new(file_pn, rm.shift)] unless 0==model_i
       if (a = records || names).present?
         m = %w[Tag Picture].at     model_i
         o = %w[add   delet].at operation_i

@@ -28,10 +28,6 @@ class SharedEditUpdateSessionsControllerTest < SharedSessionsControllerTest
     [expected,deleted]
   end
 
-  def construct_unpaired
-    collection= %w[a b]
-  end
-
   def mock_directory_pictures(expected)
     expected=Picture.find(:all).map       &:filename if :all==expected
     mock_model expected, DirectoryPicture, :filename

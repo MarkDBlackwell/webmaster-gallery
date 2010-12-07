@@ -38,9 +38,13 @@ class EditSessionsControllerTest < SharedEditUpdateSessionsControllerTest
     check_approval_group [], 'refresh'
   end
 
-  test "should review unpaired directory pictures" do
-    unpaired = construct_unpaired
-    run_unpaired unpaired
+  test "should review unpaired directory pictures first" do
+    mock_unpaired %w[a b]
+    mock_file_tags []
+    mock_directory_pictures []
+    happy_path
+    check_approval_group [], 'refresh'
+    check_review_groups 2, @controller.send(:review_messages).at(1)
   end
 
   test "should review added tags" do
@@ -93,9 +97,9 @@ class EditSessionsControllerTest < SharedEditUpdateSessionsControllerTest
 # Working_on
 
   def run_pictures(expected,changed,s)
-    mock_file_tags :all
-    mock_unpaired []
     mock_directory_pictures expected
+    mock_unpaired []
+    mock_file_tags :all
     happy_path
     check_approval_group changed, "approve #{s}ing pictures"
     check_review_groups 5,"Pictures to be #{s}ed:"
@@ -108,15 +112,6 @@ class EditSessionsControllerTest < SharedEditUpdateSessionsControllerTest
     happy_path
     check_approval_group changed, "approve #{s}ing tags"
     check_review_groups 3,"Tags to be #{s}ed:"
-  end
-
-  def run_unpaired(unpaired)
-    mock_file_tags :all
-    mock_unpaired unpaired
-    mock_directory_pictures :all
-    happy_path
-    check_approval_group [], 'refresh'
-    check_review_groups 2, @controller.send(:review_messages).at(1)
   end
 
 end
