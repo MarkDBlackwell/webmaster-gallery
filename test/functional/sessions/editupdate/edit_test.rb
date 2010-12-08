@@ -49,20 +49,21 @@ class EditSessionsControllerTest < SharedEditUpdateSessionsControllerTest
     check_review_groups 2, @controller.send(:review_messages).at(1)
   end
 
-  test "should review added tags" do
-    run_tags 'add'
-  end
-
-  test "should review added pictures" do
-    run_pictures 'add'
-  end
-
-  test "should review deleted tags" do
-    run_tags 'delet'
-  end
-
-  test "should review deleted pictures" do
-    run_pictures 'delet'
+  2.times do |i|
+    model = %w[tag    picture].at(i)
+    s     = %w[file directory].at(i)
+    2.times do |k|
+      operation = %w[add delet].at(k)
+      test "should review #{operation}ed #{model}s" do
+        mock_unpaired []
+        0==i ? mock_directory_pictures([]) : mock_file_tags(:all)
+        expected, changed = send "construct_#{operation}ed_#{model}s".to_sym
+        send "mock_#{s}_#{model}s".to_sym, expected
+        happy_path
+        check_approval_group changed, "approve #{operation}ing #{model}s"
+        check_review_groups 3+2*i, "#{model.capitalize}s to be #{operation}ed:"
+      end
+    end
   end
 
 #-------------
@@ -90,32 +91,6 @@ class EditSessionsControllerTest < SharedEditUpdateSessionsControllerTest
   def happy_path
     pretend_logged_in
     get :edit
-  end
-
-  def run_pictures(s)
-    expected, changed = case
-    when 'add'  ==s then construct_added_pictures
-    when 'delet'==s then construct_deleted_pictures
-    end      
-    mock_directory_pictures expected
-    mock_unpaired []
-    mock_file_tags :all
-    happy_path
-    check_approval_group changed, "approve #{s}ing pictures"
-    check_review_groups 5,"Pictures to be #{s}ed:"
-  end
-
-  def run_tags(s)
-    expected, changed = case
-    when 'add'  ==s then construct_added_tags
-    when 'delet'==s then construct_deleted_tags
-    end      
-    mock_file_tags expected
-    mock_unpaired []
-    mock_directory_pictures []
-    happy_path
-    check_approval_group changed, "approve #{s}ing tags"
-    check_review_groups 3,"Tags to be #{s}ed:"
   end
 
 end
