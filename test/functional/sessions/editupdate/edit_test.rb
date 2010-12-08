@@ -49,25 +49,31 @@ class EditSessionsControllerTest < SharedEditUpdateSessionsControllerTest
 
   2.times do |i|
     model = %w[tag    picture].at(i)
-    s     = %w[file directory].at(i)
+    s1    = %w[file directory].at(i)
+    s2="mock_#{s1}_#{model}s" #->
+        # mock_directory_pictures
+        # mock_directory_tags
+        # mock_file_pictures
+        # mock_file_tags
     2.times do |k|
       operation = %w[add delet].at(k)
-      test "should review #{operation}ed #{model}s" do
-        mock_unpaired []
-        0==i ? mock_directory_pictures([]) : mock_file_tags(:all)
-        expected, changed = send "construct_#{operation}ed_#{model}s" #->
-            # construct_added_pictures
-            # construct_added_tags
-            # construct_deleted_pictures
-            # construct_deleted_tags
-        send "mock_#{s}_#{model}s", expected #->
-            # mock_directory_pictures
-            # mock_directory_tags
-            # mock_file_pictures
-            # mock_file_tags
-        happy_path
-        check_approval_group changed, "approve #{operation}ing #{model}s"
-        check_review_groups 3+2*i, "#{model.capitalize}s to be #{operation}ed:"
+      s3="#{operation}ed_#{model}s" #->
+      s4="construct_#{s3}" #->
+          # construct_added_pictures
+          # construct_added_tags
+          # construct_deleted_pictures
+          # construct_deleted_tags
+      (1..2).each do |count|
+        test "should review #{count} #{s3}" do
+          mock_unpaired []
+          0==i ? mock_directory_pictures([]) : mock_file_tags(:all)
+          expected, changed = send s4, count
+          send s2, expected
+          happy_path
+          check_approval_group changed, "approve #{operation}ing #{model}s"
+          check_review_groups 3+2*i,
+              "#{model.capitalize}s to be #{operation}ed:"
+        end
       end
     end
   end
@@ -78,7 +84,7 @@ class EditSessionsControllerTest < SharedEditUpdateSessionsControllerTest
   def check_approval_group(changed,message)
     g=assigns :approval_group
 # List should be:
-    assert_equal changed, g.list, 'Approval list'
+    assert_equal changed.sort, g.list, 'Approval list'
 # Message should be:
     assert_equal g.message, message, 'Approval message'
   end

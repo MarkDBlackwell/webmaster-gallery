@@ -36,11 +36,11 @@ class UpdateSessionsControllerTest < SharedEditUpdateSessionsControllerTest
     s     = %w[file directory].at(i)
     name  = %w[name  filename].at(i)
     s1="#{model}_#{name}s" #->
-          # picture_filenames
-          # tag_names
+        # picture_filenames
+        # tag_names
     s2="run_#{model}s" #->
-          # run_pictures
-          # run_tags
+        # run_pictures
+        # run_tags
     2.times do |k|
       operation = %w[add delet].at(k)
       s3="construct_#{operation}ed_#{model}s" #->
@@ -48,24 +48,26 @@ class UpdateSessionsControllerTest < SharedEditUpdateSessionsControllerTest
           # construct_added_tags
           # construct_deleted_pictures
           # construct_deleted_tags
-      test "should #{operation} #{model}s if approved same" do
-        before=send s1
-        expected, changed = send s3
-        send s2, expected, changed
-        a=send s1
-        difference=case k
-        when 0 then a - before
-        when 1 then before - a
+      (1..2).each do |count|
+        test "should #{operation} #{count} #{model}s if approved same" do
+          before=send s1
+          expected, changed = send s3, count
+          send s2, expected, changed
+          a=send s1
+          difference=case k
+          when 0 then a - before
+          when 1 then before - a
+          end
+          assert_equal changed.sort, difference
         end
-        assert_equal changed, difference
-      end
 
-      test "shouldn't #{operation} #{model}s if approved differ" do
-        before=send s1
-        expected, changed = send s3
-        changed[0]='altered'
-        send s2, expected, changed
-        assert_equal before, (send s1)
+        test "shouldn't #{operation} #{count} #{model}s if approved differ" do
+          before=send s1
+          expected, changed = send s3, count
+          changed[0]='altered'
+          send s2, expected, changed
+          assert_equal before, (send s1)
+        end
       end
     end
   end
@@ -86,10 +88,6 @@ class UpdateSessionsControllerTest < SharedEditUpdateSessionsControllerTest
     put :update, :commit => 'update-user-pictures'
   end
 
-  def picture_filenames
-    Picture.find(:all).map(&:filename).sort
-  end
-
   def run_pictures(expected,changed)
     mock_file_tags :all
     mock_unpaired []
@@ -102,10 +100,6 @@ class UpdateSessionsControllerTest < SharedEditUpdateSessionsControllerTest
     mock_unpaired []
     mock_directory_pictures []
     approve changed
-  end
-
-  def tag_names
-    Tag.find(:all).map(&:name).sort
   end
 
 end

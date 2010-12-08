@@ -74,20 +74,23 @@ class SessionsController < ApplicationController
   end
 
   def get_groups
-         tn =( t =         Tag.find(:all) ).map     &:name
-    file_tn =          FileTag.find(:all)  .map     &:name
-         pn =( p =     Picture.find(:all) ).map &:filename
-    file_pn = DirectoryPicture.find(:all)  .map &:filename
+    s=:name
+         tn =    ( t =     Tag.order(s).find(:all) ).map &s
+    file_tn =          FileTag         .find(:all)  .map(&s).sort
+    s=:filename
+         pn =    ( p = Picture.order(s).find(:all) ).map &s
+    file_pn = DirectoryPicture         .find(:all)  .map(&s).sort
+    s=nil
     model_i,operation_i=case
     when (names=(file_tn-tn)).present?
       [0,0]
     when (names=(tn-file_tn)).present?
-      records=Tag.where(["name IN (?)", names]).all
+      records=Tag.order(:name).where(["name IN (?)", names]).all
       [0,1]
     when (names=(file_pn-pn)).present?
       [1,0]
     when (names=(pn-file_pn)).present?
-      records=Picture.where(["filename IN (?)", names]).all
+      records=Picture.order(:filename).where(["filename IN (?)", names]).all
       [1,1]
     else  names=[]
       [nil,nil]
@@ -118,7 +121,7 @@ class SessionsController < ApplicationController
   def process_changed(review, approval)
     return if approval.blank? || approval.list.blank? ||
         review.blank? || review.last.blank? || review.last.message.blank?
-    return unless approval.list.join(' ')==params[:approval_group]
+    return unless approval.list==params[:approval_group].split.sort
     models     = %w[Tag Picture]
     operations = %w[add delet]
     model_i, operation_i = (a=[0,1]).product(a).detect {|e|
