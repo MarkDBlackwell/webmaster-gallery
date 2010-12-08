@@ -4,6 +4,8 @@ class EditSessionsControllerTest < SharedEditUpdateSessionsControllerTest
 
 # -> Webmaster reviews filesystem changes.
 
+# Working_on
+
   test "routing" do # GET
     assert_routing({:path => '/session/edit', :method => :get}, :controller =>
         :sessions.to_s, :action => :edit.to_s)
@@ -48,23 +50,19 @@ class EditSessionsControllerTest < SharedEditUpdateSessionsControllerTest
   end
 
   test "should review added tags" do
-    expected, added = construct_added_tags
-    run_tags expected, added, 'add'
-  end
-
-  test "should review deleted tags" do
-    expected, deleted = construct_deleted_tags
-    run_tags expected, deleted, 'delet'
+    run_tags 'add'
   end
 
   test "should review added pictures" do
-    expected, added = construct_added_pictures
-    run_pictures expected, added, 'add'
+    run_pictures 'add'
+  end
+
+  test "should review deleted tags" do
+    run_tags 'delet'
   end
 
   test "should review deleted pictures" do
-    expected, deleted = construct_deleted_pictures
-    run_pictures expected, deleted, 'delet'
+    run_pictures 'delet'
   end
 
 #-------------
@@ -94,9 +92,11 @@ class EditSessionsControllerTest < SharedEditUpdateSessionsControllerTest
     get :edit
   end
 
-# Working_on
-
-  def run_pictures(expected,changed,s)
+  def run_pictures(s)
+    expected, changed = case
+    when 'add'  ==s then construct_added_pictures
+    when 'delet'==s then construct_deleted_pictures
+    end      
     mock_directory_pictures expected
     mock_unpaired []
     mock_file_tags :all
@@ -105,7 +105,11 @@ class EditSessionsControllerTest < SharedEditUpdateSessionsControllerTest
     check_review_groups 5,"Pictures to be #{s}ed:"
   end
 
-  def run_tags(expected,changed,s)
+  def run_tags(s)
+    expected, changed = case
+    when 'add'  ==s then construct_added_tags
+    when 'delet'==s then construct_deleted_tags
+    end      
     mock_file_tags expected
     mock_unpaired []
     mock_directory_pictures []

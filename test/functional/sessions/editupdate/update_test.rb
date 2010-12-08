@@ -33,64 +33,64 @@ class UpdateSessionsControllerTest < SharedEditUpdateSessionsControllerTest
 
 # Working_on
 
-  test "shouldn't add tags if approved differ" do
-    prior=tag_names
-    expected, added = construct_added_tags
-    added[0]='altered'
-    run_tags expected, added
-    assert_equal prior, tag_names
-  end
-
   test "should add tags if approved same" do
-    prior=tag_names
+    before=tag_names
     expected, added = construct_added_tags
     run_tags expected, added
-    assert_equal added, tag_names-prior
-  end
-
-  test "shouldn't delete tags if approved differ" do
-    prior=tag_names
-    expected, deleted = construct_deleted_tags
-    deleted[0]='altered'
-    run_tags expected, deleted
-    assert_equal prior, tag_names
-  end
-
-  test "should delete tags if approved same" do
-    prior=tag_names
-    expected, deleted = construct_deleted_tags
-    run_tags expected, deleted
-    assert_equal deleted, prior-tag_names
-  end
-
-  test "shouldn't add pictures if approved differ" do
-    prior=picture_filenames
-    expected, added = construct_added_pictures
-    added[0]='altered'
-    run_pictures expected, added
-    assert_equal prior, picture_filenames
+    assert_equal added, tag_names-before
   end
 
   test "should add pictures if approved same" do
-    prior=picture_filenames
+    before=picture_filenames
     expected, added = construct_added_pictures
     run_pictures expected, added
-    assert_equal added, picture_filenames-prior
+    assert_equal added, picture_filenames-before
   end
 
-  test "shouldn't delete pictures if approved differ" do
-    prior=picture_filenames
-    expected, deleted = construct_deleted_pictures
-    deleted[0]='altered'
-    run_pictures expected, deleted
-    assert_equal prior, picture_filenames
+  test "shouldn't add tags if approved differ" do
+    before=tag_names
+    expected, added = construct_added_tags
+    added[0]='altered'
+    run_tags expected, added
+    assert_equal before, tag_names
+  end
+
+  test "shouldn't add pictures if approved differ" do
+    before=picture_filenames
+    expected, added = construct_added_pictures
+    added[0]='altered'
+    run_pictures expected, added
+    assert_equal before, picture_filenames
+  end
+
+  test "should delete tags if approved same" do
+    before=tag_names
+    expected, deleted = construct_deleted_tags
+    run_tags expected, deleted
+    assert_equal deleted, before-tag_names
   end
 
   test "should delete pictures if approved same" do
-    prior=picture_filenames
+    before=picture_filenames
     expected, deleted = construct_deleted_pictures
     run_pictures expected, deleted
-    assert_equal deleted, prior-picture_filenames
+    assert_equal deleted, before-picture_filenames
+  end
+
+  test "shouldn't delete tags if approved differ" do
+    before=tag_names
+    expected, deleted = construct_deleted_tags
+    deleted[0]='altered'
+    run_tags expected, deleted
+    assert_equal before, tag_names
+  end
+
+  test "shouldn't delete pictures if approved differ" do
+    before=picture_filenames
+    expected, deleted = construct_deleted_pictures
+    deleted[0]='altered'
+    run_pictures expected, deleted
+    assert_equal before, picture_filenames
   end
 
 #-------------
