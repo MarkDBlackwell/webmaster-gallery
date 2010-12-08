@@ -2,8 +2,6 @@ require 'test_helper'
 
 class EditSessionsTemplateTest < SharedViewTest
 
-# Working_on
-
   test "happy path..." do
 # Should render the right template:
     assert_template @template

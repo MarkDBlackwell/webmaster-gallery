@@ -4,8 +4,6 @@ class EditSessionsControllerTest < SharedEditUpdateSessionsControllerTest
 
 # -> Webmaster reviews filesystem changes.
 
-# Working_on
-
   test "routing" do # GET
     assert_routing({:path => '/session/edit', :method => :get}, :controller =>
         :sessions.to_s, :action => :edit.to_s)
@@ -57,8 +55,16 @@ class EditSessionsControllerTest < SharedEditUpdateSessionsControllerTest
       test "should review #{operation}ed #{model}s" do
         mock_unpaired []
         0==i ? mock_directory_pictures([]) : mock_file_tags(:all)
-        expected, changed = send "construct_#{operation}ed_#{model}s".to_sym
-        send "mock_#{s}_#{model}s".to_sym, expected
+        expected, changed = send "construct_#{operation}ed_#{model}s" #->
+            # construct_added_pictures
+            # construct_added_tags
+            # construct_deleted_pictures
+            # construct_deleted_tags
+        send "mock_#{s}_#{model}s", expected #->
+            # mock_directory_pictures
+            # mock_directory_tags
+            # mock_file_pictures
+            # mock_file_tags
         happy_path
         check_approval_group changed, "approve #{operation}ing #{model}s"
         check_review_groups 3+2*i, "#{model.capitalize}s to be #{operation}ed:"

@@ -3,8 +3,6 @@ class SessionsController < ApplicationController
   before_filter      :get_all_tags,   :except => [:create, :destroy, :new]
   skip_before_filter :guard_logged_in,  :only => [:create, :destroy, :new]
 
-# Working_on
-
   def create
     (already_in; return) if session[:logged_in]
     clear_session

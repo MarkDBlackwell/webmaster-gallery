@@ -1,7 +1,5 @@
 class SharedEditUpdateSessionsControllerTest < SharedSessionsControllerTest
 
-# Working_on
-
   private
 
   def construct_added_pictures

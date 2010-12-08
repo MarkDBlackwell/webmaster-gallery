@@ -2,8 +2,6 @@ require 'test_helper'
 
 class ReviewGroupSessionsPartialTest < SharedPartialTest
 
-# Working_on
-
   test "happy path..." do
     happy_path
 # Should render the right partial:

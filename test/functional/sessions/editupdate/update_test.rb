@@ -31,17 +31,23 @@ class UpdateSessionsControllerTest < SharedEditUpdateSessionsControllerTest
         "#{e} cache expiration failed." }
   end
 
-# Working_on
-
   2.times do |i|
     model = %w[tag    picture].at(i)
     s     = %w[file directory].at(i)
     name  = %w[name  filename].at(i)
-    s1="#{model}_#{name}s"
-    s2="run_#{model}s"
+    s1="#{model}_#{name}s" #->
+          # picture_filenames
+          # tag_names
+    s2="run_#{model}s" #->
+          # run_pictures
+          # run_tags
     2.times do |k|
       operation = %w[add delet].at(k)
-      s3="construct_#{operation}ed_#{model}s"
+      s3="construct_#{operation}ed_#{model}s" #->
+          # construct_added_pictures
+          # construct_added_tags
+          # construct_deleted_pictures
+          # construct_deleted_tags
       test "should #{operation} #{model}s if approved same" do
         before=send s1
         expected, changed = send s3
@@ -53,6 +59,7 @@ class UpdateSessionsControllerTest < SharedEditUpdateSessionsControllerTest
         end
         assert_equal changed, difference
       end
+
       test "shouldn't #{operation} #{model}s if approved differ" do
         before=send s1
         expected, changed = send s3

@@ -31,8 +31,6 @@ class DestroySessionsControllerTest < SharedSessionsControllerTest
 #-------------
 # Happy path tests:
 
-# Working_on
-
   test_happy_path_response :new
 
   test "happy path..." do
