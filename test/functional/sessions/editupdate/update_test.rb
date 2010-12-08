@@ -33,64 +33,34 @@ class UpdateSessionsControllerTest < SharedEditUpdateSessionsControllerTest
 
 # Working_on
 
-  test "should add tags if approved same" do
-    before=tag_names
-    expected, added = construct_added_tags
-    run_tags expected, added
-    assert_equal added, tag_names-before
-  end
-
-  test "should add pictures if approved same" do
-    before=picture_filenames
-    expected, added = construct_added_pictures
-    run_pictures expected, added
-    assert_equal added, picture_filenames-before
-  end
-
-  test "shouldn't add tags if approved differ" do
-    before=tag_names
-    expected, added = construct_added_tags
-    added[0]='altered'
-    run_tags expected, added
-    assert_equal before, tag_names
-  end
-
-  test "shouldn't add pictures if approved differ" do
-    before=picture_filenames
-    expected, added = construct_added_pictures
-    added[0]='altered'
-    run_pictures expected, added
-    assert_equal before, picture_filenames
-  end
-
-  test "should delete tags if approved same" do
-    before=tag_names
-    expected, deleted = construct_deleted_tags
-    run_tags expected, deleted
-    assert_equal deleted, before-tag_names
-  end
-
-  test "should delete pictures if approved same" do
-    before=picture_filenames
-    expected, deleted = construct_deleted_pictures
-    run_pictures expected, deleted
-    assert_equal deleted, before-picture_filenames
-  end
-
-  test "shouldn't delete tags if approved differ" do
-    before=tag_names
-    expected, deleted = construct_deleted_tags
-    deleted[0]='altered'
-    run_tags expected, deleted
-    assert_equal before, tag_names
-  end
-
-  test "shouldn't delete pictures if approved differ" do
-    before=picture_filenames
-    expected, deleted = construct_deleted_pictures
-    deleted[0]='altered'
-    run_pictures expected, deleted
-    assert_equal before, picture_filenames
+  2.times do |i|
+    model = %w[tag    picture].at(i)
+    s     = %w[file directory].at(i)
+    name  = %w[name  filename].at(i)
+    s1="#{model}_#{name}s"
+    s2="run_#{model}s"
+    2.times do |k|
+      operation = %w[add delet].at(k)
+      s3="construct_#{operation}ed_#{model}s"
+      test "should #{operation} #{model}s if approved same" do
+        before=send s1
+        expected, changed = send s3
+        send s2, expected, changed
+        a=send s1
+        difference=case k
+        when 0 then a - before
+        when 1 then before - a
+        end
+        assert_equal changed, difference
+      end
+      test "shouldn't #{operation} #{model}s if approved differ" do
+        before=send s1
+        expected, changed = send s3
+        changed[0]='altered'
+        send s2, expected, changed
+        assert_equal before, (send s1)
+      end
+    end
   end
 
 #-------------
