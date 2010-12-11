@@ -34,10 +34,11 @@ class DestroySessionsControllerTest < SharedSessionsControllerTest
   test_happy_path_response :new
 
   test "happy path..." do
-# Should reset the session:
-    session[:something]='something'
+    s=:something
+    session[s]=s
     happy_path
-    assert_blank session[:something]
+# Should reset the session:
+    assert_blank session[s]
 # Should log out:
     assert_blank session[:logged_in]
 # Should flash a notice:

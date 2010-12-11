@@ -8,23 +8,20 @@ class NewSessionsTemplateTest < SharedViewTest
 # Should render:
     assert_template @template
 # Should have one password form with method post:
-    assert_select 'form.password', 1
-    assert_select 'form.password[method=post]', 1
+    assert_select (s='form.password'), 1
+    assert_select s+'[method=post]', 1
 # Should have one form with password field:
     assert_select 'form > input#password', 1
 # Should prompt for password:
     assert_select 'p', :count => 1, :text =>
-        "Type the password and hit 'Enter'."
+        %q@Type the password and hit 'Enter'.@
   end
 
 #-------------
   private
 
   def setup
-    if @template.blank?
-      @template='sessions/new'
-      render :template => @template
-    end
+    render :template => (@template='sessions/new') if @template.blank?
   end
 
 end

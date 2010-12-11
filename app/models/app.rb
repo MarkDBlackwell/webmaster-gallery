@@ -3,8 +3,8 @@ class App
   a=[ %w[root], %w[session_options webmaster] ]
   %w[app config].each_with_index do |group,i|
     a.at(i).each do |e|
-      self.class_eval "def self.#{e}() #{group}.#{e} end"
-#     For example:  def self.webmaster() config.webmaster end
+      self.class_eval "def self.#{e}() #{group}.#{e} end" #->
+                     # def self.webmaster() config.webmaster end
     end
   end
 

@@ -6,12 +6,12 @@ class AdminPicturesControllerTest < SharedAdminPicturesControllerTest
 # All actions tests:
 
   test "filters" do
-    assert_filter :cookies_required
-    assert_filter :find_all_tags
-    assert_filter :guard_http_method
-    assert_filter :guard_logged_in
-    assert_filter_skips :single, :index
-    assert_filter :verify_authenticity_token
+    assert_filter       :cookies_required
+    assert_filter       :find_all_tags
+    assert_filter_skips :get_single, :index
+    assert_filter       :guard_http_method
+    assert_filter       :guard_logged_in
+    assert_filter       :verify_authenticity_token
   end
 
 #-------------

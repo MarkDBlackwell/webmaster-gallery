@@ -17,24 +17,24 @@ class UpdateSessionsControllerTest < SharedEditUpdateSessionsControllerTest
   test "happy path..." do
 # Shouldn't read the webmaster page file:
     f=App.webmaster.join 'page.html.erb'
-    remove_read_permission(f) {happy_path}
+    remove_read_permission(f){happy_path}
 # Shouldn't make a pictures layout file:
     assert_equal false, pictures_in_layouts_directory?
   end
 
   test "happy path should expire cached pictures pages for one and all tags" do
-    pages = %w[index pictures/two-name].collect {|e|
+    pages = %w[index pictures/two-name].collect{|e|
         App.root.join 'public', "#{e}.html" }
     FileUtils.touch pages
     happy_path
-    pages.each {|e| assert_equal false, e.exist?,
+    pages.each{|e| assert_equal false, e.exist?,
         "#{e} cache expiration failed." }
   end
 
   2.times do |i|
-    model = %w[tag    picture].at(i)
-    s     = %w[file directory].at(i)
-    name  = %w[name  filename].at(i)
+    model = %w[tag    picture].at i
+    s     = %w[file directory].at i
+    name  = %w[name  filename].at i
     s1="#{model}_#{name}s" #->
         # picture_filenames
         # tag_names
@@ -42,7 +42,7 @@ class UpdateSessionsControllerTest < SharedEditUpdateSessionsControllerTest
         # run_pictures
         # run_tags
     2.times do |k|
-      operation = %w[add delet].at(k)
+      operation = %w[add delet].at k
       s3="construct_#{operation}ed_#{model}s" #->
           # construct_added_pictures
           # construct_added_tags
@@ -78,7 +78,8 @@ class UpdateSessionsControllerTest < SharedEditUpdateSessionsControllerTest
   def approve(group)
     pretend_logged_in
     put :update, :commit => 'approve changes', :approval_group =>
-        group.join(' ')
+        (group.join ' ')
+
   end
 
   def happy_path

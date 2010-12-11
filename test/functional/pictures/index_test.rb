@@ -17,7 +17,7 @@ class IndexPicturesControllerTest < SharedControllerTest
 # Should raise exception on bad route /pictures:
     assert_raise ActionController::RoutingError do
       assert_routing '/pictures', :controller => :pictures.to_s, :action =>
-          :index.to_s
+          :index
     end
   end
 
@@ -31,7 +31,7 @@ class IndexPicturesControllerTest < SharedControllerTest
   end
 
   test "index should cache the page for a tag" do
-    verify_cache %w[pictures some_tag.html] do
+    verify_cache %w[pictures  some_tag.html] do
       get :index, :tag => 'some_tag'
     end
   end
@@ -46,7 +46,7 @@ class IndexPicturesControllerTest < SharedControllerTest
 
   test "index should render right webmaster page file" do
     happy_path
-    assert_equal 1, @templates.fetch(App.webmaster.join('page').to_s)
+    assert_equal 1, (@templates.fetch App.webmaster.join('page').to_s)
   end
 
 #-------------

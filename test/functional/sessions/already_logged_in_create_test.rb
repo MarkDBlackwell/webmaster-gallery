@@ -12,7 +12,7 @@ class AlreadyLoggedInCreateSessionsControllerTest < SharedSessionsControllerTest
   test "when already logged in..." do
     pretend_logged_in
     post :create
-# Redirect to edit without asking password:
+# Should redirect to edit without asking password:
     assert_redirected_to :action => :edit
     assert_equal 'You already were logged in.', flash[:notice]
   end

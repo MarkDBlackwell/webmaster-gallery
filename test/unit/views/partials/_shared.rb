@@ -5,10 +5,7 @@ class SharedPartialTest < SharedViewTest
   def controller_yield
 # Without setup_with_controller, another render appends the response, increasing
 # any assert_select counts.
-    if block_given?
-      setup_with_controller
-      yield
-    end
+    (setup_with_controller; yield) if block_given?
   end
 
   def has_one(selector,v)
@@ -19,11 +16,11 @@ class SharedPartialTest < SharedViewTest
       in_final = final==i
       values.reverse! if in_final
       assert_select selector, :count => 1 do
-        values.each_with_index do |text, count|
+        values.each_with_index do |text,count|
           assert_select innermost, :text => text, :count => count
         end
       end
-      setup {yield} unless in_final
+      setup{yield} unless in_final
     end
   end
 

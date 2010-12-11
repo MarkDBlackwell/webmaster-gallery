@@ -28,20 +28,21 @@ class CreateSessionsControllerTest < SharedSessionsControllerTest
 #-------------
 # Right password tests:
 
-  test "when password right..." do
-# Logging in should reset the session:
-    session[:something]='something'
+  test "when password right, logging in..." do
+    s=:something
+    session[s]=s
     login
-    assert_blank session[:something]
-# Logging in shouldn't make a pictures layout file:
-    assert_equal false, pictures_in_layouts_directory?
-# Should log in:
+# Should succeed:
     assert_equal true, session[:logged_in]
+# Should reset the session:
+    assert_blank session[s]
+# Shouldn't make a pictures layout file:
+    assert_equal false, pictures_in_layouts_directory?
   end
 
   test "logging in shouldn't read the webmaster page file" do
     f=App.webmaster.join 'page.html.erb'
-    remove_read_permission(f) {login}
+    remove_read_permission(f){login}
   end
 
 #-------------

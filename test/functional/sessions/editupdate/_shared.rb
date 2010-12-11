@@ -54,7 +54,7 @@ class SharedEditUpdateSessionsControllerTest < SharedSessionsControllerTest
 
   def series(start,count=1)
     o=object=nil
-    Array.new(count) {o=o.blank? ? start : o.succ}
+    Array.new(count){o=o.blank? ? start : o.succ}
   end
 
   def tag_names

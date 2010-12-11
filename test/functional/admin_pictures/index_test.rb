@@ -17,7 +17,7 @@ class IndexAdminPicturesControllerTest < SharedAdminPicturesControllerTest
 # Should render the right template:
     assert_template :index
 # Gallery pictures should be editable:
-    assert_present assigns(:editable)
+    assert_present assigns :editable
   end
 
 #-------------

@@ -10,18 +10,18 @@ class GalleryPicturesPartialTest < SharedPartialTest
 # Should render:
     assert_partial
 # Should include one gallery div:
-    assert_select 'div.gallery', 1
+    assert_select (s1='div.gallery'), 1
 # Should render a picture within a gallery:
-    assert_select 'div.gallery > div.picture'
+    assert_select (s2=s1+' > div.picture')
 # Should render all the pictures:
-    assert_select 'div.gallery > div.picture', 2
+    assert_select s2, 2
   end
 
 #-------------
   private
 
   def setup
-    @pictures = Picture.find(:all)
+    @pictures=Picture.find :all
     render_partial 'pictures/gallery'
   end
 

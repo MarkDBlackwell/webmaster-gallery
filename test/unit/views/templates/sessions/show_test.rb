@@ -11,10 +11,7 @@ class ShowSessionsTemplateTest < SharedViewTest
   private
 
   def setup
-    if @template.blank?
-      @template='sessions/show'
-      render :template => @template
-    end
+    render :template => (@template='sessions/show') if @template.blank?
   end
 
 end

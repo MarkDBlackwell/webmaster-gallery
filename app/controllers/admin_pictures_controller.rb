@@ -1,7 +1,7 @@
 class AdminPicturesController < ApplicationController
   helper PicturesHelper
   before_filter :find_all_tags
-  before_filter :single, :except => :index
+  before_filter :get_single, :except => :index
 
   def edit
     render_edit
@@ -32,6 +32,11 @@ class AdminPicturesController < ApplicationController
     @all_tags=Tag.all
   end
 
+  def get_single
+    @show_filename=true
+    @picture = Picture.find(params[:id])
+  end
+
   def render_edit
     @edit_fields=true
     @show_labels=true
@@ -45,11 +50,6 @@ class AdminPicturesController < ApplicationController
 
   def render_single
     render template => 'admin_pictures/single'
-  end
-
-  def single
-    @show_filename=true
-    @picture = Picture.find(params[:id])
   end
 
   def template # For testing purposes.

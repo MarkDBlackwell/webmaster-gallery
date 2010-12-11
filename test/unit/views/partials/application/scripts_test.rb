@@ -6,7 +6,8 @@ class ScriptsApplicationPartialTest < SharedPartialTest
     %w[prototype effects dragdrop controls rails application].
         each_with_index do |e,i|
       assert_select "div.scripts > #{'script + '*i} script[src=?]",
-          Regexp.new(%Q@/javascripts/#{e}\\.js\\?\\d*\\z@)
+# TODO: use Regexp twice:
+          (Regexp.new %Q@/javascripts/#{e}\\.js\\?\\d*\\z@ )
     end
   end
 
@@ -16,10 +17,10 @@ class ScriptsApplicationPartialTest < SharedPartialTest
 # Should render:
     assert_partial
 # Should include one scripts div:
-    assert_select 'div.scripts', 1
+    assert_select (s='div.scripts'), 1
 # Scripts div should include six script tags:
-    assert_select 'div.scripts script', 6
-    assert_select 'div.scripts script[type=text/javascript]', 6
+    assert_select (s=s+' script'), 6
+    assert_select s+'[type=text/javascript]', 6
   end
 
 #-------------

@@ -10,8 +10,8 @@ class ApplicationControllerTest < SharedControllerTest
   end
 
   test "webmaster directory location should be configured" do
-    assert_equal App.webmaster,
-        (App.root.join *%w[test fixtures files webmaster])
+    assert_equal App.webmaster, App.root.join(
+        *%w[test  fixtures  files  webmaster])
   end
 
 #-------------
@@ -82,12 +82,12 @@ class ApplicationControllerTest < SharedControllerTest
   end
 
   def bad_method
-    request.expects(:request_method_symbol).at_least_once.returns(:bad_method)
+    request.expects(:request_method_symbol).at_least_once.returns :bad_method
   end
 
   def expect_sessions_new_redirect
-    @controller.expects(:redirect_to).with(:controller => :sessions, :action =>
-        :new)
+    @controller.expects(:redirect_to).with :controller => :sessions, :action =>
+        :new
   end
 
 end

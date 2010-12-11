@@ -30,7 +30,7 @@ class FilePasswordTest < ActiveSupport::TestCase
   end
 
   test "find should open the correct password file" do
-    mock_file.with(App.webmaster.join('password.txt'), 'r')
+    mock_file.with @pathname, 'r'
     find
   end
 
@@ -92,7 +92,8 @@ class FilePasswordTest < ActiveSupport::TestCase
   end
 
   def setup
-    @f=App.webmaster.join('password.txt').open 'r'
+    @pathname=App.webmaster.join 'password.txt'
+    @f=@pathname.open 'r'
   end
 
   def teardown

@@ -3,7 +3,7 @@ require 'test_helper'
 class IndexAdminPicturesTemplateTest < SharedViewTest
 
   test "happy path..." do
-# Should render pretty html source:
+# TODO: Should render pretty html source:
 #    check_pretty_html_source
 # Should render:
     assert_template @template

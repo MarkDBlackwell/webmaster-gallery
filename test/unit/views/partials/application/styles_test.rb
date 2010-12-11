@@ -27,7 +27,7 @@ class StylesApplicationPartialTest < SharedPartialTest
   private
 
   def assert_select_include?(css, string)
-    assert_select css, Regexp.new(Regexp.escape string)
+    assert_select css, (Regexp.new Regexp.escape string)
   end
 
   def setup

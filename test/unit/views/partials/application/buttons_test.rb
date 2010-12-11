@@ -17,23 +17,15 @@ class ButtonsApplicationPartialTest < SharedPartialTest
     assert_partial
 # Should include one session-buttons div:
     assert_select 'div.session-buttons', 1
-# Should render an edit button:
-    session_buttons_include? 'edit'
-# Should render a show button:
-    session_buttons_include? 'show'
-# Should render an AdminPictures index button:
-    session_buttons_include? 'admin-pictures-index'
-# Should render a Pictures index button:
-    session_buttons_include? 'user-pictures-index'
+# Should render these buttons:
+    %w[admin-pictures-index  edit  show  user-pictures-index].each do |e|
+      css="div.session-buttons > div.#{e} > form.button_to"
+      assert_select css, 1, e
+    end
   end
 
 #-------------
   private
-
-  def session_buttons_include?(s)
-    css = "div.session-buttons > div.#{s} > form.button_to"
-    assert_select css, 1
-  end
 
   def setup(&block)
     controller_yield &block

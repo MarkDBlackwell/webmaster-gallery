@@ -21,12 +21,12 @@ class EditSessionsControllerTest < SharedEditUpdateSessionsControllerTest
     end
 # Groups should include...:
     (assigns(:review_groups) << assigns(:approval_group)).
-        each_with_index do |e,i|
+          each_with_index do |e,i|
 # A list:
       assert_kind_of Array, e.list, "list #{i}"
 # A message:
-      assert_present e.message, "message #{i}"
-      assert_kind_of String, e.message, "message #{i}"
+      assert_kind_of String, e.message, (s="message #{i}")
+      assert_present e.message, s
     end
   end
 
@@ -44,19 +44,19 @@ class EditSessionsControllerTest < SharedEditUpdateSessionsControllerTest
     mock_directory_pictures []
     happy_path
     check_approval_group [], 'refresh'
-    check_review_groups 2, @controller.send(:review_messages).at(1)
+    check_review_groups 2, (@controller.send(:review_messages).at 1)
   end
 
   2.times do |i|
-    model = %w[tag    picture].at(i)
-    s1    = %w[file directory].at(i)
+    model = %w[tag    picture].at i
+    s1    = %w[file directory].at i
     s2="mock_#{s1}_#{model}s" #->
         # mock_directory_pictures
         # mock_directory_tags
         # mock_file_pictures
         # mock_file_tags
     2.times do |k|
-      operation = %w[add delet].at(k)
+      operation = %w[add delet].at k
       s3="#{operation}ed_#{model}s" #->
       s4="construct_#{s3}" #->
           # construct_added_pictures
@@ -66,7 +66,7 @@ class EditSessionsControllerTest < SharedEditUpdateSessionsControllerTest
       (1..2).each do |count|
         test "should review #{count} #{s3}" do
           mock_unpaired []
-          0==i ? mock_directory_pictures([]) : mock_file_tags(:all)
+          0==i ? mock_directory_pictures([]) : (mock_file_tags :all)
           expected, changed = send s4, count
           send s2, expected
           happy_path

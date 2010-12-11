@@ -14,16 +14,17 @@ class AllTagsPicturesPartialTest < SharedPartialTest
 # Should render:
     assert_partial
 # Should include one all-tags div:
-    assert_select 'div.all-tags', 1
-# Should render a tag within a list of all tags:
-    assert_select 'div.all-tags > div.tag'
+    assert_select (s='div.all-tags'), 1 do
+# Should render at least one tag within a list of all tags:
+      assert_select s+' > div.tag'
+    end
   end
 
 #-------------
   private
 
   def render_all_tags
-    @all_tags = Tag.find(:all)
+    @all_tags=Tag.find :all
     render_partial
   end
 
@@ -35,7 +36,8 @@ class AllTagsPicturesPartialTest < SharedPartialTest
 # Didn't seem to invoke the ActiveRecord test method, tags:
 # ArgumentError: wrong number of arguments (1 for 0)
 #    tags(:one).destroy
-    @all_tags = Tag.find :all, :conditions => ["name = ?", 'two-name']
+#    @all_tags=Tag.find :all, :conditions => ["name = ?", 'two-name']
+    @all_tags=Tag.find :all, :conditions => ['name = ?', 'two-name']
     render_partial
   end
 

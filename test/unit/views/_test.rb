@@ -43,48 +43,46 @@ class ViewsTest < ActionView::TestCase
 
   test "alert me (implementation)..." do
 # When Rails implements my method names:
-    assert_raise(NoMethodError) {assert_partial() }
-    assert_raise(NoMethodError) {render_partial() }
+    assert_raise(NoMethodError){assert_partial() }
+    assert_raise(NoMethodError){render_partial() }
 # When fixtures :all works:
-    assert_raise(StandardError) {pictures :all}
+    assert_raise(StandardError){pictures :all}
 # When testing, that a partial was rendered with the right locals, works
 # (i.e., when a bug in lines 99-102 of assert_template is fixed):
     assert_raise NoMethodError do
       assert_template :partial => 'c/_p', :locals => {:a => 'a'}
     end
 # Set up:
-    r=Struct.new(:list,:message).new([],'message')
+    r=Struct.new(:list,:message).new [],'message'
 # When Rails enables these semantics:
+    s='pictures/thumbnail'
     assert_raise ActionView::Template::Error do
-      render :partial => 'pictures/thumbnail', :picture => pictures(:two)
+      render :partial => s, :picture => pictures 
     end
     assert_raise ActionView::Template::Error do
-      render 'pictures/thumbnail', :locals => {:picture => pictures(:two)}
+      render s, :locals => {:picture => (pictures :two)}
     end
-    assert_raise NameError do
-      render 'sessions/review_group', r
+    s='sessions/review_group'
+    assert_raise(NameError) {render s, r}
+    assert_raise(ActionView::Template::Error) {render s, :object => r}
+    assert_raise ActionView::Template::Error do
+      render s, locals => {:object => r}
     end
     assert_raise ActionView::Template::Error do
-      render 'sessions/review_group', locals => {:review_group => r}
-    end
-    assert_raise ActionView::Template::Error do
-      render 'sessions/review_group', locals => {:object => r}
-    end
-    assert_raise ActionView::Template::Error do
-      render 'sessions/review_group', :object => r
+      render s, locals => {:review_group => r}
     end
 # Works:
-    render 'sessions/review_group', :review_group => r
+    render s, :review_group => r
   end
 
   test "alert me (partial, neither keyword)..." do
-    render 'pictures/thumbnail', :picture => pictures(:two)
+    render 'pictures/thumbnail', :picture => (pictures :two)
     partial_assertions
   end
 
   test "alert me (partial, both keywords)..." do
     render :partial => 'pictures/thumbnail', :locals => {:picture =>
-        pictures(:two)}
+        (pictures :two)}
     partial_assertions
   end
 
@@ -92,15 +90,18 @@ class ViewsTest < ActionView::TestCase
   private
 
   def partial_assertions
-# How can I tell when Rails implements this (without '_')?:
+# TODO: How can I tell when Rails implements this (string without '_')?:
 #   assert_template :partial => 'pictures/thumbnail'
 # When Rails enables these semantics (and finds a partial):
-    assert_template 'pictures/_thumbnail', 0
-    assert_template({:partial => 'pictures/_thumbnail'}, 0)
-    assert_select '[alt=?]', {:text => 'two-title'}, 0
-    assert_select '[alt=?]', {:text => 'two-title', :count => 0}, 0
-    assert_select '[alt=?]', {:text => 'two-title', :count => 1}, 0
-    these_work
+    s1='pictures/_thumbnail'
+    assert_template s1, 0
+    assert_template({:partial => s1}, 0)
+    s2,s3 = %w.[alt=?]  two-title.
+    assert_select s2, {:text => s3}, 0
+    assert_select s2, {:text => s3, :count => 0}, 0
+    assert_select s2, {:text => s3, :count => 1}, 0
+    these_semantics_work
+# TODO: write an alert-me for this:
 #    assert_template App.webmaster.join('page2')
 #    assert_template :file => App.webmaster.join('page'),
 #        :partial => 'pictures/pictures',
@@ -108,11 +109,11 @@ class ViewsTest < ActionView::TestCase
 #        :locals => nil
   end
 
-  def these_work
-# (These semantics work):
+  def these_semantics_work
     assert_template :partial => 'pictures/_thumbnail', :count => 1
     assert_select 'div.thumbnail', 1
     assert_select '[alt=?]', 'two-title', 1
+# TODO: use Regexp.new:
     assert_select '[src=?]', %r:^/images/gallery/two-t.png\?\d+$: , 1
   end
 

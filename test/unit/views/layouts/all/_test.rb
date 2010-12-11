@@ -47,31 +47,31 @@ class AllLayoutTest < SharedLayoutTest
       assert_select 'head title', 1
       assert_select 'head > title:first-child', 1
 # Should include one scripts div, after the title:
-      assert_select 'div.scripts', 1
-      assert_select 'head title + div.scripts', 1
+      assert_select (s='div.scripts'), 1
+      assert_select 'head title + '+s, 1
 # Should include one style tag, last:
       assert_select 'style', 1
       assert_select 'head > style:last-child', 1
 #-------------
 # Html body section...
 # Should include one messages div:
-      assert_select 'div.messages', 1
-      assert_select 'body div.messages', 1
+      assert_select (s='div.messages'), 1
+      assert_select 'body '+s, 1
 # Should include one session-buttons div whether or not manage-session buttons
 # are suppressed:
-      assert_select 'div.session-buttons', 1
-      assert_select 'body div.session-buttons', 1
+      assert_select (s='div.session-buttons'), 1
+      assert_select 'body '+s, 1
     end
     setup :@suppress_buttons => true
     layouts do
-      assert_select 'div.session-buttons', 1
-      assert_select 'body div.session-buttons', 1
+      assert_select (s='div.session-buttons'), 1
+      assert_select 'body '+s, 1
 # Should include one all-tags div:
-      assert_select 'div.all-tags', 1
-      assert_select 'body div.all-tags', 1
+      assert_select (s='div.all-tags'), 1
+      assert_select 'body '+s, 1
 # Should include one action content div:
-      assert_select 'div.action-content', 1
-      assert_select 'body div.action-content', 1
+      assert_select (s='div.action-content'), 1
+      assert_select 'body '+s, 1
     end
   end
 

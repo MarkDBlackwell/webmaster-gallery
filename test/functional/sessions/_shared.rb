@@ -10,13 +10,13 @@ class SharedSessionsControllerTest < SharedControllerTest
   end
 
   def pictures_in_layouts_directory?
-    App.root.join(*%w[app views layouts pictures.html.erb]).exist?
+    App.root.join(*%w[app  views  layouts  pictures.html.erb]).exist?
   end
 
   def remove_read_permission(path)
     mode=path.stat.mode
     path.chmod(mode ^ 0444) # Remove read permissions.
-    begin assert_nothing_raised {yield}
+    begin assert_nothing_raised{yield}
     ensure path.chmod mode end
   end
 
