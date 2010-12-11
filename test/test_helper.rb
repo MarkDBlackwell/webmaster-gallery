@@ -54,11 +54,7 @@ class ActiveSupport::TestCase
 
   def see_output(s=nil)
     f=App.root.join('out/see-output').open 'w'
-    if s.blank?
-      begin s=response.body; rescue NameError; end
-      begin s=rendered;      rescue NameError; end
-    end
-    f.print s
+    f.print s.presence || try(:rendered) || response.body
     f.close
   end
 

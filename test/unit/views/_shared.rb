@@ -21,7 +21,7 @@ class SharedViewTest < ActionView::TestCase
     args.map! {|e| e=[] if e.blank?; e=[e] unless e.kind_of? Array; e}
     args=Array.new(type.length,[]).fill(nil,args.length) {|i| args.at i}
     nl="\n"
-    source=nl+rendered
+    source = nl + (try(:rendered) || response.body)
     r=Regexp.union((0...args.length).map {|i|
         Regexp.new "#{prefix.at i}#{Regexp.union args.at i}#{suffix.at i}"})
 # So far, the application has not required repeating this substitution:
@@ -30,10 +30,8 @@ class SharedViewTest < ActionView::TestCase
     return if found.blank?
     a=altered.split nl
     f=found.  split nl
-    bad_lines=(0...a.length).reject {|i| f.at(i)==(a.at i)}.
-        map {|i| a.at i}.join nl
-    see_output bad_lines
-    flunk
+    flunk (0...a.length).reject{|i| f.at(i)==(a.at i)}.map{|i| a.at i}.
+        join(nl).strip
   end
 
 end
