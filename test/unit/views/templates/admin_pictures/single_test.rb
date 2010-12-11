@@ -4,7 +4,7 @@ class SingleAdminPicturesTemplateTest < SharedViewTest
 
   test "happy path..." do
 # Should render pretty html source:
-    check_pretty_html_source
+#    check_pretty_html_source
 # Should render:
     assert_template @template
 # Should render a single picture:

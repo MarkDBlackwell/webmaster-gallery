@@ -3,40 +3,37 @@ class SharedViewTest < ActionView::TestCase
   private
 
   def assert_partial(*args)
-    a=[args].flatten
     p=c=nil
-    a.each do |e|
-      p = e if e.kind_of? String
-      c = e if e.kind_of? Integer
+    [args].flatten.each do |e|
+      p=e if e.kind_of? String
+      c=e if e.kind_of? Integer
     end
-    p = @partial if p.blank?
-    c = 1 if c.blank?
+    p=@partial if p.blank?
+    c=1 if c.blank?
     # ActionController::TemplateAssertions:
     assert_template :partial => p, :count => c
   end
 
-  def check_pretty_html_source(*a)
+  def check_pretty_html_source(*args)
     type   = %w[  section  div            tag  other  ]
     prefix = %w[  <!--     <div\ class="  <           ]
     suffix = %w[  -->      "                          ]
-# TODO: find presence method.
-    args=*a.collect {|e| e=e.blank? ? [] : e; e.kind_of?(Array) ? e : [e] }
-    args=args.present? ? args : []
-# TODO: change to some array method like pad.
-    args << [] until type.length==args.length
-    [prefix,suffix].each {|a| a << '' until type.length==a.length }
-# TODO: change to some string method like prepend.
-    source="\n".concat rendered
-    type.length.times do |i|
-      s = "#{prefix.at(i)
-          }#{Regexp.union args.at(i)
-          }#{suffix.at(i)}"
-      altered=source.gsub(Regexp.new("\n"+s),"\n") # From line beginnings.
-      found=altered.clone.gsub!(Regexp.new(s),'')
-# TODO: display first different line (use string method?).
-      see_output altered if found.present?
-      assert found.blank?, type.at(i)
-    end
+    args.map! {|e| e=[] if e.blank?; e=[e] unless e.kind_of? Array; e}
+    args=Array.new(type.length,[]).fill(nil,args.length) {|i| args.at i}
+    nl="\n"
+    source=nl+rendered
+    r=Regexp.union((0...args.length).map {|i|
+        Regexp.new "#{prefix.at i}#{Regexp.union args.at i}#{suffix.at i}"})
+# So far, the application has not required repeating this substitution:
+    altered=source.gsub Regexp.new("#{nl}#{r}"), nl # From line beginnings.
+    found=altered.clone.gsub! r, '' # From anywhere in lines.
+    return if found.blank?
+    a=altered.split nl
+    f=found.  split nl
+    bad_lines=(0...a.length).reject {|i| f.at(i)==(a.at i)}.
+        map {|i| a.at i}.join nl
+    see_output bad_lines
+    flunk
   end
 
 end

@@ -6,7 +6,7 @@ class GalleryPicturesPartialTest < SharedPartialTest
   test "happy path..." do
 # Should render pretty html source:
     check_pretty_html_source 'Pictures',
-        %w[ field gallery picture thumbnail ], 'form'
+        %w[ field  gallery  picture  thumbnail ], 'form'
 # Should render:
     assert_partial
 # Should include one gallery div:

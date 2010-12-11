@@ -4,7 +4,7 @@ class MessagesApplicationPartialTest < SharedPartialTest
 
   test "happy path..." do
 # Should render pretty html source:
-    check_pretty_html_source 'Messages', %w[messages notice notice\ error]
+    check_pretty_html_source 'Messages', %w[messages  notice  notice\ error]
 # Should render:
     assert_partial
 # Should include one messages div:

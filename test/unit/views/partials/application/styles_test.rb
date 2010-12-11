@@ -4,7 +4,7 @@ class StylesApplicationPartialTest < SharedPartialTest
 
   test "happy path..." do
 # Should render pretty html source:
-    check_pretty_html_source 'Styles', nil, %w[style /style], 'div.'
+    check_pretty_html_source 'Styles', nil, %w[style  /style], 'div.'
 # Should render:
     assert_partial
 # Should include one style tag:

@@ -10,7 +10,7 @@ class AllTagsPicturesPartialTest < SharedPartialTest
   test "happy path..." do
     render_all_tags
 # Should render pretty html source:
-    check_pretty_html_source 'All tags', %w[all-tags tag]
+    check_pretty_html_source 'All tags', %w[all-tags  tag]
 # Should render:
     assert_partial
 # Should include one all-tags div:

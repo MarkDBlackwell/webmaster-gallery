@@ -6,8 +6,8 @@ class AllLayoutTest < SharedLayoutTest
     check_pretty_html_source( %w[
 Action\ content  All\ tags  Messages  Scripts  Session\ buttons  Styles
         ], %w[
-action-content admin-pictures-index all-tags destroy edit messages scripts 
-session-buttons show user-pictures-index 
+action-content  admin-pictures-index  all-tags  destroy  edit  messages
+scripts  session-buttons  show  user-pictures-index 
         ], %w[
 /body></html  !DOCTYPE\ html  /head></body  html><head  script
 script\ src="/javascripts/  style  /style  title
