@@ -15,7 +15,7 @@ class SharedEditUpdateSessionsControllerTest < SharedSessionsControllerTest
   end
 
   def construct_deleted_pictures(count=1)
-    expected=picture_filenames.sort
+    expected=picture_filenames
     deleted=expected.pop count
     [expected,deleted]
   end
