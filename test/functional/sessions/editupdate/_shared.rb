@@ -2,28 +2,50 @@ class SharedEditUpdateSessionsControllerTest < SharedSessionsControllerTest
 
   private
 
-  def construct_added_pictures(count=1)
-    added=series 'three.png', count
-    expected=picture_filenames.take(count).concat added
-    [expected,added]
+  def construct_changed_models(model,operation,expected,changed,count=1)
+    case "#{operation}ed_#{model}s"
+    when 'added_pictures'
+      changed=series 'three.png', count
+      expected=picture_filenames.take(count).concat changed
+    when 'added_tags'
+      changed=series 'three-name', count
+      expected=tag_names.take(count).concat changed
+    when 'deleted_pictures'
+      expected=picture_filenames
+      changed=expected.pop count
+    when 'deleted_tags'
+      expected=tag_names
+      changed=expected.pop count
+    end
+    [expected,changed]
   end
 
-  def construct_added_tags(count=1)
-    added=series 'three-name', count
-    expected=tag_names.take(count).concat added
-    [expected,added]
+  def construct_added_pictures(model,operation,count=1)
+#    added=series 'three.png', count
+#    expected=picture_filenames.take(count).concat added
+    expected,added=nil
+    construct_changed_models model, operation, expected, added, count
   end
 
-  def construct_deleted_pictures(count=1)
-    expected=picture_filenames
-    deleted=expected.pop count
-    [expected,deleted]
+  def construct_added_tags(model,operation,count=1)
+#    added=series 'three-name', count
+#    expected=tag_names.take(count).concat added
+    expected,added=nil
+    construct_changed_models model, operation, expected, added, count
   end
 
-  def construct_deleted_tags(count=1)
-    expected=tag_names
-    deleted=expected.pop count
-    [expected,deleted]
+  def construct_deleted_pictures(model,operation,count=1)
+#    expected=picture_filenames
+#    deleted=expected.pop count
+    expected,deleted=nil
+    construct_changed_models model, operation, expected, deleted, count
+  end
+
+  def construct_deleted_tags(model,operation,count=1)
+#    expected=tag_names
+#    deleted=expected.pop count
+    expected,deleted=nil
+    construct_changed_models model, operation, expected, deleted, count
   end
 
   def mock_directory_pictures(expected)

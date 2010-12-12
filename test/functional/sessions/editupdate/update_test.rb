@@ -38,9 +38,6 @@ class UpdateSessionsControllerTest < SharedEditUpdateSessionsControllerTest
     s1="#{model}_#{name}s" #->
         # picture_filenames
         # tag_names
-    s2="run_#{model}s" #->
-        # run_pictures
-        # run_tags
     2.times do |k|
       operation = %w[add delet].at k
       s3="construct_#{operation}ed_#{model}s" #->
@@ -51,21 +48,20 @@ class UpdateSessionsControllerTest < SharedEditUpdateSessionsControllerTest
       (1..2).each do |count|
         test "should #{operation} #{count} #{model}s if approved same" do
           before=send s1
-          expected,changed=send s3, count
-          send s2, expected, changed
-          a=send s1
+          expected,changed=send s3, model, operation, count
+          run_models model, expected, changed
+          after=send s1
           difference=case k
-          when 0 then a - before
-          when 1 then before - a
-          end
+          when 0 then after - before
+          when 1 then before - after end
           assert_equal changed.sort, difference.sort
         end
 
         test "shouldn't #{operation} #{count} #{model}s if approved differ" do
           before=send s1
-          expected,changed=send s3, count
+          expected,changed=send s3, model, operation, count
           changed[0]='altered'
-          send s2, expected, changed
+          run_models model, expected, changed
           assert_equal before.sort, (send s1).sort
         end
       end
@@ -75,12 +71,6 @@ class UpdateSessionsControllerTest < SharedEditUpdateSessionsControllerTest
 #-------------
   private
 
-  def approve(group)
-    pretend_logged_in
-    put :update, :commit => 'approve changes', :approval_group =>
-        (group.sort.reverse.join ' ')
-  end
-
   def happy_path
     mock_file_tags :all
     mock_directory_pictures :all
@@ -88,18 +78,19 @@ class UpdateSessionsControllerTest < SharedEditUpdateSessionsControllerTest
     put :update, :commit => 'update-user-pictures'
   end
 
-  def run_pictures(expected,changed)
-    mock_file_tags :all
+  def run_models(model,expected,changed)
+    case model
+    when 'picture'
+      mock_directory_pictures expected
+      mock_file_tags :all
+    when 'tag'
+      mock_directory_pictures []
+      mock_file_tags expected
+    end
     mock_unpaired []
-    mock_directory_pictures expected
-    approve changed
-  end
-
-  def run_tags(expected,changed)
-    mock_file_tags expected
-    mock_unpaired []
-    mock_directory_pictures []
-    approve changed
+    pretend_logged_in
+    put :update, :commit => 'approve changes', :approval_group =>
+        (changed.sort.reverse.join ' ')
   end
 
 end
