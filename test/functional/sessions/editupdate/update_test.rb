@@ -23,7 +23,7 @@ class UpdateSessionsControllerTest < SharedEditUpdateSessionsControllerTest
   end
 
   test "happy path should expire cached pictures pages for one and all tags" do
-    pages = %w[index pictures/two-name].collect{|e|
+    pages = %w[index  pictures/two-name].collect{|e|
         App.root.join 'public', "#{e}.html" }
     FileUtils.touch pages
     happy_path
@@ -51,22 +51,22 @@ class UpdateSessionsControllerTest < SharedEditUpdateSessionsControllerTest
       (1..2).each do |count|
         test "should #{operation} #{count} #{model}s if approved same" do
           before=send s1
-          expected, changed=send s3, count
+          expected,changed=send s3, count
           send s2, expected, changed
           a=send s1
           difference=case k
           when 0 then a - before
           when 1 then before - a
           end
-          assert_equal changed.sort, difference
+          assert_equal changed.sort, difference.sort
         end
 
         test "shouldn't #{operation} #{count} #{model}s if approved differ" do
           before=send s1
-          expected, changed=send s3, count
+          expected,changed=send s3, count
           changed[0]='altered'
           send s2, expected, changed
-          assert_equal before, (send s1)
+          assert_equal before.sort, (send s1).sort
         end
       end
     end
@@ -78,8 +78,7 @@ class UpdateSessionsControllerTest < SharedEditUpdateSessionsControllerTest
   def approve(group)
     pretend_logged_in
     put :update, :commit => 'approve changes', :approval_group =>
-        (group.join ' ')
-
+        (group.sort.reverse.join ' ')
   end
 
   def happy_path

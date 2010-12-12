@@ -96,7 +96,7 @@ class SessionsController < ApplicationController
       [nil,nil]
     end
     s=Struct.new :list, :message
-    unpaired=DirectoryPicture.find_unpaired
+    unpaired=DirectoryPicture.find_unpaired.sort
     approval=s.new unpaired.present? ? [] : names, 'refresh'
     rm=review_messages
     review=[s.new(file_tn,  rm.shift),
@@ -105,8 +105,8 @@ class SessionsController < ApplicationController
       review.concat [s.new(      p, rm.shift),
                      s.new(file_pn, rm.shift)] unless 0==model_i
       if (a=records || names).present?
-        m = %w[Tag Picture].at     model_i
-        o = %w[add   delet].at operation_i
+        m = %w[Tag  Picture].at     model_i
+        o = %w[add    delet].at operation_i
         review << s.new(a, "#{m}s to be #{o}ed:")
         approval.message="approve #{o}ing #{m.downcase}s"
       end
@@ -122,14 +122,14 @@ class SessionsController < ApplicationController
     return if approval.blank? || approval.list.blank? ||
         review.blank? || review.last.blank? || review.last.message.blank?
     return unless approval.list==params[:approval_group].split.sort
-    models     = %w[Tag Picture]
-    operations = %w[add delet]
+    models     = %w[Tag  Picture]
+    operations = %w[add  delet]
     model_i, operation_i = (a=[0,1]).product(a).detect{|e|
         "#{models    .at(e.first)}s to be "\
         "#{operations.at(e.last )}ed:"==review.last.message}
     return if model_i.blank? || operation_i.blank?
     model=models.at(model_i).constantize
-    method = %w[name filename].at(model_i)
+    method = %w[name  filename].at(model_i)
     case operation_i
     when 0
       approval.list.each{|e| model.create method.to_sym => e}
