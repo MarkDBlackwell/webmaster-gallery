@@ -23,7 +23,7 @@ class UpdateSessionsControllerTest < SharedEditUpdateSessionsControllerTest
   end
 
   test "happy path should expire cached pictures pages for one and all tags" do
-    pages = %w[index  pictures/two-name].collect{|e|
+    pages = %w[index  pictures/two-name].map{|e|
         App.root.join 'public', "#{e}.html" }
     FileUtils.touch pages
     happy_path

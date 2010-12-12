@@ -38,7 +38,7 @@ class SharedEditUpdateSessionsControllerTest < SharedSessionsControllerTest
 
   def mock_model(expected,model,method)
     model.expects(:find).returns(expected.sort.reverse.
-        collect{|e| (p=model.new).expects(method).returns e; p} )
+        map{|e| (p=model.new).expects(method).returns e; p} )
   end
 
   def mock_unpaired(expected)
