@@ -66,7 +66,7 @@ class SessionsController < ApplicationController
       Find.prune if path.directory?
       pages << path
     end
-    pages.each {|e| FileUtils.rm e, :force => true}
+    pages.each{|e| FileUtils.rm e, :force => true}
   end
 
   def get_all_tags
@@ -124,7 +124,7 @@ class SessionsController < ApplicationController
     return unless approval.list==params[:approval_group].split.sort
     models     = %w[Tag Picture]
     operations = %w[add delet]
-    model_i, operation_i = (a=[0,1]).product(a).detect {|e|
+    model_i, operation_i = (a=[0,1]).product(a).detect{|e|
         "#{models    .at(e.first)}s to be "\
         "#{operations.at(e.last )}ed:"==review.last.message}
     return if model_i.blank? || operation_i.blank?
@@ -132,9 +132,9 @@ class SessionsController < ApplicationController
     method = %w[name filename].at(model_i)
     case operation_i
     when 0
-      approval.list.each {|e| model.create method.to_sym => e}
+      approval.list.each{|e| model.create method.to_sym => e}
     when 1
-      model.where(["#{method} IN (?)", approval.list ]).all.each {|e| e.destroy}
+      model.where(["#{method} IN (?)", approval.list ]).all.each{|e| e.destroy}
     end
   end
 

@@ -15,18 +15,18 @@ class SharedControllerTest < ActionController::TestCase
       skip_actions = []
     else
       sa=[sa] unless sa.kind_of? Array
-      skip_actions=[sa.collect {|e| "action_name == '#{e}'"}.join(' || ')]
+      skip_actions=[sa.collect{|e| "action_name == '#{e}'"}.join ' || ']
     end
     desired=[filter, filter, kind, skip_actions]
-    ours=['ApplicationController',self.class.to_s.chomp('Test')].
-        collect do |class_name|
+    ours=['ApplicationController',(self.class.to_s.chomp 'Test')].
+          collect do |class_name|
       filter_chain.select{|e| e.klass.to_s==class_name}
     end.flatten 1
     have=ours.collect{|e| [e.raw_filter, e.filter, e.kind, e.per_key.fetch(
         :unless)]}
     assert have.include?(desired), ([
         'Found:', have.collect{|e| e.uniq.inspect},
-        'Desired:', [filter,kind,sa].collect{|e| e.inspect}.join(', '),
+        'Desired:', ([filter,kind,sa].collect{|e| e.inspect}.join ', '),
         ].join "\n")
   end
 
@@ -44,8 +44,8 @@ class SharedControllerTest < ActionController::TestCase
     ours=filter_chain.select{|e| e.klass.to_s==class_name}
     have=ours.collect{|e| [e.raw_filter, e.filter, e.kind]}
     assert_equal false, have.include?(undesired), ([
-        'Found:', have.collect {|e| e.uniq.inspect},
-        'Undesired:', [filter,kind].collect {|e| e.inspect}.join(', '),
+        'Found:', have.collect{|e| e.uniq.inspect},
+        'Undesired:', ([filter,kind].collect{|e| e.inspect}.join ', '),
         ].join "\n")
   end
 

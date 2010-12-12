@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
   def clear_session
     a = session.to_hash.keys - ['flash']
     a += ['flash'] # Seems to work.
-    a.each {|e| session.delete e}
+    a.each{|e| session.delete e}
   end
 
   def cookies_required

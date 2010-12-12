@@ -4,10 +4,8 @@
         label=raw(' &nbsp; ').concat field
         uneditables=[:filename,:sequence]
         plain=(uneditables.include? field) || ! @edit_fields
-        hide=:filename==field && ! @show_filename
-
-        unless hide -%>
-<%=       plain ? value : text_field_tag(record, field,
+        unless hide=:filename==field && ! @show_filename -%>
+<%=       plain ? value : (text_field_tag record, field,
               :value => value, :name => "picture[#{field}]") -%>
 <%=       content_tag :div, label, :class => 'label' if @show_labels -%>
 <%      end -%>

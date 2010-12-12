@@ -8,7 +8,7 @@ App.root.join('test').find do |path|
   Find.prune if path.directory? && ?.==b[0]
   paths << path.dirname.join(b.chomp '.rb') if REQUIRE_TEST_BASENAME==b
 end
-paths.sort.each {|e| require e}
+paths.sort.each{|e| require e}
 
 class ShouldIncludeThisFileLog
   PREFIX='./test/'

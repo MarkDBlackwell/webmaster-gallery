@@ -4,7 +4,7 @@ class ButtonsApplicationPartialTest < SharedPartialTest
 
   test "should obey the suppress buttons flag" do
     assert_select 'div.session-buttons div', 5
-    setup {@suppress_buttons=true}
+    setup{@suppress_buttons=true}
     assert_select 'div.session-buttons div', 0
   end
 

@@ -63,8 +63,8 @@ class ViewsTest < ActionView::TestCase
       render s, :locals => {:picture => (pictures :two)}
     end
     s='sessions/review_group'
-    assert_raise(NameError) {render s, r}
-    assert_raise(ActionView::Template::Error) {render s, :object => r}
+    assert_raise(NameError){render s, r}
+    assert_raise(ActionView::Template::Error){render s, :object => r}
     assert_raise ActionView::Template::Error do
       render s, locals => {:object => r}
     end
@@ -102,8 +102,8 @@ class ViewsTest < ActionView::TestCase
     assert_select s2, {:text => s3, :count => 1}, 0
     these_semantics_work
 # TODO: write an alert-me for this:
-#    assert_template App.webmaster.join('page2')
-#    assert_template :file => App.webmaster.join('page'),
+#    assert_template App.webmaster.join 'page2'
+#    assert_template :file => (App.webmaster.join 'page'),
 #        :partial => 'pictures/pictures',
 #        :locals => {:pictures => assigns(:pictures)}
 #        :locals => nil

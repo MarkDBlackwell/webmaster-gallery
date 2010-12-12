@@ -12,7 +12,7 @@
             each do |field| -%><%= %>
 <%=       render :partial => 'pictures/field', :locals => {:record => picture,
               :field => field} -%>
-<%      end # Each. -%>
+<%      end -%>
 <%    end # Form_for. -%>
 <%= %>
 <%=   content_tag :div, :class => 'edit' do -%>

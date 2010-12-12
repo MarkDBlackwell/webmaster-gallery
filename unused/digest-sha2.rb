@@ -11,7 +11,7 @@ require 'digest/sha2'
 
 clear_text_string='apple'
 name=%w[/home mark rails-apps gallery test fixtures files file_password 
-  encrypted-password.txt].join('/')
+  encrypted-password.txt].join '/'
 f=File.new(name,'w')
 s=Digest::SHA2.digest(clear_text_string)
 puts '$\ not nil' unless $OUTPUT_RECORD_SEPARATOR.nil?

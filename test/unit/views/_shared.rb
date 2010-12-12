@@ -18,11 +18,11 @@ class SharedViewTest < ActionView::TestCase
     type   = %w[  section  div            tag  other  ]
     prefix = %w[  <!--     <div\ class="  <           ]
     suffix = %w[  -->      "                          ]
-    args.map! {|e| e=[] if e.blank?; e=[e] unless e.kind_of? Array; e}
-    args=Array.new(type.length,[]).fill(nil,args.length) {|i| args.at i}
+    args.map!{|e| e=[] if e.blank?; e=[e] unless e.kind_of? Array; e}
+    args=Array.new(type.length,[]).fill(nil,args.length){|i| args.at i}
     nl="\n"
     source = nl + (try(:rendered) || response.body)
-    r=Regexp.union((0...args.length).map {|i|
+    r=Regexp.union((0...args.length).map{|i|
         Regexp.new "#{prefix.at i}#{Regexp.union args.at i}#{suffix.at i}"})
 # So far, the application has not required repeating this substitution:
     altered=source.gsub Regexp.new("#{nl}#{r}"), nl # From line beginnings.

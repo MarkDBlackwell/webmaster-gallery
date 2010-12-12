@@ -10,7 +10,7 @@ require 'find'
 require 'fileutils'
 OLD_NAME='shared.rb'
 NEW_NAME='_shared.rb'
-Find.find([Dir.pwd,'test'].join("/")) do |path|
+Find.find([Dir.pwd,'test'].join '/') do |path|
   b=File.basename(path)
   Find.prune if FileTest.directory?(path) && ?.==b[0]
   if OLD_NAME==b
