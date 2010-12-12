@@ -51,7 +51,7 @@ class UpdateSessionsControllerTest < SharedEditUpdateSessionsControllerTest
       (1..2).each do |count|
         test "should #{operation} #{count} #{model}s if approved same" do
           before=send s1
-          expected, changed = send s3, count
+          expected, changed=send s3, count
           send s2, expected, changed
           a=send s1
           difference=case k
@@ -63,7 +63,7 @@ class UpdateSessionsControllerTest < SharedEditUpdateSessionsControllerTest
 
         test "shouldn't #{operation} #{count} #{model}s if approved differ" do
           before=send s1
-          expected, changed = send s3, count
+          expected, changed=send s3, count
           changed[0]='altered'
           send s2, expected, changed
           assert_equal before, (send s1)

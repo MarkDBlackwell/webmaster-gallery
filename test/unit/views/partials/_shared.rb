@@ -13,7 +13,7 @@ class SharedPartialTest < SharedViewTest
     values=[v,'']
     final=0
     (block_given? ? 1 : final).downto final do |i|
-      in_final = final==i
+      in_final=final==i
       values.reverse! if in_final
       assert_select selector, :count => 1 do
         values.each_with_index do |text,count|

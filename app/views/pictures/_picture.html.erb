@@ -1,4 +1,4 @@
-<%  action, method = @edit_fields ? %w[update put] : %w[show get] -%><%= %>
+<%  action,method=@edit_fields ? %w[update put] : %w[show get] -%><%= %>
 <%= div_for picture do -%><%= %>
 <%=   form_for picture, :url => {:controller => 'admin_pictures',
           :action => action, :id => picture.id},

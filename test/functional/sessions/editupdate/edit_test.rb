@@ -67,7 +67,7 @@ class EditSessionsControllerTest < SharedEditUpdateSessionsControllerTest
         test "should review #{count} #{s3}" do
           mock_unpaired []
           0==i ? mock_directory_pictures([]) : (mock_file_tags :all)
-          expected, changed = send s4, count
+          expected, changed=send s4, count
           send s2, expected
           happy_path
           check_approval_group changed, "approve #{operation}ing #{model}s"

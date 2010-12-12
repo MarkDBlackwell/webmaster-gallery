@@ -25,7 +25,7 @@ class UncachedIndexPicturesControllerTest < SharedControllerTest
   private
 
   def try_route(action,hash)
-    route = hash.empty? ? '' : "pictures/#{hash[:tag]}"
+    route=hash.empty? ? '' : "pictures/#{hash[:tag]}"
     assert_generates route, {:controller => :pictures, :action => action}.
         merge(hash), {}, {}, "route #{route}"
   end

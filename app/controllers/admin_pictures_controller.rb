@@ -8,7 +8,7 @@ class AdminPicturesController < ApplicationController
   end
 
   def index
-    @pictures = Picture.all
+    @pictures=Picture.all
     @editable=true
   end
 
@@ -34,7 +34,7 @@ class AdminPicturesController < ApplicationController
 
   def get_single
     @show_filename=true
-    @picture = Picture.find(params[:id])
+    @picture=Picture.find params[:id]
   end
 
   def render_edit

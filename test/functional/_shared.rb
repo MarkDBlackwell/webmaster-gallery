@@ -12,7 +12,7 @@ class SharedControllerTest < ActionController::TestCase
 
   def assert_filter_kind(kind,filter,sa=nil)
     if sa.blank?
-      skip_actions = []
+      skip_actions=[]
     else
       sa=[sa] unless sa.kind_of? Array
       skip_actions=[sa.collect{|e| "action_name == '#{e}'"}.join ' || ']

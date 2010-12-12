@@ -70,7 +70,7 @@ class SessionsController < ApplicationController
   end
 
   def get_all_tags
-    @all_tags = Tag.all
+    @all_tags=Tag.all
   end
 
   def get_groups
@@ -104,11 +104,11 @@ class SessionsController < ApplicationController
     if unpaired.blank?
       review.concat [s.new(      p, rm.shift),
                      s.new(file_pn, rm.shift)] unless 0==model_i
-      if (a = records || names).present?
+      if (a=records || names).present?
         m = %w[Tag Picture].at     model_i
         o = %w[add   delet].at operation_i
         review << s.new(a, "#{m}s to be #{o}ed:")
-        approval.message = "approve #{o}ing #{m.downcase}s"
+        approval.message="approve #{o}ing #{m.downcase}s"
       end
     end
     [review, approval]

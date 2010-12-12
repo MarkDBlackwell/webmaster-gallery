@@ -1,10 +1,11 @@
-<%= content_tag   :div, :class => 'review-group' do -%>
-<%=   content_tag :div, review_group.message, :class => 'review-message' -%>
-<%=   content_tag :div, :class => 'review-list'  do -%>
+<%  s='review-' -%>
+<%= content_tag   :div, :class => s+'group' do -%>
+<%=   content_tag :div, review_group.message, :class => s+'message' -%>
+<%=   content_tag :div, :class => s+'list'  do -%>
 <%=     case
         when (a=review_group.list).empty? then ['(none)']
-        when (a.first.kind_of? Tag    )   then a.map     &:name
         when (a.first.kind_of? Picture)   then a.map &:filename
+        when (a.first.kind_of? Tag    )   then a.map     &:name
         else a end.sort.join ' ' -%>
 <%    end -%>
 <%  end -%>

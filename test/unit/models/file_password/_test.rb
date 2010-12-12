@@ -38,11 +38,11 @@ class FilePasswordTest < ActiveSupport::TestCase
     @f.expects :close
     mock_file
     find
-    @f = nil # Reset for teardown.
+    @f=nil # Reset for teardown.
   end    
 
   test "find should read the password file" do
-    a = clear_text_password + "\n"
+    a=clear_text_password + "\n"
     mock_file
     @f.expects(:readline).returns a
     find
@@ -50,7 +50,7 @@ class FilePasswordTest < ActiveSupport::TestCase
 
   test "find should obtain the test password" do
     mock_file
-    a = clear_text_password
+    a=clear_text_password
     @f.rewind
     assert_equal a, find.first.password
   end
@@ -67,11 +67,11 @@ class FilePasswordTest < ActiveSupport::TestCase
   end
 
   test "in find, a too-short password should have an error" do
-    short = clear_text_password.slice(0..8) + "\n"
+    short=clear_text_password.slice(0..8) + "\n"
     @f.rewind
     mock_file
     @f.expects(:readline).returns short
-    first = FilePassword.find(:all).first
+    first=FilePassword.find(:all).first
     assert_equal true, first.invalid?
     assert_equal ['Password too short'], first.errors.full_messages
   end
