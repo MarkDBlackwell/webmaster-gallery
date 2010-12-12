@@ -1,3 +1,4 @@
+echo 'Close the Rails console and server.'
 echo "the second password, 'Password:' is for Windows."
 sudo ~/mount-holmes
 git gc
