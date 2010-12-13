@@ -5,7 +5,7 @@ class SingleAdminPicturesTemplateTest < SharedViewTest
   test "happy path..." do
 # TODO: Should render pretty html source:
 #    check_pretty_html_source
-# Should render:
+# Should render the right template:
     assert_template @template
 # Should render a single picture:
     assert_select (s='div.picture'), 1

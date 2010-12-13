@@ -40,6 +40,8 @@ class SessionsController < ApplicationController
   end
 
   def show
+    @review_group=(Struct.new :list, :message).new Picture.
+        find_database_problems, 'Pictures with database problems:'
   end
 
   def update

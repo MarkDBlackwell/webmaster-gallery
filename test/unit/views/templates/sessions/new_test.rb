@@ -5,7 +5,7 @@ class NewSessionsTemplateTest < SharedViewTest
   test "happy path..." do
 # Should render pretty html source:
     check_pretty_html_source nil, nil, %w[form  input\ id="password  p]
-# Should render:
+# Should render the right template:
     assert_template @template
 # Should have one password form with method post:
     assert_select (s='form.password'), 1
