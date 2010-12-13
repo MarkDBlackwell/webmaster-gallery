@@ -20,8 +20,8 @@ class ApprovalGroupSessionsPartialTest < SharedPartialTest
       end
 # Approval form should include a hidden input...:
       assert_select 'form > input[type=hidden]', 1, (s='approval') do
-        assert_select 'input[name=approval-group]', 1, s
-        assert_select 'input[  id=approval-group]', 1, s
+        assert_select 'input[name=approval_group]', 1, s
+        assert_select 'input[  id=approval_group]', 1, s
 # Which contains the appropriate, sorted approval group:
         assert_select 'input[value=?]', (@group.list.sort.join ' ')
       end

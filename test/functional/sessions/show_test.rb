@@ -28,6 +28,14 @@ class ShowSessionsControllerTest < SharedSessionsControllerTest
     assert_equal @problem_pictures, r.first.list, s
 # Message should be:
     assert_equal 'Pictures with database problems:', r.first.message, s
+# Should assign a single approval group, whose...:
+    s='Approval group'
+    a=assigns :approval_group
+    assert_present a, s
+# List should be empty:
+    assert_equal [], a.list, s
+# Message should be:
+    assert_equal 'refresh', a.message, s
   end
 
 #-------------
