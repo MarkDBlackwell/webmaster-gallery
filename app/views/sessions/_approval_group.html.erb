@@ -1,0 +1,10 @@
+<%= content_tag :div, :class => 'approve' do -%>
+<%    if approval_group -%>
+<%=     form_tag({:controller => :sessions, :action => :update},
+            :method => :put) do -%><%= %>
+<%=       hidden_field_tag 'approval-group', (approval_group.list.sort.
+              join ' ') -%><%= %>
+<%=       submit_tag approval_group.message -%><%= %>
+<%      end -%>
+<%    end -%>
+<%  end -%>
