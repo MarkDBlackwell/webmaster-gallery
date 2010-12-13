@@ -143,7 +143,7 @@ class SessionsController < ApplicationController
   def review_messages
     [
         'Tags in file:',
-        'Broken picture pairs:',
+        'Unpaired pictures:',
         'Existing pictures:',
         'Pictures in directory:',
         ]

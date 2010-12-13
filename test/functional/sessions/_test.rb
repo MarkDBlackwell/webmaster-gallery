@@ -10,4 +10,13 @@ class SessionsControllerTest < SharedSessionsControllerTest
     assert_filter       :verify_authenticity_token
   end
 
+  test "review messages" do
+    assert_equal [
+        'Tags in file:',
+        'Unpaired pictures:',
+        'Existing pictures:',
+        'Pictures in directory:',
+        ], (@controller.send :review_messages)
+  end
+
 end
