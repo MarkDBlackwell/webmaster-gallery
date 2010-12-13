@@ -31,29 +31,24 @@ class UpdateSessionsControllerTest < SharedEditUpdateSessionsControllerTest
         "#{e} cache expiration failed." }
   end
 
-  %w[tag picture].each_with_index do |model,i|
-    names="#{model}_#{'file' if 1==i}names" #->
-        # picture_filenames
-        # tag_names
+  %w[tag picture].each do |model|
     %w[add delet].each do |operation|
       1.upto 2 do |count|
         test "should #{operation} #{count} #{model}s if approved same" do
-          before=send names
-          expected,changed=construct_changes model, operation, count
-          run_models model, expected, changed
-          after=send names
-          difference=case operation
-          when 'add'   then after - before
-          when 'delet' then before - after end
-          assert_equal changed.sort, difference.sort
+          before=model_names model
+          expected,change=construct_changes model, operation, count
+          after=run_models model, expected, change
+          assert_equal change.sort, case operation
+              when 'add'   then after - before
+              when 'delet' then before - after
+              end.sort
         end
 
         test "shouldn't #{operation} #{count} #{model}s if approved differ" do
-          before=send names
-          expected,changed=construct_changes model, operation, count
-          changed[0]='altered'
-          run_models model, expected, changed
-          assert_equal before.sort, (send names).sort
+          before=model_names model
+          expected,change=construct_changes model, operation, count
+          change[0]='altered'
+          assert_equal before.sort, (run_models model, expected, change).sort
         end
       end
     end
@@ -74,6 +69,7 @@ class UpdateSessionsControllerTest < SharedEditUpdateSessionsControllerTest
     pretend_logged_in
     put :update, :commit => 'approve changes', :approval_group =>
         (changed.sort.reverse.join ' ')
+    model_names model
   end
 
 end

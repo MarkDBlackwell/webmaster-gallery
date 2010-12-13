@@ -3,18 +3,11 @@ class SharedEditUpdateSessionsControllerTest < SharedSessionsControllerTest
   private
 
   def construct_changes(model,operation,count=1)
-    expected=case model
-    when 'tag'
-      s='-name'
-      tag_names
-    when 'picture'
-      s='.png'
-      picture_filenames
-    end
+    expected=model_names model
     case operation
     when 'delet' then changed=expected.pop count
     when 'add'
-      changed=series 'three'+s, count
+      changed=series "three#{ 'picture'==model ? '.png' : '-name' }", count
       expected=expected.take(count).concat changed
     end
     [expected,changed]
@@ -50,19 +43,14 @@ class SharedEditUpdateSessionsControllerTest < SharedSessionsControllerTest
     DirectoryPicture.expects(:find_unpaired).returns expected.sort.reverse
   end
 
-  def picture_filenames
-    n=:filename
-    Picture.find(:all).map &n
+  def model_names(model)
+    model.capitalize.constantize.find(:all).
+        map &"#{ 'file' if 'picture'==model }name".to_sym
   end
 
   def series(start,count=1)
     o=object=nil
     Array.new(count){o=o.blank? ? start : o.succ}
-  end
-
-  def tag_names
-    n=:name
-    Tag.find(:all).map &n
   end
 
 end

@@ -57,7 +57,7 @@ class IndexPicturesControllerTest < SharedControllerTest
   end
 
   def verify_cache(a)
-    args=(a.kind_of?(Array) ? a.clone : [a] ).unshift 'public'
+    args=((a.kind_of? Array) ? a.clone : [a] ).unshift 'public'
     f=App.root.join *args
     FileUtils.rm f, :force => true
     yield

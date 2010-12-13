@@ -39,23 +39,23 @@ class EditSessionsControllerTest < SharedEditUpdateSessionsControllerTest
   end
 
   test "should review unpaired directory pictures first" do
-    mock_unpaired %w[a b]
+    mock_unpaired(u= %w[a b])
     mock_file_tags []
     mock_directory_pictures []
     happy_path
     check_approval_group [], 'refresh'
-    check_review_groups 2, (@controller.send(:review_messages).at 1)
+    check_review_groups 2, u
   end
 
   %w[tag picture].each_with_index do |model,i|
     %w[add delet].each do |operation|
       1.upto 2 do |count|
         test "should review #{count} #{operation}ed_#{model}s" do
-          expected,changed=construct_changes model, operation, count
+          expected,change=construct_changes model, operation, count
           mock_expected model, expected
           happy_path
-          check_approval_group changed, "approve #{operation}ing #{model}s"
-          check_review_groups 3+2*i,
+          check_approval_group change, "approve #{operation}ing #{model}s"
+          check_review_groups 2*i+3, change,
               "#{model.capitalize}s to be #{operation}ed:"
         end
       end
@@ -68,19 +68,33 @@ class EditSessionsControllerTest < SharedEditUpdateSessionsControllerTest
   def check_approval_group(changed,message)
     g=assigns :approval_group
 # List should be:
-    assert_equal changed.sort, g.list, 'Approval list'
+    s='Approval'
+    assert_equal changed.sort, g.list, "#{s} list"
 # Message should be:
-    assert_equal g.message, message, 'Approval message'
+    assert_equal g.message, message, "#{s} message"
   end
 
-  def check_review_groups(count,message)
+  def check_review_groups(count,changed,m=nil)
+    messages=@controller.send(:review_messages).take m ? count-1 : count
+    messages.push m if m
     groups=assigns :review_groups
 # Count should be:
-    assert_equal count, groups.length, 'Review groups count'
+    s1='Review group'
+    assert_equal count, groups.length, "#{s1}s count"
+# Review groups...
     groups.each_with_index do |e,i|
-# Messages should be:
-      assert_equal (@controller.send(:review_messages).take(count - 1).
-          push message).at(i), e.message, "Review group #{i}"
+      s="#{s1} #{i}"
+# Message should be:
+      assert_equal messages.at(i), e.message, s
+# Last group...
+      next unless groups.length-1==i
+# List should be:
+      l=e.list
+      f=l.first
+      case
+      when (f.kind_of? Picture) then l.map! &:filename
+      when (f.kind_of? Tag    ) then l.map! &:name end
+      assert_equal changed.sort, l, s
     end
   end
 
