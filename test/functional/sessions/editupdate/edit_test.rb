@@ -31,8 +31,8 @@ class EditSessionsControllerTest < SharedEditUpdateSessionsControllerTest
   end
 
   test "if nothing to approve..." do
-    mock_file_tags :all
-    mock_directory_pictures :all
+    mock_file_tags
+    mock_directory_pictures
     happy_path
 # Approval group list and message should be appropriate:
     check_approval_group [], 'refresh'
@@ -47,28 +47,12 @@ class EditSessionsControllerTest < SharedEditUpdateSessionsControllerTest
     check_review_groups 2, (@controller.send(:review_messages).at 1)
   end
 
-  2.times do |i|
-    model = %w[tag    picture].at i
-    s1    = %w[file directory].at i
-    s2="mock_#{s1}_#{model}s" #->
-        # mock_directory_pictures
-        # mock_directory_tags
-        # mock_file_pictures
-        # mock_file_tags
-    2.times do |k|
-      operation = %w[add delet].at k
-      s3="#{operation}ed_#{model}s" #->
-      s4="construct_#{s3}" #->
-          # construct_added_pictures
-          # construct_added_tags
-          # construct_deleted_pictures
-          # construct_deleted_tags
-      (1..2).each do |count|
-        test "should review #{count} #{s3}" do
-          mock_unpaired []
-          0==i ? mock_directory_pictures([]) : (mock_file_tags :all)
-          expected,changed=send s4, model, operation, count
-          send s2, expected
+  %w[tag picture].each_with_index do |model,i|
+    %w[add delet].each do |operation|
+      1.upto 2 do |count|
+        test "should review #{count} #{operation}ed_#{model}s" do
+          expected,changed=construct_changes model, operation, count
+          mock_expected model, expected
           happy_path
           check_approval_group changed, "approve #{operation}ing #{model}s"
           check_review_groups 3+2*i,

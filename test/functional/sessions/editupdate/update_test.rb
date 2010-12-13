@@ -31,38 +31,29 @@ class UpdateSessionsControllerTest < SharedEditUpdateSessionsControllerTest
         "#{e} cache expiration failed." }
   end
 
-  2.times do |i|
-    model = %w[tag    picture].at i
-    s     = %w[file directory].at i
-    name  = %w[name  filename].at i
-    s1="#{model}_#{name}s" #->
+  %w[tag picture].each_with_index do |model,i|
+    names="#{model}_#{'file' if 1==i}names" #->
         # picture_filenames
         # tag_names
-    2.times do |k|
-      operation = %w[add delet].at k
-      s3="construct_#{operation}ed_#{model}s" #->
-          # construct_added_pictures
-          # construct_added_tags
-          # construct_deleted_pictures
-          # construct_deleted_tags
-      (1..2).each do |count|
+    %w[add delet].each do |operation|
+      1.upto 2 do |count|
         test "should #{operation} #{count} #{model}s if approved same" do
-          before=send s1
-          expected,changed=send s3, model, operation, count
+          before=send names
+          expected,changed=construct_changes model, operation, count
           run_models model, expected, changed
-          after=send s1
-          difference=case k
-          when 0 then after - before
-          when 1 then before - after end
+          after=send names
+          difference=case operation
+          when 'add'   then after - before
+          when 'delet' then before - after end
           assert_equal changed.sort, difference.sort
         end
 
         test "shouldn't #{operation} #{count} #{model}s if approved differ" do
-          before=send s1
-          expected,changed=send s3, model, operation, count
+          before=send names
+          expected,changed=construct_changes model, operation, count
           changed[0]='altered'
           run_models model, expected, changed
-          assert_equal before.sort, (send s1).sort
+          assert_equal before.sort, (send names).sort
         end
       end
     end
@@ -72,22 +63,14 @@ class UpdateSessionsControllerTest < SharedEditUpdateSessionsControllerTest
   private
 
   def happy_path
-    mock_file_tags :all
-    mock_directory_pictures :all
+    mock_file_tags
+    mock_directory_pictures
     pretend_logged_in
     put :update, :commit => 'update-user-pictures'
   end
 
   def run_models(model,expected,changed)
-    case model
-    when 'picture'
-      mock_directory_pictures expected
-      mock_file_tags :all
-    when 'tag'
-      mock_directory_pictures []
-      mock_file_tags expected
-    end
-    mock_unpaired []
+    mock_expected model, expected
     pretend_logged_in
     put :update, :commit => 'approve changes', :approval_group =>
         (changed.sort.reverse.join ' ')

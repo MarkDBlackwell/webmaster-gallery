@@ -2,63 +2,46 @@ class SharedEditUpdateSessionsControllerTest < SharedSessionsControllerTest
 
   private
 
-  def construct_changed_models(model,operation,expected,changed,count=1)
-    case "#{operation}ed_#{model}s"
-    when 'added_pictures'
-      changed=series 'three.png', count
-      expected=picture_filenames.take(count).concat changed
-    when 'added_tags'
-      changed=series 'three-name', count
-      expected=tag_names.take(count).concat changed
-    when 'deleted_pictures'
-      expected=picture_filenames
-      changed=expected.pop count
-    when 'deleted_tags'
-      expected=tag_names
-      changed=expected.pop count
+  def construct_changes(model,operation,count=1)
+    expected=case model
+    when 'tag'
+      s='-name'
+      tag_names
+    when 'picture'
+      s='.png'
+      picture_filenames
+    end
+    case operation
+    when 'delet' then changed=expected.pop count
+    when 'add'
+      changed=series 'three'+s, count
+      expected=expected.take(count).concat changed
     end
     [expected,changed]
   end
 
-  def construct_added_pictures(model,operation,count=1)
-#    added=series 'three.png', count
-#    expected=picture_filenames.take(count).concat added
-    expected,added=nil
-    construct_changed_models model, operation, expected, added, count
+  def mock_directory_pictures(expected=:all)
+    mock_model DirectoryPicture, :filename, expected
   end
 
-  def construct_added_tags(model,operation,count=1)
-#    added=series 'three-name', count
-#    expected=tag_names.take(count).concat added
-    expected,added=nil
-    construct_changed_models model, operation, expected, added, count
+  def mock_expected(model,expected)
+    other='tag'==model ? [] : :all
+    t,p  ='tag'==model ? [expected,other] : [other,expected]
+    mock_file_tags          t
+    mock_directory_pictures p
+    mock_unpaired []
   end
 
-  def construct_deleted_pictures(model,operation,count=1)
-#    expected=picture_filenames
-#    deleted=expected.pop count
-    expected,deleted=nil
-    construct_changed_models model, operation, expected, deleted, count
+  def mock_file_tags(expected=:all)
+    mock_model FileTag, :name, expected
   end
 
-  def construct_deleted_tags(model,operation,count=1)
-#    expected=tag_names
-#    deleted=expected.pop count
-    expected,deleted=nil
-    construct_changed_models model, operation, expected, deleted, count
-  end
-
-  def mock_directory_pictures(expected)
-    expected=picture_filenames if :all==expected
-    mock_model expected, DirectoryPicture, :filename
-  end
-
-  def mock_file_tags(expected)
-    expected=tag_names if :all==expected
-    mock_model expected, FileTag, :name
-  end
-
-  def mock_model(expected,model,method)
+  def mock_model(model,method,expected)
+    expected=case
+# See ActiveRecord::Base method, '==='. Another way is to use object_id:
+    when DirectoryPicture==model then Picture
+    when FileTag         ==model then Tag
+    end.find(:all).map &method if :all==expected
     model.expects(:find).returns(expected.sort.reverse.
         map{|e| (p=model.new).expects(method).returns e; p} )
   end
