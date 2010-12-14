@@ -6,41 +6,44 @@ class ReviewGroupSessionsPartialTest < SharedPartialTest
     happy_path
 # Should render the right partial:
     assert_partial
-    assert_select (s1='div.review-group'), 1 do
+    assert_select (sg=@d+'group'), 1 do
 # Should render the right message:
-      assert_select (s2='div.review-message'), 1
-      assert_select s2, :text => @group.message
-      assert_select "#{s1} > #{s2}", 1
+      assert_select (sm=@d+'message'), 1
+      assert_select sm, :text => @group.message
+      assert_select "#{sg} > #{sm}", 1
 # Should render the right picture filenames:
-      assert_select (s3='div.review-list'), 1
-      assert_select s3, :text => (@group.list.map(&:filename).join ' ')
-      assert_select "#{s1} > #{s3}", 1
+      assert_select (sl=@d+'list'), 1
+      assert_select sl, :text => (@group.list.map(&:filename).join ' ')
+      assert_select "#{sg} > #{sl}", 1
     end
   end
 
   test "if list is not of a model" do
-    render_partial %w[def abc]
+    render_partial
 # Should render the list itself:
-    assert_select 'div.review-group > div.review-list', :text =>
-        (@group.list.join ' ')
+    assert_select @d+"group > #{@d}list", :text => (@group.list.join ' ')
   end
 
   test "if list is empty" do
-    render_partial []
+    @group.list=[]
+    render_partial
 # Should render a special list value:
-    assert_select 'div.review-group > div.review-list', :text => '(none)'
+    assert_select @d+"group > #{@d}list", :text => '(none)'
   end
 
   test "if message is empty" do
-    render_partial %w[abc def], ''
+    @group.message=''
+    render_partial
 # Should remder the empty message:
-    assert_select 'div.review-group > div.review-message', :text => ''
+    assert_select @d+"group > #{@d}message", :text => ''
   end
 
   test "if both list and message are empty" do
-    render_partial [], ''
+    @group.list,@group.message=[],''
+    render_partial
 # Should render a special list value:
-    assert_select (s='div.review-group > div.review-')+'list', :text => '(none)'
+    s=@d+"group > #{@d}"
+    assert_select s+'list', :text => '(none)'
 # Should remder the empty message:
     assert_select s+'message', :text => ''
   end
@@ -49,12 +52,17 @@ class ReviewGroupSessionsPartialTest < SharedPartialTest
   private
 
   def happy_path
-    render_partial Picture.find :all
+    @group.list=Picture.find :all
+    render_partial
   end
 
-  def render_partial(l,m='a')
-    @group=Struct.new(:list,:message).new l, m
+  def render_partial
     super 'sessions/review_group', :review_group => @group
+  end
+
+  def setup
+    @group=Struct.new(:list,:message).new  %w[abc def], 'something'
+    @d='div.review-'
   end
 
 end

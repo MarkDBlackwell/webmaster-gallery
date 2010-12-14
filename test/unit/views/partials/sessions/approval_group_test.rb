@@ -24,6 +24,7 @@ class ApprovalGroupSessionsPartialTest < SharedPartialTest
         assert_select 'input[  id=approval_group]', 1, s
 # Which contains the appropriate approval group:
         assert_select 'input[value=?]', (@group.list.join ' ')
+#        assert_select 'input[value=?]', @group.list
       end
 # Approval form should include a submit button...:
       assert_select 'form > input[type=submit]', 1, (s='button') do
@@ -40,6 +41,7 @@ class ApprovalGroupSessionsPartialTest < SharedPartialTest
 
   def setup
     @group=Struct.new(:list,:message).new %w[fff ee], 'something'
+#    @group=Struct.new(:list,:message).new 'fff ee', 'something'
     render_partial 'sessions/approval_group', :approval_group => @group
   end
 
