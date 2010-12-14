@@ -43,7 +43,7 @@ class SessionsController < ApplicationController
     s=Struct.new :list, :message
     @review_groups=[s.new Picture.find_database_problems,
         'Pictures with database problems:']
-    @approval_group=s.new [], 'refresh'
+    @approval_group=s.new '', 'refresh'
     render :edit
   end
 
@@ -102,7 +102,7 @@ class SessionsController < ApplicationController
     end
     s=Struct.new :list, :message
     unpaired=DirectoryPicture.find_unpaired.sort
-    approval=s.new unpaired.present? ? [] : names, 'refresh'
+    approval=s.new unpaired.present? ? '' : (names.sort.join ' '), 'refresh'
     rm=review_messages
     review=[s.new(file_tn,  rm.shift),
             s.new(unpaired, rm.shift)]
@@ -126,7 +126,7 @@ class SessionsController < ApplicationController
   def process_changed(review, approval)
     return if approval.blank? || approval.list.blank? ||
         review.blank? || review.last.blank? || review.last.message.blank?
-    return unless approval.list==params[:approval_group].split.sort
+    return unless approval.list==(params[:approval_group].split.sort.join ' ')
     models     = %w[Tag  Picture]
     operations = %w[add  delet]
     model_i, operation_i = (a=[0,1]).product(a).detect{|e|
@@ -137,9 +137,10 @@ class SessionsController < ApplicationController
     method = %w[name  filename].at(model_i)
     case operation_i
     when 0
-      approval.list.each{|e| model.create method.to_sym => e}
+      approval.list.split.each{|e| model.create method.to_sym => e}
     when 1
-      model.where(["#{method} IN (?)", approval.list ]).all.each{|e| e.destroy}
+      model.where(["#{method} IN (?)", approval.list.split]).all.
+          each{|e| e.destroy}
     end
   end
 

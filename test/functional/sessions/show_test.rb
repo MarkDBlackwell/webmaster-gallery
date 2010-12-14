@@ -33,7 +33,7 @@ class ShowSessionsControllerTest < SharedSessionsControllerTest
     a=assigns :approval_group
     assert_present a, s
 # List should be empty:
-    assert_equal [], a.list, s
+    assert_equal '', a.list, s
 # Message should be:
     assert_equal 'refresh', a.message, s
   end

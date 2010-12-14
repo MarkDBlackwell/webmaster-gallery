@@ -19,15 +19,19 @@ class EditSessionsControllerTest < SharedEditUpdateSessionsControllerTest
     %w[approval_group review_groups].each do |e|
       assert_present assigns(e), "Should assign @#{e}"
     end
-# Groups should include...:
+# Groups should include a message:
     (assigns(:review_groups) << assigns(:approval_group)).
           each_with_index do |e,i|
-# A list:
-      assert_kind_of Array, e.list, "list #{i}"
-# A message:
       assert_kind_of String, e.message, (s="message #{i}")
       assert_present e.message, s
     end
+# Review groups should include a list:
+    assigns(:review_groups).each_with_index do |e,i|
+      assert_kind_of Array, e.list, "list #{i}"
+    end
+# Approval group should include a list:
+    assert_kind_of String, assigns(:approval_group).list,
+        'approval group list'
   end
 
   test "if nothing to approve..." do
@@ -69,7 +73,7 @@ class EditSessionsControllerTest < SharedEditUpdateSessionsControllerTest
     g=assigns :approval_group
 # List should be:
     s='Approval'
-    assert_equal changed.sort, g.list, "#{s} list"
+    assert_equal (changed.sort.join ' '), g.list, "#{s} list"
 # Message should be:
     assert_equal g.message, message, "#{s} message"
   end
