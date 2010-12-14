@@ -11,18 +11,18 @@ class ReviewGroupSessionsPartialTest < SharedPartialTest
       assert_select (s2='div.review-message'), 1
       assert_select s2, :text => @group.message
       assert_select "#{s1} > #{s2}", 1
-# Should sort and render the right picture filenames:
+# Should render the right picture filenames:
       assert_select (s3='div.review-list'), 1
-      assert_select s3, :text => (@group.list.map(&:filename).sort.join ' ')
+      assert_select s3, :text => (@group.list.map(&:filename).join ' ')
       assert_select "#{s1} > #{s3}", 1
     end
   end
 
   test "if list is not of a model" do
     render_partial %w[def abc]
-# Should sort and render the list itself:
+# Should render the list itself:
     assert_select 'div.review-group > div.review-list', :text =>
-        (@group.list.sort.join ' ')
+        (@group.list.join ' ')
   end
 
   test "if list is empty" do

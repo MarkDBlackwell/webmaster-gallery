@@ -22,8 +22,8 @@ class ApprovalGroupSessionsPartialTest < SharedPartialTest
       assert_select 'form > input[type=hidden]', 1, (s='approval') do
         assert_select 'input[name=approval_group]', 1, s
         assert_select 'input[  id=approval_group]', 1, s
-# Which contains the appropriate, sorted approval group:
-        assert_select 'input[value=?]', (@group.list.sort.join ' ')
+# Which contains the appropriate approval group:
+        assert_select 'input[value=?]', (@group.list.join ' ')
       end
 # Approval form should include a submit button...:
       assert_select 'form > input[type=submit]', 1, (s='button') do
