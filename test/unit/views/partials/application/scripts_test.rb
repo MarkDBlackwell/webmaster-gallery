@@ -14,7 +14,7 @@ class ScriptsApplicationPartialTest < SharedPartialTest
   test "happy path..." do
 # Should render pretty html source:
     check_pretty_html_source 'Scripts', 'scripts', 'script'
-# Should render:
+# Should render the right partial, once:
     assert_partial
 # Should include one scripts div:
     assert_select (s='div.scripts'), 1

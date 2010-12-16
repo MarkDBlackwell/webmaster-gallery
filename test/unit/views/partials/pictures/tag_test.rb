@@ -2,12 +2,13 @@ require 'test_helper'
 
 class TagPicturesPartialTest < SharedPicturesPartialTest
 
-  test "happy path..." do
-# Should render pretty html source:
+  test "happy path should render..." do
+# Pretty html source:
     check_pretty_html_source nil, 'tag'
-# Should render:
+# The right partial, once:
     assert_partial
-# Should include one tag div:
+    see_output
+# Including one tag div:
     assert_select 'div.tag', 1
   end
 

@@ -2,50 +2,49 @@ require 'test_helper'
 
 class ReviewGroupSessionsPartialTest < SharedPartialTest
 
-  test "happy path..." do
+  test "happy path should render..." do
     happy_path
-# Should render the right partial:
+# The right partial, once:
     assert_partial
-    assert_select (sg=@d+'group'), 1 do
-# Should render the right message:
-      assert_select (sm=@d+'message'), 1
-      assert_select sm, :text => @group.message
-      assert_select "#{sg} > #{sm}", 1
-# Should render the right picture filenames:
-      assert_select (sl=@d+'list'), 1
-      assert_select sl, :text => (@group.list.map(&:filename).join ' ')
-      assert_select "#{sg} > #{sl}", 1
+    assert_select @dg, 1 do
+# The right message, once:
+      assert_select @dm, 1
+      assert_select @dm, :text => @group.message
+      assert_select @dgm, 1
+# The right picture filenames, once:
+      assert_select @dl, 1
+      assert_select @dl, :text => (@group.list.map(&:filename).join ' ')
+      assert_select @dgl, 1
     end
   end
 
   test "if list is not of a model" do
     render_partial
 # Should render the list itself:
-    assert_select @d+"group > #{@d}list", :text => (@group.list.join ' ')
+    assert_select @dgl, :text => (@group.list.join ' ')
   end
 
   test "if list is empty" do
     @group.list=[]
     render_partial
 # Should render a special list value:
-    assert_select @d+"group > #{@d}list", :text => '(none)'
+    assert_select @dgl, :text => '(none)'
   end
 
   test "if message is empty" do
     @group.message=''
     render_partial
 # Should remder the empty message:
-    assert_select @d+"group > #{@d}message", :text => ''
+    assert_select @dgm, :text => ''
   end
 
   test "if both list and message are empty" do
     @group.list,@group.message=[],''
     render_partial
 # Should render a special list value:
-    s=@d+"group > #{@d}"
-    assert_select s+'list', :text => '(none)'
+    assert_select @dgl, :text => '(none)'
 # Should remder the empty message:
-    assert_select s+'message', :text => ''
+    assert_select @dgm, :text => ''
   end
 
 #-------------
@@ -61,8 +60,13 @@ class ReviewGroupSessionsPartialTest < SharedPartialTest
   end
 
   def setup
-    @group=Struct.new(:list,:message).new  %w[abc def], 'something'
     @d='div.review-'
+    @dg=@d+'group'
+    @dl=@d+'list'
+    @dm=@d+'message'
+    @dgl=@dg+'>'+@dl
+    @dgm=@dg+'>'+@dm
+    @group=Struct.new(:list,:message).new  %w[abc def], 'something'
   end
 
 end

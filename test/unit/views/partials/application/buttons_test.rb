@@ -13,7 +13,7 @@ class ButtonsApplicationPartialTest < SharedPartialTest
     check_pretty_html_source 'Session buttons', %w[
         admin-pictures-index  destroy  edit  session-buttons  show
         user-pictures-index  ]
-# Should render:
+# Should render the right partial, once:
     assert_partial
 # Should include one session-buttons div:
     assert_select 'div.session-buttons', 1

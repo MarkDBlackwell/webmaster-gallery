@@ -41,20 +41,38 @@ class ViewsTest < ActionView::TestCase
     end
   end
 
-  test "alert me (implementation)..." do
-# When Rails implements my method names:
+  test "alert me..." do
+# When Rails implements...:
+# My method names:
     assert_raise(NoMethodError){assert_partial() }
     assert_raise(NoMethodError){render_partial() }
-# When fixtures :all works:
+# When things work:
+# Fixtures :all:
     assert_raise(StandardError){pictures :all}
-# When testing, that a partial was rendered with the right locals, works
-# (i.e., when a bug in lines 99-102 of assert_template is fixed):
+# Testing a partial was rendered with the right locals, (i.e., a bug is fixed
+#     in assert_template (lines 99-102):
     assert_raise NoMethodError do
       assert_template :partial => 'c/_p', :locals => {:a => 'a'}
     end
+# TODO: write an alert-me for file rendering:
+# (The pictures controller renders the webmaster's html file.)
+#    assert_template App.webmaster.join 'page2'
+# Fails giving 'Expected no partials to be rendered':
+#    assert_template :file => (App.webmaster.join 'page'),
+#        :partial => 'pictures/pictures',
+#        :locals => {:pictures => assigns(:pictures)}
+#        :locals => nil
+# TODO: write an alert-me for counting template rendering:
+#    render :template => (@template='sessions/edit')
+#    assert_template @template, 0
+#    assert_template @template, :count => 0
+# Fails giving 'Expected no partials to be rendered':
+#    assert_template :template => @template, :count => 1
+#    assert_template({:template => @template}, 1)
 # Set up:
     r=Struct.new(:list,:message).new [],'message'
-# When Rails enables these semantics:
+# When Rails enables these semantics...:
+# For partial rendering:
     s='pictures/thumbnail'
     assert_raise ActionView::Template::Error do
       render :partial => s, :picture => pictures 
@@ -101,12 +119,6 @@ class ViewsTest < ActionView::TestCase
     assert_select s2, {:text => s3, :count => 0}, 0
     assert_select s2, {:text => s3, :count => 1}, 0
     these_semantics_work
-# TODO: write an alert-me for this:
-#    assert_template App.webmaster.join 'page2'
-#    assert_template :file => (App.webmaster.join 'page'),
-#        :partial => 'pictures/pictures',
-#        :locals => {:pictures => assigns(:pictures)}
-#        :locals => nil
   end
 
   def these_semantics_work

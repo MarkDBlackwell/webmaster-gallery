@@ -5,15 +5,15 @@ class AllLayoutTest < SharedLayoutTest
   test "layouts..." do
     layouts do
 # Partials...:
-# Should render a list of all tags once:
+# Should render a list of all tags, once:
       assert_partial 'pictures/_all_tags', 1
-# Should render messages once:
+# Should render messages, once:
       assert_partial 'application/_messages', 1
-# Should render scripts once:
+# Should render scripts, once:
       assert_partial 'application/_scripts', 1
-# Should render the session buttons once:
+# Should render the session buttons, once:
       assert_partial 'application/_buttons', 1
-# Should render styles once:
+# Should render styles, once:
       assert_partial 'application/_styles', 1
 #-------------
 # Should render pretty html source:

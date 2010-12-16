@@ -19,7 +19,7 @@ class FieldPicturesPartialTest < SharedPartialTest
   test "happy path..." do
 # Should render pretty html source:
     check_pretty_html_source nil, 'field'
-# Should render:
+# Should render the right partial, once:
     assert_partial
 # Should include one field div:
     assert_select 'div.field', 1
