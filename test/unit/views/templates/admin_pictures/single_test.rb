@@ -2,16 +2,16 @@ require 'test_helper'
 
 class SingleAdminPicturesTemplateTest < SharedViewTest
 
-  test "happy path..." do
-# TODO: Should render pretty html source:
+  test "happy path should render..." do
+# TODO: Pretty html source:
 #    check_pretty_html_source
-# Should render the right template:
+# The right template:
     assert_template @template
-# Should render a single picture:
-    assert_select (s='div.picture'), 1
+# A single picture:
+    dp=CssString.new('div').css_class 'picture'
     assert_partial 'pictures/_picture', 1
-# Should render the right picture:
-    assert_select "#{s}[id=picture_#{@picture.id}]"
+# The right picture:
+    assert_select dp.attribute 'id', 'picture_'+@picture.id.to_s
   end
 
 #-------------

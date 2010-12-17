@@ -4,24 +4,26 @@ class PicturePicturesPartialTest < SharedPartialTest
 
 #TODO: possibly use http://github.com/justinfrench/formtastic
 
-  test "happy path..." do
-# Should render the right partial, once:
+  test "happy path should render..." do
+# The right partial, once:
     assert_partial
-# Should include one picture div:
-    assert_select (s1='div.picture'), 1
-# Should render a single, right picture:
-    assert_select s1+'[id]', 1
-    assert_select (s2="[id=picture_#{@picture.id}]"), 1
-    assert_select s1+s2, 1
-# Should render a single thumbnail within a picture:
-    assert_select (s3=s1+' > form > div.') + 'thumbnail', 1
-# Should render a single, right year within a picture:
-    has_one s3+'field > div.year', '2002'
+# A single...:
+# Picture div:
+    assert_select @dp, 1
+# Thumbnail within a picture:
+    assert_select @fd.css_class('thumbnail'), 1
+# Right...:
+# Picture:
+    assert_select @dp.attribute('id'), 1
+    assert_select @ip, 1
+    assert_select @dp+@ip, 1
+# Year within a picture:
+    has_one @fi.css_class('year'), '2002'
   end
 
   %w[description sequence title weight].each do |unique|
     test "should render a single, right #{unique} within a picture" do
-      has_one "div.picture > form > div.field > div.#{unique}", "two-#{unique}"
+      has_one @fi.css_class(unique), "two-#{unique}"
     end
   end
 
@@ -33,22 +35,21 @@ class PicturePicturesPartialTest < SharedPartialTest
 
   test "if show filename..." do
 # Should render a single, right filename within a picture:
-    has_one('div.picture > form > div.field > div.filename',
-        'two.png'){@show_filename=true}
+    has_one(@fi.css_class('filename'),'two.png'){@show_filename=true}
   end
 
-  test "if editable..." do
-    assert_select (s1='div.picture > div.edit'), false
-    assert_select (s2=s1+' > form.button_to'), false
-    assert_select (s3=s2+'[method]'), false
+  test "if editable, should render a single..." do
+    assert_select @de, false # See below.
+    assert_select @fb, false
+    assert_select @bm, false
     setup{@editable=true}
-# Should render a single edit div within a picture:
-    assert_select s1, 1
-# Should render a single button within an edit div:
-    assert_select s2, 1
-# Rendered button within an edit div should have method get:
-    assert_select s3, 1
-    assert_select s2+'[method=?]', 'get'
+# Edit div within a picture:
+    assert_select @de, 1
+# Button within an edit div...:
+    assert_select @fb, 1
+# Which should have method get:
+    assert_select @bm, 1
+    assert_select @fb.attribute(@m,'?'), 'get'
   end
 
 #-------------
@@ -58,6 +59,14 @@ class PicturePicturesPartialTest < SharedPartialTest
     controller_yield &block
     @picture=pictures :two
     render_partial 'pictures/picture', :picture => @picture
+    @d, @m = %w[div  method].map{|e| CssString.new e}
+    @ip=CssString.new().attribute 'id', 'picture_'+@picture.id.to_s
+    @dp=@d.css_class 'picture'
+    @de=@dp.child(@d).css_class 'edit'
+    @fd=@dp.child 'form', @d
+    @fi=@fd.css_class('field').child @d
+    @fb=@de.child('form').css_class 'button_to'
+    @bm=@fb.attribute @m
   end
 
 end

@@ -7,9 +7,8 @@ class TagPicturesPartialTest < SharedPicturesPartialTest
     check_pretty_html_source nil, 'tag'
 # The right partial, once:
     assert_partial
-    see_output
-# Including one tag div:
-    assert_select 'div.tag', 1
+# A single tag div:
+    assert_select CssString.new('div').css_class('tag'), 1
   end
 
 #-------------

@@ -2,13 +2,14 @@ require 'test_helper'
 
 class EditSessionsTemplateTest < SharedViewTest
 
-  test "happy path..." do
-# Should render the right template:
+  test "happy path should render..." do
+# The right template:
     assert_template @template
-# Should render a single approval group:
-    assert_partial 'sessions/_approval_group', 1
-# Should render the right number of review groups:
-    assert_partial 'sessions/_review_group', @review_groups.length
+    s='sessions/_'
+# A single approval group:
+    assert_partial s+'approval_group', 1
+# The right number of review groups:
+    assert_partial s+'review_group', @review_groups.length
   end
 
 #-------------

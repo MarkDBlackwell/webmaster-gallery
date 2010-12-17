@@ -2,13 +2,14 @@ require 'test_helper'
 
 class MessagesApplicationPartialTest < SharedPartialTest
 
-  test "happy path..." do
-# Should render pretty html source:
+  test "happy path should render..." do
+# Pretty html source:
     check_pretty_html_source 'Messages', %w[messages  notice  notice\ error]
-# Should render the right partial, once:
+# The right partial, once:
     assert_partial
-# Should include one messages div:
-    assert_select 'div.messages', 1
+# And...
+# Include one messages div:
+    assert_select CssString.new('div').css_class('messages'), 1
   end
 
 #-------------

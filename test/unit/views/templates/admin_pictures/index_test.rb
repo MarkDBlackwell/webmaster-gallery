@@ -2,12 +2,12 @@ require 'test_helper'
 
 class IndexAdminPicturesTemplateTest < SharedViewTest
 
-  test "happy path..." do
-# TODO: Should render pretty html source:
+  test "happy path should render..." do
+# TODO: Pretty html source:
 #    check_pretty_html_source
-# Should render the right template:
+# The right template:
     assert_template @template
-# Should render a gallery, once:
+# A gallery, once:
     assert_partial 'pictures/_gallery', 1
   end
 

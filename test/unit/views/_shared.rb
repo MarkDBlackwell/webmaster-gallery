@@ -34,4 +34,27 @@ class SharedViewTest < ActionView::TestCase
         join(nl).strip
   end
 
+  class CssString < String
+    def adjacent( *a) CssString.new a.unshift(self).join ' + ' end
+    def child(    *a) CssString.new a.unshift(self).join ' > ' end
+    def css_class(*a) CssString.new a.unshift(self).join  '.'  end
+    def descend(  *a) CssString.new a.unshift(self).join  ' '  end
+    def first(    *a) CssString.new child(*a) + ':first-child' end
+    def css_id(   *a) CssString.new a.unshift(self).join  '#'  end
+    def last(     *a) CssString.new child(*a) + ':last-child'  end
+
+    def attribute(*a)
+      pairs=(a.length+1)/2
+      odd = pairs -= a.length%2
+      r=self.clone
+      pairs.times do |i|
+        r << '[' + a.shift
+        r << '=' + a.shift if i < odd
+        r << ']'
+      end
+      CssString.new r
+    end
+
+  end
+
 end

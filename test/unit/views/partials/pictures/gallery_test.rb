@@ -3,18 +3,16 @@ require 'test_helper'
 class GalleryPicturesPartialTest < SharedPartialTest
   helper PicturesHelper
 
-  test "happy path..." do
-# Should render pretty html source:
+  test "happy path should render..." do
+# Pretty html source:
     check_pretty_html_source 'Pictures',
         %w[ field  gallery  picture  thumbnail ], 'form'
-# Should render the right partial, once:
+# The right partial, once:
     assert_partial
-# Should include one gallery div:
-    assert_select (s1='div.gallery'), 1
-# Should render a picture within a gallery:
-    assert_select (s2=s1+' > div.picture')
-# Should render all the pictures:
-    assert_select s2, 2
+# One gallery div:
+    assert_select @dg, 1
+# All the pictures within the gallery:
+    assert_select @dg.child('div').css_class('picture'), 2
   end
 
 #-------------
@@ -23,6 +21,7 @@ class GalleryPicturesPartialTest < SharedPartialTest
   def setup
     @pictures=Picture.find :all
     render_partial 'pictures/gallery'
+    @dg=CssString.new('div').css_class 'gallery'
   end
 
 end
