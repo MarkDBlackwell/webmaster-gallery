@@ -1,0 +1,84 @@
+The application serves, on the web, a picture gallery webpage.
+
+A user is someone who loads, into a web browser, a gallery webpage served by the application.
+
+To the application, a webmaster can specify a directory to contain pictures and thumbnails.
+Using other software outside of the application, a webmaster shall upload picture files and thumbnail files.
+
+Regarding picture and thumbnail files, the application does not process their contents.
+Regarding picture and thumbnail files, the application generates URL's for them.
+Regarding picture and thumbnail files, the application inserts their URL's into certain webpages for browsers to find.
+
+To the application, a webmaster can specify a directory and a filename for a thumbnail webpage file.
+Outside the application (using other software) a webmaster shall upload a thumbnail webpage file.
+The application shall reprocess a thumbnail webpage file if its upload date and time has changed.
+
+Thumbnail files shall be distinguished from pictures by their filenames.
+For each thumbnail, the last two characters before the filename extension shall contain the string "_t".
+
+A webmaster shall be able to log in to the application.
+
+For each picture, a webmaster can enter a calendar year.
+For each picture, a webmaster can enter a description.
+For each picture, a webmaster can enter a title.
+For each picture, a webmaster can enter picture tags.
+
+Unready thumbnails are those for which a webmaster has not entered all of calendar year, description and title.
+
+Problem thumbnails are those whose picture file or thumbnail file is found to have any problem.
+
+Regarding unready thumbnails and problem thumbnails, the application shall hide them from users.
+Regarding unready thumbnails and problem thumbnails, the application shall provide to a webmaster a resolution page.
+
+A resolution page shall resemble a thumbnail gallery.
+A resolution page shall contain webmaster thumbnail blobs.
+
+To a webmaster, the application shall display webmaster thumbnail blobs instead of thumbnail blobs.
+
+A thumbnail blob shall contain a thumbnail image.
+A thumbnail blob shall contain a picture title.
+A thumbnail blob shall contain a picture description.
+A thumbnail blob shall contain an image alternate text.
+
+A webmaster thumbnail blob shall extend a thumbnail blob.
+A webmaster thumbnail blob shall contain an edit link.
+A webmaster thumbnail blob shall contain a thumbnail filename.
+A webmaster thumbnail blob shall contain a picture filename.
+A webmaster thumbnail blob shall contain a thumbnail file's upload date and time.
+
+An edit link shall say, 'edit'.
+
+A webmaster shall be able to go to a picture editing page by clicking on an edit link.
+
+A thumbnail webpage file shall contain one gallery placeholder.
+A gallery placeholder is the string of characters, '<%= @gallery %>'.
+The application shall replace a gallery placeholder by a series of thumbnail expressors.
+
+A thumbnail webpage file shall contain one or more picture tag list placeholders.
+
+A picture tag list placeholder is the string of characters, '<%= @tag_list %>'.
+
+The application shall replace a picture tag list placeholder by a series of picture tag expressors.
+
+A user can see all good thumbnails.
+A user can see a picture tag list.
+A user can choose one picture tag from a picture tag list.
+A user, with one click, can move from seeing the thumbnails for a chosen picture tag to seeing all the thumbnails.
+A user can see the thumbnails of a chosen picture tag.
+A user can see thumbnails in descending order by latest to earliest calendar year, then by latest to earliest upload date and time.
+A user, by clicking on a thumbnail, can see a picture in a popup window.
+
+---------------------------
+Specific HTML:
+
+A thumbnail expressor comprises the string of characters, '<div class="thumbnail">', a thumbnail image expressor, a thumbnail title expressor, a thumbnail description expressor, and a closing div tag, in that order.
+
+A thumbnail image expressor is the string of characters, '<img src="" alt="">' changed to insert a thumbnail image source URL and a picture title (as the alternate text).
+
+A thumbnail title expressor comprises the string of characters, '<div class="thumbnail-title">', a picture title, and a closing div tag, in that order.
+
+A thumbnail description expressor comprises the string of characters, '<div class="thumbnail-description">', a picture description, and a closing div tag, in that order.
+
+A closing div tag is the string of characters, '</div>'.
+
+A picture tag expressor comprises the string of characters, '<div class="tag">', a tag name, and a closing div tag, in that order.
