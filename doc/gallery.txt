@@ -3,18 +3,22 @@ The application serves, on the web, a picture gallery webpage.
 A user is someone who loads, into a web browser, a gallery webpage served by the application.
 
 To the application, a webmaster can specify a directory to contain pictures and thumbnails.
-Using other software outside of the application, a webmaster shall upload picture files and thumbnail files.
+By means of other software (not the application) a webmaster shall upload picture files and thumbnail files.
 
 Regarding picture and thumbnail files, the application does not process their contents.
 Regarding picture and thumbnail files, the application generates URL's for them.
 Regarding picture and thumbnail files, the application inserts their URL's into certain webpages for browsers to find.
 
 To the application, a webmaster can specify a directory and a filename for a thumbnail webpage file.
-Outside the application (using other software) a webmaster shall upload a thumbnail webpage file.
+By means of other software (not the application) a webmaster shall upload a thumbnail webpage file.
+The application, if a thumbnail webpage file is new, shall process it.
+The application, if a thumbnail webpage file's upload date and time has changed, shall reprocess it.
+
+or its upload date and time has changed
 The application shall reprocess a thumbnail webpage file if its upload date and time has changed.
 
-Thumbnail files shall be distinguished from pictures by their filenames.
-For each thumbnail, the last two characters before the filename extension shall contain the string "_t".
+Thumbnail files shall be distinguishable from picture files in their filenames.
+For each thumbnail file, the last two characters before the filename extension shall contain the string "_t".
 
 A webmaster shall be able to log in to the application.
 
@@ -23,7 +27,7 @@ For each picture, a webmaster can enter a description.
 For each picture, a webmaster can enter a title.
 For each picture, a webmaster can enter picture tags.
 
-Unready thumbnails are those for which a webmaster has not entered all of calendar year, description and title.
+Unready thumbnails are those for which a webmaster has not entered all of: calendar year, description and title.
 
 Problem thumbnails are those whose picture file or thumbnail file is found to have any problem.
 
@@ -33,14 +37,17 @@ Regarding unready thumbnails and problem thumbnails, the application shall provi
 A resolution page shall resemble a thumbnail gallery.
 A resolution page shall contain webmaster thumbnail blobs.
 
-To a webmaster, the application shall display webmaster thumbnail blobs instead of thumbnail blobs.
+To a webmaster, the application shall display links to switch among a resolution page, a webmaster thumbnail gallery, and a user thumbnail gallery.
 
-A thumbnail blob shall contain a thumbnail image.
-A thumbnail blob shall contain a picture title.
-A thumbnail blob shall contain a picture description.
-A thumbnail blob shall contain an image alternate text.
+A webmaster thumbnail gallery shall contain webmaster thumbnail blobs.
+A user thumbnail gallery shall contain user thumbnail blobs.
 
-A webmaster thumbnail blob shall extend a thumbnail blob.
+A user thumbnail blob shall contain a thumbnail image.
+A user thumbnail blob shall contain a picture title.
+A user thumbnail blob shall contain a picture description.
+A user thumbnail blob shall contain an image alternate text.
+
+A webmaster thumbnail blob shall extend a user thumbnail blob.
 A webmaster thumbnail blob shall contain an edit link.
 A webmaster thumbnail blob shall contain a thumbnail filename.
 A webmaster thumbnail blob shall contain a picture filename.
