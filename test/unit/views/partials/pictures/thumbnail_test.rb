@@ -28,6 +28,7 @@ class ThumbnailPicturesPartialTest < SharedPicturesPartialTest
   private
 
   def setup
+    @use_controller=:admin_pictures
     picture=pictures :two
     render_partial 'pictures/thumbnail', :picture => picture
     @a, @d, @i = %w[a  div  img].map{|e| CssString.new e}

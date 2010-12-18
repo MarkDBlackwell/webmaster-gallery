@@ -19,6 +19,7 @@ class GalleryPicturesPartialTest < SharedPartialTest
   private
 
   def setup
+    @use_controller=:admin_pictures
     @pictures=Picture.find :all
     render_partial 'pictures/gallery'
     @dg=CssString.new('div').css_class 'gallery'

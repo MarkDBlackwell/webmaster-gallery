@@ -16,7 +16,7 @@ class TagPicturesPartialTest < SharedPicturesPartialTest
 # Anchor, which should link to the right tag:
     assert_select @dt.child(@a), 1
     assert_select @a, 1 do
-      assert_select @hq, "/pictures/#{@tag.name}"
+      assert_select @hq, "/admin_pictures/#{@tag.name}"
     end
   end
 
@@ -38,6 +38,7 @@ class TagPicturesPartialTest < SharedPicturesPartialTest
   end
 
   def render_tag(t)
+    @use_controller=:admin_pictures
     @tag=t
     render_partial 'pictures/tag', :tag => @tag
   end

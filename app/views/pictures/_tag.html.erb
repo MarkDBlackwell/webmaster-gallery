@@ -1,9 +1,10 @@
 <%= %>
-<%  if tag.kind_of? Tag -%>
-<%=   div_for tag do -%>
-<%=     link_to(tag.name, {:controller => :pictures.to_s,
-            :action => :index.to_s, :tag => tag.name}) -%>
-<%    end -%>
-<%  else -%>
+<%  unless tag.kind_of? Tag -%>
 <%=   content_tag :div, tag, :class => 'tag' -%>
+<%  else -%>
+<%=   div_for tag do -%>
+<%      options={:action => :index.to_s, :tag => tag.name} -%>
+<%      options[:controller]=@use_controller if @use_controller -%>
+<%=     link_to(tag.name, options) -%>
+<%    end -%>
 <%  end -%>

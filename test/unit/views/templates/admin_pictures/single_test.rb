@@ -19,6 +19,7 @@ class SingleAdminPicturesTemplateTest < SharedViewTest
 
   def setup
     if @template.blank?
+      @use_controller=:admin_pictures
       @picture=pictures :two
       @template='admin_pictures/single'
       render :template => @template

@@ -1,6 +1,5 @@
 class AdminPicturesController < ApplicationController
   helper PicturesHelper
-  before_filter :find_all_tags
   before_filter :get_single, :except => :index
 
   def edit
@@ -27,10 +26,6 @@ class AdminPicturesController < ApplicationController
 
 #-------------
   private
-
-  def find_all_tags
-    @all_tags=Tag.all
-  end
 
   def get_single
     @show_filename=true

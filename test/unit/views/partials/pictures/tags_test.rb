@@ -32,7 +32,8 @@ class TagsPicturesPartialTest < SharedPartialTest
   end
 
   def render_partial
-    super 'pictures/tags', {:tags => @tags}
+    @use_controller=:admin_pictures
+    super 'pictures/tags', :tags => @tags
   end
 
   def tag_two

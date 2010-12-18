@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   before_filter :cookies_required
+  before_filter :find_all_tags
   before_filter :guard_http_method
   before_filter :guard_logged_in
   protect_from_forgery # Creates a before filter which raises the next error.
@@ -22,6 +23,10 @@ class ApplicationController < ActionController::Base
       clear_session # For testing.
       redirect_to :controller => :sessions, :action => :new
     end
+  end
+
+  def find_all_tags
+    @all_tags=Tag.all
   end
 
   def guard_http_method

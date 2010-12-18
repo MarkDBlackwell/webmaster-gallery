@@ -18,6 +18,7 @@ class AllTagsPicturesPartialTest < SharedPartialTest
   private
 
   def setup
+    @use_controller=:admin_pictures
     @all_tags=Tag.find :all
     render_partial 'pictures/all_tags'
   end

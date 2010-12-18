@@ -13,6 +13,7 @@ class AllTagsPicturesHelperTest < SharedPicturesHelperTest
   private
 
   def setup
+    @use_controller=:admin_pictures
     render_all_tags
   end
 

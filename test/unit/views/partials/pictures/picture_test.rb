@@ -61,6 +61,7 @@ class PicturePicturesPartialTest < SharedPartialTest
 
   def setup(&block)
     controller_yield &block
+    @use_controller=:admin_pictures
     @picture=pictures :two
     render_partial 'pictures/picture', :picture => @picture
     @d, @m = %w[div  method].map{|e| CssString.new e}

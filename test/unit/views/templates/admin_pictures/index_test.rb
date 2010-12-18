@@ -16,6 +16,7 @@ class IndexAdminPicturesTemplateTest < SharedViewTest
 
   def setup
     if @template.blank?
+      @use_controller=:admin_pictures
       @template='admin_pictures/index'
       render :template => @template
     end

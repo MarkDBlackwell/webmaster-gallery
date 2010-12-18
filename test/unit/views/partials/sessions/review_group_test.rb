@@ -60,6 +60,7 @@ class ReviewGroupSessionsPartialTest < SharedPartialTest
   end
 
   def setup
+    @use_controller=:admin_pictures
     @group=Struct.new(:list,:message).new  %w[abc def], 'something'
     @d=CssString.new 'div'
     @dg, @dl, @dm = %w[group  list  message].map{|e| @d.css_class 'review-'+e}

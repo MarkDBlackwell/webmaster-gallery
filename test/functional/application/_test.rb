@@ -42,6 +42,15 @@ class ApplicationControllerTest < SharedControllerTest
   end
 
 #-------------
+# Find_all_tags filter tests:
+
+  test "find_all_tags filter should..." do
+    @controller.send :find_all_tags
+# Assign an instance variable for all the tags.
+    assert_equal Tag.find(:all), assigns(:all_tags)
+  end
+
+#-------------
 # Guard_http_method filter tests:
 
   test "when wrong HTTP method..." do

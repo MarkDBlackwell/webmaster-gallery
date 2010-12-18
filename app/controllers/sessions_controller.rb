@@ -1,6 +1,7 @@
 class SessionsController < ApplicationController
+  before_filter      :avoid_links
   skip_before_filter :cookies_required, :only => :new
-  before_filter      :get_all_tags,   :except => [:create, :destroy, :new]
+  skip_before_filter :find_all_tags,    :only => [:create, :destroy, :new]
   skip_before_filter :guard_logged_in,  :only => [:create, :destroy, :new]
 
   def create
@@ -56,6 +57,10 @@ class SessionsController < ApplicationController
 #-------------
   private
 
+  def avoid_links
+    @use_controller=:admin_pictures
+  end
+
   def already_in
     flash[:notice]='You already were logged in.'
     redirect_to :action => :edit
@@ -72,10 +77,6 @@ class SessionsController < ApplicationController
       pages << path
     end
     pages.each{|e| FileUtils.rm e, :force => true}
-  end
-
-  def get_all_tags
-    @all_tags=Tag.all
   end
 
   def get_groups
