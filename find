@@ -1,9 +1,0 @@
-#!/bin/sh
-# Author: Mark D. Blackwell
-# Date written: October 27, 2010
-# Date last changed: November 27, 2010
-
-# Example usage:
-#   find \*.yml
-
-find . -name $1 | sort

@@ -1,0 +1,10 @@
+#!/bin/sh
+# Author: Mark D. Blackwell
+# Date written: December 18, 2010
+# Date last changed: December 18, 2010
+# List files (in trees) under directories with a given basename.
+# Usage:
+#   trees <base-name-expression>
+# For example:
+#   trees pic\*
+find -P app test -type d -name $1 -exec find -P '{}' -type f ';' | sort | uniq

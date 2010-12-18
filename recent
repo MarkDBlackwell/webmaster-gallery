@@ -1,0 +1,10 @@
+#!/bin/sh
+# Author: Mark D. Blackwell
+# Date written: December 18, 2010
+# Date last changed: December 18, 2010
+# List files changed in the last 24 hours.
+# Usage:
+#   recent
+# For example:
+#   recent
+find app test -mtime 0 -type f | sort
