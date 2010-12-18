@@ -12,13 +12,17 @@ class PicturePicturesPartialTest < SharedPartialTest
     assert_select @dp, 1
 # Thumbnail within a picture:
     assert_select @fd.css_class('thumbnail'), 1
-# Right...:
+# The right...:
 # Picture:
     assert_select @dp.attribute('id'), 1
     assert_select @ip, 1
     assert_select @dp+@ip, 1
-# Year within a picture:
+# Within a picture, the right...:
+# Year:
     has_one @fi.css_class('year'), '2002'
+# TODO: Weight:
+# Tags:
+    assert_select @fd.css_class('tags'), 1
   end
 
   %w[description sequence title weight].each do |unique|

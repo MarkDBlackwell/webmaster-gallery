@@ -1,9 +1,9 @@
 <%= %>
-<%= div_for tag do -%>
-<%    if tag.kind_of? Tag -%>
+<%  if tag.kind_of? Tag -%>
+<%=   div_for tag do -%>
 <%=     link_to(tag.name, {:controller => :pictures.to_s,
             :action => :index.to_s, :tag => tag.name}) -%>
-<%    else -%>
-<%=     tag -%>
 <%    end -%>
+<%  else -%>
+<%=   content_tag :div, tag, :class => 'tag' -%>
 <%  end -%>

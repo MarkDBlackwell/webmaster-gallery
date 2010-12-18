@@ -13,6 +13,7 @@
 <%=       render :partial => 'pictures/field', :locals => {:record => picture,
               :field => field} -%>
 <%      end -%>
+<%=     render :partial => 'pictures/tags', :locals => {:tags => %w[a b]} -%>
 <%    end # Form_for. -%>
 <%= %>
 <%=   content_tag :div, :class => 'edit' do -%>

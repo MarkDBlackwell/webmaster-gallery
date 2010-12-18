@@ -8,7 +8,7 @@ class StylesApplicationPartialTest < SharedPartialTest
 # The right partial, once:
     assert_partial
 # A styling suggestion for a list of all tags:
-    style_include? @d.css_class('all-tags').descend '*', @di
+    style_include? @d.css_class('tags').descend '*', @di
 # A gallery styling suggestion:
     style_include? @dp.descend @dib
 # And...
