@@ -1,8 +1,8 @@
 # Author: Mark D. Blackwell
 # Date written: October 7, 2010.
-# Date last updated: October 7, 2010.
+# Date last updated: December 21, 2010.
 
-# Reference 'encrypting data with ruby and OpenSSL' at: 
+# Ref. 'encrypting data with ruby and OpenSSL' at: 
 # http://snippets.dzone.com/posts/show/576
 
 require 'English'

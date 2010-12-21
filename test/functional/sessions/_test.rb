@@ -6,6 +6,7 @@ class SessionsControllerTest < SharedSessionsControllerTest
     assert_filter       :avoid_links
     assert_filter_skips :cookies_required, :new
     assert_filter_skips :find_all_tags,    [:create,:destroy,:new]
+    assert_no_filter    :get_single
     assert_filter       :guard_http_method
     assert_filter_skips :guard_logged_in,  [:create,:destroy,:new]
     assert_filter       :verify_authenticity_token

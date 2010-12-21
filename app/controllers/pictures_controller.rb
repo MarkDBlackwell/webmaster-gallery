@@ -9,7 +9,6 @@ class PicturesController < ApplicationController
   end
 
   def uncached_index
-#    @all_tags=Tag.all
     @pictures=Picture.all
     render :file => (App.webmaster.join 'page'), :layout => false
   end
