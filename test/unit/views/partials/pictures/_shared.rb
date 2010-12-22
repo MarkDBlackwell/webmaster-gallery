@@ -3,8 +3,8 @@ class SharedPicturesPartialTest < SharedPartialTest
   private
 
   def filename_matcher(s)
-# TODO: use Regexp.new:
-    %r:^/images/gallery/#{s}\?\d+$:
+    e=Regexp.escape "/images/gallery/#{s}?"
+    Regexp.new %r"\A#{e}\d+\z"
   end
 
 end

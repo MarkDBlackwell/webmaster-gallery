@@ -20,36 +20,37 @@ class SharedViewTest < ActionView::TestCase
     suffix = %w[  -->      "                          ]
     args.map!{|e| e=[] if e.blank?; e=[e] unless e.kind_of? Array; e}
     args=Array.new(type.length,[]).fill(nil,args.length){|i| args.at i}
+    source=try(:rendered) || response.body
+    big=Regexp.union( (0...args.length).map{|i|
+        Regexp.new "#{prefix.at i}#{Regexp.union args.at i}#{suffix.at i}"} )
+    line_start=Regexp.new %r"^#{big}"
     nl="\n"
-    source=nl + (try(:rendered) || response.body)
-    r=Regexp.union((0...args.length).map{|i|
-        Regexp.new "#{prefix.at i}#{Regexp.union args.at i}#{suffix.at i}"})
 # So far, the application has not required repeating this substitution:
-    altered=source.gsub Regexp.new("#{nl}#{r}"), nl # From line beginnings.
-    found=altered.clone.gsub! r, '' # From anywhere in lines.
-    return if found.blank?
-    a=altered.split nl
-    f=found.  split nl
-    flunk (0...a.length).reject{|i| f.at(i)==(a.at i)}.map{|i| a.at i}.
-        join(nl).strip
+    altered=source.gsub line_start, nl
+    s=altered.clone.gsub! big, ''
+    return if s.blank?
+    anywhere=s.split nl
+    a= altered.split nl
+    flunk (0...a.length).reject{|i| a.at(i)==(anywhere.at i)}.map{|i| a.at i}.
+        join nl
   end
 
   class CssString < String
     def adjacent( *a) CssString.new a.unshift(self).join ' + ' end
     def child(    *a) CssString.new a.unshift(self).join ' > ' end
     def css_class(*a) CssString.new a.unshift(self).join  '.'  end
+    def css_id(   *a) CssString.new a.unshift(self).join  '#'  end
     def descend(  *a) CssString.new a.unshift(self).join  ' '  end
     def first(    *a) CssString.new child(*a) + ':first-child' end
-    def css_id(   *a) CssString.new a.unshift(self).join  '#'  end
     def last(     *a) CssString.new child(*a) + ':last-child'  end
 
     def attribute(*a)
-      pairs=(a.length+1)/2
-      odd = pairs -= a.length%2
+      odd_p=pairs=(a.length+1)/2
+      odd_p -= a.length%2
       r=self.clone
       pairs.times do |i|
         r << '[' + a.shift
-        r << '=' + a.shift if i < odd
+        r << '=' + a.shift if i < odd_p
         r << ']'
       end
       CssString.new r

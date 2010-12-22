@@ -125,8 +125,9 @@ class ViewsTest < ActionView::TestCase
     assert_template :partial => 'pictures/_thumbnail', :count => 1
     assert_select 'div.thumbnail', 1
     assert_select '[alt=?]', 'two-title', 1
-# TODO: use Regexp.new:
-    assert_select '[src=?]', %r:^/images/gallery/two-t.png\?\d+$: , 1
+    s=Regexp.escape '/images/gallery/two-t.png?'
+    r=Regexp.new %r"\A#{s}\d+\z"
+    assert_select '[src=?]', r, 1
   end
 
 end
