@@ -42,13 +42,31 @@ class EditSessionsControllerTest < SharedEditUpdateSessionsControllerTest
     check_approval_group [], 'refresh'
   end
 
-  test "should review unpaired directory pictures first" do
-    mock_unpaired(u= %w[a b])
+  test "should review file tag bad names first" do
+    mock_file_tag_bad_names(u= %w[a b])
     mock_file_tags []
     mock_directory_pictures []
     happy_path
     check_approval_group [], 'refresh'
     check_review_groups 2, u
+  end
+
+  test "should review directory picture bad names second" do
+    mock_directory_picture_bad_names(u= %w[a b])
+    mock_file_tags []
+    mock_directory_pictures []
+    happy_path
+    check_approval_group [], 'refresh'
+    check_review_groups 3, u
+  end
+
+  test "should review unpaired directory pictures third" do
+    mock_unpaired(u= %w[a b])
+    mock_file_tags []
+    mock_directory_pictures []
+    happy_path
+    check_approval_group [], 'refresh'
+    check_review_groups 4, u
   end
 
   %w[tag picture].each_with_index do |model,i|

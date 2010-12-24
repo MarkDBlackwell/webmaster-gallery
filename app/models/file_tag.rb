@@ -17,6 +17,10 @@ class FileTag
     collection
   end
 
+  def self.find_bad_names
+    filenames=[]
+  end
+
   class FindError < Exception
   end
 

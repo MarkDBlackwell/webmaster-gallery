@@ -12,6 +12,10 @@ class DirectoryPicture
     collection=[]
   end
 
+  def self.find_bad_names
+    filenames=[]
+  end
+
   def self.find_unpaired
     filenames=[]
   end

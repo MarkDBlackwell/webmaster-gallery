@@ -13,6 +13,10 @@ class SharedEditUpdateSessionsControllerTest < SharedSessionsControllerTest
     [expected,changed]
   end
 
+  def mock_directory_picture_bad_names(expected)
+    DirectoryPicture.expects(:find_bad_names).returns expected.sort.reverse
+  end
+
   def mock_directory_pictures(expected=:all)
     mock_model DirectoryPicture, :filename, expected
   end
@@ -23,6 +27,10 @@ class SharedEditUpdateSessionsControllerTest < SharedSessionsControllerTest
     mock_file_tags          t
     mock_directory_pictures p
     mock_unpaired []
+  end
+
+  def mock_file_tag_bad_names(expected)
+    FileTag.expects(:find_bad_names).returns expected.sort.reverse
   end
 
   def mock_file_tags(expected=:all)

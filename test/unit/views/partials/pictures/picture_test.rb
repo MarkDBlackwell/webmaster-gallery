@@ -20,7 +20,6 @@ class PicturePicturesPartialTest < SharedPartialTest
 # Within a picture, the right...:
 # Year:
     has_one @fi.css_class('year'), '2002'
-# TODO: Weight:
 # Tags:
     assert_select @fd.css_class('tags'), 1
   end

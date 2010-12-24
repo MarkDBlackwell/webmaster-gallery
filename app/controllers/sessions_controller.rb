@@ -81,40 +81,49 @@ class SessionsController < ApplicationController
 
   def get_groups
     s=:name
-         tn =    ( t =     Tag.order(s).find(:all) ).map &s
-    file_tn =          FileTag         .find(:all)  .map(&s).sort
+         tn =    ( t =     Tag.order(s).find :all).map &s
+    file_tn =          FileTag         .find(:all).map(&s).sort
     s=:filename
-         pn =    ( p = Picture.order(s).find(:all) ).map &s
-    file_pn = DirectoryPicture         .find(:all)  .map(&s).sort
+         pn =    ( p = Picture.order(s).find :all).map &s
+    file_pn = DirectoryPicture         .find(:all).map(&s).sort
     s=nil
     model_i,operation_i=case
-    when (names=(file_tn-tn)).present?
+    when (names=file_tn-tn).present?
       [0,0]
-    when (names=(tn-file_tn)).present?
-      records=Tag.order(:name).where(["name IN (?)", names]).all
+    when (names=tn-file_tn).present?
+      records=Tag.    order(    :name).where([    "name IN (?)", names]).all
       [0,1]
-    when (names=(file_pn-pn)).present?
+    when (names=file_pn-pn).present?
       [1,0]
-    when (names=(pn-file_pn)).present?
+    when (names=pn-file_pn).present?
       records=Picture.order(:filename).where(["filename IN (?)", names]).all
       [1,1]
     else  names=[]
       [nil,nil]
     end
+    bad_file_tn=      FileTag.         find_bad_names.sort
+    bad_directory_pn= DirectoryPicture.find_bad_names.sort
+    unpaired=DirectoryPicture.find_unpaired. sort
     s=Struct.new :list, :message
-    unpaired=DirectoryPicture.find_unpaired.sort
-    approval=s.new unpaired.present? ? '' : (names.sort.join ' '), 'refresh'
+    approval=s.new('', 'refresh')
     rm=review_messages
-    review=[s.new(file_tn,  rm.shift),
-            s.new(unpaired, rm.shift)]
-    if unpaired.blank?
-      review.concat [s.new(      p, rm.shift),
-                     s.new(file_pn, rm.shift)] unless 0==model_i
+    review=[         s.new(file_tn,          rm.shift),
+                     s.new(bad_file_tn,      rm.shift)]
+    case
+    when bad_file_tn.     present?
+    when bad_directory_pn.present?
+      review <<      s.new(bad_directory_pn, rm.shift)
+    when unpaired.        present?
+      review.concat [s.new(bad_directory_pn, rm.shift),
+                     s.new(unpaired,         rm.shift)]
+    else
+      review.concat [s.new(p,                rm.shift),
+                     s.new(file_pn,          rm.shift)] unless 0==model_i
       if (a=records || names).present?
         m = %w[Tag  Picture].at     model_i
         o = %w[add    delet].at operation_i
-        review << s.new(a, "#{m}s to be #{o}ed:")
-        approval.message="approve #{o}ing #{m.downcase}s"
+        review <<s.new(a,                     "#{m}s to be #{o}ed:")
+        approval=s.new((names.sort.join ' '), "approve #{o}ing #{m.downcase}s")
       end
     end
     [review, approval]
@@ -148,6 +157,8 @@ class SessionsController < ApplicationController
   def review_messages
     [
         'Tags in file:',
+        'Bad tag names:',
+        'Bad picture names:',
         'Unpaired pictures:',
         'Existing pictures:',
         'Pictures in directory:',
