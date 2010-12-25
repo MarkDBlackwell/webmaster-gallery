@@ -6,7 +6,11 @@
 <%      when (a=review_group.list).empty? -%>
 <%=       '(none)' -%>
 <%      when (a.first.kind_of? Picture) -%>
-<%=       a.map(&:filename).join ' ' -%>
+<%=       for picture in review_group.list do -%>
+<%          options={:controller => :admin_pictures.to_s, :action =>
+                :edit.to_s, :id => picture.id} -%>
+<%=         link_to(picture.filename, options) -%>
+<%        end -%>
 <%      when (a.first.kind_of? Tag) -%>
 <%=       render :partial => 'pictures/tags', :locals => {:tags => a} -%>
 <%      else -%>

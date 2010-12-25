@@ -9,6 +9,10 @@ class EditSessionsControllerTest < SharedEditUpdateSessionsControllerTest
         :sessions.to_s, :action => :edit.to_s)
   end
 
+  test "review messages" do
+    assert_equal review_messages, (@controller.send :review_messages)
+  end
+
   test_happy_path_response
 
   test "happy path..." do
@@ -35,8 +39,8 @@ class EditSessionsControllerTest < SharedEditUpdateSessionsControllerTest
   end
 
   test "if nothing to approve..." do
-    mock_file_tags
     mock_directory_pictures
+    mock_file_tags
     happy_path
 # Approval group list and message should be appropriate:
     check_approval_group [], 'refresh'
@@ -44,8 +48,6 @@ class EditSessionsControllerTest < SharedEditUpdateSessionsControllerTest
 
   test "should review file tag bad names first" do
     mock_file_tag_bad_names(u= %w[a b])
-    mock_file_tags []
-    mock_directory_pictures []
     happy_path
     check_approval_group [], 'refresh'
     check_review_groups 2, u
@@ -53,8 +55,6 @@ class EditSessionsControllerTest < SharedEditUpdateSessionsControllerTest
 
   test "should review directory picture bad names second" do
     mock_directory_picture_bad_names(u= %w[a b])
-    mock_file_tags []
-    mock_directory_pictures []
     happy_path
     check_approval_group [], 'refresh'
     check_review_groups 3, u
@@ -62,8 +62,6 @@ class EditSessionsControllerTest < SharedEditUpdateSessionsControllerTest
 
   test "should review unpaired directory pictures third" do
     mock_unpaired(u= %w[a b])
-    mock_file_tags []
-    mock_directory_pictures []
     happy_path
     check_approval_group [], 'refresh'
     check_review_groups 4, u
@@ -77,7 +75,8 @@ class EditSessionsControllerTest < SharedEditUpdateSessionsControllerTest
           mock_expected model, expected
           happy_path
           check_approval_group change, "approve #{operation}ing #{model}s"
-          check_review_groups 2*i+3, change,
+# TODO: Why this formula? Refactor.
+          check_review_groups 4*i+3, change,
               "#{model.capitalize}s to be #{operation}ed:"
         end
       end
@@ -97,7 +96,7 @@ class EditSessionsControllerTest < SharedEditUpdateSessionsControllerTest
   end
 
   def check_review_groups(count,changed,m=nil)
-    messages=@controller.send(:review_messages).take m ? count-1 : count
+    messages=review_messages.take m ? count-1 : count
     messages.push m if m
     groups=assigns :review_groups
 # Count should be:
@@ -123,6 +122,19 @@ class EditSessionsControllerTest < SharedEditUpdateSessionsControllerTest
   def happy_path
     pretend_logged_in
     get :edit
+  end
+
+  def review_messages
+    b,d,f,i,p,t = %w[ bad directory file in picture tag]
+    ns,ps,ts = ['name', p, t].map{|e| e.pluralize}
+    [
+          [                 ts, i, f, ],
+          [          b,  t, ns, i, f, ],
+          [          b,  p, ns, i, d, ],
+          [ 'unpaired',     ps, i, d, ],
+          [ 'existing',     ps,       ],
+          [                 ps, i, d, ],
+        ].map{|e| e.join(' ').capitalize.concat ':'}
   end
 
 end

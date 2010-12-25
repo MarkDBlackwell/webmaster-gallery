@@ -19,15 +19,4 @@ class SessionsControllerTest < SharedSessionsControllerTest
     assert_equal :admin_pictures, assigns(:use_controller)
   end
 
-  test "review messages" do
-    assert_equal [
-        'Tags in file:',
-        'Bad tag names:',
-        'Bad picture names:',
-        'Unpaired pictures:',
-        'Existing pictures:',
-        'Pictures in directory:',
-        ], (@controller.send :review_messages)
-  end
-
 end

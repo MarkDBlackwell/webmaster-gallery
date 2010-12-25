@@ -11,10 +11,14 @@ class ReviewGroupSessionsPartialTest < SharedPartialTest
       assert_select @dm, 1
       assert_select @dm, :text => @group.message
       assert_select @gm, 1
-# Picture filenames, once:
+# Pictures, once:
       assert_select @dl, 1
-      assert_select @dl, :text => (@group.list.map(&:filename).join ' ')
       assert_select @gl, 1
+# Number of pictures:
+      assert_select @la, 2
+# Picture filenames, once:
+      assert_select @la.first, :text => @group.list.first.filename
+      assert_select @la.last,  :text => @group.list.last .filename
     end
   end
 
@@ -66,6 +70,7 @@ class ReviewGroupSessionsPartialTest < SharedPartialTest
     @dg, @dl, @dm = %w[group  list  message].map{|e| @d.css_class 'review-'+e}
     @gl=@dg.child @dl
     @gm=@dg.child @dm
+    @la=@dl.child 'a'
   end
 
 end
