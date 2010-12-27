@@ -5,14 +5,8 @@ class IndexPicturesControllerTest < SharedControllerTest
 
 # -> Ordinary user views gallery.
 
+  test_routing_tag root=true # GET
   test_happy_path_response
-
-#-------------
-# Routing tests:
-
-  test "routing..." do # GET
-    assert_routing_tag root=true
-  end
 
 #-------------
 # Caching tests:
@@ -24,8 +18,9 @@ class IndexPicturesControllerTest < SharedControllerTest
   end
 
   test "index should cache the page for a tag" do
-    verify_cache %w[pictures  some_tag.html] do
-      get @action, :tag => @tag
+    tag='some-tag'
+    verify_cache ['pictures', tag+'.html'] do
+      get @action, :tag => tag
     end
   end
 
@@ -52,7 +47,6 @@ class IndexPicturesControllerTest < SharedControllerTest
   def setup
     @controller_name=:pictures.to_s
     @action=:index
-    @tag='some_tag'
   end
 
   def verify_cache(a)

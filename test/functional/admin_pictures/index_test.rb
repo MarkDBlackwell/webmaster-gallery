@@ -2,10 +2,9 @@ require 'test_helper'
 
 class IndexAdminPicturesControllerTest < SharedAdminPicturesControllerTest
 
-  test "routing..." do # GET
-    assert_routing_tag
-  end
+# -> Webmaster views gallery.
 
+  test_routing_tag # GET
   test_happy_path_response
 
   test "happy path..." do
@@ -27,7 +26,6 @@ class IndexAdminPicturesControllerTest < SharedAdminPicturesControllerTest
   def setup
     @controller_name=:admin_pictures.to_s
     @action=:index
-    @tag='some_tag'
   end
 
 end
