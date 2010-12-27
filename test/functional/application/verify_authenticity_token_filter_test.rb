@@ -12,13 +12,29 @@ class VerifyAuthenticityTokenFilterApplicationControllerTest <
 # Maybe alter the token in cookies.
 #  end
 
+
+  test "when authenticity token is valid..." do
+# Should not invoke handler:
+    @controller.expects(:handle_bad_authenticity_token).never
+    filter
+# Should not log out:
+    assert_equal true, session[:logged_in]
+  end
+
   test "when handle_bad_authenticity_token is invoked..." do
-    pretend_logged_in
 # Should redirect:
     expect_sessions_new_redirect
     @controller.send :handle_bad_authenticity_token
 # Should log out:
     assert_blank session[:logged_in]
+  end
+
+#-------------
+  private
+
+  def setup
+    @filter=:verify_authenticity_token
+    pretend_logged_in
   end
 
 end

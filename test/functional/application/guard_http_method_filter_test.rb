@@ -6,20 +6,16 @@ class GuardHttpMethodFilterApplicationControllerTest <
   test "when wrong HTTP method..." do
 # Ref: 'ActionController - PROPFIND and other HTTP request methods':
 # at http://railsforum.com/viewtopic.php?id=30137
-    pretend_logged_in
-    action_anything
-    bad_method
+    request.expects(:request_method_symbol).at_least_once.returns :bad_method
 # Should redirect:
     expect_sessions_new_redirect
-    @controller.send :guard_http_method
 # Should log out:
+    filter
     assert_blank session[:logged_in]
   end
 
   test "when right HTTP method..." do
-    pretend_logged_in
-    action_anything
-    @controller.send :guard_http_method
+    filter
 # Should not log out:
     assert_equal true, session[:logged_in]
   end
@@ -27,12 +23,11 @@ class GuardHttpMethodFilterApplicationControllerTest <
 #-------------
   private
 
-  def action_anything
+  def filter
+    pretend_logged_in
     request.parameters[:action]='anything' # HTTP method defaults to 'get'.
-  end
-
-  def bad_method
-    request.expects(:request_method_symbol).at_least_once.returns :bad_method
+    @filter=:guard_http_method
+    super
   end
 
 end

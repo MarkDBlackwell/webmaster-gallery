@@ -5,7 +5,9 @@ class GetSingleFilterAdminPicturesControllerTest <
 
   test "should..." do
     @controller.params[:id]=pictures(:two).id
-    @controller.send :get_single
+    @filter=:get_single
+    filter
+# TODO: assert something.
   end
 
 end

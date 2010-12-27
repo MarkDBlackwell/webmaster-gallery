@@ -49,6 +49,10 @@ class SharedControllerTest < ActionController::TestCase
         ].join "\n")
   end
 
+  def filter
+    @controller.send @filter
+  end
+
   def filter_chain
     @controller._process_action_callbacks
   end
