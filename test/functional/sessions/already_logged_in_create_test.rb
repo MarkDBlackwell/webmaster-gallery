@@ -2,19 +2,29 @@ require 'test_helper'
 
 class AlreadyLoggedInCreateSessionsControllerTest < SharedSessionsControllerTest
 
-  test "when password wrong" do
-    pretend_logged_in
-    post :create, :password => 'example wrong password'
-    assert_equal 'You already were logged in.', flash[:notice]
-    assert_blank flash[:error]
+  test "without password..." do
+    post :create
+    shoulds
   end
 
-  test "when already logged in..." do
+  test "when password wrong" do
+    post :create, :password => 'example wrong password'
+    shoulds
+  end
+
+#-------------
+  private
+
+  def setup
     pretend_logged_in
-    post :create
-# Should redirect to edit without asking password:
-    assert_redirected_to :action => :edit
+  end
+
+  def shoulds
+# Should flash:
     assert_equal 'You already were logged in.', flash[:notice]
+    assert_blank flash[:error]
+# Should redirect to edit:
+    assert_redirected_to :action => :edit
   end
 
 end

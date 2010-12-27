@@ -13,11 +13,4 @@ class SessionsControllerTest < SharedSessionsControllerTest
     assert_filter       :verify_authenticity_token
   end
 
-  test "avoid_links filter should..." do
-    @controller.send :avoid_links
-# Assign an instance variable so certain links can avoid the sessions
-# controller:
-    assert_equal :admin_pictures, assigns(:use_controller)
-  end
-
 end

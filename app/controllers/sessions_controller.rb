@@ -81,7 +81,7 @@ class SessionsController < ApplicationController
   end
 
   def get_file_analysis
-    FileAnalysis.new    
+    @file_analysis=FileAnalysis.new    
   end
 
   def get_groups
