@@ -18,8 +18,8 @@ class NewSessionsControllerTest < SharedSessionsControllerTest
     assert_template :new
 # Should flash:
     assert_equal 'Cookies required, or session timed out.', flash.now[:error]
-# Should log off:
-    assert_blank session[:logged_in]
+# Should log out:
+    assert_not_logged_in
   end
 
   test "when already logged in..." do
@@ -29,6 +29,8 @@ class NewSessionsControllerTest < SharedSessionsControllerTest
     assert_equal "You already were logged in.", flash[:notice]
 # Should redirect:
     assert_redirected_to :action => :edit
+# Should not log out:
+    assert_logged_in
   end
 
   test_happy_path_response
@@ -42,6 +44,8 @@ class NewSessionsControllerTest < SharedSessionsControllerTest
 # Should not flash:
     assert_blank flash.now[:notice]
     assert_blank flash.now[:error]
+# Should not log in:
+    assert_not_logged_in
   end
 
 #-------------

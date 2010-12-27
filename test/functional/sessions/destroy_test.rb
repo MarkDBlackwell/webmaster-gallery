@@ -26,6 +26,8 @@ class DestroySessionsControllerTest < SharedSessionsControllerTest
     delete :destroy
 # Should flash a notice:
     assert_equal "You weren't logged in.", flash[:notice]
+# Should still be logged out:
+    assert_not_logged_in
   end
 
 #-------------
@@ -39,10 +41,10 @@ class DestroySessionsControllerTest < SharedSessionsControllerTest
     happy_path
 # Should reset the session:
     assert_blank session[s]
-# Should log out:
-    assert_blank session[:logged_in]
 # Should flash a notice:
     assert_equal 'Logged out successfully.', flash[:notice]
+# Should log out:
+    assert_not_logged_in
   end
 
 #-------------

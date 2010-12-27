@@ -34,6 +34,10 @@ class SharedControllerTest < ActionController::TestCase
     assert_filter_kind :before, filter, actions
   end
 
+  def assert_logged_in
+    assert_equal true, session[:logged_in]
+  end
+
   def assert_no_filter(filter)
     assert_no_filter_kind :before, filter
   end
@@ -47,6 +51,10 @@ class SharedControllerTest < ActionController::TestCase
         'Found:', have.map{|e| e.uniq.inspect},
         'Undesired:', ([filter,kind].map{|e| e.inspect}.join ', '),
         ].join "\n")
+  end
+
+  def assert_not_logged_in
+    assert_blank session[:logged_in]
   end
 
   def filter

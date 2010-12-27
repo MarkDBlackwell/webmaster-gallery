@@ -9,15 +9,15 @@ class GuardHttpMethodFilterApplicationControllerTest <
     request.expects(:request_method_symbol).at_least_once.returns :bad_method
 # Should redirect:
     expect_sessions_new_redirect
-# Should log out:
     filter
-    assert_blank session[:logged_in]
+# Should log out:
+    assert_not_logged_in
   end
 
   test "when right HTTP method..." do
     filter
 # Should not log out:
-    assert_equal true, session[:logged_in]
+    assert_logged_in
   end
 
 #-------------

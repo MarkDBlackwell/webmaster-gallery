@@ -18,7 +18,7 @@ class VerifyAuthenticityTokenFilterApplicationControllerTest <
     @controller.expects(:handle_bad_authenticity_token).never
     filter
 # Should not log out:
-    assert_equal true, session[:logged_in]
+    assert_logged_in
   end
 
   test "when handle_bad_authenticity_token is invoked..." do
@@ -26,7 +26,7 @@ class VerifyAuthenticityTokenFilterApplicationControllerTest <
     expect_sessions_new_redirect
     @controller.send :handle_bad_authenticity_token
 # Should log out:
-    assert_blank session[:logged_in]
+    assert_not_logged_in
   end
 
 #-------------
