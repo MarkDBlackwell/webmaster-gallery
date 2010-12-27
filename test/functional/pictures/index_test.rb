@@ -11,14 +11,7 @@ class IndexPicturesControllerTest < SharedControllerTest
 # Routing tests:
 
   test "routing..." do # GET
-    assert_routing '/', :controller => :pictures.to_s, :action => :index.to_s
-    assert_routing '/pictures/some_tag', :controller => :pictures.to_s,
-      :action => :index.to_s, :tag => 'some_tag'
-# Should raise exception on bad route /pictures:
-    assert_raise ActionController::RoutingError do
-      assert_routing '/pictures', :controller => :pictures.to_s, :action =>
-          :index
-    end
+    assert_routing_tag root=true
   end
 
 #-------------
@@ -32,7 +25,7 @@ class IndexPicturesControllerTest < SharedControllerTest
 
   test "index should cache the page for a tag" do
     verify_cache %w[pictures  some_tag.html] do
-      get :index, :tag => 'some_tag'
+      get @action, :tag => @tag
     end
   end
 
@@ -53,7 +46,13 @@ class IndexPicturesControllerTest < SharedControllerTest
   private
 
   def happy_path
-    get :index
+    get @action
+  end
+
+  def setup
+    @controller_name=:pictures.to_s
+    @action=:index
+    @tag='some_tag'
   end
 
   def verify_cache(a)

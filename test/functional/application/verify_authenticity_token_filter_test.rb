@@ -3,10 +3,11 @@ require 'test_helper'
 class VerifyAuthenticityTokenFilterApplicationControllerTest <
     SharedApplicationControllerTest
 
-# TODO: test "when authenticity token is invalid..." do
 # Ref. http://railsforum.com/viewtopic.php?id=24298.
 # The macro, 'protect_from_forgery' creates before-filter, ':verify_
 # authenticity_token', which raises ActionController::InvalidAuthenticityToken.
+
+# TODO: test "when authenticity token is invalid..." do
 # How to test that the filter is invoked and raises the error?
 # Perhaps not test this, since it is Rails software.
 # Maybe alter the token in cookies.

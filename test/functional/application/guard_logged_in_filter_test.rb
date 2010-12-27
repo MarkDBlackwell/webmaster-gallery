@@ -11,7 +11,6 @@ class GuardLoggedInFilterApplicationControllerTest <
   end
 
   test "when already logged in..." do
-# Already tested in general by normal operation of controllers.
 # Should not redirect:
     @controller.expects(:redirect_to).never
     filter

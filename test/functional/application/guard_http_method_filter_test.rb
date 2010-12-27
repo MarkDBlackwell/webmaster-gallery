@@ -3,9 +3,10 @@ require 'test_helper'
 class GuardHttpMethodFilterApplicationControllerTest <
     SharedApplicationControllerTest
 
-  test "when wrong HTTP method..." do
 # Ref: 'ActionController - PROPFIND and other HTTP request methods':
 # at http://railsforum.com/viewtopic.php?id=30137
+
+  test "when wrong HTTP method..." do
     request.expects(:request_method_symbol).at_least_once.returns :bad_method
 # Should redirect:
     expect_sessions_new_redirect

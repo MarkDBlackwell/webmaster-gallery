@@ -3,11 +3,7 @@ require 'test_helper'
 class IndexAdminPicturesControllerTest < SharedAdminPicturesControllerTest
 
   test "routing..." do # GET
-    assert_routing '/admin_pictures',
-        :controller => :admin_pictures.to_s, :action => :index.to_s
-# With tag:
-    assert_routing '/admin_pictures/some_tag', :tag => 'some_tag',
-        :controller => :admin_pictures.to_s, :action => :index.to_s
+    assert_routing_tag
   end
 
   test_happy_path_response
@@ -15,7 +11,7 @@ class IndexAdminPicturesControllerTest < SharedAdminPicturesControllerTest
   test "happy path..." do
     happy_path
 # Should render the right template:
-    assert_template :index
+    assert_template @action
 # Gallery pictures should be editable:
     assert_present assigns :editable
   end
@@ -25,7 +21,13 @@ class IndexAdminPicturesControllerTest < SharedAdminPicturesControllerTest
 
   def happy_path
     pretend_logged_in
-    get :index
+    get @action
+  end
+
+  def setup
+    @controller_name=:admin_pictures.to_s
+    @action=:index
+    @tag='some_tag'
   end
 
 end
