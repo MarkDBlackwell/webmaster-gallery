@@ -1,8 +1,9 @@
 class SessionsController < ApplicationController
   before_filter      :avoid_links
-  skip_before_filter :cookies_required, :only => :new
-  skip_before_filter :find_all_tags,    :only => [:create, :destroy, :new]
-  skip_before_filter :guard_logged_in,  :only => [:create, :destroy, :new]
+  skip_before_filter :cookies_required,  :only   => :new
+  skip_before_filter :find_all_tags,     :only   => [:create,:destroy,:new]
+  before_filter      :get_file_analysis, :except => [:create,:destroy,:new]
+  skip_before_filter :guard_logged_in,   :only   => [:create,:destroy,:new]
 
   def create
     (already_in; return) if session[:logged_in]
@@ -77,6 +78,10 @@ class SessionsController < ApplicationController
       pages << path
     end
     pages.each{|e| FileUtils.rm e, :force => true}
+  end
+
+  def get_file_analysis
+    FileAnalysis.new    
   end
 
   def get_groups
