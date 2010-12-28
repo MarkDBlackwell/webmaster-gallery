@@ -28,7 +28,7 @@ class SessionsController < ApplicationController
   end
 
   def edit
-    @review_groups, @approval_group = get_groups
+#    @review_groups, @approval_group = get_groups
   end
 
   def new
@@ -42,6 +42,7 @@ class SessionsController < ApplicationController
   end
 
   def show
+# TODO: check existing file analysis and redirect if have problems.
     s=Struct.new :list, :message
     @review_groups=[s.new Picture.find_database_problems,
         'Pictures with database problems:']
@@ -50,7 +51,8 @@ class SessionsController < ApplicationController
   end
 
   def update
-    process_changed *get_groups
+#    process_changed *get_groups
+    process_changed @review_groups, @approval_group
     delete_cache
     redirect_to :action => :edit
   end
@@ -82,6 +84,7 @@ class SessionsController < ApplicationController
 
   def get_file_analysis
     @file_analysis=FileAnalysis.new    
+    @review_groups, @approval_group = get_groups
   end
 
   def get_groups
