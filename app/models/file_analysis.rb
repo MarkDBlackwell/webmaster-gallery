@@ -14,23 +14,23 @@ class FileAnalysis
     @review_groups, @approval_group = get_groups
   end
 
-  def make_changes(review, approval)
-    return false if approval.blank? || approval.list.blank? ||
-                    review.  blank? || review.  last.blank? ||
-                                       review.  last.message.blank?
+  def make_changes
+    return false if @approval_group.blank? || @approval_group.list.blank? ||
+        @review_groups.blank? || @review_groups.last.blank? ||
+                                 @review_groups.last.message.blank?
     models     = %w[ Tag Picture]
     operations = %w[ add delet  ]
     model_i,operation_i=(two_states=[0,1]).product(two_states).
         detect{ |m,o| "#{ models.at m }s "\
-        "to be #{     operations.at o }ed:" == review.last.message}
+        "to be #{     operations.at o }ed:" == @review_groups.last.message}
     return false if model_i.blank? || operation_i.blank?
     model=models.at(model_i).constantize
     method = %w[name filename].at model_i
     case operation_i
     when 0
-      approval.list.split.each{|e| model.create method.to_sym => e}
+      @approval_group.list.split.each{|e| model.create method.to_sym => e}
     when 1
-      model.where(["#{method} IN (?)", approval.list.split]).all.
+      model.where(["#{method} IN (?)", @approval_group.list.split]).all.
           each{|e| e.destroy}
     end
     true
