@@ -28,7 +28,6 @@ class SessionsController < ApplicationController
   end
 
   def edit
-#    @review_groups, @approval_group = get_groups
   end
 
   def new
@@ -43,6 +42,7 @@ class SessionsController < ApplicationController
 
   def show
 # TODO: check existing file analysis and redirect if have problems.
+#:    if @file_analysis.have_problems?
     s=Struct.new :list, :message
     @review_groups=[s.new Picture.find_database_problems,
         'Pictures with database problems:']
@@ -51,9 +51,14 @@ class SessionsController < ApplicationController
   end
 
   def update
-#    process_changed *get_groups
-    process_changed @review_groups, @approval_group
-    delete_cache
+    pag=params[:approval_group]
+    if pag.present? && (pag.split.sort.join ' ')==@approval_group.list
+      @file_analysis.make_changes @review_groups, @approval_group
+    end
+# TODO: delete cache add conditions: changes were made and no other problems.
+#:        ! (a=FileAnalysis.new).have_problems? &&
+#:        Picture.find_database_problems.empty?
+    delete_cache if pag.blank? && 'update-user-pictures'==params[:commit]
     redirect_to :action => :edit
   end
 
@@ -70,8 +75,6 @@ class SessionsController < ApplicationController
   end
 
   def delete_cache
-    return unless 'update-user-pictures'==params[:commit]
-    return if params[:approval_group].present?
     public=App.root.join 'public'
     pages=[public.join 'index.html']
     (p=public.join 'pictures').find do |path|
@@ -83,102 +86,13 @@ class SessionsController < ApplicationController
   end
 
   def get_file_analysis
-    @file_analysis=FileAnalysis.new    
-    @review_groups, @approval_group = get_groups
-  end
-
-  def get_groups
-    s=:name
-         tn = ( t =        Tag.order(s).find :all).map &s
-    file_tn =          FileTag         .find(:all).map(&s).sort
-    s=:filename
-         pn = ( p =    Picture.order(s).find :all).map &s
-    file_pn = DirectoryPicture         .find(:all).map(&s).sort
-    s=nil
-    model_i,operation_i=case
-    when (names=file_tn-tn).present?
-      [0,0]
-    when (names=tn-file_tn).present?
-      records=    Tag.order(    :name).where([    "name IN (?)", names]).all
-      [0,1]
-    when (names=file_pn-pn).present?
-      [1,0]
-    when (names=pn-file_pn).present?
-      records=Picture.order(:filename).where(["filename IN (?)", names]).all
-      [1,1]
-    else names=[]
-      [nil,nil]
-    end
-    ft_bad_n=FileTag         .find_bad_names.sort
-    fp_bad_n=DirectoryPicture.find_bad_names.sort
-    unpaired=DirectoryPicture.find_unpaired .sort
-    s=Struct.new :list, :message
-    approval=s.new '', 'refresh'
-    rm=review_messages
-    review=[    s.new(file_tn,  rm.shift),
-                s.new(ft_bad_n, rm.shift)]
-    case
-    when ft_bad_n.present?
-    when fp_bad_n.present?
-      review << s.new(fp_bad_n, rm.shift)
-    when unpaired.present?
-      review.concat [
-                s.new(fp_bad_n, rm.shift),
-                s.new(unpaired, rm.shift),
-          ]
-    else
-      review.concat [
-                s.new(fp_bad_n, rm.shift),
-                s.new(unpaired, rm.shift),
-                s.new(p,        rm.shift),
-                s.new(file_pn,  rm.shift),
-          ] unless 0==model_i
-# TODO: maybe only p and file_pn unless 0==model_i
-
-      if (a=records || names).present?
-        m = %w[ Tag Picture ].at     model_i
-        o = %w[ add delet   ].at operation_i
-        review << s.new( a, "#{m}s to be #{o}ed:")
-        approval= s.new((names.sort.join ' '), "approve #{o}ing #{m.downcase}s")
-      end
-    end
-    [review, approval]
+    a=@file_analysis=FileAnalysis.new    
+     @review_groups,  @approval_group =
+    a.review_groups, a.approval_group
   end
 
   def get_password
     FilePassword.find(:all).first.password
-  end
-
-  def process_changed(review, approval)
-    return if approval.blank? || approval.list.blank? ||
-        review.blank? || review.last.blank? || review.last.message.blank?
-    return unless approval.list==(params[:approval_group].split.sort.join ' ')
-    models     = %w[ Tag Picture]
-    operations = %w[ add delet  ]
-    model_i,operation_i=(two_states=[0,1]).product(two_states).
-        detect{ |m,o| "#{ models.at m }s "\
-        "to be #{     operations.at o }ed:" == review.last.message}
-    return if model_i.blank? || operation_i.blank?
-    model=models.at(model_i).constantize
-    method = %w[name filename].at model_i
-    case operation_i
-    when 0
-      approval.list.split.each{|e| model.create method.to_sym => e}
-    when 1
-      model.where(["#{method} IN (?)", approval.list.split]).all.
-          each{|e| e.destroy}
-    end
-  end
-
-  def review_messages
-    [
-        'Tags in file:',
-        'Bad tag names in file:',
-        'Bad picture names in directory:',
-        'Unpaired pictures in directory:',
-        'Existing pictures:',
-        'Pictures in directory:',
-        ]
   end
 
 end

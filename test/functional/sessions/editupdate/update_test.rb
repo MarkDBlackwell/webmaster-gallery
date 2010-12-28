@@ -22,6 +22,8 @@ class UpdateSessionsControllerTest < SharedEditUpdateSessionsControllerTest
     assert_equal false, pictures_in_layouts_directory?
   end
 
+# working on review_groups
+
   test "happy path should expire cached pictures pages for one and all tags" do
     pages = %w[index  pictures/two-name].map{|e|
         App.root.join 'public', "#{e}.html" }

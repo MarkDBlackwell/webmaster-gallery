@@ -10,7 +10,7 @@ class EditSessionsControllerTest < SharedEditUpdateSessionsControllerTest
   end
 
   test "review messages" do
-    assert_equal review_messages, (@controller.send :review_messages)
+    assert_equal review_messages, FileAnalysis.new.review_messages
   end
 
   test_happy_path_response
