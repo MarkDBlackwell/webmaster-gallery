@@ -2,6 +2,8 @@ class SharedEditUpdateSessionsControllerTest < SharedSessionsControllerTest
 
   private
 
+# working on review_groups
+
   def construct_changes(model,operation,count=1)
     expected=model_names model
     case operation

@@ -1,5 +1,9 @@
 class FileAnalysis
 
+  def approval_group
+    @approval_group
+  end
+
   def initialize
     @review_groups, @approval_group = get_groups
   end
@@ -39,10 +43,6 @@ class FileAnalysis
         'Existing pictures:',
         'Pictures in directory:',
         ]
-  end
-
-  def approval_group
-    @approval_group
   end
 
 #-------------

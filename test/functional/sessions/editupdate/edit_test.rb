@@ -4,12 +4,11 @@ class EditSessionsControllerTest < SharedEditUpdateSessionsControllerTest
 
 # -> Webmaster reviews filesystem changes.
 
-  test "routing" do # GET
+  test "general..." do
+# Routing: # GET
     assert_routing({:path => '/session/edit', :method => :get}, :controller =>
-        :sessions.to_s, :action => :edit.to_s)
-  end
-
-  test "review messages" do
+        :sessions.to_s, :action => @action.to_s)
+# Review messages:
     assert_equal review_messages, FileAnalysis.new.review_messages
   end
 
@@ -18,11 +17,21 @@ class EditSessionsControllerTest < SharedEditUpdateSessionsControllerTest
   test "happy path..." do
     happy_path
 # Should render the right template:
-    assert_template :edit
-# Should assign approval and review groups:
+    assert_template @action
+# Should assign approval and review groups...:
+    fa=FileAnalysis.new
     %w[approval_group review_groups].each do |e|
-      assert_present assigns(e), "Should assign @#{e}"
+      fe,ae=(fa.send e),(assigns e)
+      assert_present ae, "Should assign @#{e}"
+# Which have the right...:
+      (   (! fe.kind_of? Array) ?
+          [[fe,ae]] :
+          (0...[fe.length,ae.length].max).map{|i| [(fe.at i),(ae.at i)]}
+# Message and list:
+      ).each {|f,a| assert_equal [a.message, a.list],
+                                 [f.message, f.list]}
     end
+    
 # Groups should include a message:
     (assigns(:review_groups) << assigns(:approval_group)).
           each_with_index do |e,i|
@@ -121,7 +130,7 @@ class EditSessionsControllerTest < SharedEditUpdateSessionsControllerTest
 
   def happy_path
     pretend_logged_in
-    get :edit
+    get @action
   end
 
   def review_messages
@@ -135,6 +144,10 @@ class EditSessionsControllerTest < SharedEditUpdateSessionsControllerTest
           [ 'existing',     ps,       ],
           [                 ps, i, d, ],
         ].map{|e| e.join(' ').capitalize.concat ':'}
+  end
+
+  def setup
+    @action=:edit
   end
 
 end
