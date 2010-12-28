@@ -40,12 +40,13 @@ class SessionsController < ApplicationController
     end
   end
 
+# working on sessions_show
+
   def show
-# TODO: check existing file analysis and redirect if have problems.
-#:    if @file_analysis.have_problems?
+    (redirect_to :action => :edit; return) if @file_analysis.approval_needed?
     s=Struct.new :list, :message
     @review_groups=[s.new Picture.find_database_problems,
-        'Pictures with database problems:']
+                        'Pictures with database problems:']
     @approval_group=s.new '', 'refresh'
     render :edit
   end
@@ -65,13 +66,13 @@ class SessionsController < ApplicationController
 #-------------
   private
 
-  def avoid_links
-    @use_controller=:admin_pictures
-  end
-
   def already_in
     flash[:notice]='You already were logged in.'
     redirect_to :action => :edit
+  end
+
+  def avoid_links
+    @use_controller=:admin_pictures
   end
 
   def delete_cache

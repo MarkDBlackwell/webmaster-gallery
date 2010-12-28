@@ -4,6 +4,12 @@ class FileAnalysis
     @approval_group
   end
 
+# working on sessions_show
+
+  def approval_needed?
+    false # Is stub.
+  end
+
   def initialize
     @review_groups, @approval_group = get_groups
   end

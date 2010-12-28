@@ -4,6 +4,8 @@ class ShowSessionsControllerTest < SharedSessionsControllerTest
 
 # -> Webmaster reviews database problems.
 
+# working on sessions_show
+
 #-------------
 # General tests:
 
@@ -14,11 +16,11 @@ class ShowSessionsControllerTest < SharedSessionsControllerTest
 
   test_happy_path_response
 
-  test "happy path..." do
+  test "happy path should..." do
     happy_path
-# Should render the right template:
+# Render the right template:
     assert_template :edit
-# Should assign a single review group...:
+# Assign a single review group...:
     s='Review group'
     r=assigns :review_groups
     assert_present r, s
@@ -29,7 +31,7 @@ class ShowSessionsControllerTest < SharedSessionsControllerTest
     assert_equal 'Pictures with database problems:', r.first.message, s
 # List should be:
     assert_equal @problem_pictures, r.first.list, s
-# Should assign a single approval group...:
+# Assign a single approval group...:
     s='Approval group'
     a=assigns :approval_group
     assert_present a, s
@@ -40,14 +42,32 @@ class ShowSessionsControllerTest < SharedSessionsControllerTest
     assert_equal '', a.list, s
   end
 
+  test "if file tags or directory pictures approval needed, should..." do
+    mock_file_analysis
+    @fa.expects(:approval_needed?).returns true
+    get :show
+# Redirect to edit:
+    assert_redirected_to :action => :edit
+  end
+
 #-------------
   private
 
   def happy_path
-    pretend_logged_in
+    mock_file_analysis
+    @fa.expects(:approval_needed?).returns false
     Picture.expects(:find_database_problems).returns(@problem_pictures=
         %w[aa bb])
     get :show
+  end
+
+  def mock_file_analysis
+    @fa=FileAnalysis.new
+    FileAnalysis.expects(:new).returns @fa
+  end
+
+  def setup
+    pretend_logged_in
   end
 
 end

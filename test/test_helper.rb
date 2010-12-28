@@ -52,7 +52,7 @@ class ActiveSupport::TestCase
 #-------------
   private
 
-# working on mock_models
+# working on review_groups
 
   def construct_changes(model,operation,count=1)
     expected=model_names model
