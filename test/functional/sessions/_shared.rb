@@ -3,10 +3,16 @@ class SharedSessionsControllerTest < SharedControllerTest
 
   private
 
+# working on sessions_update
+
   def login(p=nil)
     p=get_password if p.blank?
     set_cookies
     post :create, :password => p
+  end
+
+  def mock_approval_needed(value=true)
+    FileAnalysis.any_instance.expects(:approval_needed?).returns value
   end
 
   def pictures_in_layouts_directory?

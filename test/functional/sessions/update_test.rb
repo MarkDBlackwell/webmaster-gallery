@@ -4,6 +4,8 @@ class UpdateSessionsControllerTest < SharedSessionsControllerTest
 
 # <- Webmaster approves filesystem changes.
 
+# working on sessions_update
+
   test "routing" do # PUT
     assert_routing({:path => '/session', :method => :put}, :controller =>
         :sessions.to_s, :action => :update.to_s)
@@ -31,6 +33,21 @@ class UpdateSessionsControllerTest < SharedSessionsControllerTest
     happy_path
     pages.each{|e| assert_equal false, e.exist?,
         "#{e} cache expiration failed." }
+  end
+
+  test "if have file problems..." do
+    mock_approval_needed
+# Should not expire cached pages:
+    @controller.expects(:delete_cache).never
+    happy_path
+  end
+
+  test "if have database problems..." do
+    mock_approval_needed false
+    Picture.expects(:find_database_problems).returns %w[aa bb]
+# Should not expire cached pages:
+    @controller.expects(:delete_cache).never
+    happy_path
   end
 
   %w[tag picture].each do |model|
@@ -63,7 +80,7 @@ class UpdateSessionsControllerTest < SharedSessionsControllerTest
     mock_file_tags
     mock_directory_pictures
     pretend_logged_in
-    put :update, :commit => 'update-user-pictures'
+    update_user_pictures
   end
 
   def run_models(model,expected,changed)
@@ -72,6 +89,10 @@ class UpdateSessionsControllerTest < SharedSessionsControllerTest
     put :update, :commit => 'approve changes', :approval_group =>
         (changed.sort.reverse.join ' ')
     model_names model
+  end
+
+  def update_user_pictures
+    put :update, :commit => 'update-user-pictures'
   end
 
 end

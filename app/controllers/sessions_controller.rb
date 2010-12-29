@@ -51,16 +51,16 @@ class SessionsController < ApplicationController
     render :edit
   end
 
+# working on sessions_update
+
   def update
     pag=params[:approval_group]
     if pag.present? && (pag.split.sort.join ' ')==@approval_group.list
-#      @file_analysis.make_changes @review_groups, @approval_group
       @file_analysis.make_changes
     end
-# TODO: delete cache add conditions: changes were made and no other problems.
-#:        ! (a=FileAnalysis.new).have_problems? &&
-#:        Picture.find_database_problems.empty?
-    delete_cache if pag.blank? && 'update-user-pictures'==params[:commit]
+    delete_cache if pag.blank? && 'update-user-pictures'==params[:commit] &&
+        ! (a=FileAnalysis.new).approval_needed? &&
+        Picture.find_database_problems.empty?
     redirect_to :action => :edit
   end
 

@@ -5,6 +5,7 @@ class ShowSessionsControllerTest < SharedSessionsControllerTest
 # -> Webmaster reviews database problems.
 
 # working on sessions_show
+# working on sessions_update
 
 #-------------
 # General tests:
@@ -43,8 +44,7 @@ class ShowSessionsControllerTest < SharedSessionsControllerTest
   end
 
   test "if file tags or directory pictures approval needed, should..." do
-    mock_file_analysis
-    @fa.expects(:approval_needed?).returns true
+    mock_approval_needed
     get :show
 # Redirect to edit:
     assert_redirected_to :action => :edit
@@ -54,16 +54,10 @@ class ShowSessionsControllerTest < SharedSessionsControllerTest
   private
 
   def happy_path
-    mock_file_analysis
-    @fa.expects(:approval_needed?).returns false
+    mock_approval_needed false
     Picture.expects(:find_database_problems).returns(@problem_pictures=
         %w[aa bb])
     get :show
-  end
-
-  def mock_file_analysis
-    @fa=FileAnalysis.new
-    FileAnalysis.expects(:new).returns @fa
   end
 
   def setup
