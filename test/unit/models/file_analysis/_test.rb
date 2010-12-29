@@ -2,8 +2,8 @@ require 'test_helper'
 
 class FileAnalysisTest < ActiveSupport::TestCase
 
-# working on review_groups
-# working on sessions_show
+# TODO: test "make_changes should..." do
+# TODO: test "approval_needed? should..." do
 
   test "happy path..." do
     happy_path
@@ -68,8 +68,6 @@ class FileAnalysisTest < ActiveSupport::TestCase
       end
     end
   end
-
-# TODO: test "make changes should..." do
 
 #-------------
   private

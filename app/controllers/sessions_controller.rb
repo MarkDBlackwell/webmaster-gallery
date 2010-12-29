@@ -40,8 +40,6 @@ class SessionsController < ApplicationController
     end
   end
 
-# working on sessions_show
-
   def show
     (redirect_to :action => :edit; return) if @file_analysis.approval_needed?
     s=Struct.new :list, :message
@@ -51,10 +49,9 @@ class SessionsController < ApplicationController
     render :edit
   end
 
-# working on sessions_update
-
   def update
     pag=params[:approval_group]
+# TODO: Add: on update, if pag.blank? it is an error, I think.
     if pag.present? && (pag.split.sort.join ' ')==@approval_group.list
       @file_analysis.make_changes
     end

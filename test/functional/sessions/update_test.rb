@@ -4,8 +4,6 @@ class UpdateSessionsControllerTest < SharedSessionsControllerTest
 
 # <- Webmaster approves filesystem changes.
 
-# working on sessions_update
-
   test "routing" do # PUT
     assert_routing({:path => '/session', :method => :put}, :controller =>
         :sessions.to_s, :action => :update.to_s)
@@ -23,8 +21,6 @@ class UpdateSessionsControllerTest < SharedSessionsControllerTest
 # Shouldn't make a pictures layout file:
     assert_equal false, pictures_in_layouts_directory?
   end
-
-# working on review_groups
 
   test "happy path should expire cached pictures pages for one and all tags" do
     pages = %w[index  pictures/two-name].map{|e|

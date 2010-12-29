@@ -2,8 +2,6 @@ require 'test_helper'
 
 class GetFileAnalysisFilterSessionsControllerTest < SharedSessionsControllerTest
 
-# working on review_groups
-
   test "should..." do
     @filter=:get_file_analysis
     filter

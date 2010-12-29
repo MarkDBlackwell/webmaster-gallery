@@ -4,11 +4,11 @@ class FileAnalysis
     @approval_group
   end
 
-# working on sessions_show
-# working on sessions_update
-
   def approval_needed?
-    false # Is stub.
+    safe=review_messages.values_at(0,4,5)
+    a=@review_groups.reject{|e| safe.include? e.message}
+    @approval_group.list      .present? ||
+    a.map(&        :list).to_s.present?
   end
 
   def initialize

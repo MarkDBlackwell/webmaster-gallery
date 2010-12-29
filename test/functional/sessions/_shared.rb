@@ -3,8 +3,6 @@ class SharedSessionsControllerTest < SharedControllerTest
 
   private
 
-# working on sessions_update
-
   def login(p=nil)
     p=get_password if p.blank?
     set_cookies

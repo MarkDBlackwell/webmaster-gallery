@@ -4,9 +4,6 @@ class ShowSessionsControllerTest < SharedSessionsControllerTest
 
 # -> Webmaster reviews database problems.
 
-# working on sessions_show
-# working on sessions_update
-
 #-------------
 # General tests:
 

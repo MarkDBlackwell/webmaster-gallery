@@ -52,8 +52,6 @@ class ActiveSupport::TestCase
 #-------------
   private
 
-# working on review_groups
-
   def construct_changes(model,operation,count=1)
     expected=model_names model
     case operation
@@ -88,8 +86,6 @@ class ActiveSupport::TestCase
   def mock_file_tags(expected=:all)
     mock_model FileTag, :name, expected
   end
-
-# working on sessions_update
 
   def mock_model(model,method,expected)
     expected=case
