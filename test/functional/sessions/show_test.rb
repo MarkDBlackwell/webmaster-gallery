@@ -35,7 +35,7 @@ class ShowSessionsControllerTest < SharedSessionsControllerTest
     assert_present a, s
 # Whose...:
 # Message should be:
-    assert_equal 'refresh', a.message, s
+    assert_equal 'refresh database problems', a.message, s
 # List should be empty:
     assert_equal '', a.list, s
   end

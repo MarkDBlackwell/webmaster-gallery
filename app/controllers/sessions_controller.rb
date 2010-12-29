@@ -45,20 +45,25 @@ class SessionsController < ApplicationController
     s=Struct.new :list, :message
     @review_groups=[s.new Picture.find_database_problems,
                         'Pictures with database problems:']
-    @approval_group=s.new '', 'refresh'
+    @approval_group=s.new '', 'refresh database problems'
     render :edit
   end
 
   def update
+    action=:edit
     pag=params[:approval_group]
 # TODO: Add: on update, if pag.blank? it is an error, I think.
-    if pag.present? && (pag.split.sort.join ' ')==@approval_group.list
+    case
+    when pag.present? && (pag.split.sort.join ' ')==@approval_group.list
       @file_analysis.make_changes
-    end
-    delete_cache if pag.blank? && 'update-user-pictures'==params[:commit] &&
+    when pag.blank? && 'update-user-pictures'==params[:commit] &&
         ! (a=FileAnalysis.new).approval_needed? &&
         Picture.find_database_problems.empty?
-    redirect_to :action => :edit
+      delete_cache
+    else
+      action=:show if 'refresh database problems'==params[:commit]
+    end
+    redirect_to :action => action
   end
 
 #-------------

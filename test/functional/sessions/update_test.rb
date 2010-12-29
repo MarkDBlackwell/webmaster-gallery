@@ -31,14 +31,23 @@ class UpdateSessionsControllerTest < SharedSessionsControllerTest
         "#{e} cache expiration failed." }
   end
 
-  test "if have file problems..." do
+  test "refresh from show" do
+    mock_file_tags
+    mock_directory_pictures
+    pretend_logged_in
+    put :update, :commit => 'refresh database problems'
+# Should redirect to the same place:
+    assert_redirected_to :action => :show
+  end
+
+  test "if file problems..." do
     mock_approval_needed
 # Should not expire cached pages:
     @controller.expects(:delete_cache).never
     happy_path
   end
 
-  test "if have database problems..." do
+  test "if database problems..." do
     mock_approval_needed false
     Picture.expects(:find_database_problems).returns %w[aa bb]
 # Should not expire cached pages:
