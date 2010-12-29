@@ -89,14 +89,16 @@ class ActiveSupport::TestCase
     mock_model FileTag, :name, expected
   end
 
+# working on sessions_update
+
   def mock_model(model,method,expected)
     expected=case
 # See ActiveRecord::Base method, '==='. Another way is to use object_id:
     when DirectoryPicture==model then Picture
     when FileTag         ==model then Tag
     end.find(:all).map &method if :all==expected
-    model.expects(:find).returns(expected.sort.reverse.
-        map{|e| (p=model.new).expects(method).returns e; p} )
+    model.expects(:find).at_least_once.returns(expected.sort.reverse.
+        map{|e| (p=model.new).expects(method).at_least_once.returns e; p} )
   end
 
   def mock_unpaired(expected)
