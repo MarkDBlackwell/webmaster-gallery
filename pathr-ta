@@ -1,7 +1,7 @@
 #!/bin/sh
 # Author: Mark D. Blackwell
 # Date written: December 21, 2010
-# Date last changed: December 29, 2010
+# Date last changed: December 21, 2010
 # Find files matching a pathname regular expression.
 # Usage:
 #   pathr <pathname-regular-expression>
@@ -9,4 +9,4 @@
 #   pathr '.*\.yml'
 #   pathr '.*tag.*'
 #   pathr 'app/.*/_?pic.*'
-find . -regex $1 -type f | sort
+find test app -regex $1 -type f | sort
