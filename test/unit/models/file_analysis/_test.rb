@@ -47,7 +47,7 @@ class FileAnalysisTest < ActiveSupport::TestCase
   end
 
   test "should review unpaired directory pictures third" do
-    mock_unpaired(u= %w[a b])
+    mock_unpaired_names(u= %w[a b])
     happy_path
     check_approval_group [], 'refresh'
     check_review_groups 4, u

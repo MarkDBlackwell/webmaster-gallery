@@ -76,7 +76,7 @@ class ActiveSupport::TestCase
     t,p  ='tag'==model ? [expected,other] : [other,expected]
     mock_file_tags          t
     mock_directory_pictures p
-    mock_unpaired []
+    mock_unpaired_names []
   end
 
   def mock_file_tag_bad_names(expected)
@@ -97,8 +97,9 @@ class ActiveSupport::TestCase
         map{|e| (p=model.new).expects(method).at_least_once.returns e; p} )
   end
 
-  def mock_unpaired(expected)
-    DirectoryPicture.expects(:find_unpaired).returns expected.sort.reverse
+  def mock_unpaired_names(expected)
+    DirectoryPicture.expects(:find_unpaired_names).at_least_once.returns(
+        expected.sort.reverse)
   end
 
   def model_names(model)

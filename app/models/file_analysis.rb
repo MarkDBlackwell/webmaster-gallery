@@ -79,7 +79,7 @@ class FileAnalysis
     end
     ft_bad_n=FileTag         .find_bad_names.sort
     fp_bad_n=DirectoryPicture.find_bad_names.sort
-    unpaired=DirectoryPicture.find_unpaired .sort
+    unpaired=DirectoryPicture.find_unpaired_names.sort
     s=Struct.new :list, :message
     approval=s.new '', 'refresh'
     rm=review_messages

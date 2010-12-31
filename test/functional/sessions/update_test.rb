@@ -84,6 +84,7 @@ class UpdateSessionsControllerTest < SharedSessionsControllerTest
   def happy_path
     mock_file_tags
     mock_directory_pictures
+    mock_unpaired_names []
     pretend_logged_in
     update_user_pictures
   end
