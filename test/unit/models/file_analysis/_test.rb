@@ -122,4 +122,8 @@ class FileAnalysisTest < ActiveSupport::TestCase
         ].map{|e| e.join(' ').capitalize.concat ':'}
   end
 
+  def setup
+    DirectoryPicture.expects(:find_bad_names).at_least(0).returns []
+  end
+
 end

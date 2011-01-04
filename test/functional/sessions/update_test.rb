@@ -97,6 +97,12 @@ class UpdateSessionsControllerTest < SharedSessionsControllerTest
     model_names model
   end
 
+  def setup
+    dp=DirectoryPicture
+    [:find,:find_bad_names,:find_unpaired_names].each{|e|
+        dp.expects(e).at_least(0).returns [] }
+  end
+
   def update_user_pictures
     put :update, :commit => 'update-user-pictures'
   end

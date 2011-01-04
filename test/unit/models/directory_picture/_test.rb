@@ -11,9 +11,9 @@ class DirectoryPictureTest < ActiveSupport::TestCase
   test "basic directory..." do
     mock_gallery_directory 'basic'
 # Find all should find all files:
-    assert_equal 7, DirectoryPicture.find(:all).length
+    assert_equal 6, DirectoryPicture.find(:all).length
 # Find unpaired names should find all:
-    assert_equal 7, DirectoryPicture.find_unpaired_names.length
+    assert_equal 6, DirectoryPicture.find_unpaired_names.length
   end
 
   test "names embedded with a single bad character..." do
