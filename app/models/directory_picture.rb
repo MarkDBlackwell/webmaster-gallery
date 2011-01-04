@@ -12,57 +12,69 @@ class DirectoryPicture
 
   def self.find (*args)
     raise FindError unless args.include? :all
-    self.get_files
+    self.get_good_files
   end
 
   def self.find_bad_names
-    filenames=[]
+    self.get_bad_names
   end
 
   def self.find_unpaired_names
-    th='-t'
-    files=self.get_files
-    fn=files.map &:filename
+    th='-t' # Thumbnail flag in file names before the extension.
+    files=self.get_good_files
+    names=files.map &:filename
     files.reject do |e|
       s=e.filename
       x=s.extname
-      b=s.to_s.chomp x
-      case
-      when e.is_picture
-        fn.include? b+th+x
-      when e.is_thumbnail
-        fn.include? b.chomp(th)+x
-      end
-    end.map(&:filename)
+      main=s.to_s.chomp x
+      names.include? e.is_thumbnail ? main.chomp(th)+x : main+th+x
+    end.map &:filename
   end
 
 #-------------
   private
 
-  def self.files_in_descending_order_by_modification_time
-    `ls -dlt --time-style=full-iso #{self.gallery_directory.join '*'} | \
-     cut --fields=6-7,9 --delimiter=' '`
-  end  
-
   def self.gallery_directory
-    App.root.join *%w[public images gallery]
+    App.root.join(*%w[public images gallery]).realpath
+  end
+
+  def self.gallery_directory_entries
+    self.gallery_directory.entries.map &:to_s
+  end
+
+  def self.get_bad_names
+    self.get_files.last
   end
 
   def self.get_files
-    th='-t'
-    dtp_s=Struct.new :date, :time, :path
-    file_s=Struct.new :time, :filename, :is_thumbnail, :is_picture
-    files_in_descending_order_by_modification_time.split("\n").map{|e|
-        dtp_s.new *e.split}.map do |e|
-      time=e.time.split ':'
-      seconds=time.pop
-      t=Time.local *(e.date.split '-') + time + (seconds.split '.')
-      s=(Pathname.new e.path).basename
-      x=s.extname
-      b=s.to_s.chomp x
-      bt=b.ends_with? th
-      file_s.new t, s, bt, ! bt
-    end
+    file_struct=Struct.new :time, :filename, :is_thumbnail
+    web_picture_extensions = %w[ .gif .giff .jpeg .jpg .png ]
+    allowed_single_characters=Regexp.escape '-.'
+    forbidden_ascii=Regexp.new "[^A-Za-z0-9#{allowed_single_characters}]"
+    bad_names=[]
+    directory=self.gallery_directory
+    good_files=self.gallery_directory_entries.map do |entry|
+      bad_entry=entry.gsub! forbidden_ascii, '?'
+      (bad_names << (Pathname.new bad_entry); next) if bad_entry
+      e=directory.join entry
+      b=e.basename
+      x=b.extname
+      name=b.to_s.chomp x
+      (bad_names << b; next) if (!web_picture_extensions.include? x) || (name.
+          ends_with? '-t-t')
+      begin
+        next unless e.file?
+        mtime=e.mtime
+      rescue ArgumentError
+        (bad_names << (Pathname.new '-?-'); next)
+      end
+      file_struct.new mtime, b, (name.ends_with? '-t')
+    end.compact.sort{|b,a| a.time<=>b.time}
+    [good_files, bad_names]
+  end
+
+  def self.get_good_files
+    self.get_files.first
   end
 
 end
