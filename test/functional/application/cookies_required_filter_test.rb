@@ -6,7 +6,7 @@ class CookiesRequiredFilterApplicationControllerTest <
   test "when cookies (session store) are blocked..." do
     request.cookies.clear
 # Should redirect:
-    expect_sessions_new_redirect
+    expect_redirect_sessions_new
     filter
 # Should log out:
     assert_not_logged_in

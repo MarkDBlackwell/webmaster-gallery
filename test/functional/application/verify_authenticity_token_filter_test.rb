@@ -24,7 +24,7 @@ class VerifyAuthenticityTokenFilterApplicationControllerTest <
 
   test "when handle_bad_authenticity_token is invoked..." do
 # Should redirect:
-    expect_sessions_new_redirect
+    expect_redirect_sessions_new
     @controller.send :handle_bad_authenticity_token
 # Should log out:
     assert_not_logged_in

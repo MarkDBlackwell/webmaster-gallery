@@ -6,7 +6,7 @@ class GuardLoggedInFilterApplicationControllerTest <
   test "when not already logged in..." do
     session[:logged_in]=nil
 # Should redirect:
-    expect_sessions_new_redirect
+    expect_redirect_sessions_new
     filter
   end
 
