@@ -23,7 +23,7 @@ class CookiesRequiredFilterApplicationControllerTest <
 
   def setup
     @filter=:cookies_required
-    pretend_logged_in # Keep before clearing.
+    pretend_logged_in # Keep: before clearing by the filter.
   end
 
 end

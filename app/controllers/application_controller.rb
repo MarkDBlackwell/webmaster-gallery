@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
 
   def cookies_required
     if cookies.empty? # action_dispatch.cookies
-      clear_session # For testing.
+      clear_session # Make doubly sure.
       redirect_to :controller => :sessions, :action => :new
     end
   end

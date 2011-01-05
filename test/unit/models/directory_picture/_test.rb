@@ -19,7 +19,7 @@ class DirectoryPictureTest < ActiveSupport::TestCase
   test "names embedded with a single bad character..." do
     is_thumbnail=false
     time=Time.now
-    web_picture_extensions = %w[ .gif .giff .jpeg .jpg .png ]
+#    web_picture_extensions = %w[ .gif .giff .jpeg .jpg .png ]
     n=(0..3).to_a
     two=Array.new 2
 # Use directory separator (?/), null (?\0) & pad (?\377) as bad embedded
@@ -29,8 +29,9 @@ class DirectoryPictureTest < ActiveSupport::TestCase
     bad_c = all_byte_characters - good_c
     good,bad=[good_c,bad_c].map{|a| a.map do |c|
       before,after=two.map{Array.new(n.choice).map{good_c.choice}}
-      (before + [c] + after).flatten.map{|e| e.chr}.to_s +
-          web_picture_extensions.choice
+#      (before + [c] + after).flatten.map{|e| e.chr}.to_s +
+#          web_picture_extensions.choice
+      (before + [c] + after).flatten.map{|e| e.chr}.to_s
     end }
     [good, bad].each{|a| assert a.length > 0}
     dp=DirectoryPicture

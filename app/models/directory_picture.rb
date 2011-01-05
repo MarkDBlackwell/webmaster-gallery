@@ -48,7 +48,7 @@ class DirectoryPicture
 
   def self.get_files
     file_struct=Struct.new :time, :filename, :is_thumbnail
-    web_picture_extensions = %w[ .gif .giff .jpeg .jpg .png ]
+#    web_picture_extensions = %w[ .gif .giff .jpeg .jpg .png ]
     allowed_single_characters=Regexp.escape '-.'
     forbidden_ascii=Regexp.new "[^A-Za-z0-9#{allowed_single_characters}]"
     bad_names=[]
@@ -60,8 +60,9 @@ class DirectoryPicture
       b=e.basename
       x=b.extname
       name=b.to_s.chomp x
-      (bad_names << b; next) if (!web_picture_extensions.include? x) || (name.
-          ends_with? '-t-t')
+#      (bad_names << b; next) if (!web_picture_extensions.include? x) || (name.
+#          ends_with? '-t-t')
+      (bad_names << b; next) if (name.ends_with? '-t-t')
       begin
         next unless e.file?
         mtime=e.mtime

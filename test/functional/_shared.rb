@@ -2,11 +2,6 @@ class SharedControllerTest < ActionController::TestCase
 
   private
 
-# Do I use this?
-#  def assert_blank_assigns(symbol)
-#    assert_blank assigns(symbol), "@#{symbol}"
-#  end
-
   def assert_filter(filter)
     assert_filter_kind :before, filter, []
   end
