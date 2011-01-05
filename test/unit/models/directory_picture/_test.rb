@@ -47,9 +47,6 @@ class DirectoryPictureTest < ActiveSupport::TestCase
   end
 
   test "names embedded with a single bad character..." do
-    is_thumbnail=false
-    time=Time.now
-    boolean=[false,true]
     n=(0..4).to_a
 # Use directory separator (?/), null (?\0) & pad (?\377) as bad embedded
 # characters:
