@@ -10,15 +10,19 @@ class DirectoryPictureTest < ActiveSupport::TestCase
 
   test "basic directory..." do
     mock_gallery_directory 'basic'
-# Find all should find all files:
-    found_all=DirectoryPicture.find :all
-    assert_equal 10, found_all.length
 # Find bad names should find none:
     assert_equal 0, DirectoryPicture.find_bad_names.length
+# Should get all files:
+    get_good=DirectoryPicture.send :get_good_files
+    assert_equal 10, get_good.length
 # Find unpaired names should find:
-    assert_equal 4, DirectoryPicture.find_unpaired_names.length
-    assert_equal %w[ abc abc-t.jpg abcd.jpg abcd-t ].sort,
-        DirectoryPicture.find_unpaired_names
+    unpaired=DirectoryPicture.find_unpaired_names
+    assert_equal %w[ bad-abc-t.jpg  bad-abcd.jpg
+                     bad-abc        bad-abcd-t   ].sort, unpaired
+    assert_equal 4, unpaired.length
+# Find all should find all pairs:
+    find_all=DirectoryPicture.find :all
+    assert_equal (get_good.length-unpaired.length)/2, find_all.length
   end
 
   test "names with various extensions..." do
@@ -46,8 +50,8 @@ class DirectoryPictureTest < ActiveSupport::TestCase
       pi=Pathname.any_instance
       pi.expects(:mtime).times(good_called).returns Time.now
       pi.expects(:file?).times(good_called).returns true
-      assert_equal good_length, dp.find(:all)    .length
-      assert_equal bad_length,  dp.find_bad_names.length
+      assert_equal good_length, dp.send(:get_good_files).length
+      assert_equal bad_length,  dp.find_bad_names       .length
     end
   end
 
@@ -76,8 +80,8 @@ class DirectoryPictureTest < ActiveSupport::TestCase
       pi=Pathname.any_instance
       pi.expects(:mtime).times(good_called).returns Time.now
       pi.expects(:file?).times(good_called).returns true
-      assert_equal good_length, dp.find(:all)    .length
-      assert_equal bad_length,  dp.find_bad_names.length
+      assert_equal good_length, dp.send(:get_good_files).length
+      assert_equal bad_length,  dp.find_bad_names       .length
     end
   end
 

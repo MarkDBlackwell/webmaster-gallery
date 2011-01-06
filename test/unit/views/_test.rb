@@ -50,7 +50,7 @@ class ViewsTest < ActionView::TestCase
 # Fixtures :all:
     assert_raise(StandardError){pictures :all}
 # Testing a partial was rendered with the right locals, (i.e., a bug is fixed
-#     in assert_template (lines 99-102):
+# in assert_template (lines 99-102):
     assert_raise NoMethodError do
       assert_template :partial => 'c/_p', :locals => {:a => 'a'}
     end
@@ -94,11 +94,13 @@ class ViewsTest < ActionView::TestCase
   end
 
   test "alert me (partial, neither keyword)..." do
+    touch_picture_files
     render 'pictures/thumbnail', :picture => (pictures :two)
     partial_assertions
   end
 
   test "alert me (partial, both keywords)..." do
+    touch_picture_files
     render :partial => 'pictures/thumbnail', :locals => {:picture =>
         (pictures :two)}
     partial_assertions
@@ -119,6 +121,7 @@ class ViewsTest < ActionView::TestCase
     assert_select s2, {:text => s3, :count => 0}, 0
     assert_select s2, {:text => s3, :count => 1}, 0
     these_semantics_work
+    @picture_file.delete
   end
 
   def these_semantics_work
@@ -128,6 +131,11 @@ class ViewsTest < ActionView::TestCase
     s=Regexp.escape '/images/gallery/two-t.png?'
     r=Regexp.new %r"\A#{s}\d+\z"
     assert_select '[src=?]', r, 1
+  end
+
+  def touch_picture_files
+    @picture_file=App.root.join *%w[public images gallery two-t.png]
+    FileUtils.touch @picture_file
   end
 
 end

@@ -30,10 +30,21 @@ class ThumbnailPicturesPartialTest < SharedPicturesPartialTest
   def setup
     @use_controller=:admin_pictures
     picture=pictures :two
+    touch_picture_files
     render_partial 'pictures/thumbnail', :picture => picture
     @a, @d, @i = %w[a  div  img].map{|e| CssString.new e}
     @aq, @hq, @sq = %w[alt href src].map{|e| CssString.new().attribute e, '?'}
     @dt=@d.css_class 'thumbnail'
+  end
+
+  def teardown
+    @picture_files.each{|e| e.delete}
+  end
+
+  def touch_picture_files
+    d=App.root.join *%w[public images gallery]
+    (@picture_files=[nil,'-t'].map{|e| d.join "two#{e}.png"} ).
+        map{|e| FileUtils.touch e}
   end
 
 end
