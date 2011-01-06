@@ -33,7 +33,7 @@ class TagPicturesPartialTest < SharedPicturesPartialTest
 
   def setup
     @a, @d = %w[a  div].map{|e| CssString.new e}
-    @hq, @iq = %w[href  id].map{|e| CssString.new().attribute e, '?'}
+    @hq, @iq = %w[href  id].map{|e| CssString.new.attribute e, '?'}
     @dt=@d.css_class 'tag'
   end
 

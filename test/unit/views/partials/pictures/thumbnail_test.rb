@@ -10,10 +10,13 @@ class ThumbnailPicturesPartialTest < SharedPicturesPartialTest
 # A single...:
 # Thumbnail div:
     assert_select @dt, 1
-# Anchor, which should link to the right picture:
+# Anchor, which should...:
     assert_select @dt.child(@a), 1
     assert_select @a, 1 do
+# Link to the right picture:
       assert_select @hq, (filename_matcher 'two.png')
+# Open in a new window:
+      assert_select @tq, '_blank'
     end
 # Image, which should have the right thumbnail filename source and the right
 # title as alt-text:
@@ -33,7 +36,8 @@ class ThumbnailPicturesPartialTest < SharedPicturesPartialTest
     touch_picture_files
     render_partial 'pictures/thumbnail', :picture => picture
     @a, @d, @i = %w[a  div  img].map{|e| CssString.new e}
-    @aq, @hq, @sq = %w[alt href src].map{|e| CssString.new().attribute e, '?'}
+    @aq, @hq, @sq, @tq = %w[alt href src target].map{|e| CssString.new.
+        attribute e, '?'}
     @dt=@d.css_class 'thumbnail'
   end
 

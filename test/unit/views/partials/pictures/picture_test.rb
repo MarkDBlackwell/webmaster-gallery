@@ -2,7 +2,7 @@ require 'test_helper'
 
 class PicturePicturesPartialTest < SharedPartialTest
 
-#TODO: possibly use http://github.com/justinfrench/formtastic
+# TODO: possibly use http://github.com/justinfrench/formtastic
 
   test "happy path should render..." do
 # The right partial, once:
@@ -64,7 +64,7 @@ class PicturePicturesPartialTest < SharedPartialTest
     @picture=pictures :two
     render_partial 'pictures/picture', :picture => @picture
     @d, @m = %w[div  method].map{|e| CssString.new e}
-    @ip=CssString.new().attribute 'id', 'picture_'+@picture.id.to_s
+    @ip=CssString.new.attribute 'id', 'picture_'+@picture.id.to_s
     @dp=@d.css_class 'picture'
     @de=@dp.child(@d).css_class 'edit'
     @fd=@dp.child 'form', @d

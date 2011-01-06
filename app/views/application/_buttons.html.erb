@@ -14,8 +14,13 @@
               :action => :index}, :method => :get -%>
 <%      end -%><%= %>
 <%=     content_tag 'div', :class => 'user-pictures-index' do -%>
-<%=       button_to 'user pictures', {:controller => :pictures,
-              :action => :index}, :method => :get -%>
+<%=       content_tag 'form', :method => :get, :action => url_for(
+              :controller => :pictures, :action => :index),
+              :target => '_blank', :class => 'button_to' do -%>
+<%=         content_tag 'div' do -%>
+<%=           tag 'input', :type => 'submit', :value => 'user pictures' -%>
+<%          end -%>
+<%        end -%>
 <%      end -%><%= %>
 <%=     content_tag 'div', :class => 'destroy' do -%>
 <%=       button_to 'log out', {:controller => :sessions, :action => :destroy},

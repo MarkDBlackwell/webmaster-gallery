@@ -2,7 +2,7 @@
 <%    p=Pathname('gallery').join picture.filename -%>
 <%    x=p.extname.to_s -%>
 <%    t=Pathname p.to_s.chomp(x) + '-t' + x -%>
-<%=   content_tag(:a, :href => (image_path p.to_s)) do -%>
+<%=   content_tag(:a, :href => (image_path p.to_s), :target => '_blank') do -%>
 <%=     image_tag t.to_s, :alt => picture.title -%>
 <%    end -%>
 <%  end -%>
