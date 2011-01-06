@@ -22,13 +22,13 @@ class DirectoryPicture
   def self.find_unpaired_names
     th='-t' # Thumbnail flag in file names before the extension.
     files=self.get_good_files
-    names=files.map &:filename
-    files.reject do |e|
-      s=e.filename
-      x=s.extname
-      main=s.to_s.chomp x
+    names=self.get_names files
+    self.get_names(files.reject do |e|
+      name=e.filename
+      x=name.extname
+      main=name.to_s.chomp x
       names.include? e.is_thumbnail ? main.chomp(th)+x : main+th+x
-    end.map &:filename
+    end)
   end
 
 #-------------
@@ -73,6 +73,10 @@ class DirectoryPicture
 
   def self.get_good_files
     self.get_files.first
+  end
+
+  def self.get_names(files)
+    files.map(&:filename).map(&:to_s).sort
   end
 
 end

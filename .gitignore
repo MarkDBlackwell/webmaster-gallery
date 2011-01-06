@@ -5,6 +5,7 @@ db/*.sqlite3-journal
 log/
 out/
 public/images/gallery/
+public/images/old-gallery/
 public/index.html
 public/pictures/
 test/fixtures/files/webmaster/original-drupal-coppermine-portfolio.htm

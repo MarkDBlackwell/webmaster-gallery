@@ -11,9 +11,14 @@ class DirectoryPictureTest < ActiveSupport::TestCase
   test "basic directory..." do
     mock_gallery_directory 'basic'
 # Find all should find all files:
-    assert_equal 6, DirectoryPicture.find(:all).length
-# Find unpaired names should find all:
-    assert_equal 6, DirectoryPicture.find_unpaired_names.length
+    found_all=DirectoryPicture.find :all
+    assert_equal 10, found_all.length
+# Find bad names should find none:
+    assert_equal 0, DirectoryPicture.find_bad_names.length
+# Find unpaired names should find:
+    assert_equal 4, DirectoryPicture.find_unpaired_names.length
+    assert_equal %w[ abc abc-t.jpg abcd.jpg abcd-t ].sort,
+        DirectoryPicture.find_unpaired_names
   end
 
   test "names with various extensions..." do
