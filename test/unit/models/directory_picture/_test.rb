@@ -2,30 +2,31 @@ require 'test_helper'
 
 class DirectoryPictureTest < ActiveSupport::TestCase
 
-  test "Directory Picture should..." do
+  test "should..." do
 # Use the right directory:
     assert_equal (App.root.join *%w[public images gallery]),
         (DirectoryPicture.send :gallery_directory)
   end
 
-  test "basic directory..." do
+  test "mocking with directory, basic..." do
     mock_gallery_directory 'basic'
-# Find bad names should find none:
-    assert_equal 0, DirectoryPicture.find_bad_names.length
-# Should get all files:
-    get_good=DirectoryPicture.send :get_good_files
-    assert_equal 10, get_good.length
-# Find unpaired names should find:
+# Some files should have bad names:
+    bad=DirectoryPicture.find_bad_names
+    assert_equal %w[ -t.a  -t.ab  .a  .ab ].sort, bad
+# All other file names should be good:
+    good=DirectoryPicture.send :get_good_files
+    assert_equal 14, good.length
+# The right files should be unpaired:
     unpaired=DirectoryPicture.find_unpaired_names
-    assert_equal %w[ bad-abc-t.jpg  bad-abcd.jpg
-                     bad-abc        bad-abcd-t   ].sort, unpaired
-    assert_equal 4, unpaired.length
-# Find all should find all pairs:
-    find_all=DirectoryPicture.find :all
-    assert_equal (get_good.length-unpaired.length)/2, find_all.length
+    assert_equal %w[ unpaired-abc-t.jpg  unpaired-abcd-t  
+                     unpaired-abc        unpaired-abcd.jpg].sort, unpaired
+# The right pairs should be found:
+    all=DirectoryPicture.find :all
+    assert_equal %w[ a  a.bc  ab  ab.c  ab.cd ].sort, all.map(&:filename).sort
+    assert_equal (good.length-unpaired.length)/2, all.length
   end
 
-  test "names with various extensions..." do
+  test "when names have various extensions..." do
     thumbnail_indicator=[?-,?t]
     replace=?a
     dot=?.
@@ -55,7 +56,9 @@ class DirectoryPictureTest < ActiveSupport::TestCase
     end
   end
 
-  test "names embedded with a single bad character..." do
+  test "when some names embed a single bad character..." do
+    replace=?a
+    dot=?.
     n=(0..4).to_a
 # Use directory separator (?/), null (?\0) & pad (?\377) as bad embedded
 # characters:
@@ -64,11 +67,14 @@ class DirectoryPictureTest < ActiveSupport::TestCase
     bad_c = all_byte_characters - good_c
     good,bad=[good_c,bad_c].map{|a| a.map do |c|
       name=Array.new(n.choice).map{good_c.choice}
-      name.insert((0..name.length).to_a.choice,c).map{|e| e.chr}.to_s
+      name.insert Range.new(0,name.length).to_a.choice, c
+      name[0]=replace if 0==(name.rindex dot)
+      name.map(&:chr).to_s
     end }
     [good, bad].each{|a| assert_present a}
 # When all good or all bad...:
 # Finding good & bad names should find all or none:
+    time=Time.now
     [   [good,  good.length, 0         ],
         [bad,   0,           bad.length]   ].each do
         |names, good_length, bad_length|
@@ -78,10 +84,12 @@ class DirectoryPictureTest < ActiveSupport::TestCase
       dp.expects(:gallery_directory_entries).times(called).returns names
       good_called=good_length*called
       pi=Pathname.any_instance
-      pi.expects(:mtime).times(good_called).returns Time.now
+      pi.expects(:mtime).times(good_called).returns time
       pi.expects(:file?).times(good_called).returns true
-      assert_equal good_length, dp.send(:get_good_files).length
-      assert_equal bad_length,  dp.find_bad_names       .length
+      ggf=dp.send :get_good_files
+      assert_equal good_length, ggf.length
+      fbn=dp.find_bad_names
+      assert_equal bad_length, fbn.length
     end
   end
 

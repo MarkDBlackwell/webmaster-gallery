@@ -52,7 +52,7 @@ class ActiveSupport::TestCase
 #-------------
   private
 
-  def construct_changes(model,operation,count=1)
+  def construct_changes_strings(model,operation,count=1)
     expected=model_names model
     case operation
     when 'delet' then changed=expected.pop count

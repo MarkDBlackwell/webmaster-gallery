@@ -6,20 +6,27 @@ class ReviewGroupSessionsPartialTest < SharedPartialTest
     happy_path
 # Partial, once:
     assert_partial
-    assert_select @dg, 1 do
+# Div class:
+    assert_select @dg, 1
+# Which should contain the right...:
 # Message, once:
-      assert_select @dm, 1
-      assert_select @dm, :text => @group.message
-      assert_select @gm, 1
-# Pictures, once:
-      assert_select @dl, 1
-      assert_select @gl, 1
+    assert_select @gm, 1
+    assert_select @dm, 1
+    assert_select @dm, :text => @group.message
+# List, once:
+    assert_select @gl, 1
+    assert_select @dl, 1
+# Which should contain the right...:
 # Number of pictures:
-      assert_select @la, 2
-# Picture filenames, once:
-      assert_select @la.first, :text => @group.list.first.filename
-      assert_select @la.last,  :text => @group.list.last .filename
-    end
+    assert_select @ga, 2
+    assert_select @da, 2
+    assert_select @a, 2
+# Picture filenames, each once:
+    assert_select @a.first, :text => @group.list.first.filename
+    assert_select @a.last,  :text => @group.list.last .filename
+# And only the pictures:
+    assert_select (@dl.descend '*'), 2
+    assert_select @dl, :text => (@group.list.map(&:filename).join "\n")
   end
 
   test "if list is not of a model" do
@@ -66,11 +73,12 @@ class ReviewGroupSessionsPartialTest < SharedPartialTest
   def setup
     @use_controller=:admin_pictures
     @group=Struct.new(:list,:message).new  %w[abc def], 'something'
-    @d=CssString.new 'div'
+    @a, @d = %w[a div].map{|e| CssString.new e}
     @dg, @dl, @dm = %w[group  list  message].map{|e| @d.css_class 'review-'+e}
     @gl=@dg.child @dl
     @gm=@dg.child @dm
-    @la=@dl.child 'a'
+    @da=@dl.child 'a'
+    @ga=@gl.child 'a'
   end
 
 end

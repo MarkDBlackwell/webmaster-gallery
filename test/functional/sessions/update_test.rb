@@ -60,7 +60,7 @@ class UpdateSessionsControllerTest < SharedSessionsControllerTest
       1.upto 2 do |count|
         test "should #{operation} #{count} #{model}s if approved same" do
           before=model_names model
-          expected,change=construct_changes model, operation, count
+          expected,change=construct_changes_strings model, operation, count
           after=run_models model, expected, change
           assert_equal change.sort, case operation
               when 'add'   then after - before
@@ -70,7 +70,7 @@ class UpdateSessionsControllerTest < SharedSessionsControllerTest
 
         test "shouldn't #{operation} #{count} #{model}s if approved differ" do
           before=model_names model
-          expected,change=construct_changes model, operation, count
+          expected,change=construct_changes_strings model, operation, count
           change[0]='altered'
           assert_equal before.sort, (run_models model, expected, change).sort
         end

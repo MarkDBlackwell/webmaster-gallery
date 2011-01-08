@@ -47,20 +47,23 @@ class DirectoryPicture
     bad_names=[]
     directory=self.gallery_directory
     good_files=self.gallery_directory_entries.map do |entry|
-      bad_entry=entry.gsub! forbidden_ascii, '?'
-      (bad_names << bad_entry; next) if bad_entry
+      has_error=(q=entry.gsub! forbidden_ascii, '?').present?
+      (bad_names << q.to_s; next) if has_error
       e=directory.join entry
-      b=e.basename
-      x=b.extname
-      main=b.to_s.chomp x
-      (bad_names << b.to_s; next) if (main.ends_with? '-t-t')
       begin
         next unless e.file?
         mtime=e.mtime
       rescue ArgumentError
         (bad_names << '-?-'; next)
       end
-      file_struct.new mtime, b, (main.ends_with? '-t')
+      b=e.basename
+      x=b.extname
+      main=b.to_s.chomp x
+      has_error=(main.ends_with? '-t-t') ||
+          '-t'==main || 
+          x.blank? && ?.==main[0]
+      (bad_names << b.to_s; next) if has_error
+      file_struct.new mtime, b.to_s, (main.ends_with? '-t')
     end.compact.sort{|b,a| a.filename<=>b.filename}
     [good_files, bad_names.sort]
   end
@@ -73,12 +76,13 @@ class DirectoryPicture
     files.map(&:filename).map(&:to_s).sort
   end
 
+
   def self.get_unpaired_names(files)
     th='-t' # Thumbnail flag in file names before the extension.
     names=self.get_names files
     self.get_names( files.reject do |e|
       name=e.filename
-      x=name.extname
+      x=(Pathname.new name).extname
       main=name.to_s.chomp x
       names.include? e.is_thumbnail ? main.chomp(th)+x : main+th+x
     end )

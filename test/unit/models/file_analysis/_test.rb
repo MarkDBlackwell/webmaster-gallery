@@ -55,9 +55,9 @@ class FileAnalysisTest < ActiveSupport::TestCase
 
   %w[tag picture].each_with_index do |model,i|
     %w[add delet].each do |operation|
-      1.upto 2 do |count|
-        test "should review #{count} #{operation}ed_#{model}s" do
-          expected,change=construct_changes model, operation, count
+      1.upto 2 do |how_many|
+        test "should review #{how_many} #{operation}ed_#{model}s" do
+          expected,change=construct_changes_strings model, operation, how_many
           mock_expected model, expected
           happy_path
           check_approval_group change, "approve #{operation}ing #{model}s"

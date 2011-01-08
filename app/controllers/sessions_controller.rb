@@ -51,18 +51,16 @@ class SessionsController < ApplicationController
 
   def update
     action=:edit
-    pag=params[:approval_group]
-# TODO: Add: on update, if pag.blank? it is an error, I think.
+    pa=params[:approval_group]
+# TODO: Add: on update, if pa.blank? it is an error, I think.
     case
-    when pag.present? && (pag.split.sort.join ' ')==@approval_group.list
+    when pa.present? && (pa.split.sort.join ' ')==@approval_group.list
       @file_analysis.make_changes
-    when pag.blank? && 'update-user-pictures'==params[:commit] &&
+    when pa.blank? && 'update-user-pictures'==params[:commit] &&
         ! (a=FileAnalysis.new).approval_needed? &&
         Picture.find_database_problems.empty?
       delete_cache
-    else
-      action=:show if 'refresh database problems'==params[:commit]
-    end
+    else action=:show if 'refresh database problems'==params[:commit] end
     redirect_to :action => action
   end
 

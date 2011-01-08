@@ -92,17 +92,14 @@ class FileAnalysis
     when unpaired.present?
       review.concat [
                 s.new(fp_bad_n, rm.shift),
-                s.new(unpaired, rm.shift),
-          ]
+                s.new(unpaired, rm.shift)]
     else
       review.concat [
                 s.new(fp_bad_n, rm.shift),
                 s.new(unpaired, rm.shift),
                 s.new(p,        rm.shift),
-                s.new(file_pn,  rm.shift),
-          ] unless 0==model_i
+                s.new(file_pn,  rm.shift)] unless 0==model_i
 # TODO: maybe only p and file_pn unless 0==model_i
-
       if (a=records || names).present?
         m = %w[ Tag Picture ].at     model_i
         o = %w[ add delet   ].at operation_i

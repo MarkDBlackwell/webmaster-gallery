@@ -9,6 +9,7 @@ class SharedPartialTest < SharedViewTest
   end
 
   def has_one(selector,v)
+# TODO: look at replacing this with :text => in assert_select.
     innermost=selector.split(' ').last
     values=[v,'']
     final=0
