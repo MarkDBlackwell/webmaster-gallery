@@ -78,12 +78,11 @@ class DirectoryPicture
 
   def self.get_unpaired_names(files)
     th='-t' # Thumbnail flag in file names before the extension.
-    names=self.get_names files
+    a=self.get_names files
     self.get_names( files.reject do |e|
-      name=e.filename
-      x=(Pathname.new name).extname
-      main=name.chomp x
-      names.include? e.is_thumbnail ? main.chomp(th)+x : main+th+x
+      x=Pathname.new(s=e.filename).extname
+      main=s.chomp x
+      a.include? e.is_thumbnail ? main.chomp(th)+x : main+th+x
     end )
   end
 

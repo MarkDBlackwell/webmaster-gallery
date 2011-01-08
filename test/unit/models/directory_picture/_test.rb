@@ -30,12 +30,13 @@ class DirectoryPictureTest < ActiveSupport::TestCase
     thumbnail_indicator=[?-,?t]
     replace=?a
     dot=?.
-    good_c = [?A..?Z, ?a..?z, ?0..?9, [?-, ?.] ].map{|e| e.to_a}.flatten
+    good_c=[?A..?Z, ?a..?z, ?0..?9, [?-, ?.] ].map{|e| e.to_a}.flatten
     good=Square.new((0..4).to_a).map do |a|
       name,x=a.map{|i| Array.new(i).map{good_c.choice}}
       x.map!{|e| e!=dot ? e : replace}
       (name.pop; name.push replace) if name.last==dot
-      name[-2*t.length,t.length]=t if (t=thumbnail_indicator)*2==(name.last 4)
+      name[-2*t.length,t.length]=t if (t=thumbnail_indicator)*2==(name.last
+            2*t.length)
       (x.present? ? [name+[dot]+x] : [name+[dot], name]).map &:to_s
     end.flatten
     assert_present good
@@ -60,7 +61,7 @@ class DirectoryPictureTest < ActiveSupport::TestCase
     replace=?a
     dot=?.
     n=(0..4).to_a
-# Use directory separator (?/), null (?\0) & pad (?\377) as bad embedded
+# Consider directory separator (?/), null (?\0) & pad (?\377) as bad embedded
 # characters:
     good_c = [?A..?Z, ?a..?z, ?0..?9, [?-, ?.] ].map{|e| e.to_a}.flatten
     all_byte_characters = (0...2**8).to_a

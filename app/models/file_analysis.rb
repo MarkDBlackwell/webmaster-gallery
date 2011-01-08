@@ -8,7 +8,7 @@ class FileAnalysis
     safe=review_messages.values_at(0,4,5)
     a=@review_groups.reject{|e| safe.include? e.message}
     @approval_group.list      .present? ||
-    a.map(&        :list).to_s.present?
+    a.map(        &:list).to_s.present?
   end
 
   def initialize
@@ -56,13 +56,13 @@ class FileAnalysis
   private
 
   def get_groups
-    s=:name
-         tn = ( t =        Tag.order(s).find :all).map &s
-    file_tn =          FileTag         .find(:all).map(&s).sort
-    s=:filename
-         pn = ( p =    Picture.order(s).find :all).map &s
-    file_pn = DirectoryPicture         .find(:all).map(&s).sort
-    s=nil
+    n=:name
+         tn = ( t =        Tag.order(n).find :all).map &n
+    file_tn =          FileTag         .find(:all).map(&n).sort
+    n=:filename
+         pn = ( p =    Picture.order(n).find :all).map &n
+    file_pn = DirectoryPicture         .find(:all).map(&n).sort
+    n=nil
     model_i,operation_i=case
     when (names=file_tn-tn).present?
       [0,0]
@@ -104,7 +104,7 @@ class FileAnalysis
         m = %w[ Tag Picture ].at     model_i
         o = %w[ add delet   ].at operation_i
         review << s.new( a, "#{m}s to be #{o}ed:")
-        approval= s.new((names.sort.join ' '), "approve #{o}ing #{m.downcase}s")
+        approval= s.new names.sort.join(' '), "approve #{o}ing #{m.downcase}s"
       end
     end
     [review, approval]
