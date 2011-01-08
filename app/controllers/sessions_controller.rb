@@ -52,7 +52,6 @@ class SessionsController < ApplicationController
   def update
     action=:edit
     pa=params[:approval_group]
-# TODO: Add: on update, if pa.blank? it is an error, I think.
     case
     when pa.present? && (pa.split.sort.join ' ')==@approval_group.list
       @file_analysis.make_changes

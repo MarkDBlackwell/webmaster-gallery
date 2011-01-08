@@ -26,6 +26,7 @@ class UpdateSessionsControllerTest < SharedSessionsControllerTest
     pages = %w[index  pictures/two-name].map{|e|
         App.root.join 'public', "#{e}.html" }
     FileUtils.touch pages
+    Picture.expects(:find_database_problems).returns []
     happy_path
     pages.each{|e| assert_equal false, e.exist?,
         "#{e} cache expiration failed." }

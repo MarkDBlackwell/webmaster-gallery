@@ -2,9 +2,6 @@ require 'test_helper'
 
 class FileAnalysisTest < ActiveSupport::TestCase
 
-# TODO: test "make_changes should..." do
-# TODO: test "approval_needed? should..." do
-
   test "happy path..." do
     happy_path
 # Review-message texts should be:
@@ -22,6 +19,7 @@ class FileAnalysisTest < ActiveSupport::TestCase
 # Approval group should include a list:
     assert_kind_of String, @fa.approval_group.list,
         'approval group list'
+    check_changes true, ['tag', 'add', 2]
   end
 
   test "if nothing to approve..." do
@@ -30,6 +28,7 @@ class FileAnalysisTest < ActiveSupport::TestCase
     happy_path
 # Approval group list and message should be appropriate:
     check_approval_group [], 'refresh'
+    check_changes false
   end
 
   test "should review file tag bad names first" do
@@ -37,6 +36,7 @@ class FileAnalysisTest < ActiveSupport::TestCase
     happy_path
     check_approval_group [], 'refresh'
     check_review_groups 2, u
+    check_changes true
   end
 
   test "should review directory picture bad names second" do
@@ -44,6 +44,7 @@ class FileAnalysisTest < ActiveSupport::TestCase
     happy_path
     check_approval_group [], 'refresh'
     check_review_groups 3, u
+    check_changes true
   end
 
   test "should review unpaired directory pictures third" do
@@ -51,6 +52,7 @@ class FileAnalysisTest < ActiveSupport::TestCase
     happy_path
     check_approval_group [], 'refresh'
     check_review_groups 4, u
+    check_changes true
   end
 
   %w[tag picture].each_with_index do |model,i|
@@ -64,6 +66,7 @@ class FileAnalysisTest < ActiveSupport::TestCase
 # TODO: Why this formula? Refactor.
           check_review_groups 4*i+3, change,
               "#{model.capitalize}s to be #{operation}ed:"
+          check_changes true, [model, operation, how_many]
         end
       end
     end
@@ -78,7 +81,22 @@ class FileAnalysisTest < ActiveSupport::TestCase
     s='Approval'
     assert_equal (changed.sort.join ' '), g.list, "#{s} list"
 # Message should be:
-    assert_equal g.message, message, "#{s} message"
+    assert_equal message, g.message, "#{s} message"
+  end
+
+  def check_changes(an,difference=nil)
+# Approval should be needed before changes:
+    assert_equal an, @fa.approval_needed?
+    return unless difference
+# Make_changes should change the database:
+    model,operation,how_many=*difference
+    a = %w[tag picture]
+    other=a.at( (1 + a.index(model)) %2)
+    model,other=[model,other].map(&:capitalize).map &:constantize
+    n=[1,-1].at( %w[add delet].index operation) * how_many
+    expected=[model.count + n, other.count]
+    @fa.make_changes
+    assert_equal expected, [model.count, other.count]
   end
 
   def check_review_groups(count,changed,m=nil)

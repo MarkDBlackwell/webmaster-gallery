@@ -6,7 +6,7 @@ class PictureTest < ActiveSupport::TestCase
 # Should find all:
     assert_equal 2, Picture.find(:all).length
 # Should find database problems:
-    assert_equal [], Picture.find_database_problems
+    assert_equal 2, Picture.find_database_problems.length
   end
 
 end
