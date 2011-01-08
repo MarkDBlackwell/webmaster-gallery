@@ -36,7 +36,7 @@ class DirectoryPictureTest < ActiveSupport::TestCase
       x.map!{|e| e!=dot ? e : replace}
       (name.pop; name.push replace) if name.last==dot
       name[-2*t.length,t.length]=t if (t=thumbnail_indicator)*2==(name.last 4)
-      (x.present? ? [name+[dot]+x] : [name+[dot], name]).map{|e| e.to_s}
+      (x.present? ? [name+[dot]+x] : [name+[dot], name]).map &:to_s
     end.flatten
     assert_present good
 # Should all be good:

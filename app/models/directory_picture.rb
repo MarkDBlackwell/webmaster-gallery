@@ -14,7 +14,7 @@ class DirectoryPicture
     raise FindError unless args.include? :all
     files=self.get_good_files
     unpaired=self.get_unpaired_names files
-    files.reject{|e| e.is_thumbnail || (unpaired.include? e.filename.to_s)}
+    files.reject{|e| e.is_thumbnail || (unpaired.include? e.filename)}
   end
 
   def self.find_bad_names
@@ -47,8 +47,8 @@ class DirectoryPicture
     bad_names=[]
     directory=self.gallery_directory
     good_files=self.gallery_directory_entries.map do |entry|
-      has_error=(q=entry.gsub! forbidden_ascii, '?').present?
-      (bad_names << q.to_s; next) if has_error
+      has_error=(s=entry.gsub! forbidden_ascii, '?').present?
+      (bad_names << s; next) if has_error
       e=directory.join entry
       begin
         next unless e.file?
@@ -56,14 +56,14 @@ class DirectoryPicture
       rescue ArgumentError
         (bad_names << '-?-'; next)
       end
-      b=e.basename
+      bs=(b=e.basename).to_s
       x=b.extname
-      main=b.to_s.chomp x
+      main=bs.chomp x
       has_error=(main.ends_with? '-t-t') ||
           '-t'==main || 
           x.blank? && ?.==main[0]
-      (bad_names << b.to_s; next) if has_error
-      file_struct.new mtime, b.to_s, (main.ends_with? '-t')
+      (bad_names << bs; next) if has_error
+      file_struct.new mtime, bs, (main.ends_with? '-t')
     end.compact.sort{|b,a| a.filename<=>b.filename}
     [good_files, bad_names.sort]
   end
@@ -73,9 +73,8 @@ class DirectoryPicture
   end
 
   def self.get_names(files)
-    files.map(&:filename).map(&:to_s).sort
+    files.map(&:filename).sort
   end
-
 
   def self.get_unpaired_names(files)
     th='-t' # Thumbnail flag in file names before the extension.
@@ -83,7 +82,7 @@ class DirectoryPicture
     self.get_names( files.reject do |e|
       name=e.filename
       x=(Pathname.new name).extname
-      main=name.to_s.chomp x
+      main=name.chomp x
       names.include? e.is_thumbnail ? main.chomp(th)+x : main+th+x
     end )
   end
