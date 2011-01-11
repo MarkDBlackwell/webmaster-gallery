@@ -21,15 +21,24 @@ class AdminPicturesController < ApplicationController
     [:description,:title,:weight,:year].each do |e|
       @picture[e]=p.fetch e if p.has_key? e
     end unless p.blank?
-    @picture.save ? redirect_to(:action => :show) : render_edit
+    @picture.save :validate => false
+    (render_show; return) if @picture.valid?
+    flash[:error]=glom_errors @picture.errors
+    redirect_back :edit
   end
 
 #-------------
   private
 
   def get_single
+# TODO: why here, '@show_filename=true' ?
     @show_filename=true
     @picture=Picture.find params[:id]
+  end
+
+  def redirect_back(a)
+    begin redirect_to :back
+    rescue ActionController::RedirectBackError; redirect_to :action => a end
   end
 
   def render_edit
@@ -45,6 +54,10 @@ class AdminPicturesController < ApplicationController
 
   def render_single
     render template => 'admin_pictures/single'
+  end
+
+  def glom_errors(e)
+    e.full_messages.map{|e| e+'.'}.join ' '
   end
 
   def template # For testing purposes.

@@ -108,8 +108,12 @@ class ActiveSupport::TestCase
   end
 
   def see_output(s=nil)
+    a = %w[rendered response].map{|e|(!respond_to? e) ? nil : (send e)}
+    a.push(a.pop.body) if a.last
+    (a.unshift s).compact!
+    assert_present a, 'nothing defined'
     f=App.root.join('out/see-output').open 'w'
-    f.print s.presence || try(:rendered) || response.body
+    f.print a.first
     f.close
   end
 

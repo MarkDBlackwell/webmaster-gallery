@@ -8,7 +8,7 @@ class FileAnalysis
     safe=review_messages.values_at(0,4,5)
     a=@review_groups.reject{|e| safe.include? e.message}
     @approval_group.list      .present? ||
-    a.map(        &:list).to_s.present?
+            a.map(&:list).to_s.present?
   end
 
   def initialize
@@ -17,8 +17,8 @@ class FileAnalysis
 
   def make_changes
     return false if @approval_group.blank? || @approval_group.list.blank? ||
-        @review_groups.blank? || @review_groups.last.blank? ||
-                                 @review_groups.last.message.blank?
+                     @review_groups.blank? || @review_groups.last.blank? ||
+                                              @review_groups.last.message.blank?
     models     = %w[ Tag Picture]
     operations = %w[ add delet  ]
     model_i,operation_i=(two_states=[0,1]).product(two_states).
@@ -29,7 +29,8 @@ class FileAnalysis
     method = %w[name filename].at model_i
     case operation_i
     when 0
-      @approval_group.list.split.each{|e| model.create method.to_sym => e}
+      @approval_group.list.split.each{|e| model.send('find_or_create_by_'+
+          method, e).save :validate => false}
     when 1
       model.where(["#{method} IN (?)", @approval_group.list.split]).all.
           each{|e| e.destroy}

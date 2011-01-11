@@ -41,6 +41,7 @@ class SharedViewTest < ActionView::TestCase
     def css_class(*a) CssString.new a.unshift(self).join  '.'  end
     def css_id(   *a) CssString.new a.unshift(self).join  '#'  end
     def descend(  *a) CssString.new a.unshift(self).join  ' '  end
+
     def first(    *a) CssString.new child(*a) + ':first-child' end
     def last(     *a) CssString.new child(*a) + ':last-child'  end
 

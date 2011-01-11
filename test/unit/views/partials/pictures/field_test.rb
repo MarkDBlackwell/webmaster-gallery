@@ -2,18 +2,31 @@ require 'test_helper'
 
 class FieldPicturesPartialTest < SharedPartialTest
 
-  test "should render labels" do
+  test "if show labels..." do
     s=@dft.child @dl
-    assert_select s, 0
+    assert_select s, false
     setup{@show_labels=true}
-    assert_select s, 1
+# Should render a single, right label:
+    assert_single s, '&nbsp; title'
   end
 
-  test "should be editable" do
+  test "if edit fields..." do
     s=@dft.child 'input'
-    assert_select s, 0
+    assert_select s, false
     setup{@edit_fields=true}
-    assert_select s, 1
+# Should render a single input:
+    assert_single s, ''
+    assert_single [s,'name'], 'picture[title]'
+    assert_single [s,'type'], 'text'
+    assert_single [s,'value']
+  end
+
+  test "if show filename..." do
+    s=@df.child @dn
+    assert_select s, false
+    setup(:filename){@show_filename=true}
+# Should render a single, right filename:
+    assert_single s
   end
 
   test "happy path should render..." do
@@ -25,24 +38,33 @@ class FieldPicturesPartialTest < SharedPartialTest
     assert_select @df, 1
 # Div for field:
     assert_select @dt, 1
-    assert_select @dft, 1
 # A model attribute:
-    assert_select @dft, @title
+    assert_single @dft
   end
 
 #-------------
   private
 
-  def setup(&block)
-# Naming this method, 'render' and using 'super', failed somehow.
+  def assert_single(selector,value=@field)
+    unless selector.kind_of? Array
+      assert_select (s=selector), 1
+      assert_select s, value
+    else
+      a,b=*selector
+      assert_select a.attribute(b), 1
+      assert_select a.attribute(b,'?'), value
+    end
+  end
+
+  def setup(field=:title,&block)
+# Naming this method, 'render', then using 'super', failed somehow.
     controller_yield &block
     @use_controller=:admin_pictures
     record=Picture.new
-    record[field=:title]=(@title='some_title')
-    render_partial 'pictures/field', :record => record,
-        :field => field
-    @df, @dt, @dl = %w[field title label].map{|e| CssString.new('div').
-        css_class e}
+    record[field]=(@field='some_value')
+    render_partial 'pictures/field', :record => record, :field => field
+    @df,@dl,@dn,@dt = %w[ field label filename title ].
+        map{|e| CssString.new('div').css_class e}
     @dft=@df.child @dt
   end
 

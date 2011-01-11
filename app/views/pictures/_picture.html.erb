@@ -1,9 +1,10 @@
-<%  action,method=@edit_fields ? %w[update put] : %w[show get] -%><%= %>
+<%= %>
 <%= div_for picture do -%><%= %>
-<%=   form_for picture, :url => {:controller => 'admin_pictures',
-          :action => action, :id => picture.id},
-          :html => {:method => method} do |f| -%><%= %>
-<%      begin -%>
+<%    fm=@edit_fields ? :form_for : :fields_for -%>
+<%=   send(fm, picture, :url => {:controller => 'admin_pictures',
+          :action => :update, :id => picture.id},
+          :html => {:method => :put}) do |f| -%>
+<%      begin -%><%= %>
 <%=       submit_tag -%><%= %>
 <%      end if @edit_fields -%>
 <%=     render :partial => 'pictures/thumbnail', :locals => {:picture =>
@@ -14,8 +15,7 @@
               :field => field} -%>
 <%      end -%>
 <%=     render :partial => 'pictures/tags', :locals => {:tags => Tag.find(:all)} -%>
-<%    end # Form_for. -%>
-<%= %>
+<%    end -%><%= %>
 <%=   content_tag :div, :class => 'edit' do -%>
 <%=     button_to 'edit', {:controller => :admin_pictures, :action => :edit,
             :id => picture.id}, :method => :get -%>

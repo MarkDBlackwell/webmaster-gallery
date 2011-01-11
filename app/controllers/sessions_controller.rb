@@ -43,9 +43,8 @@ class SessionsController < ApplicationController
   def show
     (redirect_to :action => :edit; return) if @file_analysis.approval_needed?
     s=Struct.new :list, :message
-    @review_groups=[s.new Picture.find_database_problems,
-                        'Pictures with database problems:']
-    @approval_group=s.new '', 'refresh database problems'
+    @review_groups=[s.new Picture.find_database_problems,"Pictures with #{dp}:"]
+    @approval_group=s.new '', refresh_message
     render :edit
   end
 
@@ -59,7 +58,7 @@ class SessionsController < ApplicationController
         ! (a=FileAnalysis.new).approval_needed? &&
         Picture.find_database_problems.empty?
       delete_cache
-    else action=:show if 'refresh database problems'==params[:commit] end
+    else action=:show if refresh_message==params[:commit] end
     redirect_to :action => action
   end
 
@@ -86,6 +85,10 @@ class SessionsController < ApplicationController
     pages.each{|e| FileUtils.rm e, :force => true}
   end
 
+  def dp
+    'database problems'
+  end
+
   def get_file_analysis
     a=@file_analysis=FileAnalysis.new    
      @review_groups,  @approval_group =
@@ -94,6 +97,10 @@ class SessionsController < ApplicationController
 
   def get_password
     FilePassword.find(:all).first.password
+  end
+
+  def refresh_message
+    'refresh ' + dp
   end
 
 end
