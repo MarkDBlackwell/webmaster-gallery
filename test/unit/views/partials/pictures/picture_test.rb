@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class PicturePicturesPartialTest < SharedPartialTest
+class PicturePicturesPartialTest < SharedPicturesPartialTest
 
 # TODO: possibly use http://github.com/justinfrench/formtastic
 
@@ -12,24 +12,18 @@ class PicturePicturesPartialTest < SharedPartialTest
     assert_select @dp, 1
 # Thumbnail within a picture:
     assert_select @pd.css_class('thumbnail'), 1
-# The right...:
-# Picture:
-    @i='id'
-    assert_select @dp.attribute(@i), 1
-    @ip=CssString.new.attribute @i, 'picture_'+@picture.id.to_s
-    assert_select @dp+@ip, 1
-    assert_select @ip, 1
+# The right picture:
+    assert_single [@dp,'id'], 'picture_'+@picture.id.to_s, true
 # Within a picture, the right...:
 # Year:
-    has_one @fi.css_class('year'), '2002'
+    assert_single @fi.css_class('year'), '2002'
 # Tags:
     assert_select @pd.css_class('tags'), 1
   end
 
-  %w[description sequence title weight].each do |unique|
-    u=unique
+  %w[description sequence title weight].each do |u| # Unique
     test "should render a single, right #{u} within a picture" do
-      has_one @fi.css_class(u), "two-#{u}"
+      assert_single @fi.css_class(u), "two-#{u}"
     end
   end
 
@@ -41,39 +35,30 @@ class PicturePicturesPartialTest < SharedPartialTest
 
   test "when editing fields..." do
     @df=@dp.child @f
-
-    @fa,@fm=['action',@m].map{|e| @df.attribute e}
-    @aq,@mq=['action',@m].map{|e| @df.attribute e, '?'}
-
     assert_select @df, false
     setup{@edit_fields=true} # Switch.
 # Should render a single editing form...:
     assert_select @df, 1
 # Which should have a single, right...:
 # Action url:
-    assert_select @fa, 1
-    assert_select @aq, (url_for :controller => @use_controller, :action =>
-        :show, :id => @picture.id)
+    assert_single [@df,'action'], (url_for :controller => @use_controller,
+        :action => :show, :id => @picture.id)
 # Http method:
-    assert_select @fm, 1
-    assert_select @mq, :post
+    assert_single [@df,@m], :post
   end
 
   test "if editable, should render a single..." do
     @de=@dp.child(@d).css_class 'edit'
     @fb=@de.child(@f).css_class 'button_to'
-    @bm=@fb.attribute @m
     assert_select @de, false
     assert_select @fb, false
-    assert_select @bm, false
     setup{@editable=true} # Switch.
 # Edit div within a picture:
     assert_select @de, 1
 # Button within an edit div...:
     assert_select @fb, 1
 # Which should have method get:
-    assert_select @bm, 1
-    assert_select @fb.attribute(@m,'?'), 'get'
+    assert_single [@fb,@m], 'get'
   end
 
 #-------------

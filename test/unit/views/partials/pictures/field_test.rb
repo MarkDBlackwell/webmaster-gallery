@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class FieldPicturesPartialTest < SharedPartialTest
+class FieldPicturesPartialTest < SharedPicturesPartialTest
 
   test "if show labels..." do
     s=@dft.child @dl
@@ -18,7 +18,7 @@ class FieldPicturesPartialTest < SharedPartialTest
     assert_single s, ''
     assert_single [s,'name'], 'picture[title]'
     assert_single [s,'type'], 'text'
-    assert_single [s,'value']
+    assert_single [s,'value'], @field
   end
 
   test "if show filename..." do
@@ -26,7 +26,7 @@ class FieldPicturesPartialTest < SharedPartialTest
     assert_select s, false
     setup(:filename){@show_filename=true}
 # Should render a single, right filename:
-    assert_single s
+    assert_single s, @field
   end
 
   test "happy path should render..." do
@@ -39,22 +39,11 @@ class FieldPicturesPartialTest < SharedPartialTest
 # Div for field:
     assert_select @dt, 1
 # A model attribute:
-    assert_single @dft
+    assert_single @dft, @field
   end
 
 #-------------
   private
-
-  def assert_single(selector,value=@field)
-    unless selector.kind_of? Array
-      assert_select (s=selector), 1
-      assert_select s, value
-    else
-      a,b=*selector
-      assert_select a.attribute(b), 1
-      assert_select a.attribute(b,'?'), value
-    end
-  end
 
   def setup(field=:title,&block)
 # Naming this method, 'render', then using 'super', failed somehow.
