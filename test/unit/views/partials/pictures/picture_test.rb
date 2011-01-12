@@ -14,9 +14,11 @@ class PicturePicturesPartialTest < SharedPartialTest
     assert_select @pd.css_class('thumbnail'), 1
 # The right...:
 # Picture:
-    assert_select @dp.attribute('id'), 1
-    assert_select @ip, 1
+    @i='id'
+    assert_select @dp.attribute(@i), 1
+    @ip=CssString.new.attribute @i, 'picture_'+@picture.id.to_s
     assert_select @dp+@ip, 1
+    assert_select @ip, 1
 # Within a picture, the right...:
 # Year:
     has_one @fi.css_class('year'), '2002'
@@ -38,12 +40,15 @@ class PicturePicturesPartialTest < SharedPartialTest
   end
 
   test "when editing fields..." do
+    @df=@dp.child @f
+
+    @fa,@fm=['action',@m].map{|e| @df.attribute e}
+    @aq,@mq=['action',@m].map{|e| @df.attribute e, '?'}
+
     assert_select @df, false
     setup{@edit_fields=true} # Switch.
 # Should render a single editing form...:
     assert_select @df, 1
-    @fa,@fm=[@a,@m].map{|e| @df.attribute e}
-    @aq,@mq=[@a,@m].map{|e| @df.attribute e, '?'}
 # Which should have a single, right...:
 # Action url:
     assert_select @fa, 1
@@ -55,6 +60,9 @@ class PicturePicturesPartialTest < SharedPartialTest
   end
 
   test "if editable, should render a single..." do
+    @de=@dp.child(@d).css_class 'edit'
+    @fb=@de.child(@f).css_class 'button_to'
+    @bm=@fb.attribute @m
     assert_select @de, false
     assert_select @fb, false
     assert_select @bm, false
@@ -76,15 +84,11 @@ class PicturePicturesPartialTest < SharedPartialTest
     @use_controller=:admin_pictures
     @picture=pictures :two
     render_partial 'pictures/picture', :picture => @picture
-    @a,@d,@f,@m = %w[action  div  form  method].map{|e| CssString.new e}
-    @ip=CssString.new.attribute 'id', 'picture_'+@picture.id.to_s
+    @m='method'
+    @d,@f = %w[div form].map{|e| CssString.new e}
     @dp=@d.css_class 'picture'
-    @de=@dp.child(@d).css_class 'edit'
-    @df=@dp.child @f
     @pd=@dp.child @d
     @fi=@pd.css_class('field').child @d
-    @fb=@de.child(@f).css_class 'button_to'
-    @bm=@fb.attribute @m
   end
 
 end
