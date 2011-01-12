@@ -9,49 +9,44 @@ class UpdateSessionsControllerTest < SharedSessionsControllerTest
         :sessions.to_s, :action => :update.to_s)
   end
 
-#-------------
-# Happy path tests:
-
   test_happy_path_response :edit
 
-  test "happy path..." do
-# Shouldn't read the webmaster page file:
-    f=App.webmaster.join 'page.html.erb'
-    remove_read_permission(f){happy_path}
-# Shouldn't make a pictures layout file:
+  test "happy path should..." do
+    pages = %w[index  pictures/two-name].map{|e| App.root.join 'public',
+        "#{e}.html" }
+    FileUtils.touch pages
+    Picture.expects(:find_database_problems).returns []
+# Rebuild the pictures pages cache:
+    @controller.expects :cache_user_picture_pages
+# Not read the webmaster page file:
+    remove_read_permission(App.webmaster.join 'page.html.erb'){happy_path}
+# Expire cached pictures pages for one and all tags:
+    pages.each{|e| assert_equal false, e.exist?,
+        "#{e} cache expiration failed." }
+# Not make a pictures layout file:
     assert_equal false, pictures_in_layouts_directory?
   end
 
-  test "happy path should expire cached pictures pages for one and all tags" do
-    pages = %w[index  pictures/two-name].map{|e|
-        App.root.join 'public', "#{e}.html" }
-    FileUtils.touch pages
-    Picture.expects(:find_database_problems).returns []
-    happy_path
-    pages.each{|e| assert_equal false, e.exist?,
-        "#{e} cache expiration failed." }
-  end
-
-  test "refresh from show" do
+  test "when refreshing in show, should..." do
     mock_file_tags
     mock_directory_pictures
     pretend_logged_in
     put :update, :commit => 'refresh database problems'
-# Should redirect to the same place:
+# Redirect to the same place:
     assert_redirected_to :action => :show
   end
 
-  test "if file problems..." do
+  test "if file problems, should..." do
     mock_approval_needed
-# Should not expire cached pages:
+# Not expire cached pages:
     @controller.expects(:delete_cache).never
     happy_path
   end
 
-  test "if database problems..." do
+  test "if database problems, should..." do
     mock_approval_needed false
     Picture.expects(:find_database_problems).returns %w[aa bb]
-# Should not expire cached pages:
+# Not expire cached pages:
     @controller.expects(:delete_cache).never
     happy_path
   end

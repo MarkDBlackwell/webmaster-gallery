@@ -13,8 +13,10 @@
             each do |field| -%><%= %>
 <%=       render :partial => 'pictures/field', :locals => {:record => picture,
               :field => field} -%>
-<%      end -%>
-<%=     render :partial => 'pictures/tags', :locals => {:tags => Tag.find(:all)} -%>
+<%      end -%><%= %>
+<%=     render :partial => 'pictures/field', :locals => {:record =>
+            Struct.new(:tags).new(Tag.find(:all).map(&:name).join ' '),
+            :field => :tags} -%>
 <%    end -%><%= %>
 <%=   content_tag :div, :class => 'edit' do -%>
 <%=     button_to 'edit', {:controller => :admin_pictures, :action => :edit,

@@ -58,6 +58,7 @@ class SessionsController < ApplicationController
         ! (a=FileAnalysis.new).approval_needed? &&
         Picture.find_database_problems.empty?
       delete_cache
+      cache_user_picture_pages
     else action=:show if refresh_message==params[:commit] end
     redirect_to :action => action
   end
@@ -72,6 +73,9 @@ class SessionsController < ApplicationController
 
   def avoid_links
     @use_controller=:admin_pictures
+  end
+
+  def cache_user_picture_pages
   end
 
   def delete_cache

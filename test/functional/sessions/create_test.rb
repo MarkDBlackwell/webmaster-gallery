@@ -4,9 +4,6 @@ class CreateSessionsControllerTest < SharedSessionsControllerTest
 
 # <- Webmaster logs in.
 
-#-------------
-# General tests:
-
   test "routing" do # POST
     assert_routing({:path => '/session', :method => :post}, :controller =>
         :sessions.to_s, :action => :create.to_s)
@@ -17,32 +14,28 @@ class CreateSessionsControllerTest < SharedSessionsControllerTest
 #-------------
 # Wrong password tests:
 
-  test "when password wrong..." do
+  test "when password wrong, should..." do
     login 'example wrong password'
-# Should redirect to new:
+# Redirect to new:
     assert_redirected_to :action => :new
-# Should flash:
+# Flash:
     assert_equal 'Password incorrect.', flash[:error]
   end
 
 #-------------
 # Right password tests:
 
-  test "when password right, logging in..." do
+  test "when password right, logging in should..." do
     s=:something
     session[s]=s
-    login
-# Should succeed:
+# Not read the webmaster page file:
+    remove_read_permission(App.webmaster.join 'page.html.erb'){happy_path}
+# Succeed:
     assert_equal true, session[:logged_in]
-# Should reset the session:
+# Reset the session:
     assert_blank session[s]
-# Shouldn't make a pictures layout file:
+# Not make a pictures layout file:
     assert_equal false, pictures_in_layouts_directory?
-  end
-
-  test "logging in shouldn't read the webmaster page file" do
-    f=App.webmaster.join 'page.html.erb'
-    remove_read_permission(f){login}
   end
 
 #-------------

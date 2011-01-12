@@ -18,7 +18,7 @@ class PicturePicturesPartialTest < SharedPicturesPartialTest
 # Year:
     assert_single @fi.css_class('year'), '2002'
 # Tags:
-    assert_select @pd.css_class('tags'), 1
+    assert_select @fi.css_class('tags'), 1
   end
 
   %w[description sequence title weight].each do |u| # Unique
