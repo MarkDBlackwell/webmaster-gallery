@@ -14,6 +14,27 @@ class SharedViewTest < ActionView::TestCase
     assert_template :partial => p, :count => c
   end
 
+  def assert_single(selector,value,also_attribute_alone=true)
+    if (was_array=selector.kind_of? Array)
+      raise unless 2==selector.length
+      s,a=*selector
+    else
+      s=selector
+    end
+    s||=''
+    s=CssString.new(s) unless s.kind_of? CssString
+    unless was_array
+      assert_select s, 1
+      assert_select s, value
+    else
+      assert_select s, 1 unless s.blank?
+      (! also_attribute_alone ? [s] : [s, CssString.new]).each do |e|
+        assert_select e.attribute(a), 1
+        assert_select e.attribute(a,'?'), value
+      end
+    end
+  end
+
   def check_pretty_html_source(*args)
     type   = %w[  section  div            tag  other  ]
     prefix = %w[  <!--     <div\ class="  <           ]
@@ -42,8 +63,10 @@ class SharedViewTest < ActionView::TestCase
     def css_id(   *a) CssString.new a.unshift(self).join  '#'  end
     def descend(  *a) CssString.new a.unshift(self).join  ' '  end
 
-    def first(    *a) CssString.new child(*a) + ':first-child' end
-    def last(     *a) CssString.new child(*a) + ':last-child'  end
+    def first(*a) self.child(*a) + ':first-child' end
+    def last( *a) self.child(*a) +  ':last-child' end
+
+    def not(*a)  s=':not(';  self + s + a.join( ')'+s) + ')' end
 
     def attribute(*a)
       odd_p=pairs=(a.length+1)/2

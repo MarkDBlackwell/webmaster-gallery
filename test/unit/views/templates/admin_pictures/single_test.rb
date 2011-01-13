@@ -8,10 +8,10 @@ class SingleAdminPicturesTemplateTest < SharedViewTest
 # The right template:
     assert_template @template
 # A single picture:
-    dp=CssString.new('div').css_class 'picture'
     assert_partial 'pictures/_picture', 1
 # The right picture:
-    assert_select dp.attribute 'id', 'picture_'+@picture.id.to_s
+    assert_single [(CssString.new('div').css_class 'picture'),'id'],
+        'picture_'+@picture.id.to_s
   end
 
 #-------------

@@ -7,14 +7,9 @@ class AllLayoutTest < SharedLayoutTest
 # Partials should render...:
 # A list of all tags, once:
       assert_partial 'pictures/_all_tags', 1
-# Messages, once:
-      assert_partial (s='application/_' ) + 'messages', 1
-# Scripts, once:
-      assert_partial s+'scripts', 1
-# The session buttons, once:
-      assert_partial s+'buttons', 1
-# Styles, once:
-      assert_partial s+'styles', 1
+# The session buttons, messages, scripts, and styles, once:
+      %w[buttons messages scripts styles].each{|e|
+          assert_partial 'application/_'+e, 1}
 #-------------
 # Pretty html source:
       check_pretty_html_source( %w[
@@ -34,18 +29,15 @@ class AllLayoutTest < SharedLayoutTest
       assert_select @ht, 1
 # Html tag should include...
 # One head, first:
-      assert_select @h, 1
-      assert_select @ht.descend(@h), 1
+      assert_descend @ht, @h
       assert_select @ht.first(@h), 1
 # One body, last:
-      assert_select @b, 1
-      assert_select @ht.descend(@b), 1
+      assert_descend @ht, @b
       assert_select @ht.last(@b), 1
 #-------------
 # Html head section should include...
 # One title, first:
-      assert_select @t, 1
-      assert_select @h.descend(@t), 1
+      assert_descend @h, @t
       assert_select @h.first(@t), 1
 # One scripts div, after the title:
       assert_select @ds, 1
@@ -56,27 +48,27 @@ class AllLayoutTest < SharedLayoutTest
 #-------------
 # Html body section should include...
 # One messages div:
-      assert_select @dm, 1
-      assert_select @b.descend(@dm), 1
+      assert_descend @b, @dm
+# One all-tags div:
+      assert_descend @b, @dat
+# One action content div:
+      assert_descend @b, @dac
 # One session-buttons div, whether or not manage-session buttons are suppressed:
-      assert_select @dsb, 1
-      assert_select @b.descend(@dsb), 1
+      assert_descend @b, @dsb
     end
     setup :@suppress_buttons => true
     layouts do
-      assert_select @dsb, 1
-      assert_select @b.descend(@dsb), 1
-# One all-tags div:
-      assert_select @dat, 1
-      assert_select @b.descend(@dat), 1
-# One action content div:
-      assert_select @dac, 1
-      assert_select @b.descend(@dac), 1
+      assert_descend @b, @dsb
     end
   end
 
 #-------------
   private
+
+  def assert_descend(a,b)
+    assert_select b, 1
+    assert_select a.descend(b), 1
+  end
 
   def assert_doctype
     s="<!DOCTYPE html>\n"
@@ -103,9 +95,8 @@ class AllLayoutTest < SharedLayoutTest
         @filenames << path.dirname.join(b.chomp '.html.erb') if path.file?
       end
     end unless @filenames
-    @b, @h, @ht, @s, @t = %w[body head html style title].map{|e| CssString.
-        new e}
-    @ds, @dm, @dsb, @dat, @dac =
+    @b,@h,@ht,@s,@t = %w[body head html style title].map{|e| CssString.new e}
+    @ds,@dm,@dsb,@dat,@dac=
         %w[scripts  messages  session-buttons  all-tags  action-content].
         map{|e| (CssString.new 'div.') + e}
   end

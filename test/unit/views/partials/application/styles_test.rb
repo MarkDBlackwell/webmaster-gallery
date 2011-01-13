@@ -33,13 +33,13 @@ class StylesApplicationPartialTest < SharedPartialTest
   end
 
   def display(s)
-    CssString.new '{display: '  + s + '}'
+    CssString.new '{display: '  + s +  '}'
   end
 
   def setup
     render_partial 'application/styles'
-    @d, @s = %w[div style].map{|e| CssString.new e}
-    @di, @dib = %w[inline inline-block].map{|e| display e}
+    @d,@s = %w[div style].map{|e| CssString.new e}
+    @di,@dib = %w[inline inline-block].map{|e| display e}
     @dp=@d.css_class 'picture'
 # Fails without CssString.new:
     @ss=CssString.new @s.css_class(@s)+'s'

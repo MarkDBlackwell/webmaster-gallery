@@ -14,7 +14,7 @@ class FieldPicturesPartialTest < SharedPicturesPartialTest
     s=@dft.child 'input'
     assert_select s, false
     setup{@edit_fields=true}
-# Should render a single input:
+# Should render a single input (which should be empty):
     assert_single s, ''
     assert_single [s,'name'], 'picture[title]'
     assert_single [s,'type'], 'text'

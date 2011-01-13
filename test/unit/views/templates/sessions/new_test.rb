@@ -8,15 +8,13 @@ class NewSessionsTemplateTest < SharedViewTest
 # The right template:
     assert_template @template
 # One password form with method post:
-    s=CssString.new('form').css_class 'password'
-    assert_select s, 1
-    assert_select s.attribute('method','post'), 1
+    s=CssString.new 'form'
+    assert_single [(s.css_class 'password'),'method'], 'post'
 # One form with password field:
-    assert_select CssString.new('form').child('input').css_id('password'), 1
+    assert_select s.child('input').css_id('password'), 1
 # And...:
 # Should prompt for password:
-    assert_select 'p', :count => 1, :text =>
-        %q@Type the password and hit 'Enter'.@
+    assert_single 'p', %q@Type the password and hit 'Enter'.@
   end
 
 #-------------

@@ -13,7 +13,7 @@ class PicturePicturesPartialTest < SharedPicturesPartialTest
 # Thumbnail within a picture:
     assert_select @pd.css_class('thumbnail'), 1
 # The right picture:
-    assert_single [@dp,'id'], 'picture_'+@picture.id.to_s, true
+    assert_single [@dp,'id'], 'picture_'+@picture.id.to_s
 # Within a picture, the right...:
 # Year:
     assert_single @fi.css_class('year'), '2002'

@@ -11,11 +11,9 @@ class ReviewGroupSessionsPartialTest < SharedPartialTest
 # Which should contain the right...:
 # Message, once:
     assert_select @gm, 1
-    assert_select @dm, 1
-    assert_select @dm, :text => @group.message
+    assert_single @dm, @group.message
 # List, once:
     assert_select @gl, 1
-    assert_select @dl, 1
 # Which should contain the right...:
 # Number of pictures:
     assert_select @ga, 2
@@ -26,7 +24,7 @@ class ReviewGroupSessionsPartialTest < SharedPartialTest
     assert_select @a.last,  :text => @group.list.last .filename
 # And only the pictures:
     assert_select (@dl.descend '*'), 2
-    assert_select @dl, :text => (@group.list.map(&:filename).join "\n")
+    assert_single @dl, (@group.list.map(&:filename).join "\n")
   end
 
   test "if list is not of a model" do

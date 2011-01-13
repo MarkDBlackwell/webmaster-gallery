@@ -34,6 +34,7 @@ class ScriptsApplicationPartialTest < SharedPartialTest
   private
 
   def assert_select_only(outer_css,inner_css)
+# TODO: change to assert_select with :text option.
     s=css_select(outer_css).to_s
     css_select(inner_css).concat(tag_strings s).each{|e| s=s.gsub e.to_s, ''}
     assert s.split(' ').to_s.empty?, s.strip

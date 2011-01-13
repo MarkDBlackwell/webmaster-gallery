@@ -12,19 +12,20 @@ class ThumbnailPicturesPartialTest < SharedPicturesPartialTest
     assert_select @dt, 1
 # Anchor, which should...:
     assert_select @dt.child(@a), 1
-    assert_select @a, 1 do
+    assert_select @a, 1
 # Link to the right picture:
-      assert_select @hq, (filename_matcher 'two.png')
+    assert_single [@a,'href'], (filename_matcher 'two.png')
 # Open in a new window:
-      assert_select @tq, '_blank'
-    end
-# Image, which should have the right thumbnail filename source and the right
-# title as alt-text:
+    assert_single [@a,'target'], '_blank'
+# And...:
+# A single...:
+# Image, which should have the right...
     assert_select @dt.child(@a,@i), 1
-    assert_select @i, 1 do
-      assert_select @sq, (filename_matcher 'two-t.png')
-      assert_select @aq, 'two-title'
-    end
+    assert_select @i, 1
+# Thumbnail filename source:
+    assert_single [@i,'src'], (filename_matcher 'two-t.png')
+# Title as alt-text:
+    assert_single [@i,'alt'], 'two-title'
   end
 
 #-------------
@@ -35,9 +36,8 @@ class ThumbnailPicturesPartialTest < SharedPicturesPartialTest
     picture=pictures :two
     touch_picture_files
     render_partial 'pictures/thumbnail', :picture => picture
-    @a, @d, @i = %w[a  div  img].map{|e| CssString.new e}
-    @aq, @hq, @sq, @tq = %w[alt href src target].map{|e| CssString.new.
-        attribute e, '?'}
+    @a,@i = %w[a img]
+    @d=CssString.new 'div'
     @dt=@d.css_class 'thumbnail'
   end
 
@@ -47,8 +47,8 @@ class ThumbnailPicturesPartialTest < SharedPicturesPartialTest
 
   def touch_picture_files
     d=App.root.join *%w[public images gallery]
-    (@picture_files=[nil,'-t'].map{|e| d.join "two#{e}.png"} ).
-        map{|e| FileUtils.touch e}
+    p=@picture_files=[nil,'-t'].map{|e| d.join "two#{e}.png"}
+    p.each{|e| FileUtils.touch e}
   end
 
 end

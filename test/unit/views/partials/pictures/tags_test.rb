@@ -4,7 +4,7 @@ class TagsPicturesPartialTest < SharedPartialTest
 
   test "should render the right tag name" do
     tag_two
-    assert_select 'div.tags > div.tag', 'two-name'
+    assert_single @ds, 'two-name'
   end
 
   test "happy path should render..." do
@@ -13,13 +13,12 @@ class TagsPicturesPartialTest < SharedPartialTest
     check_pretty_html_source nil, %w[tags  tag]
 # The right partial, once:
     assert_partial
-# The tag partial the right number of times:
+# The tag partial, twice:
     assert_partial 'pictures/_tag', 2
-# One all-tags div:
-    s=CssString.new 'div.tags'
-    assert_select s, 1 do
+# A single all-tags div:
+    assert_select @dt, 1 do
 # At least one tag within a list of all tags:
-      assert_select s.child 'div.tag'
+      assert_select @ds
     end
   end
 
@@ -34,6 +33,12 @@ class TagsPicturesPartialTest < SharedPartialTest
   def render_partial
     @use_controller=:admin_pictures
     super 'pictures/tags', :tags => @tags
+  end
+
+  def setup
+    @d=CssString.new 'div'
+    @dt=@d.css_class 'tags'
+    @ds=@dt.child(@d).css_class 'tag'
   end
 
   def tag_two

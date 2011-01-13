@@ -8,15 +8,15 @@ class MessagesApplicationPartialTest < SharedPartialTest
 # The right partial, once:
     assert_partial
 # And...
-# Include one messages div:
-    assert_select CssString.new('div').css_class('messages'), 1
+# Include one messages div with the right contents:
+    assert_single CssString.new('div').css_class('messages'), @text
   end
 
 #-------------
   private
 
   def setup
-    [:error,:notice].each{|e| flash.now[e]="some #{e}" }
+    @text=[:notice,:error].map{|e| s="some #{e}"; flash.now[e]=s}.join "\n"
     render_partial 'application/messages'
   end
 

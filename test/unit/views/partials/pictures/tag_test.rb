@@ -10,14 +10,10 @@ class TagPicturesPartialTest < SharedPicturesPartialTest
     check_pretty_html_source nil, 'tag'
 # A single...:
 # Tag div, which should have the right css id:
-    assert_select @dt, 1 do
-      assert_select @iq, "tag_#{@tag.id}"
-    end
+    assert_single [@dt,'id'], "tag_#{@tag.id}"
 # Anchor, which should link to the right tag:
-    assert_select @dt.child(@a), 1
-    assert_select @a, 1 do
-      assert_select @hq, "/admin_pictures/#{@tag.name}"
-    end
+    assert_select @dt.child(@a='a'), 1
+    assert_single [@a,'href'], '/admin_pictures/'+@tag.name
   end
 
   test "if tag is not a model record" do
@@ -32,8 +28,7 @@ class TagPicturesPartialTest < SharedPicturesPartialTest
   end
 
   def setup
-    @a, @d = %w[a  div].map{|e| CssString.new e}
-    @hq, @iq = %w[href  id].map{|e| CssString.new.attribute e, '?'}
+    @d=CssString.new 'div'
     @dt=@d.css_class 'tag'
   end
 

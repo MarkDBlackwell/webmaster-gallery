@@ -12,6 +12,11 @@ class ViewsTest < ActionView::TestCase
 #-------------
 # Alert me tests:
 
+# TODO: add these:
+# These argument parentheses confuse the parser:
+## m(o.m(v,v).m(v,v), 1,  [v,v].join v) do
+## m(o.m(v,v).m(v,v), 1, ([v,v].join v) do
+
 # Test of multiple tests:
   %w[abc def ghi].each do |s|
     case s
@@ -94,13 +99,13 @@ class ViewsTest < ActionView::TestCase
   end
 
   test "alert me (partial, neither keyword)..." do
-    touch_picture_files
+    touch_picture_file
     render 'pictures/thumbnail', :picture => (pictures :two)
     partial_assertions
   end
 
   test "alert me (partial, both keywords)..." do
-    touch_picture_files
+    touch_picture_file
     render :partial => 'pictures/thumbnail', :locals => {:picture =>
         (pictures :two)}
     partial_assertions
@@ -111,31 +116,37 @@ class ViewsTest < ActionView::TestCase
 
   def partial_assertions
 # TODO: How can I tell when Rails implements this (string without '_')?:
-#   assert_template :partial => 'pictures/thumbnail'
-# When Rails enables these semantics (and finds a partial):
-    s1='pictures/_thumbnail'
-    assert_template s1, 0
-    assert_template({:partial => s1}, 0)
-    s2,s3 = %w.[alt=?]  two-title.
-    assert_select s2, {:text => s3}, 0
-    assert_select s2, {:text => s3, :count => 0}, 0
-    assert_select s2, {:text => s3, :count => 1}, 0
+##   assert_template :partial => 'pictures/thumbnail'
+    @s1,@s2,@s3 = %w( pictures/_thumbnail  [alt=?]  two-title )
+    [false,0].each do |c| # Count.
+# When Rails enables these semantics and finds a...:
+# Partial:
+      assert_template @s1, c
+      assert_template({:partial => @s1}, c)
+# Attribute selector, with options text or count:
+      assert_select @s2, {:text => @s3}, c
+      assert_select @s2, {:count => c}, c
+      assert_select @s2, {:text => @s3, :count => false}, c
+      assert_select @s2, {:text => @s3, :count => 0}, c
+      assert_select @s2, {:text => @s3, :count => 1}, c
+    end
     these_semantics_work
     @picture_file.delete
+    @s1,@s2,@s3=nil
   end
 
   def these_semantics_work
-    assert_template :partial => 'pictures/_thumbnail', :count => 1
+    assert_template :partial => @s1, :count => 1
     assert_select 'div.thumbnail', 1
-    assert_select '[alt=?]', 'two-title', 1
+    assert_select @s2, @s3, 1
     s=Regexp.escape '/images/gallery/two-t.png?'
     r=Regexp.new %r"\A#{s}\d+\z"
     assert_select '[src=?]', r, 1
   end
 
-  def touch_picture_files
-    @picture_file=App.root.join *%w[public images gallery two-t.png]
-    FileUtils.touch @picture_file
+  def touch_picture_file
+    p=@picture_file=(App.root.join *%w[public images gallery two-t.png])
+    FileUtils.touch p
   end
 
 end
