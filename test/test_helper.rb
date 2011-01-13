@@ -2,8 +2,10 @@ ENV["RAILS_ENV"] = "test"
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 REQUIRE_TEST_BASENAME='_shared.rb'
+TEST_GROUP=caller(0).reject{|e| e.start_with? __FILE__}.first.split('/').
+    reject{|e| '.'==e}.take 2
 paths=[]
-App.root.join('test').find do |path|
+App.root.join(*TEST_GROUP).find do |path|
   b=path.basename.to_s
   Find.prune if path.directory? && ?.==b[0]
   paths << path.dirname.join(b.chomp '.rb') if REQUIRE_TEST_BASENAME==b
