@@ -12,7 +12,6 @@ class ThumbnailPicturesPartialTest < SharedPicturesPartialTest
     assert_select @dt, 1
 # Anchor, which should...:
     assert_select @dt.child(@a), 1
-    assert_select @a, 1
 # Link to the right picture:
     assert_single [@a,'href'], (filename_matcher 'two.png')
 # Open in a new window:
@@ -21,7 +20,6 @@ class ThumbnailPicturesPartialTest < SharedPicturesPartialTest
 # A single...:
 # Image, which should have the right...
     assert_select @dt.child(@a,@i), 1
-    assert_select @i, 1
 # Thumbnail filename source:
     assert_single [@i,'src'], (filename_matcher 'two-t.png')
 # Title as alt-text:

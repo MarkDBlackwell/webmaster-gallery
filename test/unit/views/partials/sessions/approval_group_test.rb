@@ -16,7 +16,7 @@ class ApprovalGroupSessionsPartialTest < SharedPartialTest
     assert_single [@f,'action'], '/session'
     assert_single [@f,@m], 'post'
 # Which should...:
-# Indicate the http method, 'put':
+# Indicate the http method, PUT:
     assert_single [@f.child(@d,@ih).attribute('name', '_'+@m), @v], 'put', false
 # Include a submit button...:
 # On which should be the appropriate text:

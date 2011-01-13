@@ -29,7 +29,7 @@ class ShouldIncludeThisFileLog
     unless i.blank?
       s=a.at(i)
       @previous=s.slice(0..s.index(?:))
-      @log.add(Logger::DEBUG, @previous)
+      @log.add(Logger::DEBUG,@previous)
     end
   end
 end

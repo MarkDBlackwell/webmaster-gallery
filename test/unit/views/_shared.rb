@@ -66,7 +66,8 @@ class SharedViewTest < ActionView::TestCase
     def first(*a) self.child(*a) + ':first-child' end
     def last( *a) self.child(*a) +  ':last-child' end
 
-    def not(*a)  s=':not(';  self + s + a.join( ')'+s) + ')' end
+    def not(*a)  s=':not('; self + s + a.join( ')'+s) + ')' end
+    def +(value) CssString.new [self,value].to_s end
 
     def attribute(*a)
       odd_p=pairs=(a.length+1)/2

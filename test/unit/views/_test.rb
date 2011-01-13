@@ -123,9 +123,10 @@ class ViewsTest < ActionView::TestCase
 # Partial:
       assert_template @s1, c
       assert_template({:partial => @s1}, c)
-# Attribute selector, with options text or count:
-      assert_select @s2, {:text => @s3}, c
+# Attribute selector, with option count:
       assert_select @s2, {:count => c}, c
+# Attribute selector, with options text & count:
+      assert_select @s2, {:text => @s3}, c
       assert_select @s2, {:text => @s3, :count => false}, c
       assert_select @s2, {:text => @s3, :count => 0}, c
       assert_select @s2, {:text => @s3, :count => 1}, c

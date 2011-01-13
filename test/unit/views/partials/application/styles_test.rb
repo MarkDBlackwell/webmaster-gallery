@@ -4,25 +4,24 @@ class StylesApplicationPartialTest < SharedPartialTest
 
   test "happy path should render..." do
 # Pretty html source:
-    check_pretty_html_source 'Styles', nil, %w[style  /style], 'div.'
+    check_pretty_html_source @s.pluralize.capitalize, nil, [@s,'/'+@s], @d+'.'
 # The right partial, once:
     assert_partial
 # A styling suggestion for a list of all tags:
-    style_include? @d.css_class('tags').descend '*', @di
+    include? @d.css_class('tags').descend '*', @di
 # A gallery styling suggestion:
-    style_include? @dp.descend @dib
+    include? @dp.descend @dib
 # And...
 # Shouldn't display a picture commit button:
-    style_include? @dp.child('form','input').attribute('name', 'commit').
+    include? @dp.child('form','input').attribute('name', 'commit').
         descend display 'none'
 # Session buttons should be horizontal:
-    style_include? @d.css_class('session-buttons').descend '*', @di
+    include? @d.css_class('session-buttons').descend '*', @di
 # Labels should be horizontal:
-    style_include? @d.css_class('label').descend @dib
+    include? @d.css_class('label').descend @dib
 # Include one style tag:
-    assert_select @s, 1
-    assert_select @ss, 1
-    assert_select @ss.attribute('type','text/css'), 1
+    assert_single [@s,'class'], @s+'s'
+    assert_single [@s,'type' ], 'text/css'
   end
 
 #-------------
@@ -33,7 +32,7 @@ class StylesApplicationPartialTest < SharedPartialTest
   end
 
   def display(s)
-    CssString.new '{display: '  + s +  '}'
+    CssString.new '{display: ' + s + '}'
   end
 
   def setup
@@ -41,11 +40,9 @@ class StylesApplicationPartialTest < SharedPartialTest
     @d,@s = %w[div style].map{|e| CssString.new e}
     @di,@dib = %w[inline inline-block].map{|e| display e}
     @dp=@d.css_class 'picture'
-# Fails without CssString.new:
-    @ss=CssString.new @s.css_class(@s)+'s'
   end
 
-  def style_include?(substring)
+  def include?(substring)
     assert_select_include? @s.attribute('type','text/css'), substring
   end
 

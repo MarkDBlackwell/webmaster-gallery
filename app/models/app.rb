@@ -1,18 +1,15 @@
 class App
 
-  a=[ %w[root], %w[session_options webmaster] ]
-  %w[app config].each_with_index do |group,i|
-    a.at(i).each do |e|
-      self.class_eval "def self.#{e}() #{group}.#{e} end" #->
-                     # def self.webmaster() config.webmaster end
-    end
+  %w[  group_1    group_2                          ].zip([
+       ['root'],  %w[ session_options  webmaster]
+      ]).each do |g,methods|
+    methods.each{ |m| self.class_eval "def self.#{m}() #{g}.#{m} end" }
   end
 
 #-------------
   private
 
-  def self.app() Gallery::Application end
-
-  def self.config() app.config end
+  def self.group_1()  Gallery::Application end
+  def self.group_2()  group_1.config       end
 
 end

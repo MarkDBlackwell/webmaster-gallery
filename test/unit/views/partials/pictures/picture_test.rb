@@ -7,14 +7,11 @@ class PicturePicturesPartialTest < SharedPicturesPartialTest
   test "happy path should render..." do
 # The right partial, once:
     assert_partial
-# A single...:
-# Picture div:
-    assert_select @dp, 1
-# Thumbnail within a picture:
-    assert_select @pd.css_class('thumbnail'), 1
-# The right picture:
+# A single, right picture:
     assert_single [@dp,'id'], 'picture_'+@picture.id.to_s
-# Within a picture, the right...:
+# And within it, the right...:
+# Thumbnail:
+    assert_select @pd.css_class('thumbnail'), 1
 # Year:
     assert_single @fi.css_class('year'), '2002'
 # Tags:
@@ -37,9 +34,7 @@ class PicturePicturesPartialTest < SharedPicturesPartialTest
     @df=@dp.child @f
     assert_select @df, false
     setup{@edit_fields=true} # Switch.
-# Should render a single editing form...:
-    assert_select @df, 1
-# Which should have a single, right...:
+# Should render a single editing form, with a single, right...:
 # Action url:
     assert_single [@df,'action'], (url_for :controller => @use_controller,
         :action => :show, :id => @picture.id)
@@ -55,9 +50,7 @@ class PicturePicturesPartialTest < SharedPicturesPartialTest
     setup{@editable=true} # Switch.
 # Edit div within a picture:
     assert_select @de, 1
-# Button within an edit div...:
-    assert_select @fb, 1
-# Which should have method get:
+# And within it, a single button with method, GET:
     assert_single [@fb,@m], 'get'
   end
 

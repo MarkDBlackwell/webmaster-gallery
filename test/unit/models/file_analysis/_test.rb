@@ -7,8 +7,7 @@ class FileAnalysisTest < ActiveSupport::TestCase
 # Review-message texts should be:
     assert_equal review_messages, @fa.review_messages
 # Groups should include a message:
-    (@fa.review_groups.clone << @fa.approval_group).
-          each_with_index do |e,i|
+    (@fa.review_groups.clone<<@fa.approval_group).each_with_index do |e,i|
       assert_kind_of String, e.message, (s="message #{i}")
       assert_present e.message, s
     end

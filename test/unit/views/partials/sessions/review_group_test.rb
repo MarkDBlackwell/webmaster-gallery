@@ -20,40 +20,40 @@ class ReviewGroupSessionsPartialTest < SharedPartialTest
     assert_select @da, 2
     assert_select @a, 2
 # Picture filenames, each once:
-    assert_select @a.first, :text => @group.list.first.filename
-    assert_select @a.last,  :text => @group.list.last .filename
+    assert_select @a.first, @group.list.first.filename
+    assert_select @a.last,  @group.list.last .filename
 # And only the pictures:
-    assert_select (@dl.descend '*'), 2
     assert_single @dl, (@group.list.map(&:filename).join "\n")
+    assert_select (@dl.descend '*'), 2
   end
 
   test "if list is not of a model" do
     render_partial
 # Should render the list itself:
-    assert_select @gl, :text => (@group.list.join ' ')
+    assert_single @gl, (@group.list.join ' ')
   end
 
   test "if list is empty" do
     @group.list=[]
     render_partial
 # Should render a special list value:
-    assert_select @gl, :text => '(none)'
+    assert_single @gl, @special
   end
 
   test "if message is empty" do
     @group.message=''
     render_partial
-# Should remder the empty message:
-    assert_select @gm, :text => ''
+# Should render the empty message:
+    assert_single @gm, ''
   end
 
   test "if both list and message are empty, should render..." do
     @group.list, @group.message = [], ''
     render_partial
 # A special list value:
-    assert_select @gl, :text => '(none)'
+    assert_single @gl, @special
 # The empty message:
-    assert_select @gm, :text => ''
+    assert_single @gm, ''
   end
 
 #-------------
@@ -71,12 +71,11 @@ class ReviewGroupSessionsPartialTest < SharedPartialTest
   def setup
     @use_controller=:admin_pictures
     @group=Struct.new(:list,:message).new  %w[abc def], 'something'
-    @a, @d = %w[a div].map{|e| CssString.new e}
-    @dg, @dl, @dm = %w[group  list  message].map{|e| @d.css_class 'review-'+e}
-    @gl=@dg.child @dl
-    @gm=@dg.child @dm
-    @da=@dl.child 'a'
-    @ga=@gl.child 'a'
+    @special='(none)'
+    @a,@d = %w[a div].map{|e| CssString.new e}
+    @dg,@dl,@dm = %w[group  list  message].map{|e| @d.css_class 'review-'+e}
+    @gl,@gm=[@dl,@dm].map{|e| @dg.child e}
+    @da,@ga=[@dl,@gl].map{|e| e.child @a}
   end
 
 end

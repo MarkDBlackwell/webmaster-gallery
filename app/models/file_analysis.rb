@@ -12,7 +12,7 @@ class FileAnalysis
   end
 
   def initialize
-    @review_groups, @approval_group = get_groups
+    @review_groups,@approval_group=get_groups
   end
 
   def make_changes

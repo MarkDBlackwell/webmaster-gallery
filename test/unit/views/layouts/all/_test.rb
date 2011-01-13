@@ -14,13 +14,13 @@ class AllLayoutTest < SharedLayoutTest
 # Pretty html source:
       check_pretty_html_source( %w[
       Action\ content  All\ tags  Messages  Scripts  Session\ buttons  Styles
-      ], %w[
+          ], %w[
       action-content  admin-pictures-index  all-tags  destroy  edit  messages
       scripts  session-buttons  show  user-pictures-index 
-      ], %w[
+          ], %w[
       /body></html  !DOCTYPE\ html  /head></body  html><head  script
       script\ src="/javascripts/  style  /style  title
-      ], %w[  div. ])
+          ], %w[  div. ])
 #-------------
 # Html should...
 # Have the right document type:
@@ -96,9 +96,10 @@ class AllLayoutTest < SharedLayoutTest
       end
     end unless @filenames
     @b,@h,@ht,@s,@t = %w[body head html style title].map{|e| CssString.new e}
-    @ds,@dm,@dsb,@dat,@dac=
-        %w[scripts  messages  session-buttons  all-tags  action-content].
-        map{|e| (CssString.new 'div.') + e}
+    d=CssString.new 'div'
+    @ds,@dm,@dsb,@dat,@dac = %w[
+    scripts  messages  session-buttons  all-tags  action-content
+        ].map{|e| d.css_class e}
   end
 
 end

@@ -12,8 +12,7 @@ class TagPicturesPartialTest < SharedPicturesPartialTest
 # Tag div, which should have the right css id:
     assert_single [@dt,'id'], "tag_#{@tag.id}"
 # Anchor, which should link to the right tag:
-    assert_select @dt.child(@a='a'), 1
-    assert_single [@a,'href'], '/admin_pictures/'+@tag.name
+    assert_single [(@dt.child 'a'),'href'], '/admin_pictures/'+@tag.name
   end
 
   test "if tag is not a model record" do
