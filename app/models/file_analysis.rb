@@ -5,7 +5,7 @@ class FileAnalysis
   end
 
   def approval_needed?
-    safe=review_messages.values_at(0,4,5)
+    safe=review_messages.values_at(*safe_at=[])
     a=@review_groups.reject{|e| safe.include? e.message}
     @approval_group.list      .present? ||
             a.map(&:list).to_s.present?
@@ -44,12 +44,9 @@ class FileAnalysis
 
   def review_messages
     [
-        'Tags in file:',
         'Bad tag names in file:',
         'Bad picture names in directory:',
         'Unpaired pictures in directory:',
-        'Existing pictures:',
-        'Pictures in directory:',
         ]
   end
 
@@ -84,8 +81,7 @@ class FileAnalysis
     s=Struct.new :list, :message
     approval=s.new '', 'refresh'
     rm=review_messages
-    review=[    s.new(file_tn,  rm.shift),
-                s.new(ft_bad_n, rm.shift)]
+    review=[    s.new(ft_bad_n, rm.shift)]
     case
     when ft_bad_n.present?
     when fp_bad_n.present?
@@ -97,9 +93,7 @@ class FileAnalysis
     else
       review.concat [
                 s.new(fp_bad_n, rm.shift),
-                s.new(unpaired, rm.shift),
-                s.new(p,        rm.shift),
-                s.new(file_pn,  rm.shift)] unless 0==model_i
+                s.new(unpaired, rm.shift)] unless 0==model_i
 # TODO: maybe only p and file_pn unless 0==model_i
       if (a=records || names).present?
         m = %w[ Tag Picture ].at     model_i

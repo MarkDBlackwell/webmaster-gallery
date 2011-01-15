@@ -1,12 +1,13 @@
 #!/bin/sh
 # Author: Mark D. Blackwell
 # Date written: December 21, 2010
-# Date last changed: December 29, 2010
+# Date last changed: January 15, 2011
 # Find files matching a pathname regular expression.
 # Usage:
 #   pathr <pathname-regular-expression>
-# Example usage:
+# Usage examples:
 #   pathr '.*\.yml'
 #   pathr '.*tag.*'
 #   pathr 'app/.*/_?pic.*'
-find . -regex $1 -type f | sort
+#   pathr '.*file_a.*'
+find test app -regex $1 -type f | sort

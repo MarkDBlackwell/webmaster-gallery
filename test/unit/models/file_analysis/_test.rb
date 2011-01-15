@@ -34,7 +34,7 @@ class FileAnalysisTest < ActiveSupport::TestCase
     mock_file_tag_bad_names(u= %w[a b])
     happy_path
     check_approval_group [], 'refresh'
-    check_review_groups 2, u
+    check_review_groups 1, u
     check_changes true
   end
 
@@ -42,7 +42,7 @@ class FileAnalysisTest < ActiveSupport::TestCase
     mock_directory_picture_bad_names(u= %w[a b])
     happy_path
     check_approval_group [], 'refresh'
-    check_review_groups 3, u
+    check_review_groups 2, u
     check_changes true
   end
 
@@ -50,7 +50,7 @@ class FileAnalysisTest < ActiveSupport::TestCase
     mock_unpaired_names(u= %w[a b])
     happy_path
     check_approval_group [], 'refresh'
-    check_review_groups 4, u
+    check_review_groups 3, u
     check_changes true
   end
 
@@ -63,7 +63,7 @@ class FileAnalysisTest < ActiveSupport::TestCase
           happy_path
           check_approval_group change, "approve #{operation}ing #{model}s"
 # TODO: Why this formula? Refactor.
-          check_review_groups 4*i+3, change,
+          check_review_groups 2*i+2, change,
               "#{model.capitalize}s to be #{operation}ed:"
           check_changes true, [model, operation, how_many]
         end
@@ -85,12 +85,11 @@ class FileAnalysisTest < ActiveSupport::TestCase
 
   def check_changes(an,difference=nil)
 # Approval should be needed before changes:
-    assert_equal an, @fa.approval_needed?
+    assert_equal an, @fa.approval_needed?, 'approval_needed?'
     return unless difference
 # Make_changes should change the database:
     model,operation,how_many=*difference
-    a = %w[tag picture]
-    other=a.at( (1 + a.index(model)) %2)
+    other=(a= %w[tag picture]).at a.reverse.index model
     model,other=[model,other].map(&:capitalize).map &:constantize
     n=[1,-1].at( %w[add delet].index operation) * how_many
     expected=[model.count + n, other.count]
@@ -127,15 +126,12 @@ class FileAnalysisTest < ActiveSupport::TestCase
   end
 
   def review_messages
-    b,d,f,i,p,t = %w[ bad directory file in picture tag]
-    ns,ps,ts = ['name', p, t].map{|e| e.pluralize}
+    b,d,i,p = %w[ bad directory in picture]
+    ns,ps = ['name', p].map{|e| e.pluralize}
     [
-          [                 ts, i, f, ],
-          [          b,  t, ns, i, f, ],
-          [          b,  p, ns, i, d, ],
-          [ 'unpaired',     ps, i, d, ],
-          [ 'existing',     ps,       ],
-          [                 ps, i, d, ],
+          [          b, 'tag', ns, i, 'file', ],
+          [          b,     p, ns, i,      d, ],
+          [ 'unpaired',        ps, i,      d, ],
         ].map{|e| e.join(' ').capitalize.concat ':'}
   end
 
