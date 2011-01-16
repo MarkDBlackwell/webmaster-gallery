@@ -10,19 +10,28 @@ class DirectoryPicture
   class FindError < Exception
   end
 
+  @records=[]
+  @bad_names=[]
+  @unpaired_names=[]
+
   def self.find(*args)
     raise FindError unless args.include? :all
-    files=self.get_good_files
-    unpaired=self.get_unpaired_names files
-    files.reject{|e| e.is_thumbnail || (unpaired.include? e.filename)}
+    @records
   end
 
   def self.find_bad_names
-    self.get_bad_names
+    @bad_names
   end
 
   def self.find_unpaired_names
-    self.get_unpaired_names self.get_good_files
+    @unpaired_names
+  end
+
+  def self.read
+    g,@bad_names=self.get_files
+    u=self.extract_unpaired_names g
+    @records=g.reject{|e| e.is_thumbnail || (u.include? e.filename)}
+    @good_files,@unpaired_names=g,u
   end
 
 #-------------
@@ -34,10 +43,6 @@ class DirectoryPicture
 
   def self.gallery_directory_entries
     self.gallery_directory.entries.map &:to_s
-  end
-
-  def self.get_bad_names
-    self.get_files.last
   end
 
   def self.get_files
@@ -68,15 +73,15 @@ class DirectoryPicture
     [good_files, bad_names.sort]
   end
 
-  def self.get_good_files
-    self.get_files.first
+  def self.good_files # Keep for test.
+    @good_files
   end
 
   def self.get_names(files)
     files.map(&:filename).sort
   end
 
-  def self.get_unpaired_names(files)
+  def self.extract_unpaired_names(files)
     th='-t' # Thumbnail flag in file names before the extension.
     a=self.get_names files
     self.get_names( files.reject do |e|

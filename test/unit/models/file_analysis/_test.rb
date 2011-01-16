@@ -30,28 +30,21 @@ class FileAnalysisTest < ActiveSupport::TestCase
     check_changes false
   end
 
-  test "should review file tag bad names first" do
-    mock_file_tag_bad_names(u= %w[a b])
-    happy_path
-    check_approval_group [], 'refresh'
-    check_review_groups 1, u
-    check_changes true
-  end
-
-  test "should review directory picture bad names second" do
-    mock_directory_picture_bad_names(u= %w[a b])
-    happy_path
-    check_approval_group [], 'refresh'
-    check_review_groups 2, u
-    check_changes true
-  end
-
-  test "should review unpaired directory pictures third" do
-    mock_unpaired_names(u= %w[a b])
-    happy_path
-    check_approval_group [], 'refresh'
-    check_review_groups 3, u
-    check_changes true
+  (0..2).zip([ %w[ file      tag     bad ],
+               %w[ directory picture bad ],
+               %w[ unpaired              ]].
+      map{|e| e.push 'names'}) do |i,e|
+    test "should review #{e.join ' '} #{%w[first second third].at i}" do
+      bad = %w[a b]
+      send e.unshift('mock').join('_'), bad
+          #-> mock_file_tag_bad_names
+          #-> mock_directory_picture_bad_names
+          #-> mock_unpaired_names
+      happy_path
+      check_approval_group [], 'refresh'
+      check_review_groups i+1, bad
+      check_changes true
+    end
   end
 
   %w[tag picture].each_with_index do |model,i|
@@ -137,6 +130,7 @@ class FileAnalysisTest < ActiveSupport::TestCase
 
   def setup
     DirectoryPicture.expects(:find_bad_names).at_least(0).returns []
+    %w[FileTag DirectoryPicture].each{|e| e.constantize.read}
   end
 
 end

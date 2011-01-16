@@ -75,7 +75,7 @@ class SessionsController < ApplicationController
     @use_controller=:admin_pictures
   end
 
-  def cache_user_picture_pages
+  def cache_user_picture_pages # Keep for tests.
   end
 
   def delete_cache
@@ -94,6 +94,7 @@ class SessionsController < ApplicationController
   end
 
   def get_file_analysis
+    %w[FileTag DirectoryPicture].each{|e| e.constantize.read}
     a=@file_analysis=FileAnalysis.new    
      @review_groups,  @approval_group =
     a.review_groups, a.approval_group

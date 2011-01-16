@@ -8,6 +8,8 @@
 # Usage examples:
 #   pathr '.*\.yml'
 #   pathr '.*tag.*'
+#   pathr 'app/.*pic.*'
 #   pathr 'app/.*/_?pic.*'
-#   pathr '.*file_a.*'
-find test app -regex $1 -type f | sort
+#   pathr '.*(get_f|rs/ses|ls/dir|file_t).*'
+#   pathr '.*(get_f|rs/ses|ls/(dir|file_t)).*'
+find test app -regextype posix-egrep -regex $1 -type f | sort
