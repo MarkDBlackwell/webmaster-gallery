@@ -10,7 +10,7 @@ class FileTag
   class FindError < Exception
   end
 
-  @records=  []
+  @records=[]
   @bad_names=[]
 
   def self.find (*args)

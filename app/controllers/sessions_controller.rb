@@ -28,6 +28,9 @@ class SessionsController < ApplicationController
   end
 
   def edit
+    s=Struct.new :list, :message
+    @erroneous=s.new DirectoryPicture.find(:all).reject{|e| e.errors.
+        empty?}, ''
   end
 
   def new
@@ -43,8 +46,12 @@ class SessionsController < ApplicationController
   def show
     (redirect_to :action => :edit; return) if @file_analysis.approval_needed?
     s=Struct.new :list, :message
-    @review_groups=[s.new Picture.find_database_problems,"Pictures with #{dp}:"]
-    @approval_group=s.new '', refresh_message
+    dp=Picture.find_database_problems
+    @review_groups=[s.new dp,"Pictures with #{dp}:"]
+    er=Picture.find(:all).reject{|e| e.valid?}
+    @approval_group=s.new '', dp.empty? && er.empty? ? update_message :
+        refresh_message
+    @erroneous=s.new er, ''
     render :edit
   end
 
@@ -54,7 +61,7 @@ class SessionsController < ApplicationController
     case
     when pa.present? && (pa.split.sort.join ' ')==@approval_group.list
       @file_analysis.make_changes
-    when pa.blank? && 'update-user-pictures'==params[:commit] &&
+    when pa.blank? && update_message==params[:commit] &&
         ! (a=FileAnalysis.new).approval_needed? &&
         Picture.find_database_problems.empty?
       delete_cache
@@ -106,6 +113,10 @@ class SessionsController < ApplicationController
 
   def refresh_message
     'refresh ' + dp
+  end
+
+  def update_message
+    'update-user-pictures'
   end
 
 end

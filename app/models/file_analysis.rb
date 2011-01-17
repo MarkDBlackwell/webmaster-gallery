@@ -15,6 +15,7 @@ class FileAnalysis
     @review_groups,@approval_group=get_groups
   end
 
+
   def make_changes
     return false if @approval_group.blank? || @approval_group.list.blank? ||
                      @review_groups.blank? || @review_groups.last.blank? ||
@@ -34,6 +35,12 @@ class FileAnalysis
     when 1
       model.where(["#{method} IN (?)", @approval_group.list.split]).all.
           each{|e| e.destroy}
+      if 1==model_i
+        m=model.order(method).all
+        f=DirectoryPicture.find(:all).sort{|a,b| a.filename<=>b.filename}
+        f.length.times{|i| m[i].sequence=f.at(i).sequence}
+        m.each{|e| e.save :validate => false}
+      end
     end
     true
   end
