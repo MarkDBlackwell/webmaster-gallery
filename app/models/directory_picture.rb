@@ -6,7 +6,14 @@ class DirectoryPicture
   attr_accessor :sequence
 
   validates_each :filename do |record, attr, value|
-    record.errors.add attr, 'contains /' if value.include? ?/
+    characters,names=[?/, ??], '-?-'
+    messages=['contains a directory separator (/)',
+              'contains a bad character', 
+              'is bad',
+        ]
+    (characters.map{|e| value.include? e} +
+    [names    ].map{|e| e==value        }).zip(messages).
+        each{|b,m| record.errors.add attr, m if b}
   end
 
   class FindError < Exception
@@ -42,7 +49,7 @@ class DirectoryPicture
       r=self.new
       r.filename=e.filename
       r.sequence=i
-      r.errors.add :base, 'Base test error message'
+      r.valid?
       r
     end
   end

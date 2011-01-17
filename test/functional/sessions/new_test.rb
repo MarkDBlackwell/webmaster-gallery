@@ -17,7 +17,7 @@ class NewSessionsControllerTest < SharedSessionsControllerTest
 # Should render new:
     assert_template :new
 # Should flash:
-    assert_equal 'Cookies required, or session timed out.', flash.now[:error]
+    assert_equal 'Cookies required.', flash.now[:error]
 # Should log out:
     assert_not_logged_in
   end

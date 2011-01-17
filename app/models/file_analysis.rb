@@ -1,8 +1,6 @@
 class FileAnalysis
 
-  def approval_group
-    @approval_group
-  end
+  attr_reader :approval_group, :review_groups
 
   def approval_needed?
     safe=review_messages.values_at(*safe_at=[])
@@ -11,10 +9,15 @@ class FileAnalysis
             a.map(&:list).to_s.present?
   end
 
+  def files_invalid?
+    models = %w[ FileTag    DirectoryPicture ]
+    models.map{|m| m.constantize.find(:all).select{|e| e.invalid?}}.flatten.
+        present?
+  end
+
   def initialize
     @review_groups,@approval_group=get_groups
   end
-
 
   def make_changes
     return false if @approval_group.blank? || @approval_group.list.blank? ||
@@ -43,10 +46,6 @@ class FileAnalysis
       end
     end
     true
-  end
-
-  def review_groups
-    @review_groups
   end
 
   def review_messages

@@ -89,7 +89,6 @@ class ActiveSupport::TestCase
     mock_model FileTag, :name, expected
   end
 
-
   def mock_model(model,method,expected)
     expected=case
 # See ActiveRecord::Base method, '==='. Another way is to use object_id:

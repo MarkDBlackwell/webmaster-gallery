@@ -2,5 +2,7 @@
         @review_groups -%>
 <%= render :partial => 'sessions/approval_group', :locals =>
         {:approval_group => @approval_group} -%>
-<%= render :partial => 'sessions/review_group', :locals => {:review_group =>
- @erroneous} if @erroneous -%>
+<%  @erroneous.each do |e| -%>
+<%=   render :partial => 'sessions/review_group', :locals => {:review_group =>
+          e} -%>
+<%  end -%>

@@ -14,7 +14,7 @@ class EditSessionsControllerTest < SharedSessionsControllerTest
   test "happy path..." do
     happy_path
 # Should render the right template:
-    assert_template @action
+    assert_template :single
 # Should assign approval and review groups...:
     fa=FileAnalysis.new
     %w[approval_group review_groups].each do |e|

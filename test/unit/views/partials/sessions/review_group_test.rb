@@ -20,11 +20,11 @@ class ReviewGroupSessionsPartialTest < SharedPartialTest
     assert_select @da, 2
     assert_select @a, 2
 # Picture filenames, each once:
-    assert_select @a.first, @group.list.first.filename
-    assert_select @a.last,  @group.list.last .filename
 # And only the pictures:
-    assert_single @dl, (@group.list.map(&:filename).join "\n")
-    assert_select (@dl.descend '*'), 2
+    assert_select (@dl.descend '*'), 4
+    assert_select (@dl.child 'a'), 2
+    assert_select (@dl.child(@d).css_class 'picture-errors'), 2
+    assert_single @dl, (@group.list.map(&:filename).map{|e| e+'.'}.join "\n")
   end
 
   test "if list is not of a model" do

@@ -1,11 +1,11 @@
 class ApplicationController < ActionController::Base
+  protect_from_forgery # Keep before filter, 'cookies_required'.
+  rescue_from ActionController::InvalidAuthenticityToken, :with =>
+      :handle_bad_authenticity_token
   before_filter :cookies_required
   before_filter :find_all_tags
   before_filter :guard_http_method
   before_filter :guard_logged_in
-  protect_from_forgery
-  rescue_from ActionController::InvalidAuthenticityToken, :with =>
-      :handle_bad_authenticity_token
 
 #-------------
   private
@@ -39,12 +39,15 @@ class ApplicationController < ActionController::Base
   end
 
   def handle_bad_authenticity_token
-    cookies.empty? ? cookies_required : handle_bad_request(
-        'Invalid authenticity token.')
+    unless cookies.empty?
+      handle_bad_request 'Invalid authenticity token.'
+    else
+      flash[:error]='Session timed out.'
+      cookies_required
+    end
   end
 
   def handle_bad_request(message)
-    raise if message.blank?
     clear_session
     flash[:error]=message
     redirect_to :controller => :sessions, :action => :new

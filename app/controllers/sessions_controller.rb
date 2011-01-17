@@ -7,12 +7,12 @@ class SessionsController < ApplicationController
 
   def create
     (already_in; return) if session[:logged_in]
+    action=:new
     clear_session
     if get_password==params[:password]
       action=:edit
       session[:logged_in]=true
     else
-      action=:new
       flash[:error]='Password incorrect.'
     end
     redirect_to :action => action
@@ -29,44 +29,60 @@ class SessionsController < ApplicationController
 
   def edit
     s=Struct.new :list, :message
-    @erroneous=s.new DirectoryPicture.find(:all).reject{|e| e.errors.
-        empty?}, ''
+    places = %w[ tag\ file  directory        ]
+    models = %w[ FileTag    DirectoryPicture ]
+    @erroneous=places.zip(models).map{|p,m| s.new m.constantize.find(:all).
+        select{|e| e.invalid?}, "#{p.capitalize} problems:"}
+    fa=@file_analysis
+    flash.now[:notice]="Ready to click the button for #{dp}?" unless (
+        fa.files_invalid? || fa.approval_needed?)
+    render :single
   end
 
   def new
     @suppress_buttons=true
     case when cookies.empty? # action_dispatch.cookies
       clear_session
-      flash.now[:error]='Cookies required, or session timed out.'
+##      flash.now[:error]='Cookies required, or session timed out.'
+      flash.now[:error]='Cookies required.'
     when session[:logged_in]
       already_in
     end
   end
 
   def show
-    (redirect_to :action => :edit; return) if @file_analysis.approval_needed?
+    fa=@file_analysis
+    (redirect_to :action => :edit; return) if fa.files_invalid? || 
+        fa.approval_needed?
     s=Struct.new :list, :message
     dp=Picture.find_database_problems
-    @review_groups=[s.new dp,"Pictures with #{dp}:"]
-    er=Picture.find(:all).reject{|e| e.valid?}
-    @approval_group=s.new '', dp.empty? && er.empty? ? update_message :
-        refresh_message
-    @erroneous=s.new er, ''
-    render :edit
+    @review_groups=[s.new dp,"Pictures with database problems:"]
+    pi=Picture.find(:all).select{|e| e.invalid?}
+    @approval_group=s.new '', dp.empty? && pi.empty? ? update_user_message :
+        refresh_database_message
+    places = %w[ database ]
+    models = %w[ Picture ]
+    @erroneous=places.zip(models).map{|p,m| s.new m.constantize.find(:all).
+        select{|e| e.invalid?}, "#{p.capitalize} problems:"}
+    render :single
   end
 
   def update
     action=:edit
     pa=params[:approval_group]
+    fa=@file_analysis
     case
+    when fa.files_invalid?
     when pa.present? && (pa.split.sort.join ' ')==@approval_group.list
-      @file_analysis.make_changes
-    when pa.blank? && update_message==params[:commit] &&
-        ! (a=FileAnalysis.new).approval_needed? &&
+      fa.make_changes
+    when pa.blank? && update_user_message==params[:commit] &&
+        ! FileAnalysis.new.approval_needed? &&
         Picture.find_database_problems.empty?
       delete_cache
       cache_user_picture_pages
-    else action=:show if refresh_message==params[:commit] end
+      flash[:notice]='Updating user pictures.'
+      action=:show
+    else action=:show if refresh_database_message==params[:commit] end
     redirect_to :action => action
   end
 
@@ -111,11 +127,11 @@ class SessionsController < ApplicationController
     FilePassword.find(:all).first.password
   end
 
-  def refresh_message
+  def refresh_database_message
     'refresh ' + dp
   end
 
-  def update_message
+  def update_user_message
     'update-user-pictures'
   end
 

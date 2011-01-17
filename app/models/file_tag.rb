@@ -4,7 +4,14 @@ class FileTag
   attr_accessor :name
 
   validates_each :name do |record, attr, value|
-    record.errors.add attr, 'contains /' if value.include? ?/
+    characters,names=[?/, ??], '-?-'
+    messages=['contains a directory separator (/)',
+              'contains a bad character', 
+              'is bad',
+        ]
+    (characters.map{|e| value.include? e} +
+    [names    ].map{|e| e==value        }).zip(messages).
+        each{|b,m| record.errors.add attr, m if b}
   end
 
   class FindError < Exception
@@ -28,6 +35,7 @@ class FileTag
     @records=(f.readlines "\n").map{|e| (r=FileTag.new).name=e.chomp "\n"; r}
     f.close
     @bad_names=[]
+    @records.each{|e| e.valid?}
   end
 
 end

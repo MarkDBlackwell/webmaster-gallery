@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class EditSessionsTemplateTest < SharedViewTest
+class SingleSessionsTemplateTest < SharedViewTest
 
   test "happy path should render..." do
 # The right template:
@@ -19,7 +19,8 @@ class EditSessionsTemplateTest < SharedViewTest
     s=Struct         .new   :list,    :message
     @approval_group=s.new %w[fff ee], 'something'
     @review_groups=[(a=s.new []),a]
-    render :template => (@template='sessions/edit')
+    @erroneous=[]
+    render :template => (@template='sessions/single')
   end
 
 end

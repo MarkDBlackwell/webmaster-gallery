@@ -13,7 +13,6 @@ class VerifyAuthenticityTokenFilterApplicationControllerTest <
 # Maybe alter the token in cookies.
 #  end
 
-
   test "when authenticity token is valid..." do
 # Should not invoke handler:
     @controller.expects(:handle_bad_authenticity_token).never

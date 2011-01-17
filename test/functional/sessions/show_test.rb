@@ -17,7 +17,7 @@ class ShowSessionsControllerTest < SharedSessionsControllerTest
   test "happy path should..." do
     happy_path
 # Render the right template:
-    assert_template :edit
+    assert_template :single
 # Assign a single review group...:
     s='Review group'
     r=assigns :review_groups
