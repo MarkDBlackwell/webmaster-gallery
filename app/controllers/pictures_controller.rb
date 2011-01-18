@@ -9,7 +9,11 @@ class PicturesController < ApplicationController
   end
 
   def uncached_index
-    @pictures=Picture.all
+#    @pictures=Picture.all
+    fields     = %w[ weight  year  sequence ]
+    directions = %w[ ASC     DESC  DESC     ]
+    by=fields.zip(directions).map{|f,d| f+' '+d}.join ', '
+    @pictures=Picture.order(by).all
     render :file => (App.webmaster.join 'page'), :layout => false
   end
 

@@ -7,7 +7,11 @@ class AdminPicturesController < ApplicationController
   end
 
   def index
-    @pictures=Picture.all
+#    @pictures=Picture.all
+    fields     = %w[ weight  year  sequence ]
+    directions = %w[ ASC     DESC  DESC     ]
+    by=fields.zip(directions).map{|f,d| f+' '+d}.join ', '
+    @pictures=Picture.order(by).all
     @editable=true
   end
 
@@ -16,11 +20,16 @@ class AdminPicturesController < ApplicationController
   end
 
   def update
-    p=params[:picture]
+    if (p=params[:picture]).present?
 # Don't copy filename, id, or sequence.
-    [:description,:title,:weight,:year].each do |e|
-      @picture[e]=p.fetch e if p.has_key? e
-    end unless p.blank?
+      [:description,:title,:weight,:year].each do |e|
+        @picture[e]=p.fetch e if p.has_key? e
+      end
+      [:weight,:year].each do |e|
+# TODO: find another way to remove plus signs.
+        @picture[e]=@picture[e].to_i.to_s # Regularize plus signs.
+      end
+    end
     @picture.save :validate => false
     (render_show; return) if @picture.valid?
     flash[:error]=glom_errors @picture.errors

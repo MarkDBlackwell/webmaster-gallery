@@ -29,8 +29,8 @@ class SessionsController < ApplicationController
 
   def edit
     s=Struct.new :list, :message
-    places = %w[ tag\ file  directory        ]
-    models = %w[ FileTag    DirectoryPicture ]
+    places = %w[ tag\ file  picture\ directory ]
+    models = %w[ FileTag    DirectoryPicture   ]
     @erroneous=places.zip(models).map{|p,m| s.new m.constantize.find(:all).
         select{|e| e.invalid?}, "#{p.capitalize} problems:"}
     fa=@file_analysis
@@ -43,7 +43,6 @@ class SessionsController < ApplicationController
     @suppress_buttons=true
     case when cookies.empty? # action_dispatch.cookies
       clear_session
-##      flash.now[:error]='Cookies required, or session timed out.'
       flash.now[:error]='Cookies required.'
     when session[:logged_in]
       already_in
@@ -55,10 +54,10 @@ class SessionsController < ApplicationController
     (redirect_to :action => :edit; return) if fa.files_invalid? || 
         fa.approval_needed?
     s=Struct.new :list, :message
-    dp=Picture.find_database_problems
-    @review_groups=[s.new dp,"Pictures with database problems:"]
+    pp=Picture.find_database_problems
+    @review_groups=[s.new pp,"Pictures with database problems:"]
     pi=Picture.find(:all).select{|e| e.invalid?}
-    @approval_group=s.new '', dp.empty? && pi.empty? ? update_user_message :
+    @approval_group=s.new '', pp.empty? && pi.empty? ? update_user_message :
         refresh_database_message
     places = %w[ database ]
     models = %w[ Picture ]

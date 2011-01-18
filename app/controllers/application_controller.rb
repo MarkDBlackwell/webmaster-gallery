@@ -1,7 +1,8 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery # Keep before filter, 'cookies_required'.
-  rescue_from ActionController::InvalidAuthenticityToken, :with =>
-      :handle_bad_authenticity_token
+  protect_from_forgery # Keep prior to filter, 'cookies_required'. Throws this:
+  rescue_from ActionController::InvalidAuthenticityToken,
+       :with => :handle_bad_authenticity_token
+
   before_filter :cookies_required
   before_filter :find_all_tags
   before_filter :guard_http_method
@@ -11,9 +12,8 @@ class ApplicationController < ActionController::Base
   private
 
   def clear_session
-    a=session.to_hash.keys - ['flash']
-    a+=['flash'] # Seems to work.
-    a.each{|e| session.delete e}
+    s=session.to_hash.keys - (f=['flash'])
+    s.concat(seems_to_work=f).each{|e| session.delete e}
   end
 
   def cookies_required
@@ -42,7 +42,7 @@ class ApplicationController < ActionController::Base
     unless cookies.empty?
       handle_bad_request 'Invalid authenticity token.'
     else
-      flash[:error]='Session timed out.'
+      flash[:error]='Session (or cookie) timed out.'
       cookies_required
     end
   end
