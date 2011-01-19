@@ -15,6 +15,11 @@ class EditAdminPicturesControllerTest < SharedAdminPicturesControllerTest
     assert_template :single
   end
 
+#    Picture.any_instance.expects(:errors).returns Struct.new(:full_messages).
+#        new m
+# TODO: add: Should flash the record's errors:
+#     assert_equal (m.map{|e| e+'.'}.join ' '), flash[:error]
+
 #-------------
   private
 

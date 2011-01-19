@@ -7,7 +7,6 @@ class AdminPicturesController < ApplicationController
   end
 
   def index
-#    @pictures=Picture.all
     fields     = %w[ weight  year  sequence ]
     directions = %w[ ASC     DESC  DESC     ]
     by=fields.zip(directions).map{|f,d| f+' '+d}.join ', '
@@ -20,20 +19,23 @@ class AdminPicturesController < ApplicationController
   end
 
   def update
+    integers= [:weight, :year      ]
+    strings=  [:description, :title]
     if (p=params[:picture]).present?
 # Don't copy filename, id, or sequence.
-      [:description,:title,:weight,:year].each do |e|
-        @picture[e]=p.fetch e if p.has_key? e
-      end
-      [:weight,:year].each do |e|
+      (strings+integers).each do |e|
+        next unless p.has_key? e
+        value=p.fetch e
 # TODO: find another way to remove plus signs.
-        @picture[e]=@picture[e].to_i.to_s # Regularize plus signs.
+        begin value=value.to_i.to_s # Regularize plus signs.
+        rescue NoMethodError
+        end if integers.include? e
+        @picture[e]=value
       end
+      @picture.save :validate => false
     end
-    @picture.save :validate => false
-    (render_show; return) if @picture.valid?
-    flash[:error]=glom_errors @picture.errors
-    redirect_back :edit
+    (redirect_back :edit; return) if @picture.invalid?
+    render_show
   end
 
 #-------------
@@ -42,7 +44,11 @@ class AdminPicturesController < ApplicationController
   def get_single
 # TODO: why here, '@show_filename=true' ?
     @show_filename=true
-    @picture=Picture.find params[:id]
+    (@picture=Picture.find params[:id]).valid?
+  end
+
+  def glom_errors(e)
+    e.full_messages.map{|s| s+'.'}.join ' '
   end
 
   def redirect_back(a)
@@ -62,11 +68,9 @@ class AdminPicturesController < ApplicationController
   end
 
   def render_single
+    e=@picture.errors
+    flash.now[:error]=glom_errors(e) unless e.empty?
     render template => 'admin_pictures/single'
-  end
-
-  def glom_errors(e)
-    e.full_messages.map{|e| e+'.'}.join ' '
   end
 
   def template # For testing purposes.

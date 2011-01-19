@@ -4,13 +4,14 @@ class PictureTest < ActiveSupport::TestCase
 
   test "..." do
 # Should include validations for...:
-    t = %w[ description filename title ]
+    t = %w[ description title filename ]
     n = %w[ id sequence weight year    ]
 # Numericality:
     assert_validates_numericality_of n, :only_integer => true, :allow_nil =>
         false
 # Uniqueness:
-    assert_validates_uniqueness_of t+(n.take 2)
+    assert_validates_uniqueness_of (n.take 2)<<t.last
+    assert_validates_uniqueness_of (t.take 2), :allow_blank => true
 # Presence:
     assert_validates_presence_of t
 # Find methods should get the right number of records...:

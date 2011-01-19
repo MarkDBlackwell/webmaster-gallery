@@ -9,7 +9,6 @@ class PicturesController < ApplicationController
   end
 
   def uncached_index
-#    @pictures=Picture.all
     fields     = %w[ weight  year  sequence ]
     directions = %w[ ASC     DESC  DESC     ]
     by=fields.zip(directions).map{|f,d| f+' '+d}.join ', '

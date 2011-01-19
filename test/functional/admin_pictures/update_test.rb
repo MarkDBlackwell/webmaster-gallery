@@ -18,13 +18,11 @@ class UpdateAdminPicturesControllerTest < SharedAdminPicturesControllerTest
 
   test "if record fields are invalid..." do
     m = %w[a\ message   another\ one]
-    Picture.any_instance.expects(:errors).returns Struct.new(:full_messages).
-        new m
-    Picture.any_instance.expects(:valid?).returns false
+    Picture.any_instance.expects(:valid?).at_least_once.returns false
     pretend_logged_in
     put :update, :id => pictures(:two).id
-# Should flash the record's errors:
-    assert_equal (m.map{|e| e+'.'}.join ' '), flash[:error]
+# Should not flash errors here:
+    assert_blank flash[:error]
     assert_blank flash[:notice]
 # Should redirect to edit:
     assert_redirected_to :action => :edit
@@ -34,7 +32,7 @@ class UpdateAdminPicturesControllerTest < SharedAdminPicturesControllerTest
   private
 
   def happy_path
-    Picture.any_instance.expects(:valid?).returns true
+    Picture.any_instance.expects(:valid?).at_least_once.returns true
     pretend_logged_in
     put :update, :id => pictures(:two).id
   end
