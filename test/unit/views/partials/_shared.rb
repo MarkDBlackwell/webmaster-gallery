@@ -1,4 +1,5 @@
 class SharedPartialTest < SharedViewTest
+# %%vi%%part
 
   private
 

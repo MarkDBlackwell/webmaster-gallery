@@ -1,4 +1,6 @@
 class FileTag
+# %%mo%%ftag
+
   include ActiveModel::Validations
 
   attr_accessor :name

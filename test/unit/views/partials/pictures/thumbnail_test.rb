@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class ThumbnailPicturesPartialTest < SharedPicturesPartialTest
+# %%vi%%part%%pic%%th
 
   test "happy path should render..." do
 # Pretty html source:

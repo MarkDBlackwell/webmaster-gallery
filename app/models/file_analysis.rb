@@ -1,4 +1,5 @@
 class FileAnalysis
+# %%mo%%fan
 
   attr_reader :approval_group, :review_groups
 

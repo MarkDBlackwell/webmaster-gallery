@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class IndexPicturesControllerTest < SharedControllerTest
+# %%co%%pic%%in
+
   tests PicturesController
 
 # -> Ordinary user views gallery.

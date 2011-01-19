@@ -1,4 +1,6 @@
 class DirectoryPicture
+# %%mo%%dir
+
   include ActiveModel::Validations
 
   attr_accessor :filename

@@ -1,4 +1,7 @@
 class SessionsController < ApplicationController
+# %%co%%filt %%co%%ses%%cr %%co%%ses%%de %%co%%ses%%ed %%co%%ses%%filt
+# %%co%%ses%%new %%co%%ses%%sh %%co%%ses%%up
+
   before_filter      :avoid_links
   skip_before_filter :cookies_required,  :only   => :new
   skip_before_filter :find_all_tags,     :only   => [:create,:destroy,:new]

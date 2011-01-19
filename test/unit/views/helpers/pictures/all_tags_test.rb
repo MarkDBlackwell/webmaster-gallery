@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class AllTagsPicturesHelperTest < SharedPicturesHelperTest
+# %%vi%%he%%pic%%atag
 
   test "happy path should render..." do
 # The right partial, once:

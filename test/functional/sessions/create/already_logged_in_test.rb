@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class AlreadyLoggedInCreateSessionsControllerTest < SharedSessionsControllerTest
+# %%co%%ses%%cr%%
 
   test "without password..." do
     post :create

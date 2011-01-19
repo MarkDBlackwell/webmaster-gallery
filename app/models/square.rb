@@ -1,3 +1,5 @@
+# %%mo%%sq
+
 class Square   ; def self.new(*a) Hypercube.new 2, *a end end
 class Cube     ; def self.new(*a) Hypercube.new 3, *a end end
 class Tesseract; def self.new(*a) Hypercube.new 4, *a end end

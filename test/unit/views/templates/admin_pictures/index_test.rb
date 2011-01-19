@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class IndexAdminPicturesTemplateTest < SharedViewTest
+# %%vi%%temp%%adm%%in
 
   test "happy path should render..." do
 # TODO: Pretty html source:

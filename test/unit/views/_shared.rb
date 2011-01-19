@@ -1,4 +1,5 @@
 class SharedViewTest < ActionView::TestCase
+# %%vi
 
   private
 

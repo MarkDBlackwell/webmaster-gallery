@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class ApplicationControllerTest < SharedControllerTest
+# %%co%%app
 
 #-------------
 # Filter tests:

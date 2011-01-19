@@ -1,4 +1,5 @@
 class SharedPicturesPartialTest < SharedPartialTest
+# %%vi%%part%%pic
 
   private
 

@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class IndexAdminPicturesControllerTest < SharedAdminPicturesControllerTest
+# %%co%%adm%%in
 
 # -> Webmaster views gallery.
 

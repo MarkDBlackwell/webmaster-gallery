@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class ShowSessionsControllerTest < SharedSessionsControllerTest
+# %%co%%ses%%sh
 
 # -> Webmaster reviews database problems.
 

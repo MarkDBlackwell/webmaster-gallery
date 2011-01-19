@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class FileAnalysisTest < ActiveSupport::TestCase
+# %%mo%%fan
 
   test "happy path..." do
     happy_path

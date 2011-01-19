@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class AllLayoutTest < SharedLayoutTest
+# %%vi%%lay%%all
 
   test "layouts..." do
     layouts do

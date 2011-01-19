@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class PicturesControllerTest < SharedControllerTest
+# %%co%%pic
 
   test "filters" do
     assert_no_filter :avoid_links

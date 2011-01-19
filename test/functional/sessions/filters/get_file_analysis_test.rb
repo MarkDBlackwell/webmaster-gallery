@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class GetFileAnalysisFilterSessionsControllerTest < SharedSessionsControllerTest
+# %%co%%ses%%filt
 
   test "should..." do
 # Tell the file models to read:

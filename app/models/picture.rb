@@ -1,4 +1,6 @@
 class Picture < ActiveRecord::Base
+# %%mo%%pic
+
   text=         [:description, :filename, :title]
   numeric=      [:id, :sequence, :weight, :year]
   all=          text + numeric

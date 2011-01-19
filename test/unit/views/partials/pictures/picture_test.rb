@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class PicturePicturesPartialTest < SharedPicturesPartialTest
+# %%vi%%part%%pic%%pic
 
 # TODO: possibly use http://github.com/justinfrench/formtastic
 

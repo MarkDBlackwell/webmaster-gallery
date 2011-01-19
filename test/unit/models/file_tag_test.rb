@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class FileTagTest < ActiveSupport::TestCase
+# %%mo%%ftag
 
   test "..." do
 # Find all should...:

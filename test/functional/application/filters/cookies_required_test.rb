@@ -2,6 +2,7 @@ require 'test_helper'
 
 class CookiesRequiredFilterApplicationControllerTest <
     SharedApplicationControllerTest
+# %%co%%app%%filt
 
   test "when cookies (session store) are blocked..." do
     request.cookies.clear

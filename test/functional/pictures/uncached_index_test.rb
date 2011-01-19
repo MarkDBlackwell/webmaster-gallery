@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class UncachedIndexPicturesControllerTest < SharedControllerTest
+# %%co%%pic%%unc
+
   tests PicturesController
 
   [{},{:tag=>'some_tag'}].each do |hash|

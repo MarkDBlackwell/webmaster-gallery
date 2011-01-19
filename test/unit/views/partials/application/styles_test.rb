@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class StylesApplicationPartialTest < SharedPartialTest
+# %%vi%%part%%app%%sty
 
   test "happy path should render..." do
 # Pretty html source:

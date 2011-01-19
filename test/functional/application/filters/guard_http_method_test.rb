@@ -2,6 +2,7 @@ require 'test_helper'
 
 class GuardHttpMethodFilterApplicationControllerTest <
     SharedApplicationControllerTest
+# %%co%%app%%filt
 
 # Ref: 'ActionController - PROPFIND and other HTTP request methods':
 # at http://railsforum.com/viewtopic.php?id=30137

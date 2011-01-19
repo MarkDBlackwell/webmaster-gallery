@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class DirectoryPictureTest < ActiveSupport::TestCase
+# %%mo%%dir
 
   test "should..." do
 # Use the right directory:

@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class SquareTest < ActiveSupport::TestCase
+# %%mo%%sq
 
   test "..." do
     v=[0,1    ]; assert_equal [v],    Square.new.select{|e| e==v}

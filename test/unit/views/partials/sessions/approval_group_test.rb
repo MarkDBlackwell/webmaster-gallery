@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class ApprovalGroupSessionsPartialTest < SharedPartialTest
+# %%vi%%part%%ses%%ag
 
   test "happy path should render..." do
 # The right partial, once:

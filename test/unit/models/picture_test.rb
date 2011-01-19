@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class PictureTest < ActiveSupport::TestCase
+# %%mo%%pic
 
   test "..." do
 # Should include validations for...:

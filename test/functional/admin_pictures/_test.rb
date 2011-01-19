@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class AdminPicturesControllerTest < SharedAdminPicturesControllerTest
+# %%co%%adm
 
 #-------------
 # All actions tests:

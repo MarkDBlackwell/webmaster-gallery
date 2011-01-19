@@ -1,4 +1,5 @@
 class SharedControllerTest < ActionController::TestCase
+# %%co
 
   private
 

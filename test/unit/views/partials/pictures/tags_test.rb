@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class TagsPicturesPartialTest < SharedPartialTest
+# %%vi%%part%%pic%%tgs
 
   test "should render the right tag name" do
     tag_two

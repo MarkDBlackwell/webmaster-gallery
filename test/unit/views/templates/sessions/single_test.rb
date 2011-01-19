@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class SingleSessionsTemplateTest < SharedViewTest
+# %%vi%%temp%%ses%%si
 
   test "happy path should render..." do
 # The right template:

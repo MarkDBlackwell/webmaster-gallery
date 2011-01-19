@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class GalleryPicturesPartialTest < SharedPartialTest
+# %%vi%%part%%pic%%gal
+
   helper PicturesHelper
 
   test "happy path should render..." do

@@ -2,6 +2,7 @@ require 'test_helper'
 
 class FindAllTagsFilterApplicationControllerTest <
     SharedApplicationControllerTest
+# %%co%%app%%filt
 
   test "should..." do
     @filter=:find_all_tags

@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class ButtonsApplicationPartialTest < SharedPartialTest
+# %%vi%%part%%app%%but
 
   test "should obey the suppress buttons flag" do
     assert_select @dd, 5

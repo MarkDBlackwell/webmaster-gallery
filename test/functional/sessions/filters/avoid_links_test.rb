@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class AvoidLinksFilterSessionsControllerTest < SharedSessionsControllerTest
+# %%co%%ses%%filt
 
   test "should..." do
     @filter=:avoid_links

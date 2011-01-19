@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class TagPicturesPartialTest < SharedPicturesPartialTest
+# %%vi%%part%%pic%%tag
 
   test "happy path should render..." do
     happy_path

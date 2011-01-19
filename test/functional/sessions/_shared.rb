@@ -1,4 +1,6 @@
 class SharedSessionsControllerTest < SharedControllerTest
+# %%co%%ses
+
   tests SessionsController
 
   private

@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class SessionsControllerTest < SharedSessionsControllerTest
+# %%co%%ses
 
   test "filters" do
     assert_filter       :avoid_links

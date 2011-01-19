@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class EditSessionsControllerTest < SharedSessionsControllerTest
+# %%co%%ses%%ed
 
 # -> Webmaster reviews filesystem changes.
 

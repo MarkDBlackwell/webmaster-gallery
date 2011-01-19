@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class NewSessionsTemplateTest < SharedViewTest
+# %%vi%%temp%%ses%%new
 
   test "happy path should render..." do
 # Pretty html source:

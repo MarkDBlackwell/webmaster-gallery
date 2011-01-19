@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class FieldPicturesPartialTest < SharedPicturesPartialTest
+# %%vi%%part%%pic%%fie
 
   test "if show labels..." do
     s=@dft.child @dl

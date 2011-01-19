@@ -1,4 +1,6 @@
 class FilePassword
+# %%mo%%fpa
+
   include ActiveModel::Validations
 
   attr_accessor :password

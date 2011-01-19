@@ -1,4 +1,7 @@
 class AdminPicturesController < ApplicationController
+# %%co%%adm%%ed %%co%%adm%%in %%co%%adm%%filt %%co%%adm%%sh %%co%%adm%%up
+# %%co%%filt
+
   helper PicturesHelper
   before_filter :get_single, :except => :index
 

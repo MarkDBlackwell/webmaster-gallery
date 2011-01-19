@@ -2,6 +2,7 @@ require 'test_helper'
 
 class GuardLoggedInFilterApplicationControllerTest <
     SharedApplicationControllerTest
+# %%co%%app%%filt
 
   test "when not already logged in..." do
     session[:logged_in]=nil

@@ -1,4 +1,6 @@
 class SharedPicturesHelperTest < SharedViewTest
+# %%vi%%he%%pic
+
   tests PicturesHelper
 
   private

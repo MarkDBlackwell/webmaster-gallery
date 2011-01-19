@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class FilePasswordTest < ActiveSupport::TestCase
+# %%mo%%fpas
 
 #TODO: possibly use https://github.com/rails/rails/blob/master/actionpack/lib/action_view/testing/resolvers.rb
 

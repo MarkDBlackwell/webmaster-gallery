@@ -1,4 +1,6 @@
 class PicturesController < ApplicationController
+# %%co%%pic%%in %%co%%pic%%unc
+
   caches_page :index
   skip_before_filter :cookies_required
   skip_before_filter :guard_logged_in

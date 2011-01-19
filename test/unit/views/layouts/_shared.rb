@@ -1,4 +1,6 @@
 class SharedLayoutTest < SharedViewTest
+# %%vi%%lay
+
   helper PicturesHelper
 
   private

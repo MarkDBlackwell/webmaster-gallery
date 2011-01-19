@@ -2,6 +2,7 @@ require 'test_helper'
 
 class VerifyAuthenticityTokenFilterApplicationControllerTest <
     SharedApplicationControllerTest
+# %%co%%app%%filt
 
 # Ref. http://railsforum.com/viewtopic.php?id=24298.
 # The macro, 'protect_from_forgery' creates before-filter, ':verify_

@@ -1,5 +1,6 @@
 class SharedApplicationControllerTest < SharedControllerTest
   tests ApplicationController
+# %%co%%app
 
   private
 

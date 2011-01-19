@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class ScriptsApplicationPartialTest < SharedPartialTest
+# %%vi%%part%%app%%scr
 
   test "scripts div..." do
 # Should include certain script tags in order:

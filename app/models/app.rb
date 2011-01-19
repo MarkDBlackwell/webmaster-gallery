@@ -1,4 +1,5 @@
 class App
+# %%mo%%app
 
   %w[  group_1    group_2                          ].zip([
        ['root'],  %w[ session_options  webmaster]
