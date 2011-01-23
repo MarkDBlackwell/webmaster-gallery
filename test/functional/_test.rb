@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class AllControllerTest < ActionController::TestCase
-# %%co
+# %%co%%all
 
   test "alert me..." do
 # When Rails re-supports this controller test method:

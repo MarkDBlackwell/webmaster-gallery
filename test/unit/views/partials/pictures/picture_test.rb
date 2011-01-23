@@ -61,8 +61,9 @@ class PicturePicturesPartialTest < SharedPicturesPartialTest
   def setup(&block)
     controller_yield &block
     @use_controller=:admin_pictures
-    @picture=pictures :two
-    render_partial 'pictures/picture', :picture => @picture
+    p=@picture=(pictures :two)
+    %w[sequence weight].each{|e| p[e]='two-'+e}
+    render_partial 'pictures/picture', :picture => p
     @m='method'
     @d,@f = %w[div form].map{|e| CssString.new e}
     @dp=@d.css_class 'picture'

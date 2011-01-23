@@ -4,10 +4,8 @@ class FileAnalysis
   attr_reader :approval_group, :review_groups
 
   def approval_needed?
-    safe=review_messages.values_at(*safe_at=[])
-    a=@review_groups.reject{|e| safe.include? e.message}
-    @approval_group.list      .present? ||
-            a.map(&:list).to_s.present?
+    @review_groups.map(&:list).to_s.present? ||
+        @approval_group .list      .present?
   end
 
   def files_invalid?

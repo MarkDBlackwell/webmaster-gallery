@@ -10,23 +10,26 @@ class EditAdminPicturesControllerTest < SharedAdminPicturesControllerTest
 
   test_happy_path_response
 
-  test "happy path..." do
+  test "happy path should..." do
     happy_path
-# Should render the right template:
+# Render the right template:
     assert_template :single
+# Find the right record:
+    assert_equal @record.id, assigns(:picture).id
+# Flash the record's errors:
+    assert_flash_errors
+# Show attribute labels:
+    assert_flag :show_labels,
+# Allow editing:
+                :edit_fields
   end
-
-#    Picture.any_instance.expects(:errors).returns Struct.new(:full_messages).
-#        new m
-# TODO: add: Should flash the record's errors:
-#     assert_equal (m.map{|e| e+'.'}.join ' '), flash[:error]
 
 #-------------
   private
 
   def happy_path
     pretend_logged_in
-    get :edit, :id => pictures(:two).id
+    get :edit, :id => (@record=pictures :two).id
   end
 
 end

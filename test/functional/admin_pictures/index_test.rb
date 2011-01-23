@@ -8,16 +8,27 @@ class IndexAdminPicturesControllerTest < SharedAdminPicturesControllerTest
   test_routing_tag # GET
   test_happy_path_response
 
-  test "happy path..." do
+  test "happy path should..." do
     happy_path
-# Should render the right template:
+# Render the right template:
     assert_template @action
-# Gallery pictures should be editable:
-    assert_present assigns :editable
+# Show an edit button:
+    assert_flag :editable
+# Correctly arrange pictures:
+    fields     = %w[ weight  year  sequence ]
+    directions = %w[ ASC     DESC  DESC     ]
+    by=fields.zip(directions).map{|f,d| f+' '+d}.join ', '
+    assert_assigns_order Picture, by
   end
 
 #-------------
   private
+
+  def assert_assigns_order(model,by)
+    n=([Picture,DirectoryPicture].include? model) ? :filename : :name
+    assert_equal (model.order(by).all.map &n), (assigns(model.to_s.downcase.
+        pluralize.to_sym).map &n)
+  end
 
   def happy_path
     pretend_logged_in

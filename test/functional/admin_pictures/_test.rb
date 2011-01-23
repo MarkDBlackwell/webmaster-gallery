@@ -11,9 +11,9 @@ class AdminPicturesControllerTest < SharedAdminPicturesControllerTest
     assert_filter       :cookies_required
     assert_filter       :find_all_tags
     assert_no_filter    :get_file_analysis
-    assert_filter_skips :get_single, :index
     assert_filter       :guard_http_method
     assert_filter       :guard_logged_in
+    assert_filter_skips :prepare_single, :index
     assert_filter       :verify_authenticity_token
   end
 

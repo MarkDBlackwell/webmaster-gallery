@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-# %%co%%app%%filt %%co%%filt
+# %%co%%app%%filt
 
   protect_from_forgery # Keep prior to filter, 'cookies_required'. Throws this:
   rescue_from ActionController::InvalidAuthenticityToken,

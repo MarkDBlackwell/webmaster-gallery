@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class ViewsTest < ActionView::TestCase
-# %%vi
+# %%vi%%all
 
   test "should allow mocking with Mocha" do
 # Needed 'rails plugin install git://github.com/floehopper/mocha.git

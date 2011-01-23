@@ -10,7 +10,7 @@ class UpdateSessionsControllerTest < SharedSessionsControllerTest
         :sessions.to_s, :action => :update.to_s)
   end
 
-  test_happy_path_response :edit
+  test_happy_path_response :show
 
   test "happy path should..." do
     pages = %w[index  pictures/two-name].map{|e| App.root.join 'public',

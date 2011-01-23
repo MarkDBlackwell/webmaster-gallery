@@ -1,23 +1,33 @@
 class Picture < ActiveRecord::Base
-# %%mo%%pic
+# %%mo%%pic %%mo%%adm%%up
 
-  text=         [:description, :filename, :title]
-  numeric=      [:id, :sequence, :weight, :year]
-  all=          text + numeric
-  double_error= text - [:filename]
-  common=       [:weight, :year]
-  validates_numericality_of numeric, :only_integer => true
-  validates_presence_of     text
-  validates_uniqueness_of   all - common - double_error
-  validates_uniqueness_of   double_error, :allow_blank => true
-  all,common,double_error,numeric,text=nil
-
-# Might use this:
-#  validates_inclusion_of :weight, :in => ((w=-9..99).map &:to_s), :message =>
-#      "is not from '#{w.min}' to '#{w.max}'"
+  validates_numericality_of :id, :sequence, :weight, :year, :only_integer =>
+      true
+  validates_presence_of     :description, :filename, :title
+  validates_uniqueness_of   :filename, :id, :sequence
+  validates_uniqueness_of   :description, :title, :allow_blank => true
+  before_validation :clean_fields
+  before_save       :clean_fields
 
   def self.find_database_problems
     Picture.order(:filename).all.reject{|e| e.valid?}
+  end
+
+#-------------
+  private
+
+  def clean_fields
+    %w[ weight  year       ].each{|e| clean_numeric e}
+    %w[ description  title ].each{|e| clean_text    e}
+  end
+
+  def clean_numeric(a)
+    self[a]=(self[a]||'').gsub '+', ''
+    clean_text a
+  end
+
+  def clean_text(a)
+    self[a]=(self[a]||'').strip
   end
 
 end

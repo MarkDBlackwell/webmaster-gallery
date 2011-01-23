@@ -90,21 +90,25 @@ class SharedControllerTest < ActionController::TestCase
     end
   end
 
-  def self.test_routing_tag(use_root=false)
-    test "routing with and without tag" do
-      root=Pathname.new '/'
-      c=root.join @controller_name
+  def self.test_routing_tag(directory_root=false)
+    test "routing with and without tag should..." do
       h={:controller => @controller_name, :action => @action.to_s}
       tag='some-tag'
-      unless use_root
+      r=Pathname.new '/'
+      c=r.join @controller_name
+# Allow controller name with tag:
+      assert_routing (c.join tag).to_s, (h.merge :tag => tag)
+# Option 1...:
+      unless directory_root
+# Allow controller name alone:
         assert_routing c.to_s, h
       else
-        assert_routing root.to_s, h
-# Should raise exception on controller name-only route:
+# Option 2...:
+# Disallow controller name alone:
         assert_raise(ActionController::RoutingError){assert_routing c.to_s, h}
+# Allow directory root:
+        assert_routing r.to_s, h
       end
-# With a tag, should work:
-      assert_routing (c.join tag).to_s, (h.merge :tag => tag)
     end
   end
 

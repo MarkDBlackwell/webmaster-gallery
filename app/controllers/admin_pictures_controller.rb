@@ -1,19 +1,15 @@
 class AdminPicturesController < ApplicationController
 # %%co%%adm%%ed %%co%%adm%%in %%co%%adm%%filt %%co%%adm%%sh %%co%%adm%%up
-# %%co%%filt
 
   helper PicturesHelper
-  before_filter :get_single, :except => :index
+  before_filter :prepare_single, :except => :index
 
   def edit
     render_edit
   end
 
   def index
-    fields     = %w[ weight  year  sequence ]
-    directions = %w[ ASC     DESC  DESC     ]
-    by=fields.zip(directions).map{|f,d| f+' '+d}.join ', '
-    @pictures=Picture.order(by).all
+    @pictures=Picture.order('weight, year DESC, sequence DESC').all
     @editable=true
   end
 
@@ -22,18 +18,12 @@ class AdminPicturesController < ApplicationController
   end
 
   def update
-    integers= [:weight, :year      ]
-    strings=  [:description, :title]
     if (p=params[:picture]).present?
-# Don't copy filename, id, or sequence.
-      (strings+integers).each do |e|
+      static = %w[ filename id sequence]
+# TODO: add tags.
+      (%w[description title weight year]-static).each do |e|
         next unless p.has_key? e
-        value=p.fetch e
-# TODO: find another way to remove plus signs.
-        begin value=value.to_i.to_s # Regularize plus signs.
-        rescue NoMethodError
-        end if integers.include? e
-        @picture[e]=value
+        @picture[e]=p.fetch e
       end
       @picture.save :validate => false
     end
@@ -44,14 +34,13 @@ class AdminPicturesController < ApplicationController
 #-------------
   private
 
-  def get_single
-# TODO: why here, '@show_filename=true' ?
-    @show_filename=true
-    (@picture=Picture.find params[:id]).valid?
-  end
-
   def glom_errors(e)
     e.full_messages.map{|s| s+'.'}.join ' '
+  end
+
+  def prepare_single
+    (@picture=Picture.find params[:id]).valid?
+    @show_filename=true
   end
 
   def redirect_back(a)
@@ -72,7 +61,7 @@ class AdminPicturesController < ApplicationController
 
   def render_single
     e=@picture.errors
-    flash.now[:error]=glom_errors(e) unless e.empty?
+    flash.now[:error]=(glom_errors e) unless e.empty?
     render template => 'admin_pictures/single'
   end
 

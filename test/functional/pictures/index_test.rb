@@ -7,7 +7,7 @@ class IndexPicturesControllerTest < SharedControllerTest
 
 # -> Ordinary user views gallery.
 
-  test_routing_tag root=true # GET
+  test_routing_tag directory_root=true # GET
   test_happy_path_response
 
 #-------------

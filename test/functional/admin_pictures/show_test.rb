@@ -14,19 +14,18 @@ class ShowAdminPicturesControllerTest < SharedAdminPicturesControllerTest
     happy_path
 # Should render the right template:
     assert_template :single
+# Should flash the record's errors:
+    assert_flash_errors
+# Invoke method, 'render_show':
+    assert_flag :editable
   end
-
-#    Picture.any_instance.expects(:errors).returns Struct.new(:full_messages).
-#        new m
-# TODO: add: Should flash the record's errors:
-#     assert_equal (m.map{|e| e+'.'}.join ' '), flash[:error]
 
 #-------------
   private
 
   def happy_path
     pretend_logged_in
-    get :show, :id => pictures(:two).id
+    get :show, :id => (@record=pictures :two).id
   end
 
 end
