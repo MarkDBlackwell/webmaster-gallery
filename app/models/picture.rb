@@ -1,11 +1,11 @@
 class Picture < ActiveRecord::Base
-# %%mo%%pic %%mo%%adm%%up
+# %%mo%%pic
 
-  validates_numericality_of :id, :sequence, :weight, :year, :only_integer =>
-      true
-  validates_presence_of     :description, :filename, :title
-  validates_uniqueness_of   :filename, :id, :sequence
-  validates_uniqueness_of   :description, :title, :allow_blank => true
+  include ActionView::Helpers::SanitizeHelper
+  validates_numericality_of :id,:sequence,:weight,:year,:only_integer => true
+  validates_presence_of     :description,:filename,:title
+  validates_uniqueness_of   :filename,:id,:sequence
+  validates_uniqueness_of   :description,:title,:allow_blank => true
   before_validation :clean_fields
   before_save       :clean_fields
 
@@ -19,6 +19,7 @@ class Picture < ActiveRecord::Base
   def clean_fields
     %w[ weight  year       ].each{|e| clean_numeric e}
     %w[ description  title ].each{|e| clean_text    e}
+    true
   end
 
   def clean_numeric(a)
@@ -27,7 +28,8 @@ class Picture < ActiveRecord::Base
   end
 
   def clean_text(a)
-    self[a]=(self[a]||'').strip
+    v=self[a] || ''
+    self[a]=sanitize v.strip, :tags => []
   end
 
 end

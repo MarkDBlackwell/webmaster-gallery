@@ -1,12 +1,12 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-# %%fix%%pic
+# %%fix%%pic %%mo%%pic
 
 one:
   description: one-description
   filename: one.jpg
   sequence: 1
   title: one-title
-  weight: 1
+  weight: 10
   year: 2001
 
 two:
@@ -14,5 +14,5 @@ two:
   filename: two.png
   sequence: 2
   title: two-title
-  weight: 2
+  weight: 20
   year: 2002

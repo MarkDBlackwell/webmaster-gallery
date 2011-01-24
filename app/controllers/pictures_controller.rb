@@ -1,16 +1,21 @@
 class PicturesController < ApplicationController
-# %%co%%pic%%in %%co%%pic%%unc
+# %%co%%pic%%in
 
-  caches_page :index
+# The sessions controller's update action rebuilds the web page cache,
+# thus allowing the webmaster to edit the database at leisure.
+
+  caches_page :except => []
   skip_before_filter :cookies_required
   skip_before_filter :guard_logged_in
 
   def index
-# The sessions controller (update action) should delete these cached pages.
-    uncached_index
+    render_index
   end
 
-  def uncached_index
+#-------------
+  private
+
+  def render_index
     fields     = %w[ weight  year  sequence ]
     directions = %w[ ASC     DESC  DESC     ]
     by=fields.zip(directions).map{|f,d| f+' '+d}.join ', '
