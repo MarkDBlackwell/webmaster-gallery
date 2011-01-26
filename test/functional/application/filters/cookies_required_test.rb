@@ -42,7 +42,7 @@ class CookiesRequiredFilterApplicationControllerTest <
 
   def setup
     @filter = :cookies_required
-    @message= 'Cookies required.'
+    @message= 'Cookies required (or timeout).'
     pretend_logged_in # Keep before clearing by the filter.
   end
 

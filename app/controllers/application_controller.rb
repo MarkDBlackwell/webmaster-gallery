@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
     return unless cookies.empty? # action_dispatch.cookies
     clear_session # Make doubly sure.
 # TODO: write alert-me test for params responding to 'values_at'.
-    e,m=:error, 'Cookies required.'
+    e,m=:error, 'Cookies required (or timeout).'
     (flash.now[e]=m; return) if params['controller']=='sessions' &&
                                 params['action'    ]=='new'
     flash[e]=m
