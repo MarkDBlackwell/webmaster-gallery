@@ -12,21 +12,20 @@ class VerifyAuthenticityTokenFilterApplicationControllerTest <
 # How to test that the filter is invoked and raises the error?
 # Perhaps not test this, since it is Rails software.
 # Maybe alter the token in cookies.
-#  end
 
-  test "when authenticity token is valid..." do
-# Should not invoke handler:
+  test "when authenticity token is valid, should..." do
+# Not invoke handler:
     @controller.expects(:handle_bad_authenticity_token).never
     filter
-# Should not log out:
+# Not log out:
     assert_logged_in
   end
 
-  test "when handle_bad_authenticity_token is invoked..." do
-# Should redirect:
+  test "when handle_bad_authenticity_token is invoked, should..." do
+# Redirect:
     expect_redirect_sessions_new
     @controller.send :handle_bad_authenticity_token
-# Should log out:
+# Log out:
     assert_not_logged_in
   end
 

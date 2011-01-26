@@ -10,7 +10,7 @@ class ShowSessionsControllerTest < SharedSessionsControllerTest
 
   test "routing" do # GET
     assert_routing({:path => '/session', :method => :get}, :controller =>
-        :sessions.to_s, :action => :show.to_s)
+        :sessions.to_s, :action => @action.to_s)
   end
 
   test_happy_path_response
@@ -39,11 +39,42 @@ class ShowSessionsControllerTest < SharedSessionsControllerTest
     assert_equal 'refresh database problems', a.message, s
 # List should be empty:
     assert_equal '', a.list, s
+# TODO: move erroneous to a model & test that model?
+# And...:
+# Assign erroneous lists...:
+    ee=assigns :erroneous
+    assert_present ee, '@erroneous'
+# Which have the right...:
+    s=Struct.new :list, :message
+    places = %w[ database ]
+    models = %w[ Picture   ]
+    erroneous=models.zip(places).map{|m,p| s.new m.constantize.find(:all).
+        select{|e| e.invalid?}, "#{p.capitalize} problems:"}
+# Message and list:
+    [:list,:message].each{|e| assert_equal erroneous.map(&e), (ee.map &e)}
   end
 
   test "if file tags or directory pictures approval needed, should..." do
     mock_approval_needed
-    get :show
+    get @action
+# Redirect to edit:
+    assert_redirected_to :action => :edit
+  end
+
+  test "when approval is needed, should..." do
+    mock_file_analysis [true,false]
+    get @action
+# Not flash:
+    assert_flash_blank
+# Redirect to edit:
+    assert_redirected_to :action => :edit
+  end
+
+  test "when files are invalid, should..." do
+    mock_file_analysis [false,true]
+    get @action
+# Not flash:
+    assert_flash_blank
 # Redirect to edit:
     assert_redirected_to :action => :edit
   end
@@ -55,10 +86,11 @@ class ShowSessionsControllerTest < SharedSessionsControllerTest
     mock_approval_needed false
     Picture.expects(:find_database_problems).returns(@problem_pictures=
         %w[aa bb])
-    get :show
+    get @action
   end
 
   def setup
+    @action=:show
     pretend_logged_in
   end
 

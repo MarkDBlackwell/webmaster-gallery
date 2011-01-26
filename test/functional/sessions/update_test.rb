@@ -26,6 +26,8 @@ class UpdateSessionsControllerTest < SharedSessionsControllerTest
         "#{e} cache expiration failed." }
 # Not make a pictures layout file:
     assert_equal false, pictures_in_layouts_directory?
+# Flash:
+    assert_equal 'Updating user pictures.', flash[:notice]
   end
 
   test "when refreshing in show, should..." do
@@ -33,7 +35,7 @@ class UpdateSessionsControllerTest < SharedSessionsControllerTest
     mock_directory_pictures
     pretend_logged_in
     put :update, :commit => 'refresh database problems'
-# Redirect to the same place:
+# Redirect to show, again:
     assert_redirected_to :action => :show
   end
 
@@ -42,6 +44,8 @@ class UpdateSessionsControllerTest < SharedSessionsControllerTest
 # Not expire cached pages:
     @controller.expects(:delete_cache).never
     happy_path
+# Redirect to edit:
+    assert_redirected_to :action => :edit
   end
 
   test "if database problems, should..." do
@@ -50,6 +54,8 @@ class UpdateSessionsControllerTest < SharedSessionsControllerTest
 # Not expire cached pages:
     @controller.expects(:delete_cache).never
     happy_path
+# Redirect to edit:
+    assert_redirected_to :action => :edit
   end
 
   %w[tag picture].each do |model|
@@ -63,6 +69,8 @@ class UpdateSessionsControllerTest < SharedSessionsControllerTest
               when 'add'   then after - before
               when 'delet' then before - after
               end.sort
+# Redirect to edit:
+          assert_redirected_to :action => :edit
         end
 
         test "shouldn't #{operation} #{count} #{model}s if approved differ" do
@@ -70,6 +78,8 @@ class UpdateSessionsControllerTest < SharedSessionsControllerTest
           expected,change=construct_changes_strings model, operation, count
           change[0]='altered'
           assert_equal before.sort, (run_models model, expected, change).sort
+# Redirect to edit:
+          assert_redirected_to :action => :edit
         end
       end
     end
@@ -79,6 +89,7 @@ class UpdateSessionsControllerTest < SharedSessionsControllerTest
   private
 
   def happy_path
+# TODO: here, use mock_files_invalid & mock_approval_needed.
     mock_file_tags
     mock_directory_pictures
     mock_unpaired_names []

@@ -10,19 +10,6 @@ class NewSessionsControllerTest < SharedSessionsControllerTest
         :sessions.to_s, :action => :new.to_s)
   end
 
-  test "when cookies (session store) are blocked, even if already logged"\
-       " in..." do
-    pretend_logged_in
-    request.cookies.clear
-    get :new
-# Should render new:
-    assert_template :new
-# Should flash:
-    assert_equal 'Cookies required.', flash.now[:error]
-# Should log out:
-    assert_not_logged_in
-  end
-
   test "when already logged in..." do
     pretend_logged_in
     get :new
@@ -43,8 +30,7 @@ class NewSessionsControllerTest < SharedSessionsControllerTest
 # Should suppress the session management buttons:
     assert_equal true, (assigns :suppress_buttons)
 # Should not flash:
-    assert_blank flash.now[:notice]
-    assert_blank flash.now[:error]
+    assert_flash_blank
 # Should not log in:
     assert_not_logged_in
   end

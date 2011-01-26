@@ -14,15 +14,20 @@ class ApplicationController < ActionController::Base
   private
 
   def clear_session
-    s=session.to_hash.keys - (f=['flash'])
+# TODO: try ActionController::Base#reset_session.
+    s=session.to_hash.keys-(f=['flash'])
     s.concat(seems_to_work=f).each{|e| session.delete e}
   end
 
   def cookies_required
-    if cookies.empty? # action_dispatch.cookies
-      clear_session # Make doubly sure.
-      redirect_to :controller => :sessions, :action => :new
-    end
+    return unless cookies.empty? # action_dispatch.cookies
+    clear_session # Make doubly sure.
+# TODO: write alert-me test for params responding to 'values_at'.
+    e,m=:error, 'Cookies required.'
+    (flash.now[e]=m; return) if params['controller']=='sessions' &&
+                                params['action'    ]=='new'
+    flash[e]=m
+    redirect_to :controller => :sessions, :action => :new
   end
 
   def find_all_tags

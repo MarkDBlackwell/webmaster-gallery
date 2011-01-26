@@ -3,15 +3,20 @@ class SessionsController < ApplicationController
 # %%co%%ses%%sh %%co%%ses%%up
 
   before_filter      :avoid_links
-  skip_before_filter :cookies_required,  :only   => :new
   skip_before_filter :find_all_tags,     :only   => [:create,:destroy,:new]
   before_filter      :get_file_analysis, :except => [:create,:destroy,:new]
   skip_before_filter :guard_logged_in,   :only   => [:create,:destroy,:new]
 
   def create
-    (already_in; return) if session[:logged_in]
-    action=:new
+    was_logged_in=session[:logged_in]
     clear_session
+    if was_logged_in
+      log_strange 'authenticity-token (or cookie) security failure '\
+          '(or program error): '\
+          'while session already logged in'
+      return head :bad_request
+    end
+    action=:new
     if get_password==params[:password]
       action=:edit
       session[:logged_in]=true
@@ -34,7 +39,7 @@ class SessionsController < ApplicationController
     s=Struct.new :list, :message
     places = %w[ tag\ file  picture\ directory ]
     models = %w[ FileTag    DirectoryPicture   ]
-    @erroneous=places.zip(models).map{|p,m| s.new m.constantize.find(:all).
+    @erroneous=models.zip(places).map{|m,p| s.new m.constantize.find(:all).
         select{|e| e.invalid?}, "#{p.capitalize} problems:"}
     fa=@file_analysis
     flash.now[:notice]="Ready to click the button for #{dp}?" unless (
@@ -44,11 +49,9 @@ class SessionsController < ApplicationController
 
   def new
     @suppress_buttons=true
-    case when cookies.empty? # action_dispatch.cookies
-      clear_session
-      flash.now[:error]='Cookies required.'
-    when session[:logged_in]
-      already_in
+    if session[:logged_in]
+      flash[:notice]='You already were logged in.'
+      redirect_to :action => :edit
     end
   end
 
@@ -91,11 +94,6 @@ class SessionsController < ApplicationController
 #-------------
   private
 
-  def already_in
-    flash[:notice]='You already were logged in.'
-    redirect_to :action => :edit
-  end
-
   def avoid_links
     @use_controller=:admin_pictures
   end
@@ -127,6 +125,11 @@ class SessionsController < ApplicationController
 
   def get_password
     FilePassword.find(:all).first.password
+  end
+
+  def log_strange(s)
+    logger.warn "W #{s.capitalize}, login attempted from remote IP #{request.
+        remote_ip}."
   end
 
   def refresh_database_message

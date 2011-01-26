@@ -15,6 +15,16 @@ class SharedSessionsControllerTest < SharedControllerTest
     FileAnalysis.any_instance.expects(:approval_needed?).returns value
   end
 
+  def mock_files_invalid(value=true)
+    FileAnalysis.any_instance.expects(:files_invalid?).returns value
+  end
+
+  def mock_file_analysis(values=[false,false])
+# TODO: change to mock_files_invalid & mock_approval_needed.
+    [:approval_needed?,:files_invalid?].zip(values).each{|e,v| FileAnalysis.
+        any_instance.expects(e).at_least(0).returns v}
+  end
+
   def pictures_in_layouts_directory?
     App.root.join(*%w[app  views  layouts  pictures.html.erb]).exist?
   end

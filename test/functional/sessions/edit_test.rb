@@ -12,29 +12,61 @@ class EditSessionsControllerTest < SharedSessionsControllerTest
 
   test_happy_path_response
 
-  test "happy path..." do
+  test "happy path should..." do
     happy_path
-# Should render the right template:
+# Render the right template:
     assert_template :single
-# Should assign approval and review groups...:
+# Flash a message for the next step:
+    assert_equal 'Ready to click the button for database problems?', flash.now[
+        :notice]
+# Assign approval and review groups...:
     fa=FileAnalysis.new
     %w[approval_group review_groups].each do |e|
       fe,ae=(fa.send e),(assigns e)
-      assert_present ae, "Should assign @#{e}"
+      assert_present ae, '@'+e
 # Which have the right...:
-      (   (! fe.kind_of? Array) ?
-          [[fe,ae]] :
-          (0...[fe.length,ae.length].max).map{|i| [(fe.at i),(ae.at i)]}
+      x=extend_with_nils=[fe.length, ae.length].max
+      pairs=(!fe.kind_of? Array) ? [[fe,ae]] : (0...x).map{|i| [fe.at(i),ae.at(
+          i)]}
 # Message and list:
-      ).each {|f,a| assert_equal [a.message, a.list],
-                                 [f.message, f.list]}
+      pairs.each {|f,a| assert_equal [a.message, a.list],
+                                     [f.message, f.list]}
     end
+# And...:
+# Assign erroneous lists...:
+    ee=assigns :erroneous
+    assert_present ee, '@erroneous'
+# Which have the right...:
+    s=Struct.new :list, :message
+    places = %w[ tag\ file  picture\ directory ]
+    models = %w[ FileTag    DirectoryPicture   ]
+    erroneous=models.zip(places).map{|m,p| s.new m.constantize.find(:all).
+        select{|e| e.invalid?}, "#{p.capitalize} problems:"}
+# Message and list:
+    [:list,:message].each{|e| assert_equal erroneous.map(&e), (ee.map &e)}
   end
     
+  test "when approval is needed, should..." do
+    mock_file_analysis [true,false]
+    pretend_logged_in
+    get @action
+# Not flash:
+    assert_flash_blank
+  end
+
+  test "when files are invalid, should..." do
+    mock_file_analysis [false,true]
+    pretend_logged_in
+    get @action
+# Not flash:
+    assert_flash_blank
+  end
+
 #-------------
   private
 
   def happy_path
+    mock_file_analysis
     pretend_logged_in
     get @action
   end

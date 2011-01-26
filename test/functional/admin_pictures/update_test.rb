@@ -35,10 +35,6 @@ class UpdateAdminPicturesControllerTest < SharedAdminPicturesControllerTest
 #-------------
   private
 
-  def assert_flash_blank
-    assert_blank [:error,:notice].map{|e| [flash[e],flash.now[e]]}.to_s
-  end
-
   def check_changes
     c=@changes
     p=Picture.find @record.id
@@ -66,8 +62,8 @@ class UpdateAdminPicturesControllerTest < SharedAdminPicturesControllerTest
     @changes=Hash[ *(k.zip(v).flatten 1) ]
     (@static+@automatic).each{|e| @changes.delete e}
 # Should silently drop wild attribute names:
-    put :update, :id => @record.id, :picture => (@changes.
-        merge 'some-attribute' => 'a')
+    put :update, :picture => (@changes.merge 'some-attribute' => 'a'), :id =>
+        @record.id
   end
 
 end

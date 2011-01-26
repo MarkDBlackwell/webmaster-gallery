@@ -14,25 +14,17 @@ class IndexPicturesControllerTest < SharedControllerTest
 # Caching tests:
 
   test "index should cache a page" do
-    verify_cache 'index.html' do
-      happy_path
-    end
+    verify_cache('index.html'){happy_path}
   end
 
   test "index should cache the page for a tag" do
-    tag='some-tag'
-    verify_cache ['pictures', tag+'.html'] do
-      get @action, :tag => tag
+    verify_cache ['pictures', "#{s='some-tag'}.html"] do
+      get @action, :tag => s
     end
   end
 
 #-------------
 # Webmaster page file tests:
-
-  test "index should obtain a page" do
-    happy_path
-# TODO: what is this test for?
-  end
 
   test "index should render right webmaster page file" do
     happy_path

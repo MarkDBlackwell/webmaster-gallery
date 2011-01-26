@@ -30,6 +30,10 @@ class SharedControllerTest < ActionController::TestCase
     assert_filter_kind :before, filter, actions
   end
 
+  def assert_flash_blank
+    assert_blank [:error,:notice].map{|e| [flash[e],flash.now[e]]}.to_s
+  end
+
   def assert_logged_in
     assert_equal true, session[:logged_in]
   end
@@ -53,11 +57,16 @@ class SharedControllerTest < ActionController::TestCase
     assert_blank session[:logged_in]
   end
 
+  def assert_nothing_rendered
+    assert_template # No template.
+  end
+
   def filter
     @controller.send @filter
   end
 
   def filter_chain
+# TODO: Maybe use api.rubyonrails.org/classes/ActionController/Testing/ClassMethods.html method, 'before_filters'.
     @controller._process_action_callbacks
   end
 
@@ -98,8 +107,8 @@ class SharedControllerTest < ActionController::TestCase
       c=r.join @controller_name
 # Allow controller name with tag:
       assert_routing (c.join tag).to_s, (h.merge :tag => tag)
-# Option 1...:
       unless directory_root
+# Option 1...:
 # Allow controller name alone:
         assert_routing c.to_s, h
       else

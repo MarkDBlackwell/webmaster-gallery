@@ -22,9 +22,11 @@ class DestroySessionsControllerTest < SharedSessionsControllerTest
 #-------------
 # Not already logged in tests:
 
-  test "when not already logged in..." do
+  test "when not already logged in, should..." do
     set_cookies
     delete :destroy
+# Redirect to new:
+    assert_redirected_to :action => :new
 # Should flash a notice:
     assert_equal "You weren't logged in.", flash[:notice]
 # Should still be logged out:
@@ -37,11 +39,11 @@ class DestroySessionsControllerTest < SharedSessionsControllerTest
   test_happy_path_response :new
 
   test "happy path..." do
-    s=:something
-    session[s]=s
+    kv=:something
+    session[kv]=kv
     happy_path
 # Should reset the session:
-    assert_blank session[s]
+    assert_blank session[kv]
 # Should flash a notice:
     assert_equal 'Logged out successfully.', flash[:notice]
 # Should log out:

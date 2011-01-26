@@ -4,15 +4,15 @@ class GuardLoggedInFilterApplicationControllerTest <
     SharedApplicationControllerTest
 # %%co%%app%%filt
 
-  test "when not already logged in..." do
+  test "when not already logged in, should..." do
     session[:logged_in]=nil
-# Should redirect:
+# Redirect:
     expect_redirect_sessions_new
     filter
   end
 
-  test "when already logged in..." do
-# Should not redirect:
+  test "when already logged in, should..." do
+# Not redirect:
     @controller.expects(:redirect_to).never
     filter
   end
