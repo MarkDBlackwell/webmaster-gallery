@@ -2,10 +2,12 @@ class Picture < ActiveRecord::Base
 # %%mo%%pic
 
   include ActionView::Helpers::SanitizeHelper
-  has_many :tags, :through => :picture_tag_joins,
-      :uniq => true, :readonly => true
-  has_many :picture_tag_joins,
-      :uniq => true, :readonly => true, :autosave => true
+
+  has_many :tags, :through => :picture_tag_joins, :readonly => true,
+      :uniq => true, :validate => false
+  has_many                    :picture_tag_joins, :inverse_of => :picture,
+      :autosave => true,
+      :uniq => true, :validate => false
 
   validates_numericality_of :id,:sequence,:weight,:year,:only_integer => true
   validates_presence_of     :description,:filename,:title

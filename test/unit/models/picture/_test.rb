@@ -28,6 +28,14 @@ class PictureTest < ActiveSupport::TestCase
 # Find database problems:
     a.each{|e| e.weight=''; e.save :validate => false}
     assert_equal 2, Picture.find_database_problems.length
+# Associations should...:
+# Have the right number of tags:
+    r=pictures :two
+    assert_equal Tag.find(:all).length, r.tags.length
+# Adjust when tags are deleted:
+    assert_difference('r.tags(true).length', -1) {tags(:one).destroy}
+# Not automatically delete associated tags:
+    assert_no_difference('Tag.find(:all).length'){r.destroy}
 # And...:
 # Should run before validating or saving:
     %w[validation save].each{|e| assert_before_callback :clean_fields, e}
