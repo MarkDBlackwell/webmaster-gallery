@@ -1,8 +1,10 @@
 require 'test_helper'
 
 class PictureTagJoinTest < ActiveSupport::TestCase
-  # Replace this with your real tests.
-  test "the truth" do
+# %%mo%%pic %%mo%%tag
+
+  test "should..." do
     assert true
   end
+
 end

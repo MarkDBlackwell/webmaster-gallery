@@ -1,9 +1,10 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+# %%mo%%pic %%mo%%tag
 
 one:
-  picture_id: 1
-  tag_id: 1
+  picture_id: one
+  tag_id: one
 
 two:
-  picture_id: 1
-  tag_id: 1
+  picture_id: two
+  tag_id: two
