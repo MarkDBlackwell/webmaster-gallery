@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class AllTagsPicturesPartialTest < SharedPartialTest
-# %%vi%%part%%pic%%atag
+# %%vi%%part%%pic%%atgs
 
   test "happy path should render..." do
 # Pretty html source:

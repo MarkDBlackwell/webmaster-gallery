@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class GalleryPicturesPartialTest < SharedPartialTest
-# %%vi%%part%%pic%%gal
+# %%vi%%part%%pic%%gal %%pic%%pic
 
   helper PicturesHelper
 

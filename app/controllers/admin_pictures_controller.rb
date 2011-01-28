@@ -1,5 +1,8 @@
 class AdminPicturesController < ApplicationController
 # %%co%%adm%%ed %%co%%adm%%in %%co%%adm%%filt %%co%%adm%%sh %%co%%adm%%up
+# %%adm%%si %%mo%%pic
+
+# working on
 
   helper PicturesHelper
   before_filter :prepare_single, :except => :index
@@ -9,8 +12,11 @@ class AdminPicturesController < ApplicationController
   end
 
   def index
-    @pictures=Picture.order('weight, year DESC, sequence DESC').all
     @editable=true
+    r=Picture.order 'weight, year DESC, sequence DESC'
+    tag=params[:tag]
+    r=r.joins(:tags).where :tags => {:name => tag} if tag
+    @pictures=r.all
   end
 
   def show
@@ -19,15 +25,31 @@ class AdminPicturesController < ApplicationController
 
   def update
     if (p=params[:picture]).present?
+      r=@picture
       static = %w[ filename id sequence]
-# TODO: add tags.
       (%w[description title weight year]-static).each do |e|
         next unless p.has_key? e
-        @picture[e]=p.fetch e
+        r[e]=p.fetch e
       end
-      @picture.save :validate => false
+      if p.has_key?(t='tags')
+        pt=p.fetch(t).split.uniq
+        destroy_tags=r.tags.reject{|e| pt.include? e.name}
+        rn=r.tags.map &:name
+        create_tags=pt.reject{|e| rn.include? e}.map{|e| Tag.find_by_name e}
+        destroy_tags.map(&:id).each do |e|
+          c=PictureTagJoin.where(:tag_id => e, :picture_id => r.id).all
+          c.each{|j| j.destroy}
+        end
+        create_tags.map(&:id).each do |e|
+          j=PictureTagJoin.create :tag_id => e, :picture_id => r.id
+          j.save :validate => false
+        end
+      end
+      r.save :validate => false
     end
-    (redirect_back :edit; return) if @picture.invalid?
+    (redirect_back :edit; return) if r.invalid?
+# TODO: find another way to load the updated record (tags):
+    @picture=Picture.find r.id
     render_show
   end
 
@@ -39,8 +61,8 @@ class AdminPicturesController < ApplicationController
   end
 
   def prepare_single
-    (@picture=Picture.find params[:id]).valid?
     @show_filename=true
+    (@picture=Picture.find params[:id]).valid?
   end
 
   def redirect_back(a)

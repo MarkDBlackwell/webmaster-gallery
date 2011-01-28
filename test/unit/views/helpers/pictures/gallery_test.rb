@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class GalleryPicturesHelperTest < SharedPicturesHelperTest
-# %%vi%%he%%pic%%gal
+# %%vi%%he%%pic%%gal %%pic%%pic
 
   test "happy path should render..." do
 # The right partial, once:

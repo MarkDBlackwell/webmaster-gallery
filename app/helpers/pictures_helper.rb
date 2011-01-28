@@ -1,5 +1,5 @@
 module PicturesHelper
-# %%vi%%he%%pic
+# %%vi%%he%%pic %%pic%%atag  %%pic%%gal
 
   def alltags
     concat( render :partial => 'pictures/all_tags' )

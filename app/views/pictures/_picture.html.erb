@@ -1,5 +1,4 @@
-<%# %%vi%%part%%pic%%pic -%>
-<%= %>
+<%# %%vi%%part%%pic%%pic %%pic%%fie %%pic%%th %%adm%%si -%><%= %>
 <%= div_for picture do -%><%= %>
 <%    fm=@edit_fields ? :form_for : :fields_for -%>
 <%=   send(fm, picture, :url => {:controller => 'admin_pictures',
@@ -16,7 +15,8 @@
               :field => field} -%>
 <%      end -%><%= %>
 <%=     render :partial => 'pictures/field', :locals => {:record =>
-            Struct.new(:tags).new(Tag.all.map(&:name).join ' '),
+# working on
+            Struct.new(:tags).new(picture.tags.map(&:name).join ' '),
             :field => :tags} -%>
 <%    end -%><%= %>
 <%=   content_tag :div, :class => 'edit' do -%>
