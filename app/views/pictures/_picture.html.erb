@@ -16,7 +16,7 @@
               :field => field} -%>
 <%      end -%><%= %>
 <%=     render :partial => 'pictures/field', :locals => {:record =>
-            Struct.new(:tags).new(Tag.find(:all).map(&:name).join ' '),
+            Struct.new(:tags).new(Tag.all.map(&:name).join ' '),
             :field => :tags} -%>
 <%    end -%><%= %>
 <%=   content_tag :div, :class => 'edit' do -%>

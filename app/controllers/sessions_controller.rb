@@ -39,8 +39,8 @@ class SessionsController < ApplicationController
     s=Struct.new :list, :message
     places = %w[ tag\ file  picture\ directory ]
     models = %w[ FileTag    DirectoryPicture   ]
-    @erroneous=models.zip(places).map{|m,p| s.new m.constantize.find(:all).
-        select{|e| e.invalid?}, "#{p.capitalize} problems:"}
+    @erroneous=models.zip(places).map{|m,p| s.new m.constantize.all.select{|e|
+        e.invalid?}, "#{p.capitalize} problems:"}
     fa=@file_analysis
     flash.now[:notice]="Ready to click the button for #{dp}?" unless (
         fa.files_invalid? || fa.approval_needed?)
@@ -62,13 +62,13 @@ class SessionsController < ApplicationController
     s=Struct.new :list, :message
     pp=Picture.find_database_problems
     @review_groups=[s.new pp,"Pictures with database problems:"]
-    pi=Picture.find(:all).select{|e| e.invalid?}
+    pi=Picture.all.select{|e| e.invalid?}
     @approval_group=s.new '', pp.empty? && pi.empty? ? update_user_message :
         refresh_database_message
     places = %w[ database ]
     models = %w[ Picture ]
-    @erroneous=places.zip(models).map{|p,m| s.new m.constantize.find(:all).
-        select{|e| e.invalid?}, "#{p.capitalize} problems:"}
+    @erroneous=places.zip(models).map{|p,m| s.new m.constantize.all.select{|e|
+        e.invalid?}, "#{p.capitalize} problems:"}
     render :single
   end
 
@@ -124,7 +124,7 @@ class SessionsController < ApplicationController
   end
 
   def get_password
-    FilePassword.find(:all).first.password
+    FilePassword.first.password
   end
 
   def log_strange(s)

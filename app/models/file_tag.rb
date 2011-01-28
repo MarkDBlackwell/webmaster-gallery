@@ -22,9 +22,13 @@ class FileTag
   @records=[]
   @bad_names=[]
 
+  def self.all
+    @records
+  end
+
   def self.find (*args)
     raise FindError unless args.include? :all
-    @records
+    self.all
   end
 
   def self.find_bad_names

@@ -20,7 +20,7 @@ class AllTagsPicturesPartialTest < SharedPartialTest
 
   def setup
     @use_controller=:admin_pictures
-    @all_tags=Tag.find :all
+    @all_tags=Tag.all
     render_partial 'pictures/all_tags'
   end
 

@@ -61,7 +61,7 @@ class ReviewGroupSessionsPartialTest < SharedPartialTest
   private
 
   def happy_path
-    @group.list=Picture.find :all
+    @group.list=Picture.all
     render_partial
   end
 

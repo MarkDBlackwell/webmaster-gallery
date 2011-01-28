@@ -6,12 +6,12 @@ class SharedPicturesHelperTest < SharedViewTest
   private
 
   def render_all_pictures
-    @pictures=Picture.find :all
+    @pictures=Picture.all
     gallery
   end
 
   def render_all_tags
-    @all_tags=Tag.find :all
+    @all_tags=Tag.all
     alltags
   end
 

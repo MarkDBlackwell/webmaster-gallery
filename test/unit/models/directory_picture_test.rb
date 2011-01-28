@@ -23,12 +23,12 @@ class DirectoryPictureTest < ActiveSupport::TestCase
     assert_equal %w[ unpaired-abc-t.jpg  unpaired-abcd-t  
                      unpaired-abc        unpaired-abcd.jpg].sort, unpaired
 # The right pairs should be found:
-    all=@model.find :all
+    all=@model.all
     assert_equal %w[ a  a.bc  ab  ab.c  ab.cd ].sort, all.map(&:filename).sort
     assert_equal (good.length-unpaired.length)/2, all.length
 # Find methods shouldn't re-read the directory:
     @model.expects(:read).never
-    @model.find :all
+    @model.all
     @model.find_bad_names
     @model.find_unpaired_names
   end

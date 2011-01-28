@@ -95,8 +95,8 @@ class ActiveSupport::TestCase
 # See ActiveRecord::Base method, '==='. Another way is to use object_id:
     when DirectoryPicture==model then Picture
     when FileTag         ==model then Tag
-    end.find(:all).map &method if :all==expected
-    model.expects(:find).at_least_once.returns(expected.sort.reverse.
+    end.all.map &method if :all==expected
+    model.expects(:all).at_least_once.returns(expected.sort.reverse.
         map{|e| (p=model.new).expects(method).at_least_once.returns e; p} )
   end
 
@@ -106,8 +106,8 @@ class ActiveSupport::TestCase
   end
 
   def model_names(model)
-    model.capitalize.constantize.find(:all).
-        map &"#{ 'file' if 'picture'==model }name".to_sym
+    model.capitalize.constantize.all.map &"#{'file' if 'picture'==model}name".
+        to_sym
   end
 
   def see_output(s=nil)

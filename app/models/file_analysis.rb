@@ -10,8 +10,7 @@ class FileAnalysis
 
   def files_invalid?
     models = %w[ FileTag    DirectoryPicture ]
-    models.map{|m| m.constantize.find(:all).select{|e| e.invalid?}}.flatten.
-        present?
+    models.map{|m| m.constantize.all.select{|e| e.invalid?}}.flatten.present?
   end
 
   def initialize
@@ -39,7 +38,7 @@ class FileAnalysis
           each{|e| e.destroy}
       if 1==model_i
         m=model.order(method).all
-        f=DirectoryPicture.find(:all).sort{|a,b| a.filename<=>b.filename}
+        f=DirectoryPicture.all.sort{|a,b| a.filename<=>b.filename}
         f.length.times{|i| m[i].sequence=f.at(i).sequence}
         m.each{|e| e.save :validate => false}
       end
@@ -60,11 +59,11 @@ class FileAnalysis
 
   def get_groups
     n=:name
-         tn = ( t =        Tag.order(n).find :all).map &n
-    file_tn =          FileTag         .find(:all).map(&n).sort
+         tn = ( t =        Tag.order(n).all).map &n
+    file_tn =          FileTag         .all .map(&n).sort
     n=:filename
-         pn = ( p =    Picture.order(n).find :all).map &n
-    file_pn = DirectoryPicture         .find(:all).map(&n).sort
+         pn = ( p =    Picture.order(n).all).map &n
+    file_pn = DirectoryPicture         .all .map(&n).sort
     n=nil
     model_i,operation_i=case
     when (names=file_tn-tn).present?

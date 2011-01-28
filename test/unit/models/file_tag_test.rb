@@ -6,7 +6,7 @@ class FileTagTest < ActiveSupport::TestCase
   test "..." do
 # Find all should...:
 # Give the right collection:
-    a=@model.find :all
+    a=@model.all
     assert_equal 2, a.length
     assert_equal %w[one three], (a.map &:name)
 # Find bad names should...:
@@ -15,7 +15,7 @@ class FileTagTest < ActiveSupport::TestCase
     assert_equal [], b
 # Find methods shouldn't re-read the file:
     @model.expects(:read).never
-    @model.find :all
+    @model.all
     @model.find_bad_names
   end
 

@@ -1,11 +1,11 @@
 require 'test_helper'
 
-class PictureTest < ActiveSupport::TestCase
+class PictureTest < SharedModelTest
 # %%mo%%pic
 
 # TODO: try using Rails API's assert_field_type, if I switch to using integer attributes.
 
-  test "model" do
+  test "..." do
     automatic = %w[ cre  upd ].map{|e| e+'ated_at'}
     static    = %w[              filename  id  sequence ]
     text      = %w[ description  filename  title        ]
@@ -23,21 +23,29 @@ class PictureTest < ActiveSupport::TestCase
 # And...:
 # The right number of records should be obtained using methods...:
 # Find all:
-    a=Picture.find :all
+    a=@model.all
     assert_equal 2, a.length
 # Find database problems:
     a.each{|e| e.weight=''; e.save :validate => false}
-    assert_equal 2, Picture.find_database_problems.length
+    assert_equal 2, @model.find_database_problems.length
+# And...:
 # Associations should...:
 # Have the right number of tags:
-    r=pictures :two
-    assert_equal Tag.find(:all).length, r.tags.length
-# Adjust when tags are deleted:
-    assert_difference('r.tags(true).length', -1) {tags(:one).destroy}
-# Not automatically delete associated tags:
-    assert_no_difference('Tag.find(:all).length'){r.destroy}
+    id=(r=@record).id
+    assert_equal Tag    .count, r.tags    .length
+# When tags     are deleted, should...:
+# Adjust collections:
+    assert_difference('r.tags(    reload=true).length', -1){tags(    :one).
+        destroy}
+# When deleted, should:
+# Keep associated tags:
+    assert_no_difference('Tag    .count'){r.destroy}
+# Delete associated picture-tag joins (tests :dependent => :destroy):
+##    assert_blank PictureTagJoin.find :two_one 
+    assert_blank PictureTagJoin.where ['picture_id IN (?)', id]
 # And...:
-# Should run before validating or saving:
+# Callbacks should...:
+# Run before validating or saving:
     %w[validation save].each{|e| assert_before_callback :clean_fields, e}
   end
 
@@ -51,32 +59,6 @@ class PictureTest < ActiveSupport::TestCase
   def assert_callback(method,event,after)
     (r=@record).expects method
     r.run_callbacks(event){after}
-  end
-
-  def assert_validates(validator,base,methods,options={})
-    v=validator
-    [methods].flatten.each do |m|
-      s="#{m.capitalize}: expected #{v.downcase} validator; found none"
-      begin a=@model._validators.fetch m.to_sym
-      rescue IndexError; flunk s end
-      c=a.select{|e| e.class=="#{base}::Validations::#{v}Validator".constantize}
-      assert_present c,s
-      c.each{|e| assert_equal options, e.options, m}
-    end
-  end
-
-  def assert_validates_numericality_of(*a)
-    assert_validates 'Numericality', 'ActiveModel', *a
-  end
-
-  def assert_validates_presence_of(*a)
-    assert_validates 'Presence', 'ActiveModel', *a
-  end
-
-  def assert_validates_uniqueness_of(*a)
-    h=2!=a.length ? {} : a.pop
-    a.push({:case_sensitive => true}.merge h)
-    assert_validates 'Uniqueness', 'ActiveRecord', *a
   end
 
   def setup

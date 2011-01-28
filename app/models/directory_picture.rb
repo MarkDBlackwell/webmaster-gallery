@@ -3,6 +3,10 @@ class DirectoryPicture
 
   include ActiveModel::Validations
 
+  class << self; private # Keep for test.
+    attr_reader :good_files
+  end
+
   attr_accessor :filename
 # TODO: Restrict access to the sequence.
   attr_accessor :sequence
@@ -21,17 +25,17 @@ class DirectoryPicture
   class FindError < Exception
   end
 
-  class << self; private # Keep for test.
-    attr_reader :good_files
-  end
-
   @records=[]
   @bad_names=[]
   @unpaired_names=[]
 
+  def self.all
+    @records
+  end
+
   def self.find(*args)
     raise FindError unless args.include? :all
-    @records
+    self.all
   end
 
   def self.find_bad_names

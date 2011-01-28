@@ -72,7 +72,7 @@ class FilePasswordTest < ActiveSupport::TestCase
     @f.rewind
     mock_file
     @f.expects(:readline).returns short
-    first=FilePassword.find(:all).first
+    first=FilePassword.first
     assert_equal true, first.invalid?
     assert_equal ['Password too short'], first.errors.full_messages
   end
@@ -85,7 +85,7 @@ class FilePasswordTest < ActiveSupport::TestCase
   end
 
   def find
-    FilePassword.find :all
+    FilePassword.all
   end
 
   def mock_file

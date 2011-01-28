@@ -27,7 +27,7 @@ class TagsPicturesPartialTest < SharedPartialTest
   private
 
   def render_all_tags
-    @tags=Tag.find :all
+    @tags=Tag.all
     render_partial
   end
 
@@ -45,8 +45,8 @@ class TagsPicturesPartialTest < SharedPartialTest
   def tag_two
 # Didn't seem to invoke the ActiveRecord test method, tags:
 # ArgumentError: wrong number of arguments (1 for 0):
-#       tags(:one).destroy
-    @tags=Tag.find :all, :conditions => ['name = ?', 'two-name']
+##       tags(:one).destroy
+    @tags=Tag.where :name => 'two-name'
     render_partial
   end
 

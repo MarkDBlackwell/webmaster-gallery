@@ -48,8 +48,8 @@ class ShowSessionsControllerTest < SharedSessionsControllerTest
     s=Struct.new :list, :message
     places = %w[ database ]
     models = %w[ Picture   ]
-    erroneous=models.zip(places).map{|m,p| s.new m.constantize.find(:all).
-        select{|e| e.invalid?}, "#{p.capitalize} problems:"}
+    erroneous=models.zip(places).map{|m,p| s.new m.constantize.all.select{|e|
+        e.invalid?}, "#{p.capitalize} problems:"}
 # Message and list:
     [:list,:message].each{|e| assert_equal erroneous.map(&e), (ee.map &e)}
   end

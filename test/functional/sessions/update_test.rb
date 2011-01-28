@@ -107,7 +107,7 @@ class UpdateSessionsControllerTest < SharedSessionsControllerTest
 
   def setup
     dp=DirectoryPicture
-    [:find,:find_bad_names,:find_unpaired_names].each{|e|
+    [:all,:find_bad_names,:find_unpaired_names].each{|e|
         dp.expects(e).at_least(0).returns [] }
   end
 
