@@ -6,32 +6,19 @@ class SessionsController < ApplicationController
   skip_before_filter :find_all_tags,     :only   => [:create,:destroy,:new]
   before_filter      :get_file_analysis, :except => [:create,:destroy,:new]
   skip_before_filter :guard_logged_in,   :only   => [:create,:destroy,:new]
+  before_filter      :toggle_login,      :only   => [:create,:destroy]
 
   def create
-    was_logged_in=session[:logged_in]
-    clear_session
-    if was_logged_in
-      log_strange 'authenticity-token (or cookie) security failure '\
-          '(or program error): '\
-          'while session already logged in'
-      return head :bad_request
-    end
-    action=:new
-    if get_password==params[:password]
-      action=:edit
-      session[:logged_in]=true
-    else
+    unless get_password==params[:password]
       flash[:error]='Password incorrect.'
+      return redirect_to :action => :new
     end
-    redirect_to :action => action
+    session[:logged_in]=true
+    redirect_to :action => :edit
   end
 
   def destroy
-    was_logged_in=session[:logged_in]
-    clear_session
-    flash[:notice]=was_logged_in.blank? ?
-        'You weren\'t logged in.' :
-        'Logged out successfully.'
+    flash[:notice]='Logged out successfully.'
     redirect_to :action => :new
   end
 
@@ -134,6 +121,19 @@ class SessionsController < ApplicationController
 
   def refresh_database_message
     'refresh ' + dp
+  end
+
+  def toggle_login
+    l=session[:logged_in]
+    clear_session
+    if l^(params['action']=='destroy')
+      log_strange "authenticity-token (or cookie) security failure "\
+          "(or program error): "\
+          "while session #{l ? 'already':'not'} logged in"
+# Ref. en.wikipedia.org/wiki/List_of_HTTP_status_codes .
+# TODO: maybe send HTTP status 204, 'No content'.
+      head :bad_request
+    end
   end
 
   def update_user_message

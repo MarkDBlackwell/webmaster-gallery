@@ -10,25 +10,16 @@ class IndexAdminPicturesControllerTest < SharedAdminPicturesControllerTest
 
   test "happy path should..." do
     happy_path
+# Assign pictures:
+    assert_present assigns(:pictures)
 # Render the right template:
     assert_template @action
 # Show an edit button:
     assert_flag :editable
-# Correctly arrange pictures:
-    fields     = %w[ weight  year  sequence ]
-    directions = %w[ ASC     DESC  DESC     ]
-    by=fields.zip(directions).map{|f,d| f+' '+d}.join ', '
-    assert_assigns_order Picture, by
   end
 
 #-------------
   private
-
-  def assert_assigns_order(model,by)
-    n=([Picture,DirectoryPicture].include? model) ? :filename : :name
-    assert_equal (model.order(by).all.map &n), (assigns(model.to_s.downcase.
-        pluralize.to_sym).map &n)
-  end
 
   def happy_path
     pretend_logged_in
@@ -36,7 +27,7 @@ class IndexAdminPicturesControllerTest < SharedAdminPicturesControllerTest
   end
 
   def setup
-    @controller_name=:admin_pictures.to_s
+    @controller_name=:admin_pictures
     @action=:index
   end
 

@@ -3,12 +3,20 @@ require 'test_helper'
 class IndexPicturesControllerTest < SharedControllerTest
 # %%co%%pic%%in
 
-  tests PicturesController
+  tests PicturesController # Define @controller.
 
 # -> Ordinary user views gallery.
 
   test_routing_tag directory_root=true # GET
   test_happy_path_response
+
+  test "happy path should..." do
+    happy_path
+# Assign pictures:
+    assert_present assigns(:pictures)
+# Render the right webmaster page file:
+    assert_equal 1, (@templates.fetch App.webmaster.join('page').to_s)
+  end
 
 #-------------
 # Caching tests:
@@ -24,14 +32,6 @@ class IndexPicturesControllerTest < SharedControllerTest
   end
 
 #-------------
-# Webmaster page file tests:
-
-  test "index should render right webmaster page file" do
-    happy_path
-    assert_equal 1, (@templates.fetch App.webmaster.join('page').to_s)
-  end
-
-#-------------
   private
 
   def happy_path
@@ -39,7 +39,7 @@ class IndexPicturesControllerTest < SharedControllerTest
   end
 
   def setup
-    @controller_name=:pictures.to_s
+    @controller_name=:pictures
     @action=:index
   end
 

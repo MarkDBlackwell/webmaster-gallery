@@ -20,20 +20,6 @@ class DestroySessionsControllerTest < SharedSessionsControllerTest
   end
 
 #-------------
-# Not already logged in tests:
-
-  test "when not already logged in, should..." do
-    set_cookies
-    delete :destroy
-# Redirect to new:
-    assert_redirected_to :action => :new
-# Should flash a notice:
-    assert_equal "You weren't logged in.", flash[:notice]
-# Should still be logged out:
-    assert_not_logged_in
-  end
-
-#-------------
 # Happy path tests:
 
   test_happy_path_response :new

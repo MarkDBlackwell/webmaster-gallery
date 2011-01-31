@@ -125,4 +125,18 @@ class ActiveSupport::TestCase
     Array.new(count){o=o.blank? ? start : o.succ}
   end
 
+  def try_code(a)
+    a=[a] unless a.kind_of? Array
+    code=a.product(['','@']).map(&:reverse).map &:to_s
+    labels= code.map{|e| "#{e}.inspect:"}
+    results=code.map do |e|
+      begin
+        (eval e).inspect
+      rescue => error
+        error
+      end
+    end
+    labels.zip(results).flatten.map{|e| e.to_s+"\n"}
+  end
+
 end

@@ -101,10 +101,11 @@ class SharedControllerTest < ActionController::TestCase
 
   def self.test_routing_tag(directory_root=false)
     test "routing with and without tag should..." do
-      h={:controller => @controller_name, :action => @action.to_s}
+      cn=@controller_name.to_s
+      h={:controller => cn, :action => @action.to_s}
       tag='some-tag'
       r=Pathname.new '/'
-      c=r.join @controller_name
+      c=r.join cn
 # Allow controller name with tag:
       assert_routing (c.join tag).to_s, (h.merge :tag => tag)
       unless directory_root

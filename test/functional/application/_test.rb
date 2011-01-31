@@ -18,16 +18,4 @@ class ApplicationControllerTest < SharedControllerTest
     assert_filter       :verify_authenticity_token
   end
 
-#-------------
-# Configuration tests:
-
-  test "sessions should expire after a duration of inactivity" do
-    assert_equal 20.minutes, App.session_options.fetch(:expire_after)
-  end
-
-  test "webmaster directory location should be configured" do
-    assert_equal App.webmaster, App.root.join(
-        *%w[test  fixtures  files  webmaster])
-  end
-
 end

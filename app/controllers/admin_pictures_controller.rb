@@ -2,9 +2,8 @@ class AdminPicturesController < ApplicationController
 # %%co%%adm%%ed %%co%%adm%%in %%co%%adm%%filt %%co%%adm%%sh %%co%%adm%%up
 # %%adm%%si %%mo%%pic
 
-# working on
-
   helper PicturesHelper
+
   before_filter :prepare_single, :except => :index
 
   def edit
@@ -12,11 +11,8 @@ class AdminPicturesController < ApplicationController
   end
 
   def index
+    @pictures=PictureSet.new params[:tag]
     @editable=true
-    r=Picture.order 'weight, year DESC, sequence DESC'
-    tag=params[:tag]
-    r=r.joins(:tags).where :tags => {:name => tag} if tag
-    @pictures=r.all
   end
 
   def show
@@ -24,37 +20,30 @@ class AdminPicturesController < ApplicationController
   end
 
   def update
-    if (p=params[:picture]).present?
-      r=@picture
-      static = %w[ filename id sequence]
-      (%w[description title weight year]-static).each do |e|
-        next unless p.has_key? e
-        r[e]=p.fetch e
-      end
-      if p.has_key?(t='tags')
-        pt=p.fetch(t).split.uniq
-        destroy_tags=r.tags.reject{|e| pt.include? e.name}
-        rn=r.tags.map &:name
-        create_tags=pt.reject{|e| rn.include? e}.map{|e| Tag.find_by_name e}
-        destroy_tags.map(&:id).each do |e|
-          c=PictureTagJoin.where(:tag_id => e, :picture_id => r.id).all
-          c.each{|j| j.destroy}
-        end
-        create_tags.map(&:id).each do |e|
-          j=PictureTagJoin.create :tag_id => e, :picture_id => r.id
-          j.save :validate => false
-        end
-      end
-      r.save :validate => false
-    end
-    (redirect_back :edit; return) if r.invalid?
-# TODO: find another way to load the updated record (tags):
-    @picture=Picture.find r.id
+    update_picture
+    @picture.save :validate => false
+    (redirect_back :edit; return) if @picture.invalid?
+# TODO: find another way to load the updated picture ('s associated tags):
+    @picture=Picture.find @picture.id
     render_show
   end
 
 #-------------
   private
+
+  def create_tags(user_tags)
+    (user_tags-(@picture.tags.map &:name)).each do |n|
+      next unless (c=Tag.find_by_name(n).map &:id).present?
+      c.each{|i| PictureTagJoin.new(:tag_id => i, :picture_id => @picture.id).
+          save :validate => false}
+    end
+  end
+
+  def destroy_tags(user_tags)
+    d=@picture.tags.reject{|t| user_tags.include? t.name}.map &:id
+    d.each{|i| PictureTagJoin.where(:tag_id => i, :picture_id => @picture.id).
+        all.each &:destroy}
+  end
 
   def glom_errors(e)
     e.full_messages.map{|s| s+'.'}.join ' '
@@ -89,6 +78,22 @@ class AdminPicturesController < ApplicationController
 
   def template # For testing purposes.
     :template
+  end
+
+  def update_picture
+    return unless (pp=params[:picture]).present?
+    static = %w[ filename id sequence]
+    (%w[description tags title weight year]-static).each do |k|
+      next unless pp.has_key? k
+      value=pp.fetch k
+      unless 'tags'==k
+        @picture[k]=value
+      else
+        a=value.split.uniq
+        destroy_tags a
+        create_tags a
+      end
+    end
   end
 
 end
