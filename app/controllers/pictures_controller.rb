@@ -9,7 +9,7 @@ class PicturesController < ApplicationController
 # thus allowing the webmaster to edit the database at leisure.
 
   def index
-    @pictures=PictureSet.new params[:tag]
+    @pictures=PictureSet.get params[:tag]
     render :file => (App.webmaster.join 'page'), :layout => false
   end
 

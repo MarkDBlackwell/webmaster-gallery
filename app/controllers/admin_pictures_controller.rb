@@ -11,7 +11,7 @@ class AdminPicturesController < ApplicationController
   end
 
   def index
-    @pictures=PictureSet.new params[:tag]
+    @pictures=PictureSet.get params[:tag]
     @editable=true
   end
 

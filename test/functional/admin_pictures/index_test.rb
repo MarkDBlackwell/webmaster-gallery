@@ -10,12 +10,14 @@ class IndexAdminPicturesControllerTest < SharedAdminPicturesControllerTest
 
   test "happy path should..." do
     happy_path
-# Assign pictures:
-    assert_present assigns(:pictures)
 # Render the right template:
     assert_template @action
 # Show an edit button:
     assert_flag :editable
+# Assign pictures:
+    assert_present assigns :pictures
+# Assign the right pictures:
+    assert_equal PictureSet.get, (assigns :pictures)
   end
 
 #-------------

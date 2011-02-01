@@ -5,7 +5,7 @@ class PictureSet
     'year DESC, weight, sequence DESC'
   end
 
-  def initialize(tag=nil)
+  def self.get(tag=nil)
     r=(relation=Picture.order PictureSet.order)
     r=r.joins(:tags).where :tags => {:name => tag} if tag
     r.all

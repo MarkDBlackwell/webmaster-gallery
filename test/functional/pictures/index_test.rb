@@ -13,7 +13,9 @@ class IndexPicturesControllerTest < SharedControllerTest
   test "happy path should..." do
     happy_path
 # Assign pictures:
-    assert_present assigns(:pictures)
+    assert_present assigns :pictures
+# Assign the right pictures:
+    assert_equal PictureSet.get, (assigns :pictures)
 # Render the right webmaster page file:
     assert_equal 1, (@templates.fetch App.webmaster.join('page').to_s)
   end
