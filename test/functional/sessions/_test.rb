@@ -17,4 +17,21 @@ class SessionsControllerTest < SharedSessionsControllerTest
     assert_filter       :verify_authenticity_token
   end
 
+#-------------
+# Alert-me tests:
+
+  test "alert me, when..." do
+    @controller.params['action']='create'
+    session[:logged_in]=true
+    e=nil
+    assert_raises RuntimeError do
+# Rails enables these semantics:
+      begin @controller.send :toggle_login
+      rescue RuntimeError => e; raise e end
+    end
+    sw = 'ActionController::RackDelegation#status= '\
+                  'delegated to @_response.status=, but @_response is nil:'
+    assert e.to_s.start_with?(sw), e
+  end
+
 end

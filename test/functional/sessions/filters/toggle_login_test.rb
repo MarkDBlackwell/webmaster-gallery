@@ -11,13 +11,15 @@ class ToggleLoginFilterSessionsControllerTest < SharedSessionsControllerTest
       @controller.expects(:redirect_to).never
       @controller.params['action'] = %w[create destroy].at a
       li=(session[:logged_in]=         [nil,   true   ].at l)
-# When logged out creating, or logged in destroying (normal), should...:
+# Normal is logged-out creating, or logged-in destroying.
+# Strange is logged-in creating, or logged-out destroying.
+# When normal, should...:
       if l==a
 # Not log a security warning:
         @controller.logger.expects(:warn).never
 # Not respond with head only:
         @controller.expects(:head).never
-# When logged in creating, or logged out destroying, should...:
+# When strange, should...:
       else
 # Log a security warning:
         @controller.logger.expects(:warn).with token_message li
@@ -35,7 +37,7 @@ class ToggleLoginFilterSessionsControllerTest < SharedSessionsControllerTest
       assert_flash_blank
 # Not be logged in, now:
       assert_not_logged_in
-# When logged in creating, or logged out destroying, should...:
+# When strange, should...:
       unless l==a
 # Respond with head only, saying 'bad':
 # This did not work:  assert_response :bad_request
