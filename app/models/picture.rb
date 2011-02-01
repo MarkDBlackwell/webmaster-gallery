@@ -11,6 +11,7 @@ class Picture < ActiveRecord::Base
 
   validates_presence_of     :created_at,:description,:filename,:id,:title,
       :updated_at
+  validates_length_of       :year, :is => 4
   validates_uniqueness_of   :filename,:id,:sequence
   validates_uniqueness_of   :description,:title, :allow_blank => true
   validates_numericality_of :id,:sequence,:weight,:year, :only_integer => true

@@ -15,7 +15,6 @@
               :field => field} -%>
 <%      end -%><%= %>
 <%=     render :partial => 'pictures/field', :locals => {:record =>
-# working on
             Struct.new(:tags).new(picture.tags.map(&:name).join ' '),
             :field => :tags} -%>
 <%    end -%><%= %>

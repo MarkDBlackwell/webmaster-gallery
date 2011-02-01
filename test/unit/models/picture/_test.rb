@@ -20,6 +20,8 @@ class PictureTest < SharedModelTest
     assert_validates_uniqueness_of text-static, :allow_blank => true
 # Presence:
     assert_validates_presence_of text
+# Length:
+    assert_validates_length_of :year, :is => 4
 # And...:
 # The right number of records should be obtained using methods...:
 # Find all:

@@ -44,7 +44,6 @@ class TagsPicturesPartialTest < SharedPartialTest
 
   def tag_two
 # Didn't seem to invoke the ActiveRecord test method, tags:
-# working on
 # ArgumentError: wrong number of arguments (1 for 0):
 ##       tags(:one).destroy
     @tags=Tag.where :name => 'two-name'
