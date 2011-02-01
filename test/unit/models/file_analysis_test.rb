@@ -43,7 +43,7 @@ class FileAnalysisTest < ActiveSupport::TestCase
           #-> mock_unpaired_names
       happy_path
       check_approval_group [], 'refresh'
-      check_review_groups i+1, bad
+      check_review_groups [1,2,3].at(i), bad
       check_changes true
     end
   end
@@ -56,8 +56,7 @@ class FileAnalysisTest < ActiveSupport::TestCase
           mock_expected model, expected
           happy_path
           check_approval_group change, "approve #{operation}ing #{model}s"
-# TODO: Why this formula? Refactor.
-          check_review_groups 2*i+2, change,
+          check_review_groups [2,4].at(i), change,
               "#{model.capitalize}s to be #{operation}ed:"
           check_changes true, [model, operation, how_many]
         end

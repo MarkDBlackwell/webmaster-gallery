@@ -19,17 +19,12 @@ class ShowSessionsControllerTest < SharedSessionsControllerTest
     happy_path
 # Render the right template:
     assert_template :single
-# Assign a single review group...:
+# Assign no review groups...:
     s='Review group'
     r=assigns :review_groups
-    assert_present r, s
+    assert_equal [], r, s
     assert_kind_of Array, r, s
-    assert_equal 1, r.length, s
-# Whose...:
-# Message should be:
-    assert_equal 'Pictures with database problems:', r.first.message, s
-# List should be:
-    assert_equal @problem_pictures, r.first.list, s
+    assert_equal 0, r.length, s
 # Assign a single approval group...:
     s='Approval group'
     a=assigns :approval_group

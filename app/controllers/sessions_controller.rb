@@ -48,7 +48,7 @@ class SessionsController < ApplicationController
         fa.approval_needed?
     s=Struct.new :list, :message
     pp=Picture.find_database_problems
-    @review_groups=[s.new pp,"Pictures with database problems:"]
+    @review_groups=[]
     pi=Picture.all.select{|e| e.invalid?}
     @approval_group=s.new '', pp.empty? && pi.empty? ? update_user_message :
         refresh_database_message
