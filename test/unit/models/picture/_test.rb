@@ -26,20 +26,19 @@ class PictureTest < SharedModelTest
     a=@model.all
     assert_equal 2, a.length
 # Find database problems:
-    a.each{|e| e.weight=''; e.save :validate => false}
+    a.each{|e| e.weight='a'; e.save :validate => false}
     assert_equal 2, @model.find_database_problems.length
 # And...:
 # Associations should...:
 # Have the right number of tags:
     id=(r=@record).id
-    assert_equal Tag    .count, r.tags    .length
-# When tags     are deleted, should...:
+    assert_equal Tag.count, r.tags.length
+# When tags are deleted, should...:
 # Adjust collections:
-    assert_difference('r.tags(    reload=true).length', -1){tags(    :one).
-        destroy}
+    assert_difference('r.tags(reload=true).length',-1){tags(:one).destroy}
 # When deleted, should:
 # Keep associated tags:
-    assert_no_difference('Tag    .count'){r.destroy}
+    assert_no_difference('Tag.count'){r.destroy}
 # Delete associated picture-tag joins (tests :dependent => :destroy):
 ##    assert_blank PictureTagJoin.find :two_one 
     assert_blank PictureTagJoin.where ['picture_id IN (?)', id]

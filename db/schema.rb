@@ -10,24 +10,24 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110127010453) do
+ActiveRecord::Schema.define(:version => 20110201143648) do
 
   create_table "picture_tag_joins", :force => true do |t|
-    t.integer  "picture_id"
-    t.integer  "tag_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "picture_id"
+    t.integer  "tag_id"
   end
 
   create_table "pictures", :force => true do |t|
     t.string   "filename"
-    t.string   "sequence",    :limit => 4
     t.string   "title"
     t.string   "year",        :limit => 4
     t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "weight",      :limit => 2
+    t.string   "sequence"
+    t.string   "weight",                   :default => "0"
   end
 
   create_table "tags", :force => true do |t|

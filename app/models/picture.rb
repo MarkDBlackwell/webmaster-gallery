@@ -25,19 +25,23 @@ class Picture < ActiveRecord::Base
   private
 
   def clean_fields
-    %w[ weight  year       ].each{|e| clean_numeric e}
-    %w[ description  title ].each{|e| clean_text    e}
+    %w[ weight  year       ].each{|e| self[e]=clean_numeric self[e]||'', e}
+    %w[ description  title ].each{|e| self[e]=clean_text    self[e]||'', e}
     true
   end
 
-  def clean_numeric(a)
-    self[a]=(self[a]||'').gsub '+', ''
-    clean_text a
+  def clean_numeric(v,a)
+    v=v.gsub '+', '' unless v.index ?-
+    clean_text v, a
   end
 
-  def clean_text(a)
-    v=self[a] || ''
-    self[a]=sanitize v.strip, :tags => []
+  def clean_text(v,a)
+    v=sanitize v.strip, :tags => []
+    return v if v.present?
+    case a
+    when 'weight' then '0'
+    when 'year' then Time.now.year.to_s
+    else v end
   end
 
 end
