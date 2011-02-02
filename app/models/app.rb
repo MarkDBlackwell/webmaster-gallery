@@ -1,16 +1,12 @@
 class App
 # %%mo%%app
 
-  %w[  group_1    group_2                          ].zip([
-       ['root'],  %w[ session_options  webmaster]
-      ]).each do |g,methods|
-    methods.each{ |m| self.class_eval "def self.#{m}() #{g}.#{m} end" }
-  end
+ def self.root            () Gallery::Application.root                   end
+ def self.session_options () Gallery::Application.config.session_options end
+ def self.webmaster       () Gallery::Application.config.webmaster       end
 
-#-------------
-  private
-
-  def self.group_1()  Gallery::Application end
-  def self.group_2()  group_1.config       end
+#-> App.root
+#-> App.session_options
+#-> App.webmaster
 
 end

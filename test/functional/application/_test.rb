@@ -18,4 +18,19 @@ class ApplicationControllerTest < SharedControllerTest
     assert_filter       :verify_authenticity_token
   end
 
+#-------------
+# Configuration tests:
+
+  test "configuration should include" do
+# The right directory locations for...:
+# Application root:
+    assert_equal App.root, Rails.root
+# Webmaster file uploads (in the testing environment):
+    assert_equal App.webmaster, (App.root.join *%w[test fixtures files
+        webmaster ])
+# And...:
+# Expiry of sessions after the right duration of inactivity:
+    assert_equal 20.minutes, (App.session_options.fetch :expire_after)
+  end
+
 end
