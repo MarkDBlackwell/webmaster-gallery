@@ -19,7 +19,8 @@ class AllTagsPicturesPartialTest < SharedPartialTest
   private
 
   def setup
-    @use_controller=:admin_pictures
+    c=:pictures
+    @controller.default_url_options={:controller=>c}
     @all_tags=Tag.all
     render_partial 'pictures/all_tags'
   end

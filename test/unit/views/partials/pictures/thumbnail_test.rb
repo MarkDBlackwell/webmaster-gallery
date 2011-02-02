@@ -31,7 +31,8 @@ class ThumbnailPicturesPartialTest < SharedPicturesPartialTest
   private
 
   def setup
-    @use_controller=:admin_pictures
+    c=:pictures
+    @controller.default_url_options={:controller=>c}
     picture=pictures :two
     touch_picture_files
     render_partial 'pictures/thumbnail', :picture => picture

@@ -14,7 +14,8 @@ class AllTagsPicturesHelperTest < SharedPicturesHelperTest
   private
 
   def setup
-    @use_controller=:admin_pictures
+    c=:pictures
+    @controller.default_url_options={:controller=>c}
     render_all_tags
   end
 

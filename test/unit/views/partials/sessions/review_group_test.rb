@@ -70,7 +70,8 @@ class ReviewGroupSessionsPartialTest < SharedPartialTest
   end
 
   def setup
-    @use_controller=:admin_pictures
+    c=:sessions
+    @controller.default_url_options={:controller=>c}
     @group=Struct.new(:list,:message).new  %w[abc def], 'something'
     @special='(none)'
     @a,@d = %w[a div].map{|e| CssString.new e}

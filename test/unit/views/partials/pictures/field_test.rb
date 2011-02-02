@@ -49,7 +49,8 @@ class FieldPicturesPartialTest < SharedPicturesPartialTest
   def setup(field=:title,&block)
 # Naming this method, 'render', then using 'super', failed somehow.
     controller_yield &block
-    @use_controller=:admin_pictures
+    c=:pictures
+    @controller.default_url_options={:controller=>c}
     record=Picture.new
     record[field]=(@field='some_value')
     render_partial 'pictures/field', :record => record, :field => field

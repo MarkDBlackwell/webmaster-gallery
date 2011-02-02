@@ -32,7 +32,8 @@ class ApprovalGroupSessionsPartialTest < SharedPartialTest
   private
 
   def setup
-    @use_controller=:admin_pictures
+    c=:sessions
+    @controller.default_url_options={:controller=>c}
     @group=Struct.new(:list,:message).new 'some-list', 'some-message'
     render_partial 'sessions/approval_group', :approval_group => @group
     @a,@b,@d,@f,@i,@m,@v = %w[
