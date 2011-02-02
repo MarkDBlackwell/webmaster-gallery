@@ -3,12 +3,19 @@ require 'test_helper'
 class FieldPicturesPartialTest < SharedPicturesPartialTest
 # %%vi%%part%%pic%%fie
 
-  test "if show labels..." do
-    s=@dft.child @dl
-    assert_select s, false
-    setup{@show_labels=true}
-# Should render a single, right label:
-    assert_single s, '&nbsp; title'
+# working on
+
+  test "happy path should render..." do
+# Pretty html source:
+    check_pretty_html_source nil, 'field'
+# The right partial, once:
+    assert_partial
+# One field div:
+    assert_select @df, 1
+# Div for field:
+    assert_select @dt, 1
+# A model attribute:
+    assert_single @dft, @field
   end
 
   test "if edit fields..." do
@@ -30,17 +37,12 @@ class FieldPicturesPartialTest < SharedPicturesPartialTest
     assert_single s, @field
   end
 
-  test "happy path should render..." do
-# Pretty html source:
-    check_pretty_html_source nil, 'field'
-# The right partial, once:
-    assert_partial
-# One field div:
-    assert_select @df, 1
-# Div for field:
-    assert_select @dt, 1
-# A model attribute:
-    assert_single @dft, @field
+  test "if show labels..." do
+    s=@dft.child @dl
+    assert_select s, false
+    setup{@show_labels=true}
+# Should render a single, right label:
+    assert_single s, '&nbsp; title'
   end
 
 #-------------

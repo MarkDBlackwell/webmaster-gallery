@@ -2,6 +2,7 @@
 <%= content_tag :div, :class => 'field' do -%>
 <%=   content_tag :div, :class => field do -%>
 <%      value=record[field]
+# working on
         label=raw(' &nbsp; ').concat field
         uneditables=[:filename,:sequence]
         plain=(uneditables.include? field) || ! @edit_fields

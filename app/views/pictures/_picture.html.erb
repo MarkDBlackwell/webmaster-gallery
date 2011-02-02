@@ -14,9 +14,15 @@
 <%=       render :partial => 'pictures/field', :locals => {:record => picture,
               :field => field} -%>
 <%      end -%><%= %>
-<%=     render :partial => 'pictures/field', :locals => {:record =>
-            Struct.new(:tags).new(picture.tags.map(&:name).join ' '),
-            :field => :tags} -%>
+<%      if @edit_fields -%>
+<%=       render :partial => 'pictures/field', :locals => {:record =>
+              Struct.new(:tags).new(picture.tags.map(&:name).join ' '),
+              :field => :tags} -%>
+<%      else -%>
+<%=       render :partial => 'pictures/tags', :locals => {:tags => picture.
+# working on
+              tags} -%>
+<%      end -%>
 <%    end -%><%= %>
 <%=   content_tag :div, :class => 'edit' do -%>
 <%=     button_to 'edit', {:controller => :admin_pictures, :action => :edit,

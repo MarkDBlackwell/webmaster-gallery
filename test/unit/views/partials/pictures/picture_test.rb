@@ -5,64 +5,99 @@ class PicturePicturesPartialTest < SharedPicturesPartialTest
 
 # TODO: possibly use http://github.com/justinfrench/formtastic
 
+# working on
+
   test "happy path should render..." do
 # The right partial, once:
     assert_partial
 # A single, right picture:
     assert_single [@dp,'id'], 'picture_'+@picture.id.to_s
-# And within it, the right...:
-# Thumbnail:
-    assert_select @pd.css_class('thumbnail'), 1
-# Year:
-    assert_single @fi.css_class('year'), '2002'
-# Tags:
-    assert_select @fi.css_class('tags'), 1
-  end
-
-  %w[description sequence title weight].each do |u| # Unique
-    test "should render a single, right #{u} within a picture" do
-      assert_single @fi.css_class(u), "two-#{u}"
+# With...:
+    attributes=@picture.attributes.keys
+    automatic = %w[ id ] + %w[ cre  upd ].map{|e| e+'ated_at'}
+# The single, right value of visible attributes:
+    hidden = %w[ filename ]
+    (attributes-automatic-hidden).each do |e|
+      assert_single @fi.css_class(e), @picture[e]
     end
-  end
-
-  test "should render pretty html source" do
+# Single divs for...:
+# Non-automatic attributes:
+    (attributes-automatic).each do |e|
+      assert_select @fi.css_class(e), 1
+    end
+# Complex picture parts:
+    complex = %w[ tags thumbnail ]
+    complex.each do |e|
+      assert_select @pd.css_class(e), 1
+    end
+# The right tags:
+    assert_select @pd.css_class('tags'), (@picture.tags.map(&:name).join "\n")
+# The right thumbnail:
+    assert_single [@pd.css_class('thumbnail').child('a'),'href'],
+        "/images/gallery/#{@picture.filename}", false
+# And...:
+# Should render pretty html source:
     setup{@edit_fields=@editable=@show_filename=true}
     check_pretty_html_source nil, %w[edit  field  picture  thumbnail ],
         'form accept'
-  end
-
-  test "when editing fields..." do
+## The @use_controller flag makes no difference.
+# And...:
+# Within a picture, should render...:
     @df=@dp.child @f
+# If not editing fields...:
+    reset_flags
+# No editing form:
     assert_select @df, false
+# If editing fields...:
     setup{@edit_fields=true} # Switch.
-# Should render a single editing form, with a single, right...:
+# A single editing form, with a single, right...:
 # Action url:
-    assert_single [@df,'action'], (url_for :controller => @use_controller,
+    assert_single [@df,'action'], (url_for :controller => :admin_pictures,
         :action => :show, :id => @picture.id)
 # Http method:
     assert_single [@df,@m], :post
-  end
-
-  test "if editable, should render a single..." do
+# And...:
+# Within a picture, should render...:
     @de=@dp.child(@d).css_class 'edit'
     @fb=@de.child(@f).css_class 'button_to'
+# If not editable...:
+    reset_flags
+# No edit div:
     assert_select @de, false
     assert_select @fb, false
+# If editable...:
     setup{@editable=true} # Switch.
-# Edit div within a picture:
+# A single edit div...:
     assert_select @de, 1
-# And within it, a single button with method, GET:
+# Containing a single button...:
+# With method, GET:
     assert_single [@fb,@m], 'get'
+## TODO: # Going to admin:
+# Within a filename div, should render...:
+    f='filename'
+    ff=@fi.css_class f
+# If not showing filename...:
+    reset_flags
+# Nothing:
+    assert_select ff, ''
+# If showing filename...:
+    setup{@show_filename=true} # Switch.
+# A single, right filename...:
+    assert_single ff, @picture[f], false
   end
 
 #-------------
   private
 
+  def reset_flags
+    setup{@edit_fields=@editable=@show_filename=nil}
+  end
+
   def setup(&block)
-    controller_yield &block
-    @use_controller=:admin_pictures
+    @controller.default_url_options={:controller=>:pictures}
     p=@picture=(pictures :two)
     %w[sequence weight].each{|e| p[e]='two-'+e}
+    controller_yield &block
     render_partial 'pictures/picture', :picture => p
     @m='method'
     @d,@f = %w[div form].map{|e| CssString.new e}
