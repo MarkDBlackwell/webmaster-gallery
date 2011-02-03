@@ -60,7 +60,7 @@ class ActiveSupport::TestCase
     case operation
     when 'delet' then changed=expected.pop count
     when 'add'
-      changed=series "three#{ 'picture'==model ? '.png' : '-name' }", count
+      changed=series "added#{ 'picture'==model ? '.png' : '-name' }", count
       expected=expected.take(count).concat changed
     end
     [expected,changed]

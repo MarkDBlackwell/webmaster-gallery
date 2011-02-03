@@ -37,9 +37,12 @@ class UpdateAdminPicturesControllerTest < SharedAdminPicturesControllerTest
 
   def check_changes
     c=@changes
+    et=expected_tags=(c.delete 'tags').split.sort & (Tag.all.map &:name)
     p=Picture.find @record.id
 # Should make changes:
     c.each_pair{|k,v| assert_equal v, p[k], k}
+# Should change tags:
+    assert_equal expected_tags, p.tags.map(&:name).sort
 # Should update:
     u='updated_at'
     assert @record[u]!=p[u], u
@@ -57,8 +60,18 @@ class UpdateAdminPicturesControllerTest < SharedAdminPicturesControllerTest
     @automatic = %w[ cre  upd ].map{|e| e+'ated_at'}
     r=@record=(pictures :two)
     id=r.id
+# Should handle all altered fields:
     k=(a=r.attributes).keys
     v=k.map{|e| (a.fetch e).succ}
+# Should handle tags that are...:
+    k.push 'tags'
+    rt,ta=[@record.tags,Tag.all].map{|e| e.map(&:name).sort}
+# Removed & added:
+    assert rt.length > 1
+    rt[0]='three-name'
+# Bad:
+    rt.push 'bad-tag-name'
+    v.push(rt.join ' ')
     @changes=Hash[ *(k.zip(v).flatten 1) ]
     (@static+@automatic).each{|e| @changes.delete e}
 # Should silently drop wild attribute names:

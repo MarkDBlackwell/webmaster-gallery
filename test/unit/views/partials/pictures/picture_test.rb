@@ -5,8 +5,6 @@ class PicturePicturesPartialTest < SharedPicturesPartialTest
 
 # TODO: possibly use http://github.com/justinfrench/formtastic
 
-# working on
-
   test "happy path should render..." do
 # The right partial, once:
     assert_partial

@@ -33,10 +33,6 @@ class AdminPicturesController < ApplicationController
 
   def create_tags(user_tags)
     (user_tags-(@picture.tags.map &:name)).each do |n|
-# working on
-##      next unless (c=Tag.find_by_name(n).map &:id).present?
-##      c.each{|i| PictureTagJoin.new(:tag_id => i, :picture_id => @picture.id).
-##          save :validate => false}
       next unless (r=Tag.where :name => n).exists?
       r.all.each{|e| PictureTagJoin.new(:tag_id => e.id, :picture_id =>
           @picture.id).save :validate => false}

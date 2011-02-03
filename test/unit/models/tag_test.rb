@@ -12,7 +12,7 @@ class TagTest < SharedModelTest
 # And...:
 # The right number of records should be obtained using methods...:
 # Find all:
-    assert_equal 2, @model.count
+    assert_equal 3, @model.count
 # And...:
 # Associations should...:
 # Have the right number of pictures:

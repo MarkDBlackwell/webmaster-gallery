@@ -34,7 +34,7 @@ class PictureTest < SharedModelTest
 # Associations should...:
 # Have the right number of tags:
     id=(r=@record).id
-    assert_equal Tag.count, r.tags.length
+    assert_equal 2, r.tags.length
 # When tags are deleted, should...:
 # Adjust collections:
     assert_difference('r.tags(reload=true).length',-1){tags(:one).destroy}

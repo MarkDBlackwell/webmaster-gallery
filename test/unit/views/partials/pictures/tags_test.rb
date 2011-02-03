@@ -14,8 +14,8 @@ class TagsPicturesPartialTest < SharedPartialTest
     check_pretty_html_source nil, %w[tags  tag]
 # The right partial, once:
     assert_partial
-# The tag partial, twice:
-    assert_partial 'pictures/_tag', 2
+# The tag partial, the right number of times:
+    assert_partial 'pictures/_tag', 3
 # A single all-tags div:
     assert_select @dt, 1 do
 # At least one tag within a list of all tags:

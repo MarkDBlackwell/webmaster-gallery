@@ -22,7 +22,6 @@
                 :edit.to_s, :id => picture.id} -%><%= %>
 <%=         link_to(picture.filename, options) -%>
 <%=         content_tag :div, picture.errors.full_messages.join('. ')+'.',
-# working on
                 :class => 'picture-errors' -%>
 <%        end -%>
 <%      when (a.first.kind_of? Tag) -%>

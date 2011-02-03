@@ -3,8 +3,6 @@ require 'test_helper'
 class FieldPicturesPartialTest < SharedPicturesPartialTest
 # %%vi%%part%%pic%%fie
 
-# working on
-
   test "happy path should render..." do
 # Pretty html source:
     check_pretty_html_source nil, 'field'
