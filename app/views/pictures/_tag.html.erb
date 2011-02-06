@@ -5,7 +5,7 @@
 <%  else -%>
 <%=   div_for tag do -%>
 <%      options={:action => :index.to_s, :tag => tag.name} -%>
-<%      options[:controller]=@use_controller if @use_controller -%>
+<%      options[:controller]=@link_controller if @link_controller -%>
 <%=     link_to(tag.name, options) -%>
 <%    end -%>
 <%  end -%>

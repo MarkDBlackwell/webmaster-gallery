@@ -80,7 +80,7 @@ class PicturePicturesPartialTest < SharedPicturesPartialTest
     assert_template :partial => 'pictures/_tags', :count => @render_count - 1
 # And...:
 # Pretty html source:
-## The @use_controller flag makes no difference.
+## The @link_controller flag makes no difference.
     setup{@editing=@edit_allowed=@show_filename=true}
     check_pretty_html_source nil, %w[edit  field  picture  thumbnail ],
         'form accept'

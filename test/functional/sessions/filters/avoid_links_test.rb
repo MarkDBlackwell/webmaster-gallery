@@ -8,7 +8,7 @@ class AvoidLinksFilterSessionsControllerTest < SharedSessionsControllerTest
     filter
 # Assign an instance variable so certain links can avoid the sessions
 # controller:
-    assert_equal :admin_pictures, (assigns :use_controller)
+    assert_equal :admin_pictures, (assigns :link_controller)
   end
 
 end

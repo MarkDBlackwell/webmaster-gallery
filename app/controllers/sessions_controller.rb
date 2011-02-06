@@ -82,7 +82,7 @@ class SessionsController < ApplicationController
   private
 
   def avoid_links
-    @use_controller=:admin_pictures
+    @link_controller=:admin_pictures
   end
 
   def cache_user_picture_pages # Keep for tests.
