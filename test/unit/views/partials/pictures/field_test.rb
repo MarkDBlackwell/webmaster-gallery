@@ -16,7 +16,7 @@ class FieldPicturesPartialTest < SharedPicturesPartialTest
     assert_single @dft, @field
   end
 
-  test "whether show filename..." do
+  test "whether show_filename..." do
     f='filename'
     s=@df.child('div').css_class f
     assert_select s, false
@@ -27,7 +27,7 @@ class FieldPicturesPartialTest < SharedPicturesPartialTest
     assert_select s.child('input'), false
   end
 
-  test "whether editable..." do
+  test "whether edit_allowed..." do
     not_test = %w[ filename ]
     automatic = %w[ id ] + %w[ cre  upd ].map{|e| e+'ated_at'}
     attributes=Picture.column_names
@@ -39,12 +39,12 @@ class FieldPicturesPartialTest < SharedPicturesPartialTest
       else
         assert_single s, @field
       end
-      setup(f){@editable=true}
+      setup(f){@edit_allowed=true}
       assert_single s, @field
     end
   end
 
-  test "whether show labels..." do
+  test "whether show_labels..." do
     automatic = %w[ id ] + %w[ cre  upd ].map{|e| e+'ated_at'}
     attributes=Picture.column_names
     (attributes-automatic).sort.each do |f|
@@ -68,11 +68,11 @@ class FieldPicturesPartialTest < SharedPicturesPartialTest
       else
         assert_single s, "&nbsp; #{f}"
       end
-      setup(f){@editable=@show_labels=true}
+      setup(f){@edit_allowed=@show_labels=true}
       assert_single s, "&nbsp; #{f}"
       setup(f){@edit_fields=@show_labels=true}
       assert_single s, "&nbsp; #{f}"
-      setup(f){@editable=@edit_fields=@show_labels=true}
+      setup(f){@edit_allowed=@edit_fields=@show_labels=true}
       assert_single s, "&nbsp; #{f}"
     end
   end
@@ -110,7 +110,7 @@ class FieldPicturesPartialTest < SharedPicturesPartialTest
   private
 
   def reset_flags(field)
-    setup(field){@edit_fields=@editable=@show_filename=nil}
+    setup(field){@edit_fields=@edit_allowed=@show_filename=nil}
   end
 
   def setup(field='title',&block)

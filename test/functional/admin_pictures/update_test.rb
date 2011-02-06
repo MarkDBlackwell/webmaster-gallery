@@ -18,7 +18,7 @@ class UpdateAdminPicturesControllerTest < SharedAdminPicturesControllerTest
 # Not flash:
     assert_flash_blank
 # Invoke method, 'render_show':
-    assert_flag :editable
+    assert_flag :edit_allowed
   end
 
   test "if record is invalid, should..." do

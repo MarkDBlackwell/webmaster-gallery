@@ -13,7 +13,7 @@ class IndexAdminPicturesControllerTest < SharedAdminPicturesControllerTest
 # Render the right template:
     assert_template @action
 # Show an edit button:
-    assert_flag :editable
+    assert_flag :edit_allowed
 # Assign pictures:
     assert_present assigns :pictures
 # Assign the right pictures:

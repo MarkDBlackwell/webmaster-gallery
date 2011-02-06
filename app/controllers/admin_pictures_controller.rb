@@ -12,7 +12,7 @@ class AdminPicturesController < ApplicationController
 
   def index
     @pictures=PictureSet.get params[:tag]
-    @editable=true
+    @edit_allowed=true
   end
 
   def show
@@ -66,7 +66,7 @@ class AdminPicturesController < ApplicationController
   end
 
   def render_show
-    @editable=true
+    @edit_allowed=true
     render_single
   end
 

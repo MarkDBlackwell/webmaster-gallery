@@ -4,7 +4,7 @@
 <%      admin=[:sequence, :weight] -%>
 <%      if case -%>
 <%          when :filename==field then @show_filename -%>
-<%          when (admin.include? field) then @edit_fields || @editable -%>
+<%          when (admin.include? field) then @edit_fields || @edit_allowed -%>
 <%          else true -%>
 <%          end -%>
 <%        value=record[field] -%>

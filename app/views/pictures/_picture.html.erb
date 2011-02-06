@@ -26,5 +26,5 @@
 <%=   content_tag :div, :class => 'edit' do -%>
 <%=     button_to 'edit', {:controller => :admin_pictures, :action => :edit,
             :id => picture.id}, :method => :get -%>
-<%    end if @editable -%>
+<%    end if @edit_allowed -%>
 <%  end # Picture div. -%>

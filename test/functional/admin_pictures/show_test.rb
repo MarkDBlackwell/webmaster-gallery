@@ -17,7 +17,7 @@ class ShowAdminPicturesControllerTest < SharedAdminPicturesControllerTest
 # Should flash the record's errors:
     assert_flash_errors
 # Invoke method, 'render_show':
-    assert_flag :editable
+    assert_flag :edit_allowed
   end
 
 #-------------
