@@ -12,3 +12,4 @@ public/pictures/
 test/fixtures/files/webmaster/original-drupal-coppermine-portfolio.htm
 tmp/
 vendor/plugins/mocha/
+vendor/cache
