@@ -11,8 +11,8 @@
             picture} -%>
 <%      [:filename, :sequence, :title, :description, :year, :weight].
             each do |field| -%><%= %>
-<%=       render :partial => 'pictures/field', :locals => {:record => picture,
-              :field => field} -%>
+<%=         render :partial => 'pictures/field', :locals => {:record => picture,
+                :field => field} -%>
 <%      end -%><%= %>
 <%      if @edit_fields -%>
 <%=       render :partial => 'pictures/field', :locals => {:record =>

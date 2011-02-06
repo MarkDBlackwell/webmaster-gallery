@@ -25,7 +25,7 @@ class SharedViewTest < ActionView::TestCase
     s||=''
     s=CssString.new(s) unless s.kind_of? CssString
     unless was_array
-      assert_select s, 1
+      assert_select s, 1, s+' count'
       assert_select s, value
     else
       assert_select s, 1 unless s.blank?

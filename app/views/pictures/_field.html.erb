@@ -1,13 +1,18 @@
 <%# %%vi%%part%%pic%%fie -%>
 <%= content_tag :div, :class => 'field' do -%>
 <%=   content_tag :div, :class => field do -%>
-<%      value=record[field]
-        label=raw(' &nbsp; ').concat field
-        uneditables=[:filename,:sequence]
-        plain=(uneditables.include? field) || ! @edit_fields
-        unless hide=:filename==field && ! @show_filename -%>
+<%      admin=[:sequence, :weight] -%>
+<%      if case -%>
+<%          when :filename==field then @show_filename -%>
+<%          when (admin.include? field) then @edit_fields || @editable -%>
+<%          else true -%>
+<%          end -%>
+<%        value=record[field] -%>
+<%        uneditables=[:filename,:sequence] -%>
+<%        plain=(uneditables.include? field) || ! @edit_fields -%>
 <%=       plain ? value : (text_field_tag record, field,
               :value => value, :name => "picture[#{field}]") -%>
+<%        label=raw(' &nbsp; ').concat field -%>
 <%=       content_tag :div, label, :class => 'label' if @show_labels -%>
 <%      end -%>
 <%    end -%>
