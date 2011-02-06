@@ -81,8 +81,8 @@ class PicturePicturesPartialTest < SharedPicturesPartialTest
 # And...:
 # Pretty html source:
 ## The @link_controller flag makes no difference.
-    setup{@editing=@edit_allowed=@show_filename=true}
-    check_pretty_html_source nil, %w[edit  field  picture  thumbnail ],
+    setup{@edit_allowed=@editing=@show_filename=true}
+    check_pretty_html_source nil, %w[ edit field picture thumbnail ],
         'form accept'
   end
 
@@ -90,7 +90,7 @@ class PicturePicturesPartialTest < SharedPicturesPartialTest
   private
 
   def reset_flags
-    setup{@editing=@edit_allowed=@show_filename=nil}
+    setup{@edit_allowed=@editing=@show_filename=nil}
   end
 
   def setup(&block)

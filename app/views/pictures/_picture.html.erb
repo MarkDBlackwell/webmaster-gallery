@@ -14,13 +14,13 @@
 <%=         render :partial => 'pictures/field', :locals => {:record => picture,
                 :field => field} -%>
 <%      end -%><%= %>
-<%      if @editing -%>
+<%      unless @editing -%>
+<%=       render :partial => 'pictures/tags', :locals => {:tags => picture.
+              tags} -%>
+<%      else -%>
 <%=       render :partial => 'pictures/field', :locals => {:record =>
               Struct.new(:tags).new(picture.tags.map(&:name).join ' '),
               :field => :tags} -%>
-<%      else -%>
-<%=       render :partial => 'pictures/tags', :locals => {:tags => picture.
-              tags} -%>
 <%      end -%>
 <%    end -%><%= %>
 <%=   content_tag :div, :class => 'edit' do -%>

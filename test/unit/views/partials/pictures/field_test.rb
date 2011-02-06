@@ -13,14 +13,14 @@ class FieldPicturesPartialTest < SharedPicturesPartialTest
 # Div for field:
     assert_select @dt, 1
 # A model attribute:
-    assert_single @dft, @field
+    assert_single @df.child(@dt), @field
   end
 
   test "whether show_filename..." do
     f='filename'
-    s=@df.child('div').css_class f
+    s=@fd.css_class f
     assert_select s, false
-    setup('filename'){@show_filename=true}
+    setup(f){@show_filename=true}
 # Should render a single, right filename:
     assert_single s, @field
 # Without input:
@@ -32,14 +32,16 @@ class FieldPicturesPartialTest < SharedPicturesPartialTest
     automatic = %w[ id ] + %w[ cre  upd ].map{|e| e+'ated_at'}
     attributes=Picture.column_names
     (attributes-automatic-not_test).sort.each do |f|
-      s=@df.child('div').css_class f
+      s=@fd.css_class f
       reset_flags f
       if %w[ sequence weight ].include? f
         assert_single s, ''
       else
+# Should render a single, right value:
         assert_single s, @field
       end
       setup(f){@edit_allowed=true}
+# Should render a single, right value:
       assert_single s, @field
     end
   end
@@ -48,11 +50,12 @@ class FieldPicturesPartialTest < SharedPicturesPartialTest
     automatic = %w[ id ] + %w[ cre  upd ].map{|e| e+'ated_at'}
     attributes=Picture.column_names
     (attributes-automatic).sort.each do |f|
-      s=CssString.new('div').css_class(f).child('div').css_class 'label'
+      value="&nbsp; #{f}"
+      s=@d.css_class(f).child(@d).css_class 'label'
       reset_flags f
       if %w[ title year ].include? f
 # Should render a single, right label:
-        assert_single s, "&nbsp; #{f}"
+        assert_single s, value
       else
         assert_select s, false
       end
@@ -60,20 +63,24 @@ class FieldPicturesPartialTest < SharedPicturesPartialTest
       if %w[ filename sequence weight].include? f
         assert_select s, false
       else
-        assert_single s, "&nbsp; #{f}"
+# Should render a single, right label:
+        assert_single s, value
       end
       setup(f){@show_filename=@show_labels=true}
       if %w[ sequence weight].include? f
         assert_select s, false
       else
-        assert_single s, "&nbsp; #{f}"
+# Should render a single, right label:
+        assert_single s, value
       end
+# In all these circumstances...:
+# Should render a single, right label:
       setup(f){@edit_allowed=@show_labels=true}
-      assert_single s, "&nbsp; #{f}"
+      assert_single s, value
       setup(f){@editing=@show_labels=true}
-      assert_single s, "&nbsp; #{f}"
+      assert_single s, value
       setup(f){@edit_allowed=@editing=@show_labels=true}
-      assert_single s, "&nbsp; #{f}"
+      assert_single s, value
     end
   end
 
@@ -82,23 +89,25 @@ class FieldPicturesPartialTest < SharedPicturesPartialTest
     automatic = %w[ id ] + %w[ cre  upd ].map{|e| e+'ated_at'}
     attributes=Picture.column_names
     (attributes-automatic-not_test).sort.each do |f|
-      s=@df.child('div').css_class f
+      s=@fd.css_class f
       reset_flags f
       si=s.child 'input'
       assert_select si, false
-# TODO: Why weight?
       if %w[ sequence weight ].include? f
         assert_single s, ''
       else
+# Should render a single, right value:
         assert_single s, @field
       end
       setup(f){@editing=true}
       if %w[ sequence ].include? f
+# Should render a single, right value:
         assert_single s, @field
         assert_select si, false
       else
         assert_single s, '' 
         assert_single si, ''
+# Should render a single, right value in an editing box:
         assert_single [si,'name'], "picture[#{f}]"
         assert_single [si,'type'], 'text'
         assert_single [si,'value'], @field
@@ -110,7 +119,7 @@ class FieldPicturesPartialTest < SharedPicturesPartialTest
   private
 
   def reset_flags(field)
-    setup(field){@editing=@edit_allowed=@show_filename=nil}
+    setup(field){@edit_allowed=@editing=@show_filename=nil}
   end
 
   def setup(field='title',&block)
@@ -121,9 +130,9 @@ class FieldPicturesPartialTest < SharedPicturesPartialTest
     record=Picture.new
     record[field]=(@field="some #{field} value")
     render_partial 'pictures/field', :record => record, :field => field.to_sym
-    @df,@dl,@dt = %w[ field label title ].
-        map{|e| CssString.new('div').css_class e}
-    @dft=@df.child @dt
+    @d=CssString.new 'div'
+    @df,@dt = %w[ field title ].map{|e| @d.css_class e}
+    @fd=@df.child @d
   end
 
 end
