@@ -15,8 +15,6 @@ class UpdateAdminPicturesControllerTest < SharedAdminPicturesControllerTest
     happy_path
 # Make changes:
     check_changes
-# Not flash:
-    assert_flash_blank
 # Invoke method, 'render_show':
     assert_flag :edit_allowed
   end
@@ -28,8 +26,6 @@ class UpdateAdminPicturesControllerTest < SharedAdminPicturesControllerTest
     check_changes
 # Redirect to edit:
     assert_redirected_to :action => :edit
-# Not flash here:
-    assert_flash_blank
   end
 
 #-------------
@@ -48,6 +44,11 @@ class UpdateAdminPicturesControllerTest < SharedAdminPicturesControllerTest
     assert @record[u]!=p[u], u
 # Shouldn't change the attributes created_at, filename, id, or sequence:
     (@static+@automatic-[u]).each{|e| assert_equal @record[e], p[e], e}
+# Flash a notice:
+    assert_blank flash[:error].to_s+flash.now[:error].to_s
+    s='Tag nonexistent: '+@bad_tag_name
+    assert_equal s, flash[:notice]
+    assert_equal s, flash.now[:notice]
   end
 
   def happy_path
@@ -70,7 +71,7 @@ class UpdateAdminPicturesControllerTest < SharedAdminPicturesControllerTest
     assert rt.length > 1
     rt[0]='three-name'
 # Bad:
-    rt.push 'bad-tag-name'
+    rt.push(@bad_tag_name='bad-tag-name')
     v.push(rt.join ' ')
     @changes=Hash[ *(k.zip(v).flatten 1) ]
     (@static+@automatic).each{|e| @changes.delete e}

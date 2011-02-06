@@ -23,7 +23,7 @@ class AdminPicturesController < ApplicationController
     update_picture
     @picture.save :validate => false
     (redirect_back :edit; return) if @picture.invalid?
-# TODO: find another way to load the updated picture ('s associated tags):
+# TODO: find another way to load the updated picture('s associated tags):
     @picture=Picture.find @picture.id
     render_show
   end
@@ -32,11 +32,14 @@ class AdminPicturesController < ApplicationController
   private
 
   def create_tags(user_tags)
+    bad_tags=[]
     (user_tags-(@picture.tags.map &:name)).each do |n|
-      next unless (r=Tag.where :name => n).exists?
+      (bad_tags << n; next) unless (r=Tag.where :name => n).exists?
       r.all.each{|e| PictureTagJoin.new(:tag_id => e.id, :picture_id =>
           @picture.id).save :validate => false}
     end
+    s='Tag nonexistent: '+(bad_tags.join ',')
+    flash.now[:notice],flash[:notice]=s,s if bad_tags.present?
   end
 
   def destroy_tags(user_tags)
