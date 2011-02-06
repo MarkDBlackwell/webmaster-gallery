@@ -70,14 +70,14 @@ class FieldPicturesPartialTest < SharedPicturesPartialTest
       end
       setup(f){@edit_allowed=@show_labels=true}
       assert_single s, "&nbsp; #{f}"
-      setup(f){@edit_fields=@show_labels=true}
+      setup(f){@editing=@show_labels=true}
       assert_single s, "&nbsp; #{f}"
-      setup(f){@edit_allowed=@edit_fields=@show_labels=true}
+      setup(f){@edit_allowed=@editing=@show_labels=true}
       assert_single s, "&nbsp; #{f}"
     end
   end
 
-  test "whether edit_fields..." do
+  test "whether editing..." do
     not_test = %w[ filename ]
     automatic = %w[ id ] + %w[ cre  upd ].map{|e| e+'ated_at'}
     attributes=Picture.column_names
@@ -92,7 +92,7 @@ class FieldPicturesPartialTest < SharedPicturesPartialTest
       else
         assert_single s, @field
       end
-      setup(f){@edit_fields=true}
+      setup(f){@editing=true}
       if %w[ sequence ].include? f
         assert_single s, @field
         assert_select si, false
@@ -110,7 +110,7 @@ class FieldPicturesPartialTest < SharedPicturesPartialTest
   private
 
   def reset_flags(field)
-    setup(field){@edit_fields=@edit_allowed=@show_filename=nil}
+    setup(field){@editing=@edit_allowed=@show_filename=nil}
   end
 
   def setup(field='title',&block)

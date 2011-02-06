@@ -21,7 +21,7 @@ class EditAdminPicturesControllerTest < SharedAdminPicturesControllerTest
 # Show attribute labels:
     assert_flag :show_labels,
 # Allow editing:
-                :edit_fields
+                :editing
   end
 
 #-------------

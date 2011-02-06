@@ -4,12 +4,12 @@
 <%      admin=[:sequence, :weight] -%>
 <%      if case -%>
 <%          when :filename==field then @show_filename -%>
-<%          when (admin.include? field) then @edit_fields || @edit_allowed -%>
+<%          when (admin.include? field) then @editing || @edit_allowed -%>
 <%          else true -%>
 <%          end -%>
 <%        value=record[field] -%>
 <%        uneditables=[:filename,:sequence] -%>
-<%        plain=(uneditables.include? field) || ! @edit_fields -%>
+<%        plain=(uneditables.include? field) || ! @editing -%>
 <%=       plain ? value : (text_field_tag record, field,
               :value => value, :name => "picture[#{field}]") -%>
 <%        label=raw(' &nbsp; ').concat field -%>

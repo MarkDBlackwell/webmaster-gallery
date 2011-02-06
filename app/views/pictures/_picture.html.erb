@@ -1,12 +1,12 @@
 <%# %%vi%%part%%pic%%pic %%pic%%fie %%pic%%th %%adm%%si -%><%= %>
 <%= div_for picture do -%><%= %>
-<%    fm=@edit_fields ? :form_for : :fields_for -%>
+<%    fm=@editing ? :form_for : :fields_for -%>
 <%=   send(fm, picture, :url => {:controller => 'admin_pictures',
           :action => :update, :id => picture.id},
           :html => {:method => :put}) do |f| -%>
 <%      begin -%><%= %>
 <%=       submit_tag -%><%= %>
-<%      end if @edit_fields -%>
+<%      end if @editing -%>
 <%=     render :partial => 'pictures/thumbnail', :locals => {:picture =>
             picture} -%>
 <%      [:filename, :sequence, :title, :description, :year, :weight].
@@ -14,7 +14,7 @@
 <%=         render :partial => 'pictures/field', :locals => {:record => picture,
                 :field => field} -%>
 <%      end -%><%= %>
-<%      if @edit_fields -%>
+<%      if @editing -%>
 <%=       render :partial => 'pictures/field', :locals => {:record =>
               Struct.new(:tags).new(picture.tags.map(&:name).join ' '),
               :field => :tags} -%>

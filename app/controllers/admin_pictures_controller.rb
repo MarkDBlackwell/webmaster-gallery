@@ -60,7 +60,7 @@ class AdminPicturesController < ApplicationController
   end
 
   def render_edit
-    @edit_fields=true
+    @editing=true
     @show_labels=true
     render_single
   end

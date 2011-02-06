@@ -43,7 +43,7 @@ class PicturePicturesPartialTest < SharedPicturesPartialTest
 # With method, GET:
     assert_single [@fb,@m], 'get'
 # And...:
-# Regarding edit_fields...:
+# Regarding editing...:
 # If we are not...:
     reset_flags
 # No editing form:
@@ -58,7 +58,7 @@ class PicturePicturesPartialTest < SharedPicturesPartialTest
     assert_template :partial => 'pictures/_field', :count =>
         @render_count*field_count
 # If we are...:
-    setup{@edit_fields=true} # Switch.
+    setup{@editing=true} # Switch.
 # A single editing form, with...:
     assert_select @df, 1
 # A single, submit-type input:
@@ -81,7 +81,7 @@ class PicturePicturesPartialTest < SharedPicturesPartialTest
 # And...:
 # Pretty html source:
 ## The @use_controller flag makes no difference.
-    setup{@edit_fields=@edit_allowed=@show_filename=true}
+    setup{@editing=@edit_allowed=@show_filename=true}
     check_pretty_html_source nil, %w[edit  field  picture  thumbnail ],
         'form accept'
   end
@@ -90,7 +90,7 @@ class PicturePicturesPartialTest < SharedPicturesPartialTest
   private
 
   def reset_flags
-    setup{@edit_fields=@edit_allowed=@show_filename=nil}
+    setup{@editing=@edit_allowed=@show_filename=nil}
   end
 
   def setup(&block)
