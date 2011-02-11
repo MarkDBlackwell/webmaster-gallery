@@ -2,18 +2,10 @@
 <!--Session buttons-->
 <%= content_tag 'div', :class => 'session-buttons' do %>
 <%    unless @suppress_buttons -%>
-<%=     content_tag 'div', :class => 'edit' do -%>
-<%=       button_to 'files', {:controller => :sessions,
-              :action => :edit}, :method => :get -%>
-<%      end -%><%= %>
-<%=     content_tag 'div', :class => 'show' do -%>
-<%=       button_to 'database problems', {:controller => :sessions,
-              :action => :show}, :method => :get -%>
-<%      end -%><%= %>
-<%=     content_tag 'div', :class => 'admin-pictures-index' do -%>
-<%=       button_to 'admin pictures', {:controller => :admin_pictures,
-              :action => :index}, :method => :get -%>
-<%      end -%><%= %>
+<%=     button 'files', 'edit', :edit, :sessions -%><%= %>
+<%=     button 'database problems', 'show', :show, :sessions -%><%= %>
+<%=     button 'admin pictures', 'admin-pictures-index', :index,
+            :admin_pictures -%><%= %>
 <%=     content_tag 'div', :class => 'user-pictures-index' do -%>
 <%=       content_tag 'form', :method => :get, :action => url_for(
               :controller => :pictures, :action => :index),
@@ -23,9 +15,6 @@
 <%          end -%>
 <%        end -%>
 <%      end -%><%= %>
-<%=     content_tag 'div', :class => 'destroy' do -%>
-<%=       button_to 'log out', {:controller => :sessions, :action => :destroy},
-              :method => :delete -%>
-<%      end -%>
+<%=     button 'log out', 'destroy', :destroy, :sessions, :delete -%>
 <%    end -%>
 <%  end -%><%= %>
