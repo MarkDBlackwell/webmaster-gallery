@@ -1,0 +1,5 @@
+shopt -s huponexit
+(shopt huponexit)
+ruby /mnt/holmes/handle_hup.rb
+shopt huponexit
+

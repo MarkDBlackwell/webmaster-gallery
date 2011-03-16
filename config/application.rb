@@ -41,5 +41,23 @@ module Gallery
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
+
+# Not needed:  config.action_controller.relative_url_root = '/webmas-gallery'
+
+# (wrong # of args) config.action_controller.relative_url_root = '/webmas-gallery'
+# (caching didn't happen) env RAILS_RELATIVE_URL_ROOT="/webmas-gallery" rails server
+# (webmas-gallery/javascripts/rails.js not found) config.relative_url_root = '/webmas-gallery'
+
+# A double slash was created when infixing a slash, e.g.:
+##    proc {|p| "assets/#{p}"}  as per
+#  http://guides.rubyonrails.org/configuring.html.
+
+# Without the '.action_controller' part, nothing happened as of Rails 3.0.3:
+##    config.asset_path = proc{ |p| "/webmas-gallery#{p}" }
+    config.action_controller.asset_path = proc{|p| "/webmas-gallery#{p}"}
+
+# On deployment machine, make this symlink:
+#  ln -s $HOME/rails_apps/webmas-gallery $HOME/public_html/webmas-gallery
+
   end
 end

@@ -20,6 +20,9 @@ class SessionsController < ApplicationController
   def destroy
     flash[:notice]='Logged out successfully.'
     redirect_to :action => :new
+
+    logger.info "I logging out-#{Process.pid}"
+    Process.kill 'INT', 0
   end
 
   def edit
@@ -90,8 +93,12 @@ class SessionsController < ApplicationController
 
   def delete_cache
     public=App.root.join 'public'
-    pages=[public.join 'index.html']
-    (p=public.join 'pictures').find do |path|
+##    pages=[public.join 'index.html']
+    u=my_url_prefix
+    u.blank? ? (s='index'; a=[]) : (s=u; a=[u])
+    pages=[public.join "#{s}.html"]
+##    (p=public.join 'pictures').find do |path|
+    (p=public.join *a << 'pictures').find do |path|
       next if path==p
       Find.prune if path.directory?
       pages << path
@@ -117,6 +124,10 @@ class SessionsController < ApplicationController
   def log_strange(s)
     logger.warn "W #{s.capitalize}, login attempted from remote IP #{request.
         remote_ip}."
+  end
+
+  def my_url_prefix
+    'webmas-gallery'
   end
 
   def refresh_database_message

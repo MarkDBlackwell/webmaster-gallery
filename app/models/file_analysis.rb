@@ -36,6 +36,7 @@ class FileAnalysis
     when 1
       model.where(["#{method} IN (?)", @approval_group.list.split]).all.
           each{|e| e.destroy}
+=begin
       if 1==model_i
         m=model.order(method).all
         f=DirectoryPicture.all.sort{|a,b| a.filename<=>b.filename}
@@ -43,6 +44,18 @@ class FileAnalysis
         m.each{|e| e.save :validate => false}
       end
     end
+=end
+    end
+    if 1==model_i
+      dpa=DirectoryPicture.all
+      model.order(method).all.each do |m|
+        mf=m.filename
+        f=dpa.select{|e| mf==e.filename}
+        m.sequence = 1 != f.length ? '' : f.first.sequence
+        m.save :validate => false
+      end
+    end
+
     true
   end
 
