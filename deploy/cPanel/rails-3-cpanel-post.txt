@@ -1,0 +1,166 @@
+Install Rails 3 application to sub-URI with cPanel howto
+
+  Recently, I successfully installed a Rails 3 application on a cPanel webhost. Here's how I did it:
+
+APACHE
+
+CPANEL
+o I wrote a Rails 3 application for webmasters who use cheap hosting services, meaning cPanel and MySQL. Here's what got it working:
+o make Rails app using cpanel.
+o cPanel make direrectory rails-apps under $HOME, which in my case was /home/me.
+o Recently, I successfully installed a Rails 3 application on a cPanel webhost. Here's how I did it.
+o Add Code #N (see below) to the top of config/environment.rb, to allow cPanel to start the application. It immediately restarts itself using a method that works for Rails 3.
+
+CRON
+o Run cron job how?
+o cron cd $HOME/rails-apps/myapp
+o Webmaster can run the app with a cron job.
+o to run a cron job, set the day, hour and minute. Use a cPanel email account with Squirrel webmail to see the time.
+
+DATABASE
+o change database.yml to use adapter, mysql (not, 'mysql2').
+o cPanel MySQL make 3 databases: <myapp>.devel, -_prod, -_test. Add user myuser_myapp.
+o null sequence handled differently in MySQL than SQLite broke adding pictures. They got null sqeuence.
+
+ERRORS
+o If 'arel' is not at the top, (or possibly other gems) you might get an error message like this after a later version is loaded automatically:
+
+"/usr/lib/ruby/site_ruby/1.8/rubygems.rb:274:in `activate': can't activate arel (= 2.0.7, runtime) for [], already activated arel-2.0.8 for ["activerecord-3.0.3"] (Gem::LoadError)
+
+o 
+
+
+GALLERY
+o P.S. It is a gallery appplication.
+
+GEMS
+o Copy the list of gems and their highest versions from Gemfile.lock. Into boot.rb, paste the list after require 'rubygems' in the form:
+gem <name> '<highest version in Gemfile.lock>
+o Ask the hosting service to install the latest rubygems and gems bundler and mysql2.
+o cron bundle install --path vendor/bundle --binstubs  Not --binstubs
+o Comment out bundler stuff from boot.rb (this is everything but require 'rubygems').
+o Bundler will run but it won't install mysql2 successfully because of rake not finding mysql.h while setting up to compile C-language 'native extensions'. That is okay; gcc is probably not available and we're going to use the system-installed mysql2 gem, anyway.
+o Add to your Gemfile:
+gem 'rails', '3.0.3'
+gem 'dispatcher'
+o Run the bundler:
+bundle install --path vendor/bundle
+o Make a copy of the Gemfile.lock it makes. Remove blanks and make an alphabetized list of the gems and version numbers, keeping only the highest versions. Remove sqlite3-ruby, and move 'arel' to the top. Each line should look like this (for example):
+gem 'arel', '=2.0.7'
+o Then comment out the entire contents of config/boot.rb, except for the line:
+require 'rubygems'
+
+  and insert below it:
+require 'mysql2'
+
+  and then the contents of the sorted Gemfile you made.
+
+  The above substitutes for the normal Bundler process, which fails when compiling the mysql2 gem's 'native extensions': most cPanel sites won't let you do C-language compilation, I think.
+
+INTRO
+
+MONGREL
+o cPanel's Mongrel setup doesn't work at this time. It works if started by 'rails server' I hear.
+
+NAMES
+o use 'me' for cPanel user name, 'myapp' for the Rails app name. myport /bin/rails server webrick ---0rt=<myport>
+
+PORT
+o Tell cPanel to add a Rails app. CPanel then adds a rewrite to public_html/.htaccess for a port; with my host it was port 120008.
+
+RESULTS
+o you can see the results at meganamo/webma-gallery
+
+SERVER
+o my app uses page caching and doesn't need to be running all the time, only when the webmaster (my customer) wishes to make changes. So, I use Webrick.
+o change app to stop in 20 minutes.
+
+SYMLINK
+o symlink the app's public dir to the app's name in public_html, with cron ln -s $HOME/rails_apps/<app>/public $HOME/public_html/<app>
+
+UNCATEGORIZED
+o in $HOME/public_html/.htaccess, remove lines referring to the new app from the bottom
+o add above the existing rewrites this: (copy)
+o add config.action_controller.relative_url_root='<app>'
+o in config/environments/development.rb, and cache line,
+
+VERSIONS
+o I was using Rails 3.0.3.
+o Versions: ...
+o I used these versions: Rails 3.0.3, rubygems _, Bundler _, mysql2 gem _.
+o versions: cPanel _, MySQL _, x86_64-linux.
+
+ZIP
+o compress app with zip (not tar) in order to obtain relative paths for cPanel.
+o upload <app>.zip
+o expand app with cpanel into cPanel's dir.
+
+
+#-------------
+CODE
+#------------------------------
+# Code #N:
+
+require 'pathname'
+
+module MyStartup
+  STARTED_BY_CPANEL='script/rails' != $PROGRAM_NAME
+  USER_NAME='meganamo'
+  USER_HOME=Pathname('/').join *['home',USER_NAME]
+  APP_NAME='webmas-gallery'
+  APP_ROOT = USER_HOME.join *['rails_apps',APP_NAME]
+
+#  MY_RAILS_ENV='development'
+  MY_RAILS_ENV='production'
+
+  ARGUMENTS="webrick --environment=#{MY_RAILS_ENV} --port=12009"
+  REDIRECT_OUTPUT='development'==MY_RAILS_ENV ? '' : '> /dev/null'
+
+  class GemPathEntry
+    SYSTEM     = Pathname('/').join *%w[   usr    lib    ruby  gems  1.8 ]
+    USER       = USER_HOME    .join *%w[  .gem           ruby        1.8 ]
+    APP_BUNDLE = APP_ROOT     .join *%w[ vendor  bundle  ruby        1.8 ]
+  end
+  MY_GEM_HOME= GemPathEntry::USER
+  MY_GEM_PATH=[GemPathEntry::APP_BUNDLE, GemPathEntry::USER, GemPathEntry::SYSTEM].join ':'
+
+# We might need Bundler in system gems. Or, as working now, in user (.gem) gems; I don't remember.
+
+# The following line doesn't work because Bundler (1.0.10) "bundle install --binstubs" rewrites gem executables to invoke Bundler:
+##       r = APP_ROOT.
+  r = GemPathEntry::APP_BUNDLE
+  RAILS_COMMAND=[r.join(*%w[bin rails]),'server',ARGUMENTS,REDIRECT_OUTPUT].join ' '
+
+  REQUIRED_ENVIRONMENT_VARIABLES=
+      " HOME=#{USER_HOME}"\
+      " RAILS_ENV=#{MY_RAILS_ENV}"\
+      " GEM_HOME=#{MY_GEM_HOME}"\
+      " GEM_PATH=#{MY_GEM_PATH}"
+
+  if STARTED_BY_CPANEL
+# Currently, Rack (1.2.1) is not working with Rails 3.0.3 and Mongrel, although Webrick works, per:
+# https://github.com/rack/rack/issues/35
+    c = "export #{REQUIRED_ENVIRONMENT_VARIABLES}; cd #{APP_ROOT}; #{RAILS_COMMAND}"
+    p Time.now, $0, 'in '+__FILE__, c, `#{c}`, Time.now
+    exit
+  end
+end
+
+#-------------
+SEE
+See also:
+CPanel not promising Rails 3 (February 14, 2011):
+http://forums.cpanel.net/f5/when-will-rails-3-available-cpanel-191701.html
+
+Says cPanel doesn't work with Rails 3 (October 24, 2010):
+http://svetlin.posterous.com/cpanel-doesnt-work-with-rails-3
+
+On cPanel with Rails 3: pretty optimistic and thorough (no date):
+http://www.nirvaat.com/ruby-on-rails/enabling-rails-3-for-your-application/
+
+Discussion of Rails 3 in a sub-URI (Sep 3, 2010):
+http://summit360.co.uk/2010/09/rails_3_unicorn.html
+
+#-------------
+RIGHTS
+Copyright (c) 2011 Mark D. Blackwell.

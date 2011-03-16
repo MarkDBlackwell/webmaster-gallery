@@ -20,6 +20,8 @@ class SessionsController < ApplicationController
   def destroy
     flash[:notice]='Logged out successfully.'
     redirect_to :action => :new
+# Added:
+    stop_server
   end
 
   def edit
@@ -90,8 +92,12 @@ class SessionsController < ApplicationController
 
   def delete_cache
     public=App.root.join 'public'
-    pages=[public.join 'index.html']
-    (p=public.join 'pictures').find do |path|
+##    pages=[public.join 'index.html']
+    u=my_url_prefix
+    u.blank? ? (s='index'; a=[]) : (s=u; a=[u])
+    pages=[public.join "#{s}.html"]
+##    (p=public.join 'pictures').find do |path|
+    (p=public.join *a << 'pictures').find do |path|
       next if path==p
       Find.prune if path.directory?
       pages << path
@@ -119,8 +125,31 @@ class SessionsController < ApplicationController
         remote_ip}."
   end
 
+  def my_url_prefix
+    'webmas-gallery'
+  end
+
   def refresh_database_message
     'refresh ' + dp
+  end
+
+  def stop_server
+    begin
+      webrick_pid_location=App.root.join *%w[ tmp pids server.pid ]
+      f=File.new webrick_pid_location.to_s, 'r'
+      s=f.gets("\n").chomp "\n"
+      pid=s.blank? ? 0 : s.to_i
+      f.close
+    rescue Errno::ENOENT
+      logger.info 'I no Webrick server.pid file found'
+      pid=0
+    end
+    begin
+      logger.info "I logging out: sending INT to #{pid}"
+      Process.kill 'INT', pid
+    rescue Errno::EINVAL, Errno::ESRCH
+      logger.info "I No process #{pid}."
+    end
   end
 
   def toggle_login

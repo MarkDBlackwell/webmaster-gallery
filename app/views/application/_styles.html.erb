@@ -1,9 +1,51 @@
 <%# %%vi%%part%%app%%sty -%>
 <!--Styles-->
 <%= content_tag 'style', :type => 'text/css', :class => 'styles' do -%><%= %>
-div.tags * {display: inline}
-div.label {display: inline-block}
-div.picture {display: inline-block}
-div.picture > form > input[name=commit] {display: none}
+/*
 div.session-buttons * {display: inline}
+div.all-tags, div.all-tags *, div.tags * {display: inline}
+div.picture {display: inline-block; text-align: center; vertical-align: top}
+div.picture > form > input[name=commit] {display: none}
+div.description {text-transform: lowercase}
+div.label {display: inline-block}
+*/
+/* Anchors. */
+a:link, a:visited {text-decoration: none}
+
+/* Session buttons. */
+html > body > div.session-buttons > div ,
+html > body > div.session-buttons > div > form.button_to ,
+html > body > div.session-buttons > div > form.button_to > div
+{display: inline}
+
+/* Tags at top. */
+html > body > div.all-tags > div.tags > div.tag
+{display: inline; margin: 1px}
+
+/* Tags within pictures. */
+html > body > div.action-content > div.gallery > div.picture > div.tags > div.tag, /* Multiple. */
+html > body > div.action-content >               div.picture > div.tags > div.tag /* Single. */
+{display: inline; margin: 1px}
+
+/* Multiple pictures. */
+html > body > div.action-content > div.gallery > div.picture
+{display: inline-block; text-align: center; vertical-align: top; margin: 1px}
+
+/* Picture images. */
+div.thumbnail > a > img
+{border: none}
+
+/* Picture descriptions. */
+html > body > div.action-content > div.gallery > div.picture > div.field > div.description, /* Multiple. */
+html > body > div.action-content >               div.picture > div.field > div.description /* Single. */
+{text-transform: lowercase}
+
+/* Commit buttons (while editing pictures). */
+html > body > div.action-content > div.picture > form.edit_picture > input[name=commit]
+{display: none}
+
+/* Labels (for picture fields). */
+html > body > div.action-content > div.picture > form.edit_picture > div.field > div > div.label
+{display: inline-block}
+
 <%  end -%><%= %>

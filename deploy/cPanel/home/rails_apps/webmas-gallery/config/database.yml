@@ -1,0 +1,16 @@
+login: &login
+  adapter:  mysql
+  username: <MySQL username for your application>
+  password: <MySQL password for your application>
+  host:     localhost
+  encoding: utf8
+  pool:     5
+  timeout:  5000
+
+development:
+  database: <your application's MySQL database name prefix>_dev
+  <<: *login
+
+production:
+  database: <your application's MySQL database name prefix>_prod
+  <<: *login

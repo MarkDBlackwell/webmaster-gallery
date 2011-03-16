@@ -1,3 +1,5 @@
+p Time.now, 'in '+__FILE__
+
 require File.expand_path('../boot', __FILE__)
 
 # require 'rails/all'
@@ -5,9 +7,12 @@ require File.expand_path('../boot', __FILE__)
 %w[action_controller active_record active_resource rails/test_unit].each {|e|
     require "#{e}/railtie"}
 
+=begin
 # If you have a Gemfile, require the gems listed there, including any gems
 # you've limited to :test, :development, or :production.
-Bundler.require(:default, Rails.env) if defined?(Bundler)
+#Bundler.require(:default, Rails.env) if defined?(Bundler)
+Bundler.require(:default, :server, Rails.env) if defined?(Bundler)
+=end
 
 module Gallery
   class Application < Rails::Application
@@ -41,5 +46,8 @@ module Gallery
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
+    config.action_controller.asset_path=proc{|p| "/webmas-gallery#{p}"}
+# Does not work (does not restrict to just these tags):
+##    config.action_view.sanitized_allowed_tags = %w[ br ]
   end
 end

@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
   private
 
   def clear_session
-# TODO: try ActionController::Base#reset_session.
+# TODO: For the cookie store, write alert-me when ActionController::Base#reset_session does something or works.
     s=session.to_hash.keys-(f=['flash'])
     s.concat(seems_to_work=f).each{|e| session.delete e}
   end

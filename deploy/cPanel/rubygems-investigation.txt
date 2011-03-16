@@ -1,0 +1,74 @@
+  Normally, requiring rubygems works, but here it is giving me an error. For example:
+
+  <ruby -e"require 'rubygems' ">
+in `require': no such file to load -- rubygems (LoadError)
+
+  There seem to be two Ruby executables:
+-rwxr-xr-x  1 root root 2677058 Dec 22  2008 /usr/local/bin/ruby
+-rwxr-xr-x  1 root root 10983 Feb 11 02:41 /usr/bin/ruby
+
+  <[root@svr6 ~]# ruby --version> gave Robert S.:
+ruby 1.8.7 (2008-05-31 patchlevel 0) [x86_64-linux]
+
+  <ruby --version> gives me a different patch level, however:
+ruby 1.8.7 (2009-06-12 patchlevel 174) [x86_64-linux]
+
+  I observe there is a symlink for gem:
+lrwxrwxrwx  1 root root 18 Jun 19  2008 /usr/bin/gem -> /usr/local/bin/gem
+
+  This symlink is breaking the latest-patched Ruby installation. The first line of the file, '/usr/local/bin/gem' explains why the command, 'gem' is managing files in the other installation of Ruby, but not the Ruby in /usr/bin:
+
+#!/usr/local/bin/ruby
+
+  To get rubygems working in /usr/bin/ruby, please do the following:
+
+  1. Remove the /usr/bin/gem symlink.
+
+  2. Download and uncompress the latest rubygems package, from http://rubygems.org/pages/download.
+
+  3. Change to the directory inside which contains the file, 'setup.rb'.
+
+  4. Install Rubygems into the right installation of Ruby, by doing (it will download things and take a while):
+
+      /usr/bin/ruby setup.rb
+
+  5. Check that /usr/bin/gem is now a file, not a symlink. Now, its first line should be:
+
+#!/usr/bin/ruby
+
+  6. Run both '/usr/bin/gem env' and '/usr/local/bin/gem env'. Compare and make sure their outputs are the same (except without 'local/'). If not, re-run step 4, above, but give the appropriate options to correct the difference. You can see the options by running:
+
+      /usr/bin/ruby setup.rb --help
+
+  7. Do this:
+
+      /usr/bin/gem update --system
+
+  8. Now, you are done!
+
+  BTW, perhaps you intended, or would like, to have only one version of Ruby?
+
+  For your information:
+
+  Currently, there are two sets of installed Ruby libraries:
+drwxr-xr-x   5 root root 4096 Feb 11 02:42 /usr/local/lib/ruby/site_ruby/1.8
+drwxr-xr-x   3 root root  4096 Oct 16  2008 /usr/lib/ruby/site_ruby/1.8
+
+  They are without symlinks:
+drwxr-xr-x  20 root root  4096 Aug  1  2010 /usr
+drwxr-xr-x  36 root root 20480 Feb 11 02:41 /usr/lib
+drwxr-xr-x   5 root root  4096 Oct 16  2008 /usr/lib/ruby
+drwxr-xr-x   3 root root  4096 Oct 16  2008 /usr/lib/ruby/site_ruby
+drwxr-xr-x  32 root root 4096 Jun 10  2010 /usr/local
+drwxr-xr-x   7 root root 4096 Feb 11 02:48 /usr/local/lib
+drwxr-xr-x   6 root root 4096 Jul  5  2008 /usr/local/lib/ruby
+drwxr-xr-x   3 root root 4096 Feb 17  2008 /usr/local/lib/ruby/site_ruby
+
+  They have different load paths (in parallel with the executables):
+  </usr/bin/ruby -e"p $:">
+["/usr/lib/ruby/site_ruby/1.8", "/usr/lib/ruby/site_ruby/1.8/x86_64-linux", "/usr/lib/ruby/site_ruby", "/usr/lib/ruby/vendor_ruby/1.8", "/usr/lib/ruby/vendor_ruby/1.8/x86_64-linux", "/usr/lib/ruby/vendor_ruby", "/usr/lib/ruby/1.8", "/usr/lib/ruby/1.8/x86_64-linux", "."]
+
+  </usr/local/bin/ruby -e"p $:">
+["/usr/local/lib/ruby/site_ruby/1.8", "/usr/local/lib/ruby/site_ruby/1.8/x86_64-linux", "/usr/local/lib/ruby/site_ruby", "/usr/local/lib/ruby/vendor_ruby/1.8", "/usr/local/lib/ruby/vendor_ruby/1.8/x86_64-linux", "/usr/local/lib/ruby/vendor_ruby", "/usr/local/lib/ruby/1.8", "/usr/local/lib/ruby/1.8/x86_64-linux", "."]
+
+George Sawyer

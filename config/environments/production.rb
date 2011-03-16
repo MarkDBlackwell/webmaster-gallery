@@ -20,6 +20,7 @@ Gallery::Application.configure do
 
   # See everything in the log (default is :info)
   # config.log_level = :debug
+  config.log_level = :warn
 
   # Use a different logger for distributed setups
   # config.logger = SyslogLogger.new
@@ -29,7 +30,7 @@ Gallery::Application.configure do
 
   # Disable Rails's static asset server
   # In production, Apache or nginx will already do this
-#  config.serve_static_assets = false
+  config.serve_static_assets = false
 
   # Enable serving of images, stylesheets, and javascripts from an asset server
   # config.action_controller.asset_host = "http://assets.example.com"
@@ -48,9 +49,11 @@ Gallery::Application.configure do
   config.active_support.deprecation = :notify
 
 # Location of webmaster directory:
-# In test and development environments, this is:
-  config.webmaster = root.join *%w[test fixtures files webmaster]
+# In test environment, this is:
+#  config.webmaster = root.join *%w[test fixtures files webmaster]
+# In development environment, this is:
+#  config.webmaster = root.join *%w[webmaster]
 # Set this in some way that web hosts will allow. (In a Unix environment
 # variable? or in a start parameter?):
-#  config.webmaster =
+  config.webmaster = root.join *%w[webmaster]
 end

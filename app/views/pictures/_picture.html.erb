@@ -24,7 +24,16 @@
 <%      end -%>
 <%    end -%><%= %>
 <%=   content_tag :div, :class => 'edit' do -%>
-<%=     button_to 'edit', {:controller => :admin_pictures, :action => :edit,
+<%#=     button_to 'edit', {:controller => :admin_pictures, :action => :edit,
             :id => picture.id}, :method => :get -%>
+<%#= TODO: alert me when target='_blank' gets into form instead of erroneously placed in input:
+button_to 'edit', {:controller => :admin_pictures, :action => :edit, :id => picture.id}, :method => :get, :tabindex => '1', :target => '_blank' -%>
+<%=     content_tag :form, :action => url_for(:controller => :admin_pictures,
+            :action => :edit, :id => picture.id), :class => :button_to,
+            :method => :get, :target => :_blank  do -%>
+<%=       content_tag :div do -%>
+<%=         tag :input, :tabindex => '1', :type => :submit, :value => :edit -%>
+<%        end -%>
+<%      end -%>
 <%    end if @edit_allowed -%>
 <%  end # Picture div. -%>

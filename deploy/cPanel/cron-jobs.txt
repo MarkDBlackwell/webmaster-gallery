@@ -1,0 +1,31 @@
+cd $HOME/rails_apps/webmas-gallery;                     bin/rails server         --port=12008
+cd $HOME/rails_apps/webmas-gallery; $HOME/.gem/ruby/1.8/bin/rails server webrick --port=12008
+cd $HOME/rails_apps/webmas-gallery; $HOME/.gem/ruby/1.8/bin/rails server webrick --port=12008 --environment=production > /dev/null
+cd $HOME/rails_apps/webmas-gallery; bundle install --without server --path vendor/bundle --binstubs
+cd $HOME/rails_apps/webmas-gallery; rm -r .bundle; rm Gemfile.lock
+dpkg -l '*sqlite*'
+export ARCHFLAGS="-arch x86_64";       cd /home/meganamo/.gem/ruby/1.8/gems/mysql-2.8.1;  gem env
+export ARCHFLAGS="-arch x86_64";       cd /home/meganamo/.gem/ruby/1.8/gems/mysql-2.8.1;  gem install mysql  -v 2.8.1 --user-install --no-rdoc --no-ri --backtrace -- --with-mysql-config=/usr/bin/mysql_config
+export ARCHFLAGS="-arch x86_64-linux"; cd /home/meganamo/.gem/ruby/1.8/gems/mysql-2.8.1;  gem env
+export ARCHFLAGS="-arch x86_64-linux"; cd /home/meganamo/.gem/ruby/1.8/gems/mysql-2.8.1;  gem install mysql  -v 2.8.1 --user-install --no-rdoc --no-ri --backtrace -- --with-mysql-config=/usr/bin/mysql_config
+export ARCHFLAGS="-arch x86_64-linux"; cd /home/meganamo/.gem/ruby/1.8/gems/mysql-2.8.1;  gem install mysql  -v 2.8.1 --user-install --no-rdoc --no-ri --backtrace -- --with-mysql-config=/usr/bin/mysql_config --with-mysql-dir=/usr/include/mysql --with-mysql-lib=/usr/lib64/mysql
+export ARCHFLAGS="-arch x86_64-linux"; cd /home/meganamo/.gem/ruby/1.8/gems/mysql-2.8.1;  gem install mysql  -v 2.8.1 --user-install --no-rdoc --no-ri --backtrace -- --without-mysql-config                    --with-mysql-dir=/usr/include/mysql --with-mysql-lib=/usr/lib64/mysql
+export ARCHFLAGS="-arch x86_64-linux"; cd /home/meganamo/.gem/ruby/1.8/gems/mysql2-0.2.6; gem install mysql2 -v 0.2.6 --user-install --no-rdoc --no-ri             -- --with-mysql-config=/usr/bin/mysql_config
+export ARCHFLAGS="-arch x86_64-linux"; cd /home/meganamo/.gem/ruby/1.8/gems/mysql2-0.2.6; gem install mysql2 -v 0.2.6 --user-install --no-rdoc --no-ri             -- --with-mysql-config=/usr/bin/mysql_config
+export ARCHFLAGS="-arch x86_64-linux"; cd /usr/lib/ruby/gems/1.8/gems/mysql2-0.2.6;       gem install mysql2          --user-install --no-rdoc --no-ri             -- --with-mysql-config=/usr/bin/mysql_config
+kill -int 30114
+ln -s $HOME/rails_apps/webmas-gallery/public $HOME/public_html/webmas-gallery
+ps aux | grep meganamo
+
+ls -ld $HOME/www; ls -ld $HOME/public_html
+
+cd $HOME/rails_apps/webmas-gallery; $HOME/.gem/ruby/1.8/bin/rails server --environment=production --port=12009
+
+
+cd $HOME/rails_apps/webmas-gallery; $HOME/.gem/ruby/1.8/bin/rails server webrick --port=12009
+
+ls -ld $HOME/www; ls -ld $HOME/public_html
+
+cd $HOME/rails_apps/webmas-gallery; $HOME/.gem/ruby/1.8/bin/rails server --environment=production --port=12009
+
+/usr/bin/env ruby -v; /usr/bin/ruby -v

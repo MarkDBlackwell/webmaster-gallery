@@ -1,4 +1,8 @@
+p Time.now, 'in '+__FILE__
+
 Gallery::Application.routes.draw do
+ scope '/webmas-gallery' do
+
   resource :session
 
   match 'pictures/:tag' => 'pictures#index'
@@ -60,6 +64,7 @@ Gallery::Application.routes.draw do
   # just remember to delete public/index.html.
   # root :to => "welcome#index"
   root :to => "pictures#index"
+ end
 
   # See how all your routes lay out with "rake routes"
 

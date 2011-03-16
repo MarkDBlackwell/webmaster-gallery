@@ -1,6 +1,7 @@
 <%# %%vi%%part%%pic%%atgs %%pic%%tgs -%>
 <!--All tags-->
 <%= content_tag :div, :class => 'all-tags' do -%>
-<%=   render :partial => 'pictures/tags', :locals => {:tags => @all_tags} -%>
+<%#=   render :partial => 'pictures/tags', :locals => {:tags => @all_tags} -%>
+<%=   render :partial => 'pictures/tags', :locals => {:tags => (@all_tags.unshift 'all')} if @all_tags.present? -%>
 <%  end -%>
 

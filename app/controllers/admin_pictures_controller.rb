@@ -54,7 +54,11 @@ class AdminPicturesController < ApplicationController
 
   def prepare_single
     @show_filename=true
-    (@picture=Picture.find params[:id]).valid?
+#    (@picture=Picture.find params[:id]).valid?
+
+    (raise ActiveRecord::RecordNotFound) if (pi=params[:id]).blank? || (pi=pi.to_i) <= 0
+    @picture=Picture.find pi
+    @picture.valid?
   end
 
   def redirect_back(a)

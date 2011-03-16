@@ -9,11 +9,15 @@ class Picture < ActiveRecord::Base
       :autosave => true, :dependent => :destroy,
       :uniq => true, :validate => false
 
-  validates_presence_of     :created_at,:description,:filename,:id,:title,
-      :updated_at
+##  validates_presence_of     :created_at,:description,:filename,:id,:title,
+##      :updated_at
+
+  validates_presence_of     :created_at,:filename,:id,:title,:updated_at
   validates_length_of       :year, :is => 4
   validates_uniqueness_of   :filename,:id,:sequence
-  validates_uniqueness_of   :description,:title, :allow_blank => true
+##  validates_uniqueness_of   :description,:title, :allow_blank => true
+
+  validates_uniqueness_of   :title, :allow_blank => true
   validates_numericality_of :id,:sequence,:weight,:year, :only_integer => true
   before_validation :clean_fields
   before_save       :clean_fields
@@ -36,8 +40,26 @@ class Picture < ActiveRecord::Base
     clean_text v, a
   end
 
+  BREAK_TAG = 'br' # To narrow picture divs, allow break tags in text.
+  BREAK_TAG_STRIPPED = "<#{BREAK_TAG} />"
+  GREEDY_WHITESPACE = '\s*'
+  ZERO_OR_ONE_OCCURRENCE='?'
+  BREAK_TAG_REGEXP = Regexp.new [ nil,
+      Regexp.escape('<'),
+      Regexp.escape(BREAK_TAG),
+      Regexp.escape('/') + ZERO_OR_ONE_OCCURRENCE,
+      Regexp.escape('>'),
+      nil ].join(GREEDY_WHITESPACE), Regexp::IGNORECASE, 'u'
+
   def clean_text(v,a)
-    v=sanitize v.strip, :tags => []
+# This is the use, per: http://wonko.com/post/sanitize
+##    v=Sanitize.clean v, elements=[BREAK_TAG], attributes={}, protocols={}
+
+# TODO: Somehow, <b> tags still remain.
+    v=v.gsub BREAK_TAG_REGEXP, BREAK_TAG_STRIPPED
+    v=sanitize v.strip, :tags => BREAK_TAG, :attributes => []
+    v=v.gsub %q("), '&#34;'
+    v=v.gsub %q('), '&#39;'
     return v if v.present?
     case a
     when 'weight' then '0'
