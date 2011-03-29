@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+# Author: Mark D. Blackwell
 s_h=Signal.list
 p s_h
 p "parent is #{Process.ppid}, pid is #{Process.pid}"

@@ -1,0 +1,11 @@
+#!/bin/sh
+# Author: Mark D. Blackwell
+# Date created: February 14, 2011
+# Date last changed: March 29, 2011
+# Compress this Rails application.
+# (Prepares for deployment to a cPanel webhost.)
+# Usage:
+#   compress-app
+
+zip -r webmas-gallery.zip app config config.ru db doc Gemfile* lib log \
+public Rakefile script tmp vendor

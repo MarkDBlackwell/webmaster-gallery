@@ -1,4 +1,6 @@
-# See Ruby Enumerable.zip.
+#!/usr/bin/env ruby
+# Author: Mark D. Blackwell
+# See Ruby Enumerable#zip.
 
 class Array
   def map_with_index

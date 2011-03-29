@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 # Author: Mark D. Blackwell
 # Date written: October 7, 2010.
 # Date last updated: December 21, 2010.

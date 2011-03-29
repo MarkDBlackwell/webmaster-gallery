@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+# Author: Mark D. Blackwell
 c='ruby handle_hup.rb'
 pid=Process.fork
 Process.exec c unless pid

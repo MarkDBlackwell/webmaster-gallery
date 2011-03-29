@@ -1,2 +1,3 @@
 #!/bin/sh
+# Author: Mark D. Blackwell
 ls -ltd --time-style=full-iso *

@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+# Author: Mark D. Blackwell
 a=[]
 $".each do |e|
   es=e.to_s

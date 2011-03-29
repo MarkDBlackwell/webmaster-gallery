@@ -1,4 +1,5 @@
-# Ref.: http://microjet.ath.cx/webrickguide/html/What_is_WEBrick.html
+#!/usr/bin/env ruby
+# Copied from: http://microjet.ath.cx/webrickguide/html/What_is_WEBrick.html
 
 require 'webrick'
 include WEBrick
