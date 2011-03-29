@@ -28,7 +28,6 @@ end
   config.action_dispatch.best_standards_support = :builtin
 
 # Location of webmaster directory:
-#  config.webmaster = root.join *%w[test fixtures files webmaster]
   config.webmaster = root.join *%w[webmaster]
 
   config.serve_static_assets = false

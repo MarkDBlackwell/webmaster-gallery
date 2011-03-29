@@ -83,8 +83,6 @@ class DirectoryPicture
 
   def self.get_files
     file_struct=Struct.new :time, :filename, :is_thumbnail
-#    allowed_single_characters=Regexp.escape '-.'
-
     allowed_single_characters=Regexp.escape '-._'
     forbidden_ascii=Regexp.new "[^A-Za-z0-9#{allowed_single_characters}]"
     @bad_names=[]

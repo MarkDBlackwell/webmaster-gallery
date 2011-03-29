@@ -1,31 +1,14 @@
 --- 
-# '--local' and '--run-tests' elided for Megan's:
-# gem: --conservative --no-rdoc --no-ri
 gem: --no-rdoc --no-ri
-## gem: --local --conservative --no-rdoc --no-ri --run-tests
-
-## rdoc: --all --inline-source --line-numbers
 
 # Note: a non-default value adds another gempath.
-# Path advised by Cpanel webpage:
-## gemhome: /home/meganamo/ruby/gems
 # Is default for rubygems 1.5.2:
-## gemhome: /home/mark/.gem/ruby/1.8
 gemhome: /home/meganamo/.gem/ruby/1.8
 
 gempath:
-
-# Previously used on Megan's:
-##  - /home/meganamo/ruby/gems
 # Is default for rubygems 1.5.2:
-##  - /home/mark/.gem/ruby/1.8
   - /home/meganamo/.gem/ruby/1.8
-
-# Specifies old, gone Ruby library:
-##  - /usr/local/lib/ruby/gems/1.8:/home/meganamo/ruby/gems
-# Is default on disk30:
-##  - /usr/local/lib/ruby/gems/1.8
-#  - /home/meganamo/rails_apps/webmas-gallery/vendor/bundle/ruby/1.8
+# Your app's vendor bundle:
   - /home/meganamo/rails_apps/webmas-gallery/vendor/bundle/ruby/1.8
-# Megan's location:
+# Verify is webhost's location:
   - /usr/lib/ruby/gems/1.8

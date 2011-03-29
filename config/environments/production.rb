@@ -49,11 +49,5 @@ Gallery::Application.configure do
   config.active_support.deprecation = :notify
 
 # Location of webmaster directory:
-# In test environment, this is:
-#  config.webmaster = root.join *%w[test fixtures files webmaster]
-# In development environment, this is:
-#  config.webmaster = root.join *%w[webmaster]
-# Set this in some way that web hosts will allow. (In a Unix environment
-# variable? or in a start parameter?):
   config.webmaster = root.join *%w[webmaster]
 end

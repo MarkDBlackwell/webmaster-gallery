@@ -1,17 +1,19 @@
 # Notes:
-# o The following rewrite rules require this symlink (make it):
+# o The following rewrite rules require you to make this symlink:
 #     /home/your_user_name/public_html/your_app_name ->
 #     /home/your_user_name/rails_apps/your_app_name/public
 #
-# o TODO: Maybe disallow original URI's suffixed with '.html'.
+# o TODO: maybe disallow original URI's suffixed with '.html'.
 #
-# o At least in Rails (3.0.3), this configuration statement (in config/ application.rb), which allows your application to generate the proper sub-URI URL's for its static assets, such as images:
+# o At least in Rails (3.0.3), this configuration statement (in config/ application.rb), which allows your application to generate the proper sub-URI URL's for its static assets such as images,
 #
 #     config.action_controller.asset_path=proc{|p| "/your_app_name#{p}"}
 #
-# requires an extra 'your_app_name/' in rewrites 2.1.2 and 2.1.3, below.
+# requires an extra 'your_app_name/' in rewrites 2.1.2 and 2.1.3(?), below.
 #
-# o Rewrites without [L] are cumulative, in RewriteRule's first argument. However, REQUEST_URI is always the original.
+# o Rewrites without [L] are cumulative, in Apache's RewriteRule's first argument. However, REQUEST_URI is always the original.
+#
+# Ref. http://httpd.apache.org/docs/1.3/mod/mod_rewrite.html
 #
 
 # 1. Simplify the rules for your sub-URI by redirecting a missing subdomain to 'www.':

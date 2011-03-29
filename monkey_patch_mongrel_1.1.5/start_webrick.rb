@@ -1,16 +1,23 @@
 p Time.now, 'in '+__FILE__
 
-# Tested on:
-#   Architecture x86_64
-#   cPanel 11.28.86
-#   cPanel Pro 1.0 (RC1)
-#   Linux 2.6.9-89.31.1.ELsmp
-#   Mongrel 1.1.5 (version used by cPanel)
-#   Rails 3.0.3
-#   Ruby 1.8.7 patchlevel 330
+# Versions tested on:
+#   Apache: 2.2.15
+#   Architecture: x86_64
+#   cPanel: 11.28.86
+#   cPanel Pro: 1.0 (RC1)
+#   Hosting package: Starter
+#   Kernel: 2.6.9-89.31.1.ELsmp (Linux)
+#   Mongrel: 1.1.5 (cPanel's)
+#   MySQL: 5.1.45
+#   Rails: 3.0.3
+#   Ruby: 1.8.7 patchlevel 330
 
 module MyStartup
   require 'pathname'
+
+#  MY_RAILS_ENV='development'
+#  MY_RAILS_ENV='production'
+  MY_RAILS_ENV=ENV['RAILS_ENV'] # Set by cPanel's Mongrel.
 
   PROGRAM_FILE=Pathname(__FILE__).realpath
   pfd=[]; PROGRAM_FILE.descend{|e| pfd << e}
@@ -19,11 +26,9 @@ module MyStartup
   SERVER='webrick'
   PORT='12009'
 
-#  MY_RAILS_ENV='development'
-  MY_RAILS_ENV='production'
-
   ARGUMENTS="--environment=#{MY_RAILS_ENV} --port=#{PORT}"
-  REDIRECT_OUTPUT='development'==MY_RAILS_ENV ? '' : '> /dev/null'
+# For debugging, change to '':
+  REDIRECT_OUTPUT='> /dev/null'
 
   class GemPathEntry
     SYSTEM     = Pathname('/').join *%w[   usr    lib    ruby  gems  1.8 ]
@@ -49,39 +54,44 @@ module MyStartup
 
   def self.stop_process(name,pid,signal)
     begin
-      p "Stopping #{name} pid #{pid} at #{Time.now}."
+      p "I Stopping #{name} pid #{pid} at #{Time.now}"
       Process.kill signal, pid
-      p Process.waitall
-      p "#{name} finished at #{Time.now}."
+      p "I #{Process.waitall.inspect}, #{name} finished at #{Time.now}"
     rescue Errno::EINVAL, Errno::ESRCH
-      p "No #{name} process #{pid}."
+      p "I No #{name} process #{pid}"
     end
-# Sometimes there are other processes, I don't know why; so wait for them.
-# Got error, undefined local variable or method `pwa':
+# Got error, undefined local variable or method `pwa' with:
 ##    p pwa, "All child processes finished at #{Time.now}." unless (pwa=Process.waitall).empty?
+# Sometimes there are other processes, I don't know why; so wait for them.
     pwa=Process.waitall
-    p pwa, "All child processes finished at #{Time.now}." unless pwa.empty?
+    p "I #{pwa.inspect}, all child processes finished at #{Time.now}" unless pwa.empty?
   end
 
 # Rack (1.2.1) fails with Rails 3.0.3 and any Mongrel, although Webrick works, per:
 # https://github.com/rack/rack/issues/35
 
+  MONGREL_PID_FILE=APP_ROOT.join *%w[ log  mongrel.pid ]
+
   p Time.now
-  p "Program name ($0) is #{$PROGRAM_NAME}"
-  p "in #{PROGRAM_FILE}"
-  p (c="export #{REQUIRED_ENVIRONMENT_VARIABLES}; cd #{APP_ROOT}; #{RAILS_COMMAND}")
+  p "I Program name ($0) is #{$PROGRAM_NAME}"
+  p "I In #{PROGRAM_FILE}"
   $LOAD_PATH.unshift APP_ROOT.join 'monkey_patch_mongrel_1.1.5'
 
   unless WEBRICK_MONITOR_PID=Process.fork # Mongrel doesn't stop all threads, so we use a process.
+    p "I Starting Webrick monitor pid #{WEBRICK_MONITOR_PID} at #{Time.now} using command:"
+    p (c="export #{REQUIRED_ENVIRONMENT_VARIABLES}; cd #{APP_ROOT}; #{RAILS_COMMAND}")
     Process.exec c unless WEBRICK_PID=Process.fork # Fork and replace another process.
-    p "Starting Webrick pid #{WEBRICK_PID} at #{Time.now}."
+    p "I Starting Webrick pid #{WEBRICK_PID} at #{Time.now}"
     Signal.trap 'TERM' do
       stop_process 'Webrick', WEBRICK_PID, 'INT'
     end
-    p Process.waitall
-    p "Webrick finished (itself); stopping Mongrel at #{Time.now}."
-    `#{s='mongrel_rails stop'}`
-    p "'#{s}' finished at #{Time.now}."
+    p "I #{Process.waitall.inspect}, Webrick finished (itself); stopping Mongrel at #{Time.now}"
+    unless File.exist? MONGREL_PID_FILE.to_s
+      p "I File '#{MONGREL_PID_FILE}' not found"
+    else
+      `#{s='mongrel_rails stop'}`
+      p "I '#{s}' finished at #{Time.now}"
+    end
     Process.exit
   end
 

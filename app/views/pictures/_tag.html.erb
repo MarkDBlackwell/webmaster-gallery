@@ -1,15 +1,5 @@
 <%# %%vi%%part%%pic%%tag -%>
 <%= %>
-<%#  unless tag.kind_of? Tag -%>
-<%#=   content_tag :div, tag, :class => 'tag' -%>
-<%#  else -%>
-<%#=   div_for tag do -%>
-<%#      options={:action => :index.to_s, :tag => tag.name} -%>
-<%#      options[:controller]=@link_controller if @link_controller -%>
-<%#=     link_to(tag.name, options) -%>
-<%#    end -%>
-<%#  end -%>
-
 <%  url_h={:action => :index.to_s} -%>
 <%  url_h[:controller]=@link_controller if @link_controller -%>
 <%  case -%>
@@ -20,7 +10,7 @@
 <%    end -%>
 <%  when ('all'==tag) -%>
 <%=   content_tag :div, :class => 'tag' do -%>
-<%      url_h[:tag]=nil -%>
+<%      url_h.merge! :tag => nil, :trailing_slash => true -%>
 <%=     link_to 'all', url_h, :title => 'all tags' -%>
 <%    end -%>
 <%  else -%>

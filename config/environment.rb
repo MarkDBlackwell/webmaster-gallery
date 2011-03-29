@@ -1,3 +1,5 @@
+p Time.now, 'in '+__FILE__
+
 unless (STARTED_BY_CPANEL='script/rails' != $PROGRAM_NAME)
 
 # Load the rails application

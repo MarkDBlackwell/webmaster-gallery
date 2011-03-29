@@ -2,15 +2,15 @@ p Time.now, 'in '+__FILE__
 
 require File.expand_path('../boot', __FILE__)
 
-# require 'rails/all'
-# Removed 'action_mailer' from the list.
+## require 'rails/all'
+## Removed 'action_mailer' from the list.
 %w[action_controller active_record active_resource rails/test_unit].each {|e|
     require "#{e}/railtie"}
 
 =begin
+## BUNDLER
 # If you have a Gemfile, require the gems listed there, including any gems
 # you've limited to :test, :development, or :production.
-#Bundler.require(:default, Rails.env) if defined?(Bundler)
 Bundler.require(:default, :server, Rails.env) if defined?(Bundler)
 =end
 

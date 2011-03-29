@@ -10,10 +10,6 @@
 <%        value=record[field] -%>
 <%        uneditables=[:filename,:sequence] -%>
 <%        plain=(uneditables.include? field) || ! @editing -%>
-<%#=       plain ? value : (text_field_tag record, field,
-              :value => value, :name => "picture[#{field}]") -%>
-<%#=       plain ? (sanitize value, :tags => %w[ br ]) : (text_field_tag record, field,
-              :value => value, :name => "picture[#{field}]") -%>
 <%=       plain ? (sanitize value, :tags => %w[ br ]) : (text_field_tag record, field,
               :value => value, :name => "picture[#{field}]", :tabindex => '1') -%>
 <%        label=raw(' &nbsp; ').concat field -%>

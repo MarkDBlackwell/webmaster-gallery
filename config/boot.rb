@@ -3,6 +3,7 @@ p Time.now, 'in '+__FILE__
 require 'rubygems'
 
 =begin
+## BUNDLER
 # Set up gems listed in the Gemfile.
 gemfile = File.expand_path('../../Gemfile', __FILE__)
 begin
@@ -17,9 +18,6 @@ end if File.exist?(gemfile)
 =end
 
 require 'mysql2'
-
-# $:.push 'home/meganamo/
-# ENV['BUNDLE_GEMFILE'] = gemfile
 
 # Moved arel up, because...:
 gem 'arel', '=2.0.7'

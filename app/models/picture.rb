@@ -9,14 +9,9 @@ class Picture < ActiveRecord::Base
       :autosave => true, :dependent => :destroy,
       :uniq => true, :validate => false
 
-##  validates_presence_of     :created_at,:description,:filename,:id,:title,
-##      :updated_at
-
   validates_presence_of     :created_at,:filename,:id,:title,:updated_at
   validates_length_of       :year, :is => 4
   validates_uniqueness_of   :filename,:id,:sequence
-##  validates_uniqueness_of   :description,:title, :allow_blank => true
-
   validates_uniqueness_of   :title, :allow_blank => true
   validates_numericality_of :id,:sequence,:weight,:year, :only_integer => true
   before_validation :clean_fields
@@ -54,7 +49,6 @@ class Picture < ActiveRecord::Base
   def clean_text(v,a)
 # This is the use, per: http://wonko.com/post/sanitize
 ##    v=Sanitize.clean v, elements=[BREAK_TAG], attributes={}, protocols={}
-
 # TODO: Somehow, <b> tags still remain.
     v=v.gsub BREAK_TAG_REGEXP, BREAK_TAG_STRIPPED
     v=sanitize v.strip, :tags => BREAK_TAG, :attributes => []
