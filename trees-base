@@ -1,2 +1,0 @@
-echo `./trees $1`'
-'`./base $1` | sort | uniq

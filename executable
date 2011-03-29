@@ -1,7 +1,0 @@
-#!/bin/sh
-# Author: Mark D. Blackwell
-# Date written: November 5, 2010
-# Date last changed: December 21, 2010
-# Usage:
-#   executable
-find . -type f -perm -u+x
