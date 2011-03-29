@@ -3,12 +3,12 @@ gem: --no-rdoc --no-ri
 
 # Note: a non-default value adds another gempath.
 # Is default for rubygems 1.5.2:
-gemhome: /home/meganamo/.gem/ruby/1.8
+gemhome: /home/your_user_name/.gem/ruby/1.8
 
 gempath:
 # Is default for rubygems 1.5.2:
-  - /home/meganamo/.gem/ruby/1.8
+  - /home/your_user_name/.gem/ruby/1.8
 # Your app's vendor bundle:
-  - /home/meganamo/rails_apps/webmas-gallery/vendor/bundle/ruby/1.8
+  - /home/your_user_name/rails_apps/webmas-gallery/vendor/bundle/ruby/1.8
 # Verify is webhost's location:
   - /usr/lib/ruby/gems/1.8

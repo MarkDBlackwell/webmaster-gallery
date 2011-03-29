@@ -1,88 +1,107 @@
 Install Rails 3 application to sub-URI with cPanel howto
 
-  Recently, I successfully installed a Rails 3 application on a cPanel webhost. Here's how I did it:
+Recently, I successfully installed a Rails 3 application on a cPanel webhost.
+Here's how I did it:
 
 APACHE
 
 CPANEL
-o I wrote a Rails 3 application for webmasters who use cheap hosting services, meaning cPanel and MySQL. Here's what got it working:
+o I wrote a Rails 3 application for webmasters who use cheap hosting services,
+meaning cPanel and MySQL. Here's what got it working:
 o make Rails app using cpanel.
-o cPanel make direrectory rails-apps under $HOME, which in my case was /home/me.
-o Recently, I successfully installed a Rails 3 application on a cPanel webhost. Here's how I did it.
-o Add Code #N (see below) to the top of config/environment.rb, to allow cPanel to start the application. It immediately restarts itself using a method that works for Rails 3.
+o cPanel makes directory rails_apps under $HOME.
+o Add code to the top of config/environment.rb, to allow cPanel to start the
+application. It immediately restarts itself using a method that works for
+Rails 3.
 
 CRON
 o Run cron job how?
-o cron cd $HOME/rails-apps/myapp
+o cron cd $HOME/rails-apps/your_app_name
 o Webmaster can run the app with a cron job.
-o to run a cron job, set the day, hour and minute. Use a cPanel email account with Squirrel webmail to see the time.
+o To run a cron job, set the day, hour and minute. Use a cPanel email account
+with Squirrel webmail to see the time.
 
 DATABASE
 o change database.yml to use adapter, mysql (not, 'mysql2').
-o cPanel MySQL make 3 databases: <myapp>.devel, -_prod, -_test. Add user myuser_myapp.
-o null sequence handled differently in MySQL than SQLite broke adding pictures. They got null sqeuence.
+o cPanel MySQL make 3 databases: <your_app_name>.devel, -_prod, -_test. Add user
+your_user_name_your_app_name (abbreviated).
+o Null sequence handled differently by MySQL than SQLite. This broke adding
+pictures. They got null sqeuence.
 
 ERRORS
-o If 'arel' is not at the top, (or possibly other gems) you might get an error message like this after a later version is loaded automatically:
-
-"/usr/lib/ruby/site_ruby/1.8/rubygems.rb:274:in `activate': can't activate arel (= 2.0.7, runtime) for [], already activated arel-2.0.8 for ["activerecord-3.0.3"] (Gem::LoadError)
-
-o 
-
+o If 'arel' is not at the top, (or possibly other gems) you might get an error
+message like this after a later version is loaded automatically:
+"/usr/lib/ruby/site_ruby/1.8/rubygems.rb:274:in `activate': can't activate
+arel (= 2.0.7, runtime) for [], already activated arel-2.0.8 for
+["activerecord-3.0.3"] (Gem::LoadError)
 
 GALLERY
 o P.S. It is a gallery appplication.
 
 GEMS
-o Copy the list of gems and their highest versions from Gemfile.lock. Into boot.rb, paste the list after require 'rubygems' in the form:
-gem <name> '<highest version in Gemfile.lock>
-o Ask the hosting service to install the latest rubygems and gems bundler and mysql2.
-o cron bundle install --path vendor/bundle --binstubs  Not --binstubs
-o Comment out bundler stuff from boot.rb (this is everything but require 'rubygems').
-o Bundler will run but it won't install mysql2 successfully because of rake not finding mysql.h while setting up to compile C-language 'native extensions'. That is okay; gcc is probably not available and we're going to use the system-installed mysql2 gem, anyway.
+o Copy the list of gems and their highest versions from Gemfile.lock. Into
+boot.rb, paste the list after require 'rubygems' in the form:
+gem '<name>', '<highest version in Gemfile.lock>'
+o Ask the hosting service to install the latest rubygems and gems bundler and
+mysql2.
+o Cron bundle install --path vendor/bundle --binstubs  Not --binstubs
+o Comment out bundler stuff from boot.rb (this is everything but require
+'rubygems').
+o Bundler will run but it won't install mysql2 successfully because of rake
+not finding mysql.h while setting up to compile C-language 'native extensions'.
+That is okay; gcc is probably not available and we're going to use the system-
+installed mysql2 gem, anyway.
 o Add to your Gemfile:
 gem 'rails', '3.0.3'
 gem 'dispatcher'
 o Run the bundler:
 bundle install --path vendor/bundle
-o Make a copy of the Gemfile.lock it makes. Remove blanks and make an alphabetized list of the gems and version numbers, keeping only the highest versions. Remove sqlite3-ruby, and move 'arel' to the top. Each line should look like this (for example):
+o Make a copy of the Gemfile.lock it makes. Remove blanks and make an
+alphabetical list of the gems and version numbers, keeping only the highest
+versions. Remove sqlite3-ruby, and move 'arel' to the top. Each line should
+look like this (for example):
 gem 'arel', '=2.0.7'
 o Then comment out the entire contents of config/boot.rb, except for the line:
 require 'rubygems'
-
-  and insert below it:
+and insert below it:
 require 'mysql2'
-
-  and then the contents of the sorted Gemfile you made.
-
-  The above substitutes for the normal Bundler process, which fails when compiling the mysql2 gem's 'native extensions': most cPanel sites won't let you do C-language compilation, I think.
+and then the contents of the sorted Gemfile you made.
+The above substitutes for the normal Bundler process, which fails when
+compiling the mysql2 gem's 'native extensions': most cPanel sites won't let you
+do C-language compilation, I think.
 
 INTRO
 
 MONGREL
-o cPanel's Mongrel setup doesn't work at this time. It works if started by 'rails server' I hear.
+o cPanel's Mongrel setup doesn't work at this time. It works if started by
+'rails server', I hear.
 
 NAMES
-o use 'me' for cPanel user name, 'myapp' for the Rails app name. myport /bin/rails server webrick ---0rt=<myport>
+o use 'your_user_name' for cPanel user name, 'your_app_name' for the Rails app 
+name. myport /bin/rails server webrick ---0rt=<myport>
 
 PORT
-o Tell cPanel to add a Rails app. CPanel then adds a rewrite to public_html/.htaccess for a port; with my host it was port 120008.
+o Tell cPanel to add a Rails app. CPanel then adds a rewrite to public_html/
+.htaccess for a port; with my host it was port 120008.
 
 RESULTS
-o you can see the results at meganamo/webma-gallery
+o you can see the results at your_user_name/your_app_name
 
 SERVER
-o my app uses page caching and doesn't need to be running all the time, only when the webmaster (my customer) wishes to make changes. So, I use Webrick.
-o change app to stop in 20 minutes.
+o My app uses page caching and doesn't need to be running all the time, only
+when the webmaster (my customer) wishes to make changes. So, I use Webrick.
+o Change app to stop in 20 minutes.
 
 SYMLINK
-o symlink the app's public dir to the app's name in public_html, with cron ln -s $HOME/rails_apps/<app>/public $HOME/public_html/<app>
+o Symlink the app's public dir to the app's name in public_html, with:
+cron ln -s $HOME/rails_apps/<app>/public $HOME/public_html/<app>
 
 UNCATEGORIZED
-o in $HOME/public_html/.htaccess, remove lines referring to the new app from the bottom
+o in $HOME/public_html/.htaccess, remove lines referring to the new app from
+the bottom
 o add above the existing rewrites this: (copy)
 o add config.action_controller.relative_url_root='<app>'
-o in config/environments/development.rb, and cache line,
+o in config/environments/development.rb, and cache line
 
 VERSIONS
 o I was using Rails 3.0.3.
