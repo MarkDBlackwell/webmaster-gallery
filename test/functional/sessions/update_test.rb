@@ -6,15 +6,16 @@ class UpdateSessionsControllerTest < SharedSessionsControllerTest
 # <- Webmaster approves filesystem changes.
 
   test "routing" do # PUT
-    assert_routing({:path => '/session', :method => :put}, :controller =>
-        :sessions.to_s, :action => :update.to_s)
+    assert_routing({:path => Pathname('/').join(path_prefix,'session').to_s,
+        :method => :put}, :controller => :sessions.to_s, :action =>
+        :update.to_s)
   end
 
   test_happy_path_response :show
 
   test "happy path should..." do
-    pages = %w[index  pictures/two-name].map{|e| App.root.join 'public',
-        "#{e}.html" }
+    pages = [nil, '/pictures/two-name'].map{|e| App.root.join 'public',
+        "#{path_prefix}#{e}.html" }
     FileUtils.touch pages
     Picture.expects(:find_database_problems).returns []
 # Rebuild the pictures pages cache:
@@ -95,6 +96,10 @@ class UpdateSessionsControllerTest < SharedSessionsControllerTest
     mock_unpaired_names []
     pretend_logged_in
     update_user_pictures
+  end
+
+  def path_prefix
+    'webmas-gallery'
   end
 
   def run_models(model,expected,changed)

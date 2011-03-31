@@ -1,7 +1,11 @@
 p Time.now, 'in '+__FILE__
 
 Gallery::Application.routes.draw do
- scope '/webmas-gallery' do
+# TODO: Maybe use :via instead of checking the HTTP methods in controllers:
+#   ref.: api.rubyonrails.org/classes/ActionDispatch/Routing.html.
+#   Example: match 'pictures/:tag' => 'pictures#index', :via => :get
+
+  scope '/webmas-gallery' do
 
   resource :session
 
@@ -64,7 +68,7 @@ Gallery::Application.routes.draw do
   # just remember to delete public/index.html.
   # root :to => "welcome#index"
   root :to => "pictures#index"
- end
+  end
 
   # See how all your routes lay out with "rake routes"
 

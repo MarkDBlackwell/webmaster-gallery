@@ -40,6 +40,7 @@ class FileAnalysis
     if 1==model_i
       dpa=DirectoryPicture.all
       digits=dpa.length.to_s.length
+##?        f=DirectoryPicture.all.sort{|a,b| a.filename<=>b.filename}
       model.order(method).all.each do |m|
         mf=m.filename
         f=dpa.select{|e| mf==e.filename}
