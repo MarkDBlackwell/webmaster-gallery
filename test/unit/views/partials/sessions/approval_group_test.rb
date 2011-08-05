@@ -14,7 +14,12 @@ class ApprovalGroupSessionsPartialTest < SharedPartialTest
 # Form...:
     assert_select @da.child(@f), 1, @f
 # Which is an approval form...:
-    assert_single [@f,'action'], '/session'
+
+## filename_matcher
+## gallery_directory
+## gallery_uri
+
+    assert_single [@f,'action'], (base_uri.join 'session')
     assert_single [@f,@m], 'post'
 # Which should...:
 # Indicate the http method, PUT:

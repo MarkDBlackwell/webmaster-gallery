@@ -21,7 +21,7 @@ class SessionsController < ApplicationController
     logger.info "I Logging out from remote IP #{request.remote_ip}."
     flash[:notice]='Logged out successfully.'
     redirect_to :action => :new
-    stop_server
+    stop_server unless STARTED_BY_RAKE
   end
 
   def edit

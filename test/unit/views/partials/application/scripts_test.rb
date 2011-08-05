@@ -6,10 +6,14 @@ class ScriptsApplicationPartialTest < SharedPartialTest
   test "scripts div..." do
 # Should include certain script tags in order:
     assert_select @dss, 6
-    %w[ prototype effects dragdrop controls rails application
-        ].map{ |e| Regexp.escape "/javascripts/#{e}.js?"}.
+
+## filename_matcher
+## gallery_directory
+## gallery_uri
+
+    %w[ prototype effects dragdrop controls rails application].
         each_with_index do |e,i|
-      r=Regexp.new %r(\A#{e}\d+\z)
+      r=static_asset_matcher base_uri.join *['javascripts',"#{e}.js"]
       assert_single [@ds + " :nth-child(#{i+1})", 'src'], r, false
     end
   end

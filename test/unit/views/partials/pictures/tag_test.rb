@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class TagPicturesPartialTest < SharedPicturesPartialTest
+class TagPicturesPartialTest < SharedPartialTest
 # %%vi%%part%%pic%%tag
 
   test "happy path should render..." do
@@ -13,7 +13,7 @@ class TagPicturesPartialTest < SharedPicturesPartialTest
 # Tag div, which should have the right css id:
     assert_single [@dt,'id'], "tag_#{@tag.id}"
 # Anchor, which should link to the right tag:
-    assert_single [(@dt.child 'a'),'href'], (@controller_url.join @tag.name)
+    assert_single [(@dt.child 'a'),'href'], (@controller_uri.join @tag.name)
   end
 
   test "if tag is not a model record" do
@@ -30,7 +30,12 @@ class TagPicturesPartialTest < SharedPicturesPartialTest
   def setup
     c=:pictures
     @controller.default_url_options={:controller=>c}
-    @controller_url=Pathname('/').join c.to_s
+
+## filename_matcher
+## gallery_directory
+## gallery_uri
+
+    @controller_uri=base_uri.join c.to_s
     @d=CssString.new 'div'
     @dt=@d.css_class 'tag'
   end

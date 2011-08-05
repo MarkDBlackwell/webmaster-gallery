@@ -24,11 +24,11 @@ class IndexPicturesControllerTest < SharedControllerTest
 # Caching tests:
 
   test "index should cache a page" do
-    verify_cache('index.html'){happy_path}
+    verify_cache('webmas-gallery.html'){happy_path}
   end
 
   test "index should cache the page for a tag" do
-    verify_cache ['pictures', "#{s='some-tag'}.html"] do
+    verify_cache ['webmas-gallery', 'pictures', "#{s='some-tag'}.html"] do
       get @action, :tag => s
     end
   end
@@ -50,7 +50,8 @@ class IndexPicturesControllerTest < SharedControllerTest
     f=App.root.join *args
     FileUtils.rm f, :force => true
     yield
-    assert_equal true, 0 < f.size?, "#{f} caching failed."
+    size=File.size? f
+    assert_equal true, size.present? && 0 < size, "#{f} caching failed."
   end
 
 end

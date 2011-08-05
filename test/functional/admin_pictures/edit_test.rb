@@ -4,6 +4,8 @@ class EditAdminPicturesControllerTest < SharedAdminPicturesControllerTest
 # %%co%%adm%%ed %%adm%%si
 
   test "routing" do # GET
+# Keep: may be needed when in sub-URI.
+##    assert_routing '/webmas-gallery/admin_pictures/2/edit', :controller =>
     assert_routing '/admin_pictures/2/edit', :controller =>
         :admin_pictures.to_s, :action => :edit.to_s, :id => '2'
   end

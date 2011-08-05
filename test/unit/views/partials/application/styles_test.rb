@@ -5,21 +5,31 @@ class StylesApplicationPartialTest < SharedPartialTest
 
   test "happy path should render..." do
 # Pretty html source:
-    check_pretty_html_source @s.pluralize.capitalize, nil, [@s,'/'+@s], @d+'.'
+    check_pretty_html_source @s.pluralize.capitalize, nil, [@s,'/'+@s]
+
 # The right partial, once:
     assert_partial
 # A styling suggestion for a list of all tags:
-    include? @d.css_class('tags').descend '*', @di
+    include? @d.css_class('tags').child @d.css_class('tag')
+
 # A gallery styling suggestion:
-    include? @dp.descend @dib
+##    include? @dp.descend @dib
+    include? @dp
 # And...
 # Shouldn't display a picture commit button:
-    include? @dp.child('form','input').attribute('name', 'commit').
-        descend display 'none'
+    s = @dp.child(CssString.new('form').css_class('edit_picture'),'input').
+        attribute('name', 'commit').descend "\n" + (display 'none')
+    s = s.gsub " \n", "\n"
+    include? s
 # Session buttons should be horizontal:
-    include? @d.css_class('session-buttons').descend '*', @di
+    s = @d.css_class('session-buttons').child(@d,'form').css_class('button_to').
+        child(@d).descend "\n" + @di
+    s = s.gsub " \n", "\n"
+    include? s
 # Labels should be horizontal:
-    include? @d.css_class('label').descend @dib
+    s = @d.css_class('label').descend "\n" + @dib
+    s = s.gsub " \n", "\n"
+    include? s
 # Include one style tag:
     assert_single [@s,'class'], @s+'s'
     assert_single [@s,'type' ], 'text/css'

@@ -6,9 +6,8 @@ class UpdateSessionsControllerTest < SharedSessionsControllerTest
 # <- Webmaster approves filesystem changes.
 
   test "routing" do # PUT
-    assert_routing({:path => Pathname('/').join(path_prefix,'session').to_s,
-        :method => :put}, :controller => :sessions.to_s, :action =>
-        :update.to_s)
+    assert_routing({:path => '/session', :method => :put}, :controller =>
+        :sessions.to_s, :action => :update.to_s)
   end
 
   test_happy_path_response :show

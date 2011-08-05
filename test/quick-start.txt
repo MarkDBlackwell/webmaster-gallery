@@ -1,0 +1,23 @@
+Testing Quick Start
+
+  To switch to a console (e.g. tty2), do: Alt+ F2.
+
+  Use console tty2 to edit.
+  Use console tty3 to run tests.
+  Use console tty4 to see output.
+
+  List rake tasks by:
+rake --tasks
+
+  Ways to run tests:
+rake test:functionals
+rake test:units
+ruby -Itest test/ ...
+
+  Things to do while debugging:
+
+Add print statements (at column 1).
+
+Before an assertion, invoke the method, 'see_output'. Then do:
+'cat out/see-output'.
+

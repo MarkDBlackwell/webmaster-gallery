@@ -7,6 +7,6 @@ class App
 
 #-> App.root
 #-> App.session_options
-#-> App.webmaster
+#-> App.webmaster # Webmaster's private upload directory.
 
 end

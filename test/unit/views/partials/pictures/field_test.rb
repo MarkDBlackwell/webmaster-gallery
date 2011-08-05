@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class FieldPicturesPartialTest < SharedPicturesPartialTest
+class FieldPicturesPartialTest < SharedPartialTest
 # %%vi%%part%%pic%%fie
 
   test "happy path should render..." do

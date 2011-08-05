@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ThumbnailPicturesPartialTest < SharedPicturesPartialTest
+class ThumbnailPicturesPartialTest < SharedPartialTest
 # %%vi%%part%%pic%%th
 
   test "happy path should render..." do
@@ -14,6 +14,11 @@ class ThumbnailPicturesPartialTest < SharedPicturesPartialTest
 # Anchor, which should...:
     assert_select @dt.child(@a), 1
 # Link to the right picture:
+
+## base_uri
+## gallery_directory
+## gallery_uri
+
     assert_single [@a,'href'], (filename_matcher 'two.png')
 # Open in a new window:
     assert_single [@a,'target'], '_blank'
@@ -34,7 +39,7 @@ class ThumbnailPicturesPartialTest < SharedPicturesPartialTest
     c=:pictures
     @controller.default_url_options={:controller=>c}
     picture=pictures :two
-    touch_picture_files
+    touch_picture_files [nil,'-t'].map{|e| "two#{e}.png"}
     render_partial 'pictures/thumbnail', :picture => picture
     @a,@i = %w[a img]
     @d=CssString.new 'div'
@@ -42,13 +47,7 @@ class ThumbnailPicturesPartialTest < SharedPicturesPartialTest
   end
 
   def teardown
-    @picture_files.each{|e| e.delete}
-  end
-
-  def touch_picture_files
-    d=App.root.join *%w[public images gallery]
-    p=@picture_files=[nil,'-t'].map{|e| d.join "two#{e}.png"}
-    p.each{|e| FileUtils.touch e}
+    delete_picture_files
   end
 
 end

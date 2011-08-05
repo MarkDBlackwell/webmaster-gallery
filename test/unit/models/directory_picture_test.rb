@@ -5,7 +5,7 @@ class DirectoryPictureTest < ActiveSupport::TestCase
 
   test "should..." do
 # Use the right directory:
-    assert_equal (App.root.join *%w[public images gallery]),
+    assert_equal (App.root.join *%w[public webmas-gallery images gallery]),
         (@model.send :gallery_directory)
   end
 
@@ -74,7 +74,13 @@ class DirectoryPictureTest < ActiveSupport::TestCase
       @model.expects(:gallery_directory_entries).returns names
       @model.expects(:gallery_directory        ).returns @tests
       pi=Pathname.any_instance
-      pi.expects(:file?).times(good).returns true
+      if 0==good
+# TODO: see what the bad character was.
+        pi.expects(:file?).at_least(0).raises Exception,
+            'Allowed a bad character.'
+      else
+        pi.expects(:file?).times(good).returns true
+      end
       pi.expects(:mtime).times(good).returns Time.now
       @model.read
       assert_equal good, @model.send(:good_files).length
@@ -93,7 +99,8 @@ class DirectoryPictureTest < ActiveSupport::TestCase
     make_reproducible_tests_involving_array_choice
     @model=DirectoryPicture
     @tests=App.root.join *%w[test fixtures files directory_pictures gallery]
-    @good_c=[?A..?Z, ?a..?z, ?0..?9, [?-, ?.] ].map(&:to_a).flatten
+    sa=(special_allowed=[ ?- , ?. , ?_ ])
+    @good_c=[ sa, ?0..?9, ?a..?z, ?A..?Z ].map(&:to_a).flatten
     @dot,@replace=?.,?a
   end
 

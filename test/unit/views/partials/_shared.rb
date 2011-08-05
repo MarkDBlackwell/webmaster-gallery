@@ -9,6 +9,10 @@ class SharedPartialTest < SharedViewTest
     (setup_with_controller; yield) if block_given?
   end
 
+  def gallery_uri
+    base_uri.join *%w[ images gallery ]
+  end
+
   def render_partial(p,local_assigns={})
     # ActionView::TestCase::Behavior#, which invokes ActionView::Rendering#:
     if local_assigns.blank? # Work around bugs:

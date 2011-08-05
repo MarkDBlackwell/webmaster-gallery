@@ -1,18 +1,26 @@
-p Time.now, 'in '+__FILE__
+load File.expand_path '../../monkey_patch_mongrel_1.1.5/constants.rb',
+    __FILE__ unless defined? GUARD_MONKEY_PATCH_CONSTANTS
+
+p Time.now, 'in '+__FILE__ unless STARTED_BY_TEST
 
 require File.expand_path('../boot', __FILE__)
 
 ## require 'rails/all'
-## Removed 'action_mailer' from the list.
+# Removed 'action_mailer' from the list:
+
 %w[action_controller active_record active_resource rails/test_unit].each {|e|
     require "#{e}/railtie"}
 
-=begin
+if STARTED_BY_TEST
+
 ## BUNDLER
-# If you have a Gemfile, require the gems listed there, including any gems
-# you've limited to :test, :development, or :production.
-Bundler.require(:default, :server, Rails.env) if defined?(Bundler)
-=end
+## If you have a Gemfile, require the gems listed there, including any gems
+## you've limited to :test, :development, or :production.
+## Bundler.require(:default, Rails.env) if defined?(Bundler)
+
+  Bundler.require(:default, :server, Rails.env) if defined?(Bundler)
+
+end
 
 module Gallery
   class Application < Rails::Application
@@ -49,8 +57,6 @@ module Gallery
 
 # Does not work (does not restrict to just these tags):
 ##    config.action_view.sanitized_allowed_tags = %w[ br ]
-
-# Not needed:  config.action_controller.relative_url_root = '/webmas-gallery'
 
 # (wrong # of args) config.action_controller.relative_url_root = '/webmas-gallery'
 # (caching didn't happen) env RAILS_RELATIVE_URL_ROOT="/webmas-gallery" rails server

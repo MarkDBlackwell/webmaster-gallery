@@ -61,6 +61,22 @@ class SharedControllerTest < ActionController::TestCase
     assert_template # No template.
   end
 
+  def assert_routing(*args)
+    k=:path
+    path=case args.first
+    when String then args.first
+    when Hash   then args.first[k] end
+    prefix='/webmas-gallery'
+    path = prefix.present? && '/'==path ? '' : path
+    case args.first
+    when String
+      args[0] = prefix + path
+    when Hash
+      args[0][k] = prefix + path
+    end
+    super *args 
+  end
+
   def filter
     @controller.send @filter
   end

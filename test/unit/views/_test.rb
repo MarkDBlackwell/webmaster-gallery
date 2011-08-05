@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ViewsTest < ActionView::TestCase
+class ViewsTest < SharedViewTest
 # %%vi%%all
 
   test "should allow mocking with Mocha" do
@@ -50,7 +50,7 @@ class ViewsTest < ActionView::TestCase
   test "alert me..." do
 # When Rails implements...:
 # My method names:
-    assert_raise(NoMethodError){assert_partial() }
+    assert_raise(NoMethodError){ActionView::TestCase.assert_partial() }
     assert_raise(NoMethodError){render_partial() }
 # When things work:
 # Fixtures :all:
@@ -100,13 +100,13 @@ class ViewsTest < ActionView::TestCase
   end
 
   test "alert me (partial, neither keyword)..." do
-    touch_picture_file
+    touch_picture_files ['two-t.png']
     render 'pictures/thumbnail', :picture => (pictures :two)
     partial_assertions
   end
 
   test "alert me (partial, both keywords)..." do
-    touch_picture_file
+    touch_picture_files ['two-t.png']
     render :partial => 'pictures/thumbnail', :locals => {:picture =>
         (pictures :two)}
     partial_assertions
@@ -133,22 +133,20 @@ class ViewsTest < ActionView::TestCase
       assert_select @s2, {:text => @s3, :count => 1}, c
     end
     these_semantics_work
-    @picture_file.delete
+    delete_picture_files
     @s1,@s2,@s3=nil
   end
 
+## base_uri
+## gallery_directory
+## gallery_uri
+## static_asset_matcher
   def these_semantics_work
     assert_template :partial => @s1, :count => 1
     assert_select 'div.thumbnail', 1
     assert_select @s2, @s3, 1
-    s=Regexp.escape '/images/gallery/two-t.png?'
-    r=Regexp.new %r"\A#{s}\d+\z"
+    r=filename_matcher 'two-t.png'
     assert_select '[src=?]', r, 1
-  end
-
-  def touch_picture_file
-    p=@picture_file=(App.root.join *%w[public images gallery two-t.png])
-    FileUtils.touch p
   end
 
 end

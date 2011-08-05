@@ -1,91 +1,139 @@
 The application serves, on the web, a picture gallery webpage.
 
+A webmaster is someone who uploads and edits information for the gallery.
+
 A user is someone who loads, into a web browser, a gallery webpage served by the application.
 
 To the application, a webmaster can specify a directory to contain pictures and thumbnails.
+
 By means of other software (not the application) a webmaster shall upload picture files and thumbnail files.
 
-Regarding picture and thumbnail files, the application does not process their contents.
-Regarding picture and thumbnail files, the application generates URL's for them.
-Regarding picture and thumbnail files, the application inserts their URL's into certain webpages for browsers to find.
+Regarding picture and thumbnail files, the application:
+o does not process their contents.
+o generates URL's for them.
+o inserts their URL's into certain webpages for browsers to find.
 
-To the application, a webmaster can specify a directory and a filename for a thumbnail webpage file.
-By means of other software (not the application) a webmaster shall upload a thumbnail webpage file.
-The application, if a thumbnail webpage file is new, shall process it.
-The application, if a thumbnail webpage file's upload date and time has changed, shall reprocess it.
+To the application, a webmaster can specify:
+o a directory and
+o a filename (merely by its existence)
+o for a thumbnail webpage file.
 
-or its upload date and time has changed
-The application shall reprocess a thumbnail webpage file if its upload date and time has changed.
+By means of other software (not the application) a webmaster shall upload thumbnail webpage files.
+
+The application:
+o if a thumbnail webpage file is new, shall process it.
+o if a thumbnail webpage file's upload date and time has changed, shall process it again.
 
 Thumbnail files shall be distinguishable from picture files in their filenames.
-For each thumbnail file, the last two characters before the filename extension shall contain the string "_t".
 
-A webmaster shall be able to log in to the application.
+To be recognized as a thumbnail file, the last two characters before the filename extension must contain the string, "_t".
 
-For each picture, a webmaster can enter a calendar year.
-For each picture, a webmaster can enter a description.
-For each picture, a webmaster can enter a title.
-For each picture, a webmaster can enter picture tags.
+A webmaster shall be able to log into the application.
 
-Unready thumbnails are those for which a webmaster has not entered all of: calendar year, description and title.
+For each picture, a webmaster can enter:
+o a calendar year.
+o a description.
+o a title.
+o picture tags.
 
-Problem thumbnails are those whose picture file or thumbnail file is found to have any problem.
+Unready thumbnails are those for which a webmaster has not entered all of:
+o calendar year.
+o description, and
+o title.
 
-Regarding unready thumbnails and problem thumbnails, the application shall hide them from users.
-Regarding unready thumbnails and problem thumbnails, the application shall provide to a webmaster a resolution page.
+Thumbnails whose picture file or thumbnail file has any problem are called Problem Thumbnails.
 
-A resolution page shall resemble a thumbnail gallery.
-A resolution page shall contain webmaster thumbnail blobs.
+Regarding unready thumbnails and problem thumbnails, the application shall:
+o hide them from users.
+o provide to a webmaster a resolution page.
 
-To a webmaster, the application shall display links to switch among a resolution page, a webmaster thumbnail gallery, and a user thumbnail gallery.
+A resolution page shall:
+o resemble a thumbnail gallery.
+o contain webmaster thumbnail blobs.
+
+To a webmaster, the application shall display links to switch among:
+o a resolution page,
+o a webmaster thumbnail gallery, and
+o a user thumbnail gallery.
 
 A webmaster thumbnail gallery shall contain webmaster thumbnail blobs.
+
 A user thumbnail gallery shall contain user thumbnail blobs.
 
-A user thumbnail blob shall contain a thumbnail image.
-A user thumbnail blob shall contain a picture title.
-A user thumbnail blob shall contain a picture description.
-A user thumbnail blob shall contain an image alternate text.
+A user thumbnail blob shall contain:
+o a thumbnail image.
+o a picture title.
+o a picture description.
+o an alternate text for the image.
 
 A webmaster thumbnail blob shall extend a user thumbnail blob.
-A webmaster thumbnail blob shall contain an edit link.
-A webmaster thumbnail blob shall contain a thumbnail filename.
-A webmaster thumbnail blob shall contain a picture filename.
-A webmaster thumbnail blob shall contain a thumbnail file's upload date and time.
 
-An edit link shall say, 'edit'.
+A webmaster thumbnail blob shall contain:
+o an edit link.
+o a thumbnail filename.
+o a picture filename.
+o a thumbnail file's upload date and time.
+
+An edit link shall have visible the word, 'edit'.
 
 A webmaster shall be able to go to a picture editing page by clicking on an edit link.
 
 A thumbnail webpage file shall contain one gallery placeholder.
-A gallery placeholder is the string of characters, '<%= @gallery %>'.
+
+A gallery placeholder is the precise string of characters, '<%= @gallery %>'.
+
 The application shall replace a gallery placeholder by a series of thumbnail expressors.
 
 A thumbnail webpage file shall contain one or more picture tag list placeholders.
 
-A picture tag list placeholder is the string of characters, '<%= @tag_list %>'.
+A picture tag list placeholder is the precise string of characters, '<%= @tag_list %>'.
 
 The application shall replace a picture tag list placeholder by a series of picture tag expressors.
 
-A user can see all good thumbnails.
-A user can see a picture tag list.
-A user can choose one picture tag from a picture tag list.
-A user, with one click, can move from seeing the thumbnails for a chosen picture tag to seeing all the thumbnails.
+A user can:
+o see all good thumbnails.
+o see a picture tag list.
+o choose one picture tag from a picture tag list.
+
+A user, with one click, can move from seeing the thumbnails for a chosen picture tag, to seeing all of the thumbnails.
+
 A user can see the thumbnails of a chosen picture tag.
-A user can see thumbnails in descending order by latest to earliest calendar year, then by latest to earliest upload date and time.
-A user, by clicking on a thumbnail, can see a picture in a popup window.
+
+A user sees thumbnails in descending order:
+o by webmaster-applied weight, then
+o by latest to earliest webmaster-entered calendar year, and then
+o by latest to earliest upload date and time.
+
+A user, by clicking on a thumbnail, can see the (full-sized) picture in a popup window.
 
 ---------------------------
-Specific HTML:
+User stories comprising specific HTML:
 
-A thumbnail expressor comprises the string of characters, '<div class="thumbnail">', a thumbnail image expressor, a thumbnail title expressor, a thumbnail description expressor, and a closing div tag, in that order.
+A thumbnail expressor comprises:
+o the string of characters, '<div class="thumbnail">',
+o a thumbnail image expressor,
+o a thumbnail title expressor,
+o a thumbnail description expressor, and
+o a closing div tag, in that order.
 
-A thumbnail image expressor is the string of characters, '<img src="" alt="">' changed to insert a thumbnail image source URL and a picture title (as the alternate text).
+A thumbnail image expressor is:
+o the string of characters, '<img src="" alt="">',
+o changed to insert a thumbnail image source URL, and
+o a picture title (for the alternate text).
 
-A thumbnail title expressor comprises the string of characters, '<div class="thumbnail-title">', a picture title, and a closing div tag, in that order.
+A thumbnail title expressor comprises:
+o the string of characters, '<div class="thumbnail-title">',
+o a picture title, and
+o a closing div tag, in that order.
 
-A thumbnail description expressor comprises the string of characters, '<div class="thumbnail-description">', a picture description, and a closing div tag, in that order.
+A thumbnail description expressor comprises:
+o the string of characters, '<div class="thumbnail-description">',
+o a picture description, and
+o a closing div tag, in that order.
 
 A closing div tag is the string of characters, '</div>'.
 
-A picture tag expressor comprises the string of characters, '<div class="tag">', a tag name, and a closing div tag, in that order.
+A picture tag expressor comprises:
+o the string of characters, '<div class="tag">',
+o a tag name, and
+o a closing div tag, in that order.

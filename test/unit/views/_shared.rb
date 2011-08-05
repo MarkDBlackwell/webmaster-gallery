@@ -36,12 +36,18 @@ class SharedViewTest < ActionView::TestCase
     end
   end
 
+  def base_uri
+    Pathname '/webmas-gallery'
+  end
+
   def check_pretty_html_source(*args)
+# TODO: remove array, 'type' (just show types in a comment, above). Use undef?
     type   = %w[  section  div            tag  other  ]
     prefix = %w[  <!--     <div\ class="  <           ]
     suffix = %w[  -->      "                          ]
     args.map!{|e| e=[] if e.blank?; e=[e] unless e.kind_of? Array; e}
     args=Array.new(type.length,[]).fill(nil,args.length){|i| args.at i}
+# print args.inspect
     source=try(:rendered) || response.body
     big=Regexp.union( (0...args.length).map{|i|
         Regexp.new "#{prefix.at i}#{Regexp.union args.at i}#{suffix.at i}"} )
@@ -51,10 +57,34 @@ class SharedViewTest < ActionView::TestCase
     altered=source.gsub line_start, nl
     s=altered.clone.gsub! big, ''
     return if s.blank?
-    anywhere=s.split nl
+    anywhere_in_line=s.split nl
     a= altered.split nl
-    flunk (0...a.length).reject{|i| a.at(i)==(anywhere.at i)}.map{|i| a.at i}.
-        join nl
+    flunk (0...a.length).reject{|i| a.at(i)==(anywhere_in_line.at i)}.map{|i|
+        [(a.at i), (anywhere_in_line.at i), '']}.flatten.join nl
+  end
+
+  def delete_picture_files
+    @picture_files.each{|e| e.delete}
+  end
+
+## gallery_uri
+  def filename_matcher(s)
+# Keep: may be needed when in sub-URI.
+##    prefix='webmas-gallery'
+##    Pathname('/').join *[prefix,'images','gallery']
+    static_asset_matcher Pathname('images').join *['gallery',s]
+  end
+
+  def static_asset_matcher(s)
+# TODO def static_asset_matcher(s) # Lost the digits; don't know why.
+    e=Regexp.escape base_uri.join s
+    Regexp.new %r"\A#{e}\d*\z"
+  end
+
+  def touch_picture_files(filenames)
+    d=DirectoryPicture.gallery_directory
+    p=@picture_files=filenames.map{|e| d.join e}
+    p.each{|e| FileUtils.touch e}
   end
 
   class CssString < String

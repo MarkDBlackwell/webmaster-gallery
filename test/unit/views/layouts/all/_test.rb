@@ -21,7 +21,7 @@ class AllLayoutTest < SharedLayoutTest
           ], %w[
       /body></html  !DOCTYPE\ html  /head></body  html><head  script
       script\ src="/javascripts/  style  /style  title
-          ], %w[  div. ])
+          ])
 #-------------
 # Html should...
 # Have the right document type:

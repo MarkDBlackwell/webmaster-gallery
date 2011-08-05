@@ -19,6 +19,8 @@ class FileAnalysisTest < ActiveSupport::TestCase
 # Approval group should include a list:
     assert_kind_of String, @fa.approval_group.list,
         'approval group list'
+# TODO: FileAnalysisTest sometimes fails; don't know why; seems related to static asset digits (see test/unit/views/_shared.rb).
+##    check_changes true, ['tag', 'add', 0]
     check_changes true, ['tag', 'add', 2]
   end
 
@@ -28,6 +30,8 @@ class FileAnalysisTest < ActiveSupport::TestCase
     happy_path
 # Approval group list and message should be appropriate:
     check_approval_group [], 'refresh'
+# TODO: FileAnalysisTest sometimes fails; don't know why; seems related to static asset digits (see test/unit/views/_shared.rb).
+##    check_changes true
     check_changes false
   end
 
@@ -78,7 +82,7 @@ class FileAnalysisTest < ActiveSupport::TestCase
 
   def check_changes(an,difference=nil)
 # Approval should be needed before changes:
-    assert_equal an, @fa.approval_needed?, 'approval_needed?'
+    assert_equal an, @fa.approval_needed?, @fa.inspect + 'approval_needed?'
     return unless difference
 # Make_changes should change the database:
     model,operation,how_many=*difference
@@ -87,7 +91,7 @@ class FileAnalysisTest < ActiveSupport::TestCase
     n=[1,-1].at( %w[add delet].index operation) * how_many
     expected=[model.count + n, other.count]
     @fa.make_changes
-    assert_equal expected, [model.count, other.count]
+    assert_equal expected, [model.count, other.count], @fa.inspect
   end
 
   def check_review_groups(count,changed,m=nil)

@@ -73,11 +73,16 @@ class DirectoryPicture
     end.map(&:filename).sort
   end
 
-  def self.gallery_directory # Keep for test.
-    App.root.join(*%w[public images gallery]).realpath
+## base_uri
+## filename_matcher
+## gallery_directory
+## gallery_uri
+  def self.gallery_directory # Also used by test.
+    prefix='webmas-gallery'
+    App.root.join(*['public',prefix,'images','gallery']).realpath
   end
 
-  def self.gallery_directory_entries # Keep for test.
+  def self.gallery_directory_entries # Also used by test.
     self.gallery_directory.entries.map &:to_s
   end
 

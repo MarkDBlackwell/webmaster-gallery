@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class PicturePicturesPartialTest < SharedPicturesPartialTest
+class PicturePicturesPartialTest < SharedPartialTest
 # %%vi%%part%%pic%%pic
 
 # TODO: possibly use http://github.com/justinfrench/formtastic
@@ -23,8 +23,13 @@ class PicturePicturesPartialTest < SharedPicturesPartialTest
 # The right tags:
     assert_select @pd.css_class('tags'), (@picture.tags.map(&:name).join "\n")
 # The right thumbnail:
-    assert_single [@pd.css_class('thumbnail').child('a'),'href'],
-        "/images/gallery/#{@picture.filename}", false
+
+## base_uri
+## filename_matcher
+## gallery_directory
+
+    assert_single [@pd.css_class('thumbnail').child('a'),'href'], gallery_uri.
+        join(@picture.filename), false
 # With the thumbnail partial:
     assert_template :partial => 'pictures/_thumbnail', :count => @render_count
 # Regarding edit_allowed...:

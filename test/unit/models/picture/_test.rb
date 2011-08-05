@@ -7,6 +7,7 @@ class PictureTest < SharedModelTest
 
   test "..." do
     automatic = %w[ cre  upd ].map{|e| e+'ated_at'}
+    optional  = %w[ description                         ]
     static    = %w[              filename  id  sequence ]
     text      = %w[ description  filename  title        ]
     numeric=(r=@record).attributes.keys-automatic-text
@@ -17,9 +18,9 @@ class PictureTest < SharedModelTest
 # Uniqueness:
     multiple = %w[ weight  year ]
     assert_validates_uniqueness_of (numeric+static).uniq-multiple
-    assert_validates_uniqueness_of text-static, :allow_blank => true
+    assert_validates_uniqueness_of text-optional-static, :allow_blank => true
 # Presence:
-    assert_validates_presence_of text
+    assert_validates_presence_of text-optional
 # Length:
     assert_validates_length_of :year, :is => 4
 # And...:
