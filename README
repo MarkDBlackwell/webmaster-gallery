@@ -7,11 +7,11 @@ The app was designed for individual webmasters who use a web-hosting service,
 and it has been installed (and run) on cPanel.
 
 User stories for webmasters and users (gallery viewers) were written and are
-updated and accurate.
+updated and accurate:
 
   test/stories.txt
 
-For a quick start to developer testing of the app using Test/Unit, see:
+For a quick start, to developer testing of the app, using Test/Unit, see:
 
   test/quick-start.txt
 
