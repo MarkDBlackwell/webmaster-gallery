@@ -23,7 +23,7 @@ steps are already done in the app.
 
 ##Testing
 
-[User stories](webmaster-gallery/test/stories.txt) for webmasters and their users (gallery viewers) are up-to-date and accurate.
+[User stories](/test/stories.txt) for webmasters and their users (gallery viewers) are up-to-date and accurate.
 
 See a [quick start](webmaster-gallery/test/quick-start.txt) to developer testing of the app (using Test/Unit).
 
