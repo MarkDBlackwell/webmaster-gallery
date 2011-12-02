@@ -18,7 +18,8 @@ Unzip the downloaded app (use the ZIP GitHub button), upload it to your cPanel h
 
 On the cPanel page, 'Manage Ruby on Rails Applications', create a Rails application.
 
-Follow this blog [post](http://markdblackwell.blogspot.com/2011/03/install-rails-3-application-to-cpanel_23.html).
+Follow this blog [post](http://markdblackwell.blogspot.com/2011/03/install-rails-3-application-to-cpanel_23.html). Some of the 
+steps are already done in the app.
 
 ##Testing
 
