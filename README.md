@@ -25,7 +25,7 @@ steps are already done in the app.
 
 [User stories](webmaster-gallery/blob/master/test/stories.txt) for webmasters and their users (gallery viewers) are up-to-date and accurate.
 
-See a [quick start](/webmaster-gallery/blob/master/test/quick-start.txt) to developer testing of the app (using Test/Unit).
+See a [quick start](webmaster-gallery/blob/master/test/quick-start.txt) to developer testing of the app (using Test/Unit).
 
 All the app's tests passed, as of Rails version 3.0.3.
 
@@ -33,4 +33,4 @@ All the app's tests passed, as of Rails version 3.0.3.
 
 [Install Rails 3 application to cPanel in sub-URI, howto](http://markdblackwell.blogspot.com/2011/03/install-rails-3-application-to-cpanel_23.html)
 
-Copyright (c) 2011 Mark D. Blackwell. See [MIT-LICENSE](/webmaster-gallery/blob/master/MIT-LICENSE) for details.
+Copyright (c) 2011 Mark D. Blackwell. See [MIT-LICENSE](webmaster-gallery/blob/master/MIT-LICENSE) for details.
