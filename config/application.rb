@@ -73,5 +73,13 @@ module Gallery
 # On deployment machine, make this symlink:
 #  ln -s $HOME/rails_apps/webmas-gallery $HOME/public_html/webmas-gallery
 
+
+# Ref:
+# How Homakov hacked GitHub and how to protect your application by Peter Nixey - Gist:
+# https://gist.github.com/1978249
+# http://guides.rubyonrails.org/security.html#mass-assignment
+
+    config.active_record.whitelist_attributes = true
+
   end
 end
