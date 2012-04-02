@@ -94,7 +94,8 @@ class SessionsController < ApplicationController
     public=App.root.join 'public'
     u=my_url_prefix
     u.blank? ? (s='index'; a=[]) : (s=u; a=[u])
-    pages=[public.join "#{s}.html"]
+#   pages=[public.join "#{s}.html"]
+    pages=[public.join("#{s}.html")]
     (p=public.join *a << 'pictures').find do |path|
       next if path==p
       Find.prune if path.directory?

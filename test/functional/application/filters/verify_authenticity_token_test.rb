@@ -30,9 +30,12 @@ class VerifyAuthenticityTokenFilterApplicationControllerTest <
   end
 
 #-------------
-  private
+# private
+  protected
 
   def setup
+# In the new Rails, @controller is no longer the controller instance.
+# TODO: find out what to use instead.
     @filter=:verify_authenticity_token
     pretend_logged_in
   end

@@ -11,7 +11,8 @@ class SharedControllerTest < ActionController::TestCase
     if sa.blank? then skip_actions=[]
     else
       sa=[sa] unless sa.kind_of? Array
-      skip_actions=[sa.map{|e| "action_name == '#{e}'"}.join ' || ']
+#     skip_actions=[sa.map{|e| "action_name == '#{e}'"}.join ' || ']
+      skip_actions=[sa.map{|e| "action_name == '#{e}'"}.join(' || ')]
     end
     desired=[filter, filter, kind, skip_actions]
     ours=['ApplicationController',(self.class.to_s.chomp 'Test')].

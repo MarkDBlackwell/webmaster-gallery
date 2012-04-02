@@ -79,7 +79,8 @@ module Gallery
 # https://gist.github.com/1978249
 # http://guides.rubyonrails.org/security.html#mass-assignment
 
-    config.active_record.whitelist_attributes = true
+# Gave no-method error on whitelist_attributes with my rails version:
+#    config.active_record.whitelist_attributes = true
 
   end
 end

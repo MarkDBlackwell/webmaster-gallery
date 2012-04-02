@@ -3,8 +3,11 @@ ENV["RAILS_ENV"] = "test"
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 REQUIRE_TEST_BASENAME='_shared.rb'
-TEST_GROUP=caller(0).reject{|e| e.start_with? __FILE__}.first.split('/').
-    reject{|e| '.'==e}.take 2
+INTERNAL_START='<internal:'
+FILTERED=caller(0).
+    reject{|e| e.start_with? __FILE__}.
+    reject{|e| e.start_with? INTERNAL_START}
+TEST_GROUP=FILTERED.first.split('/').reject{|e| '.'==e}.take 2
 paths=[]
 App.root.join(*TEST_GROUP).find do |path|
   b=path.basename.to_s
