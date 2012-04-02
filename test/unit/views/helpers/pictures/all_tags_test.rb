@@ -3,6 +3,8 @@ require 'test_helper'
 class AllTagsPicturesHelperTest < SharedPicturesHelperTest
 # %%vi%%he%%pic%%atgs
 
+  tests PicturesHelper
+
   test "happy path should render..." do
 # The right partial, once:
     assert_partial 'pictures/_all_tags', 1
