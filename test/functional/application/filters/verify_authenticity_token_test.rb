@@ -4,6 +4,8 @@ class VerifyAuthenticityTokenFilterApplicationControllerTest <
     SharedApplicationControllerTest
 # %%co%%app%%filt
 
+  tests ApplicationController
+
 # Ref. http://railsforum.com/viewtopic.php?id=24298.
 # The macro, 'protect_from_forgery' creates before-filter, ':verify_
 # authenticity_token', which raises ActionController::InvalidAuthenticityToken.
@@ -32,8 +34,6 @@ class VerifyAuthenticityTokenFilterApplicationControllerTest <
 #-------------
 
   def setup
-# In the new Rails, @controller is no longer the controller instance.
-# TODO: find out what to use instead.
     @filter=:verify_authenticity_token
     pretend_logged_in
   end

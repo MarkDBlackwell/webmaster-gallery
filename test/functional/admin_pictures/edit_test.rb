@@ -3,6 +3,8 @@ require 'test_helper'
 class EditAdminPicturesControllerTest < SharedAdminPicturesControllerTest
 # %%co%%adm%%ed %%adm%%si
 
+  tests AdminPicturesController
+
   test "routing" do # GET
 # Keep: may be needed when in sub-URI.
 ##    assert_routing '/webmas-gallery/admin_pictures/2/edit', :controller =>

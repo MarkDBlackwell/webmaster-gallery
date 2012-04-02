@@ -3,6 +3,8 @@ require 'test_helper'
 class SessionsControllerTest < SharedSessionsControllerTest
 # %%co%%ses
 
+  tests SessionsController
+
 #-------------
 # Filter tests:
 

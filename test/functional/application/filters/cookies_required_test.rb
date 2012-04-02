@@ -4,6 +4,8 @@ class CookiesRequiredFilterApplicationControllerTest <
     SharedApplicationControllerTest
 # %%co%%app%%filt
 
+  tests ApplicationController
+
   test "when cookies (session store) are blocked (in sessions/new), even if "\
        "already logged in, should..." do
     request.cookies.clear

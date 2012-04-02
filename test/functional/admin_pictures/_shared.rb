@@ -1,9 +1,6 @@
 class SharedAdminPicturesControllerTest < SharedControllerTest
 # %%co%%adm
 
-  tests AdminPicturesController
-
-#-------------
   private
 
   def assert_flag(*a)

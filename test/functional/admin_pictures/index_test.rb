@@ -3,6 +3,8 @@ require 'test_helper'
 class IndexAdminPicturesControllerTest < SharedAdminPicturesControllerTest
 # %%co%%adm%%in
 
+  tests AdminPicturesController
+
 # -> Webmaster views gallery.
 
   test_routing_tag # GET

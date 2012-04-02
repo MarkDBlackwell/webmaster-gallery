@@ -3,6 +3,8 @@ require 'test_helper'
 class UpdateAdminPicturesControllerTest < SharedAdminPicturesControllerTest
 # %%co%%adm%%up %%adm%%si %%mo%%pic
 
+  tests AdminPicturesController
+
   test "routing" do # PUT
     assert_routing({:path => '/admin_pictures/2', :method => :put},
         :controller => :admin_pictures.to_s, :action => :update.to_s,

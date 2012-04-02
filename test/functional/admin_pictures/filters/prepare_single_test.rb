@@ -4,6 +4,8 @@ class PrepareSingleFilterAdminPicturesControllerTest <
     SharedAdminPicturesControllerTest
 # %%co%%adm%%filt
 
+  tests AdminPicturesController
+
   test "happy path, for a (URL parameter) picture id, should..." do
 # Find its record:
     assert_equal @i, (a=assigns :picture).id

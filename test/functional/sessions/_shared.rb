@@ -1,8 +1,6 @@
 class SharedSessionsControllerTest < SharedControllerTest
 # %%co%%ses
 
-  tests SessionsController
-
   private
 
   def login(p=nil)

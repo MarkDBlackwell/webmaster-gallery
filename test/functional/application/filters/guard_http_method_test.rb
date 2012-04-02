@@ -4,6 +4,8 @@ class GuardHttpMethodFilterApplicationControllerTest <
     SharedApplicationControllerTest
 # %%co%%app%%filt
 
+  tests ApplicationController
+
 # Ref: 'ActionController - PROPFIND and other HTTP request methods':
 # at http://railsforum.com/viewtopic.php?id=30137
 

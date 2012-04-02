@@ -3,6 +3,8 @@ require 'test_helper'
 class AdminPicturesControllerTest < SharedAdminPicturesControllerTest
 # %%co%%adm
 
+  tests AdminPicturesController
+
 #-------------
 # Filter tests:
 

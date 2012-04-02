@@ -3,6 +3,8 @@ require 'test_helper'
 class UpdateSessionsControllerTest < SharedSessionsControllerTest
 # %%co%%ses%%up
 
+  tests SessionsController
+
 # <- Webmaster approves filesystem changes.
 
   test "routing" do # PUT

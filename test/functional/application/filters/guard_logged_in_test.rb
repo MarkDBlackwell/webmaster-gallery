@@ -4,6 +4,8 @@ class GuardLoggedInFilterApplicationControllerTest <
     SharedApplicationControllerTest
 # %%co%%app%%filt
 
+  tests ApplicationController
+
   test "when not already logged in, should..." do
     session[:logged_in]=nil
 # Redirect:

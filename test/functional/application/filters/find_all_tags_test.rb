@@ -4,6 +4,8 @@ class FindAllTagsFilterApplicationControllerTest <
     SharedApplicationControllerTest
 # %%co%%app%%filt
 
+  tests ApplicationController
+
   test "should..." do
     @filter=:find_all_tags
     filter

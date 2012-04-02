@@ -3,6 +3,8 @@ require 'test_helper'
 class NewSessionsControllerTest < SharedSessionsControllerTest
 # %%co%%ses%%new
 
+  tests SessionsController
+
 # -> Prompts webmaster to log in.
 
   test "routing" do # GET
@@ -36,6 +38,7 @@ class NewSessionsControllerTest < SharedSessionsControllerTest
   end
 
 #-------------
+
   private
 
   def happy_path

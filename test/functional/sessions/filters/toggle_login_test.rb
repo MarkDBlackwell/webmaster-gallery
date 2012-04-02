@@ -3,6 +3,8 @@ require 'test_helper'
 class ToggleLoginFilterSessionsControllerTest < SharedSessionsControllerTest
 # %%co%%ses%%filt
 
+  tests SessionsController
+
   test "should..." do
     Square.new.each do |a,l|
       mocha_teardown

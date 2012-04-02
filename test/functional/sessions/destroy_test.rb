@@ -3,6 +3,8 @@ require 'test_helper'
 class DestroySessionsControllerTest < SharedSessionsControllerTest
 # %%co%%ses%%de
 
+  tests SessionsController
+
 # <- Webmaster logs out.
 
 #-------------

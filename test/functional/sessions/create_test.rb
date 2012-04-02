@@ -3,6 +3,8 @@ require 'test_helper'
 class CreateSessionsControllerTest < SharedSessionsControllerTest
 # %%co%%ses%%cr
 
+  tests SessionsController
+
 # <- Webmaster logs in.
 
   test "routing" do # POST

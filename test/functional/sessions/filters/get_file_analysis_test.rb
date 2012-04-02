@@ -3,6 +3,8 @@ require 'test_helper'
 class GetFileAnalysisFilterSessionsControllerTest < SharedSessionsControllerTest
 # %%co%%ses%%filt
 
+  tests SessionsController
+
   test "should..." do
     @filter=:get_file_analysis
 # Tell the file models to read:

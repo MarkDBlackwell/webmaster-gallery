@@ -1,8 +1,6 @@
 class SharedApplicationControllerTest < SharedControllerTest
 # %%co%%app
 
-  tests ApplicationController
-
   private
 
   def expect_redirect_sessions_new

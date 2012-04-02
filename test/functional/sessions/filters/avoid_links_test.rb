@@ -3,6 +3,8 @@ require 'test_helper'
 class AvoidLinksFilterSessionsControllerTest < SharedSessionsControllerTest
 # %%co%%ses%%filt
 
+  tests SessionsController
+
   test "should..." do
     @filter=:avoid_links
     filter
