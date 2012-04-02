@@ -75,6 +75,12 @@ class ShowSessionsControllerTest < SharedSessionsControllerTest
   end
 
 #-------------
+
+  def setup
+    @action=:show
+    pretend_logged_in
+  end
+
   private
 
   def happy_path
@@ -82,11 +88,6 @@ class ShowSessionsControllerTest < SharedSessionsControllerTest
     Picture.expects(:find_database_problems).returns(@problem_pictures=
         %w[aa bb])
     get @action
-  end
-
-  def setup
-    @action=:show
-    pretend_logged_in
   end
 
 end

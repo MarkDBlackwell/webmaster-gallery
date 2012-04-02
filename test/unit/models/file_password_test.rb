@@ -78,6 +78,16 @@ class FilePasswordTest < ActiveSupport::TestCase
   end
 
 #-------------
+
+  def setup
+    @pathname=App.webmaster.join 'password.txt'
+    @f=@pathname.open 'r'
+  end
+
+  def teardown
+    @f.close unless @f.blank? || @f.closed?
+  end
+
   private
 
   def clear_text_password
@@ -90,15 +100,6 @@ class FilePasswordTest < ActiveSupport::TestCase
 
   def mock_file
     MyFile.expects(:my_new).returns @f
-  end
-
-  def setup
-    @pathname=App.webmaster.join 'password.txt'
-    @f=@pathname.open 'r'
-  end
-
-  def teardown
-    @f.close unless @f.blank? || @f.closed?
   end
 
 end

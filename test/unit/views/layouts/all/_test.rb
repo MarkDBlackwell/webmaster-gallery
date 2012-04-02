@@ -64,6 +64,25 @@ class AllLayoutTest < SharedLayoutTest
   end
 
 #-------------
+
+  def setup(*args)
+    @instance_variables=args
+    @need_reload=false unless args
+    begin
+      @filenames=[]
+      App.root.join('app/views/layouts').find do |path|
+        b=path.basename.to_s
+        Find.prune if path.directory? && ?.==b[0]
+        @filenames << path.dirname.join(b.chomp '.html.erb') if path.file?
+      end
+    end unless @filenames
+    @b,@h,@ht,@s,@t = %w[body head html style title].map{|e| CssString.new e}
+    d=CssString.new 'div'
+    @ds,@dm,@dsb,@dat,@dac = %w[
+    scripts  messages  session-buttons  all-tags  action-content
+        ].map{|e| d.css_class e}
+  end
+
   private
 
   def assert_descend(a,b)
@@ -83,24 +102,6 @@ class AllLayoutTest < SharedLayoutTest
       render_layout f, *@instance_variables
       yield
     end
-  end
-
-  def setup(*args)
-    @instance_variables=args
-    @need_reload=false unless args
-    begin
-      @filenames=[]
-      App.root.join('app/views/layouts').find do |path|
-        b=path.basename.to_s
-        Find.prune if path.directory? && ?.==b[0]
-        @filenames << path.dirname.join(b.chomp '.html.erb') if path.file?
-      end
-    end unless @filenames
-    @b,@h,@ht,@s,@t = %w[body head html style title].map{|e| CssString.new e}
-    d=CssString.new 'div'
-    @ds,@dm,@dsb,@dat,@dac = %w[
-    scripts  messages  session-buttons  all-tags  action-content
-        ].map{|e| d.css_class e}
   end
 
 end

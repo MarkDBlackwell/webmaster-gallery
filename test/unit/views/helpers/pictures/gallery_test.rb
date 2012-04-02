@@ -11,7 +11,6 @@ class GalleryPicturesHelperTest < SharedPicturesHelperTest
   end
 
 #-------------
-  private
 
   def setup
     gallery

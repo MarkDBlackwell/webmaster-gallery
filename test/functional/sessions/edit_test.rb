@@ -63,16 +63,17 @@ class EditSessionsControllerTest < SharedSessionsControllerTest
   end
 
 #-------------
+
+  def setup
+    @action=:edit
+  end
+
   private
 
   def happy_path
     mock_file_analysis
     pretend_logged_in
     get @action
-  end
-
-  def setup
-    @action=:edit
   end
 
 end

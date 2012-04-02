@@ -24,6 +24,13 @@ class TagsPicturesPartialTest < SharedPartialTest
   end
 
 #-------------
+
+  def setup
+    @d=CssString.new 'div'
+    @dt=@d.css_class 'tags'
+    @ds=@dt.child(@d).css_class 'tag'
+  end
+
   private
 
   def render_all_tags
@@ -35,12 +42,6 @@ class TagsPicturesPartialTest < SharedPartialTest
     c=:pictures
     @controller.default_url_options={:controller=>c}
     super 'pictures/tags', :tags => @tags
-  end
-
-  def setup
-    @d=CssString.new 'div'
-    @dt=@d.css_class 'tags'
-    @ds=@dt.child(@d).css_class 'tag'
   end
 
   def tag_two

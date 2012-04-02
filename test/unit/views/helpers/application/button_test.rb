@@ -9,7 +9,6 @@ class ButtonApplicationHelperTest < SharedApplicationHelperTest
   end
 
 #-------------
-  private
 
   def setup
 ##    button(bt,c,a,co,m=:get)

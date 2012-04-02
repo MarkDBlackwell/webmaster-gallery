@@ -30,8 +30,6 @@ class VerifyAuthenticityTokenFilterApplicationControllerTest <
   end
 
 #-------------
-# private
-  protected
 
   def setup
 # In the new Rails, @controller is no longer the controller instance.

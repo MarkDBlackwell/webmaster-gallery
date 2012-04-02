@@ -60,7 +60,6 @@ class ButtonsApplicationPartialTest < SharedPartialTest
   end
 
 #-------------
-  private
 
   def setup(&block)
     controller_yield &block

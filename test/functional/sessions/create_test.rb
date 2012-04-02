@@ -40,15 +40,16 @@ class CreateSessionsControllerTest < SharedSessionsControllerTest
   end
 
 #-------------
-  private
-
-  def happy_path
-    login
-  end
 
   def setup
     pretend_logged_in
     session[:logged_in]=nil
+  end
+
+  private
+
+  def happy_path
+    login
   end
 
 end

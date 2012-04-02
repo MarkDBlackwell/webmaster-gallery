@@ -18,7 +18,6 @@ class PictureSetTest < ActiveSupport::TestCase
   end
 
 #-------------
-  private
 
   def setup
     @model=PictureSet

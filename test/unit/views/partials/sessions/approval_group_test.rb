@@ -34,7 +34,6 @@ class ApprovalGroupSessionsPartialTest < SharedPartialTest
   end
 
 #-------------
-  private
 
   def setup
     c=:sessions

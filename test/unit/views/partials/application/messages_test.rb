@@ -14,7 +14,6 @@ class MessagesApplicationPartialTest < SharedPartialTest
   end
 
 #-------------
-  private
 
   def setup
     @text=[:notice,:error].map{|e| s="some #{e}"; flash.now[e]=s}.join "\n"

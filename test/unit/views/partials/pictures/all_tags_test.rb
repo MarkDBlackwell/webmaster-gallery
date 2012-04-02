@@ -16,7 +16,6 @@ class AllTagsPicturesPartialTest < SharedPartialTest
   end
 
 #-------------
-  private
 
   def setup
     c=:pictures

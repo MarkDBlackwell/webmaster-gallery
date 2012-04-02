@@ -14,6 +14,12 @@ class PrepareSingleFilterAdminPicturesControllerTest <
   end
 
 #-------------
+
+  def setup
+    @filter=:prepare_single
+    happy_path
+  end
+
   private
 
   def happy_path
@@ -21,11 +27,6 @@ class PrepareSingleFilterAdminPicturesControllerTest <
     @controller.params[:id]=@i
     filter
     @p.valid?
-  end
-
-  def setup
-    @filter=:prepare_single
-    happy_path
   end
 
 end

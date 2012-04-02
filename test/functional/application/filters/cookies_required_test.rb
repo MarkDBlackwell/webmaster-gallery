@@ -38,7 +38,6 @@ class CookiesRequiredFilterApplicationControllerTest <
   end
 
 #-------------
-  private
 
   def setup
     @filter = :cookies_required

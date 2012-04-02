@@ -58,16 +58,6 @@ class ReviewGroupSessionsPartialTest < SharedPartialTest
   end
 
 #-------------
-  private
-
-  def happy_path
-    @group.list=Picture.all
-    render_partial
-  end
-
-  def render_partial
-    super 'sessions/review_group', :review_group => @group
-  end
 
   def setup
     c=:sessions
@@ -78,6 +68,17 @@ class ReviewGroupSessionsPartialTest < SharedPartialTest
     @dg,@dl,@dm = %w[group  list  message].map{|e| @d.css_class 'review-'+e}
     @gl,@gm=[@dl,@dm].map{|e| @dg.child e}
     @da,@ga=[@dl,@gl].map{|e| e.child @a}
+  end
+
+  private
+
+  def happy_path
+    @group.list=Picture.all
+    render_partial
+  end
+
+  def render_partial
+    super 'sessions/review_group', :review_group => @group
   end
 
 end
