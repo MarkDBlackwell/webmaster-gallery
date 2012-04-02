@@ -46,11 +46,12 @@ class ToggleLoginFilterSessionsControllerTest < SharedSessionsControllerTest
   end
 
 #-------------
-  private
 
   def setup
     @filter=:toggle_login
   end
+
+  private
 
   def token_message(logged_in)
     "W Authenticity-token (or cookie) security failure "\

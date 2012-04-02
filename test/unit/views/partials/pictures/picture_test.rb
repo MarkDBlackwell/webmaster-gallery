@@ -92,11 +92,6 @@ class PicturePicturesPartialTest < SharedPartialTest
   end
 
 #-------------
-  private
-
-  def reset_flags
-    setup{@edit_allowed=@editing=@show_filename=nil}
-  end
 
   def setup(&block)
     @render_count ||= 0; @render_count += 1
@@ -110,6 +105,12 @@ class PicturePicturesPartialTest < SharedPartialTest
     @dp=@d.css_class 'picture'
     @pd=@dp.child @d
     @fi=@pd.css_class('field').child @d
+  end
+
+  private
+
+  def reset_flags
+    setup{@edit_allowed=@editing=@show_filename=nil}
   end
 
 end

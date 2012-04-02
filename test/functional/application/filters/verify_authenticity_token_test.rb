@@ -30,7 +30,6 @@ class VerifyAuthenticityTokenFilterApplicationControllerTest <
   end
 
 #-------------
-  private
 
   def setup
     @filter=:verify_authenticity_token

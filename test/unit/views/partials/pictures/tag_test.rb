@@ -21,11 +21,6 @@ class TagPicturesPartialTest < SharedPartialTest
   end
 
 #-------------
-  private
-
-  def happy_path
-    render_tag tags :two
-  end
 
   def setup
     c=:pictures
@@ -38,6 +33,12 @@ class TagPicturesPartialTest < SharedPartialTest
     @controller_uri=base_uri.join c.to_s
     @d=CssString.new 'div'
     @dt=@d.css_class 'tag'
+  end
+
+  private
+
+  def happy_path
+    render_tag tags :two
   end
 
   def render_tag(t)

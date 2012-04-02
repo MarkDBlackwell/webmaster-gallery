@@ -31,7 +31,6 @@ class TagTest < SharedModelTest
   end
 
 #-------------
-  private
 
   def setup
     @model=Tag

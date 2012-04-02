@@ -68,6 +68,16 @@ class DirectoryPictureTest < ActiveSupport::TestCase
   end
 
 #-------------
+
+  def setup
+    make_reproducible_tests_involving_array_choice
+    @model=DirectoryPicture
+    @tests=App.root.join *%w[test fixtures files directory_pictures gallery]
+    sa=(special_allowed=[ ?- , ?. , ?_ ])
+    @good_c=[ sa, ?0..?9, ?a..?z, ?A..?Z ].map(&:to_a).flatten
+    @dot,@replace=?.,?a
+  end
+
   private
 
   def check_counts(names,good,bad)
@@ -93,15 +103,6 @@ class DirectoryPictureTest < ActiveSupport::TestCase
 
   def mock_gallery_directory(s)
     @model.expects(:gallery_directory).at_least_once.returns @tests.join s
-  end
-
-  def setup
-    make_reproducible_tests_involving_array_choice
-    @model=DirectoryPicture
-    @tests=App.root.join *%w[test fixtures files directory_pictures gallery]
-    sa=(special_allowed=[ ?- , ?. , ?_ ])
-    @good_c=[ sa, ?0..?9, ?a..?z, ?A..?Z ].map(&:to_a).flatten
-    @dot,@replace=?.,?a
   end
 
 end

@@ -52,6 +52,12 @@ class PictureTest < SharedModelTest
   end
 
 #-------------
+
+  def setup
+    @model=Picture
+    @record=pictures :two
+  end
+
   private
 
   def assert_before_callback(m,e)
@@ -61,11 +67,6 @@ class PictureTest < SharedModelTest
   def assert_callback(method,event,after)
     (r=@record).expects method
     r.run_callbacks(event){after}
-  end
-
-  def setup
-    @model=Picture
-    @record=pictures :two
   end
 
 end

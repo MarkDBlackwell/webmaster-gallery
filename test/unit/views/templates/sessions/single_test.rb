@@ -14,7 +14,6 @@ class SingleSessionsTemplateTest < SharedViewTest
   end
 
 #-------------
-  private
 
   def setup
     s=Struct         .new   :list,    :message

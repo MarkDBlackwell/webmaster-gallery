@@ -38,7 +38,6 @@ class ScriptsApplicationPartialTest < SharedPartialTest
   end
 
 #-------------
-  private
 
   def setup
     render_partial 'application/scripts'

@@ -34,15 +34,16 @@ class IndexPicturesControllerTest < SharedControllerTest
   end
 
 #-------------
-  private
-
-  def happy_path
-    get @action
-  end
 
   def setup
     @controller_name=:pictures
     @action=:index
+  end
+
+  private
+
+  def happy_path
+    get @action
   end
 
   def verify_cache(a)

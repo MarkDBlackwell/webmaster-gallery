@@ -20,7 +20,6 @@ class FileTagTest < ActiveSupport::TestCase
   end
 
 #-------------
-  private
 
   def setup
     @model=FileTag

@@ -18,7 +18,6 @@ class GalleryPicturesPartialTest < SharedPartialTest
   end
 
 #-------------
-  private
 
   def setup
     c=:pictures

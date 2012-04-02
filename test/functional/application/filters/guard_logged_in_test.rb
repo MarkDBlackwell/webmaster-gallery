@@ -18,7 +18,6 @@ class GuardLoggedInFilterApplicationControllerTest <
   end
 
 #-------------
-  private
 
   def setup
     @filter=:guard_logged_in

@@ -11,7 +11,6 @@ class AllTagsPicturesHelperTest < SharedPicturesHelperTest
   end
 
 #-------------
-  private
 
   def setup
     c=:pictures

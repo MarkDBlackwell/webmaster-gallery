@@ -33,7 +33,6 @@ class ThumbnailPicturesPartialTest < SharedPartialTest
   end
 
 #-------------
-  private
 
   def setup
     c=:pictures

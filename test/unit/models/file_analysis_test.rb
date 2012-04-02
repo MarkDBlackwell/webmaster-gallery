@@ -69,6 +69,12 @@ class FileAnalysisTest < ActiveSupport::TestCase
   end
 
 #-------------
+
+  def setup
+    DirectoryPicture.expects(:find_bad_names).at_least(0).returns []
+    %w[FileTag DirectoryPicture].each{|e| e.constantize.read}
+  end
+
   private
 
   def check_approval_group(changed,message)
@@ -130,11 +136,6 @@ class FileAnalysisTest < ActiveSupport::TestCase
           [          b,     p, ns, i,      d, ],
           [ 'unpaired',        ps, i,      d, ],
         ].map{|e| e.join(' ').capitalize.concat ':'}
-  end
-
-  def setup
-    DirectoryPicture.expects(:find_bad_names).at_least(0).returns []
-    %w[FileTag DirectoryPicture].each{|e| e.constantize.read}
   end
 
 end

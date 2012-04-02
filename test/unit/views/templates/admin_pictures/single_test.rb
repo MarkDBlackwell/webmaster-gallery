@@ -16,7 +16,6 @@ class SingleAdminPicturesTemplateTest < SharedViewTest
   end
 
 #-------------
-  private
 
   def setup
     if @template.blank?

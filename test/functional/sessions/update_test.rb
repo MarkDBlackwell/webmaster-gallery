@@ -86,6 +86,13 @@ class UpdateSessionsControllerTest < SharedSessionsControllerTest
   end
 
 #-------------
+
+  def setup
+    dp=DirectoryPicture
+    [:all,:find_bad_names,:find_unpaired_names].each{|e|
+        dp.expects(e).at_least(0).returns [] }
+  end
+
   private
 
   def happy_path
@@ -107,12 +114,6 @@ class UpdateSessionsControllerTest < SharedSessionsControllerTest
     put :update, :commit => 'approve changes', :approval_group =>
         (changed.sort.reverse.join ' ')
     model_names model
-  end
-
-  def setup
-    dp=DirectoryPicture
-    [:all,:find_bad_names,:find_unpaired_names].each{|e|
-        dp.expects(e).at_least(0).returns [] }
   end
 
   def update_user_pictures

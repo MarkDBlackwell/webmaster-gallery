@@ -21,16 +21,17 @@ class IndexAdminPicturesControllerTest < SharedAdminPicturesControllerTest
   end
 
 #-------------
+
+  def setup
+    @controller_name=:admin_pictures
+    @action=:index
+  end
+
   private
 
   def happy_path
     pretend_logged_in
     get @action
-  end
-
-  def setup
-    @controller_name=:admin_pictures
-    @action=:index
   end
 
 end

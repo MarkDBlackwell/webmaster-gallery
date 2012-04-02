@@ -42,7 +42,6 @@ class PictureTagJoinTest < SharedModelTest
   end
 
 #-------------
-  private
 
   def setup
     @model=PictureTagJoin

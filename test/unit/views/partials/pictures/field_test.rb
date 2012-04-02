@@ -116,11 +116,6 @@ class FieldPicturesPartialTest < SharedPartialTest
   end
 
 #-------------
-  private
-
-  def reset_flags(field)
-    setup(field){@edit_allowed=@editing=@show_filename=nil}
-  end
 
   def setup(field='title',&block)
 # Naming this method, 'render', then using 'super', failed somehow.
@@ -133,6 +128,12 @@ class FieldPicturesPartialTest < SharedPartialTest
     @d=CssString.new 'div'
     @df,@dt = %w[ field title ].map{|e| @d.css_class e}
     @fd=@df.child @d
+  end
+
+  private
+
+  def reset_flags(field)
+    setup(field){@edit_allowed=@editing=@show_filename=nil}
   end
 
 end

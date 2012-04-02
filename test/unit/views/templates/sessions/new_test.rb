@@ -19,7 +19,6 @@ class NewSessionsTemplateTest < SharedViewTest
   end
 
 #-------------
-  private
 
   def setup
     render :template => (@template='sessions/new') if @template.blank?
