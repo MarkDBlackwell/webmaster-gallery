@@ -33,6 +33,7 @@ gem 'sqlite3-ruby', '1.2.5', :require => 'sqlite3'
 
 group :development, :test do
 #  gem 'mocha' # Broke testing, somehow.
+gem 'mocha'
 
 # Redgreen 1.2.2 is broken with Ruby 1.9.
 #  gem 'redgreen'

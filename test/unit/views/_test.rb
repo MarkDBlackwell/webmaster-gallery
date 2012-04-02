@@ -7,7 +7,8 @@ class ViewsTest < SharedViewTest
 # Needed 'rails plugin install git://github.com/floehopper/mocha.git
 # Do not use this (next line) in Gemfile:
 # gem 'mocha' # Broke the test somehow.
-    mock 'A'
+# Unsure about Rails 3.
+    "a".expects :method
   end
 
 #-------------
