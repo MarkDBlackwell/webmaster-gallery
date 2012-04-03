@@ -1,3 +1,4 @@
+=begin
 p Time.now, 'in '+__FILE__ unless STARTED_BY_TEST
 
 unless STARTED_BY_TEST
@@ -5,3 +6,4 @@ unless STARTED_BY_TEST
   p s
   Rails.logger.info s
 end
+=end

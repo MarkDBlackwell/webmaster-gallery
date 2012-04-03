@@ -1,3 +1,4 @@
+halt
 ## Work around Mongrel source file: mongrel-1.1.5/lib/mongrel/rails.rb: 148
 ##        require 'dispatcher'
 
