@@ -44,11 +44,8 @@ class FileAnalysis
       model.order(method).all.each do |m|
         mf=m.filename
         f=dpa.select{|e| mf==e.filename}
-
-print 'f='; p f
-print 'f.first='; p f.first
-print 'f.first.sequence='; p f.first.sequence
-        m.sequence = 1 != f.length ? '' : (sprintf '%0*d', digits, f.first.sequence)
+        seq = (f.first.blank? || f.first.sequence.blank?) ? 0 : f.first.sequence
+        m.sequence = 1 != f.length ? '' : (sprintf '%0*d', digits, seq)
         m.save :validate => false
       end
     end

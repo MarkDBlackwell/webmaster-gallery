@@ -13,7 +13,7 @@ require File.expand_path('../boot', __FILE__)
 %w[action_controller active_record active_resource rails/test_unit].each {|e|
     require "#{e}/railtie"}
 
-if STARTED_BY_TEST
+# if STARTED_BY_TEST
 
 ## BUNDLER
 ## If you have a Gemfile, require the gems listed there, including any gems
@@ -22,7 +22,7 @@ if STARTED_BY_TEST
 
   Bundler.require(:default, :server, Rails.env) if defined?(Bundler)
 
-end
+# end
 
 module Gallery
   class Application < Rails::Application
