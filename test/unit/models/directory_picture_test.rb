@@ -36,7 +36,7 @@ class DirectoryPictureTest < ActiveSupport::TestCase
   test "when names have various extensions..." do
     thumbnail_indicator=[?-,?t]
     good=Square.new((0..4).to_a).map do |a|
-      name,x=a.map{|i| Array.new(i).map{@good_c.choice}}
+      name,x=a.map{|i| Array.new(i).map{@good_c.sample}}
       x.map!{|e| e!=@dot ? e : @replace}
       (name.pop; name.push @replace) if name.last==@dot
       name[-2*t.length,t.length]=t if (t=thumbnail_indicator)*2==(name.last
@@ -55,10 +55,10 @@ class DirectoryPictureTest < ActiveSupport::TestCase
 # characters:
     all_byte_characters = (0...2**8).to_a
     good,bad=[@good_c, all_byte_characters-@good_c].map{|a| a.map do |c|
-      name=Array.new(n.choice).map{@good_c.choice}
-      name.insert Range.new(0,name.length).to_a.choice, c
+      name=Array.new(n.sample).map{@good_c.sample}
+      name.insert Range.new(0,name.length).to_a.sample, c
       name[0]=@replace if (name.rindex @dot)==0
-      name.map(&:chr).to_s
+      name.map(&:chr).join ''
     end }
     [good, bad].each{|a| assert_present a}
 # When all good or all bad...:
@@ -70,7 +70,7 @@ class DirectoryPictureTest < ActiveSupport::TestCase
 #-------------
 
   def setup
-    make_reproducible_tests_involving_array_choice
+    make_reproducible_tests_involving_array_sample
     @model=DirectoryPicture
     @tests=App.root.join *%w[test fixtures files directory_pictures gallery]
     sa=(special_allowed=[ ?- , ?. , ?_ ])
@@ -97,7 +97,7 @@ class DirectoryPictureTest < ActiveSupport::TestCase
       assert_equal bad,  @model.find_bad_names   .length
   end
 
-  def make_reproducible_tests_involving_array_choice
+  def make_reproducible_tests_involving_array_sample
     Kernel.srand 0
   end
 

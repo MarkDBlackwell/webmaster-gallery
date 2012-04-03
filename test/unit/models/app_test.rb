@@ -16,7 +16,7 @@ class AppTest < ActiveSupport::TestCase
 #  private
 
   def arrayify(v)
-    (v.kind_of? Array) ? v:[v]
+    (v.kind_of? Array) ? v : [v]
   end
 
   def dotify(*a)

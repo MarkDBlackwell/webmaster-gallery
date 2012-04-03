@@ -8,7 +8,7 @@ class ViewsTest < SharedViewTest
 # Do not use this (next line) in Gemfile:
 # gem 'mocha' # Broke the test somehow.
 # Unsure about Rails 3.
-    "a".expects :method
+    "a".expects(:some_method).never
   end
 
 #-------------

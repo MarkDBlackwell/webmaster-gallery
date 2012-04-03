@@ -32,7 +32,7 @@ class SharedControllerTest < ActionController::TestCase
   end
 
   def assert_flash_blank
-    assert_blank [:error,:notice].map{|e| [flash[e],flash.now[e]]}.to_s
+    assert_blank [:error,:notice].map{|e| [flash[e],flash.now[e]]}.flatten.join ''
   end
 
   def assert_logged_in

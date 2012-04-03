@@ -47,7 +47,8 @@ class UpdateAdminPicturesControllerTest < SharedAdminPicturesControllerTest
 # Shouldn't change the attributes created_at, filename, id, or sequence:
     (@static+@automatic-[u]).each{|e| assert_equal @record[e], p[e], e}
 # Flash a notice:
-    assert_blank flash[:error].to_s+flash.now[:error].to_s
+    assert_blank flash.now[:error]
+    assert_blank flash[    :error]
     s='Tag nonexistent: '+@bad_tag_name
     assert_equal s, flash[:notice]
     assert_equal s, flash.now[:notice]
@@ -65,7 +66,10 @@ class UpdateAdminPicturesControllerTest < SharedAdminPicturesControllerTest
     id=r.id
 # Should handle all altered fields:
     k=(a=r.attributes).keys
-    v=k.map{|e| (a.fetch e).succ}
+    v=k.map do |e|
+      v2 = (a.fetch e)
+      (v2.kind_of? Time) ? v2 + 1 : v2.succ
+    end
 # Should handle tags that are...:
     k.push 'tags'
     rt,ta=[@record.tags,Tag.all].map{|e| e.map(&:name).sort}

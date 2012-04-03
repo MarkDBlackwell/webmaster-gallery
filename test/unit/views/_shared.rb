@@ -77,7 +77,7 @@ class SharedViewTest < ActionView::TestCase
 
   def static_asset_matcher(s)
 # TODO def static_asset_matcher(s) # Lost the digits; don't know why.
-    e=Regexp.escape base_uri.join s
+    e=Regexp.escape base_uri.join(s).to_s
     Regexp.new %r"\A#{e}\d*\z"
   end
 
@@ -98,7 +98,9 @@ class SharedViewTest < ActionView::TestCase
     def last( *a) self.child(*a) +  ':last-child' end
 
     def not(*a)  s=':not('; self + s + a.join( ')'+s) + ')' end
-    def +(value) CssString.new [self,value].to_s end
+    def +(value) CssString.new [self,value].join '' end
+
+    def instance_of?(t) [CssString,String].member? t end
 
     def attribute(*a)
       odd_p=pairs=(a.length+1)/2

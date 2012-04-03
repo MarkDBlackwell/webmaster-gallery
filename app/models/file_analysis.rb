@@ -4,7 +4,7 @@ class FileAnalysis
   attr_reader :approval_group, :review_groups
 
   def approval_needed?
-    @review_groups.map(&:list).to_s.present? ||
+    @review_groups.map(&:list).join('').present? ||
         @approval_group .list      .present?
   end
 
@@ -44,6 +44,10 @@ class FileAnalysis
       model.order(method).all.each do |m|
         mf=m.filename
         f=dpa.select{|e| mf==e.filename}
+
+print 'f='; p f
+print 'f.first='; p f.first
+print 'f.first.sequence='; p f.first.sequence
         m.sequence = 1 != f.length ? '' : (sprintf '%0*d', digits, f.first.sequence)
         m.save :validate => false
       end

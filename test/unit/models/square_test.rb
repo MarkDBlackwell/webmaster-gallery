@@ -18,7 +18,7 @@ class SquareTest < ActiveSupport::TestCase
       when 3 then %w[aaa aab aac aba abb abc aca acb acc baa bab bac bba bbb bbc
           bca bcb bcc caa cab cac cba cbb cbc cca ccb ccc]
       end
-      assert_equal literal, sliced.map{|e| e.to_s} if power <= 3
+      assert_equal literal, sliced.map{|e| e.join ''} if power <= 3
       assert_equal sliced, Hypercube.new(power, vector).to_a
     end
   end

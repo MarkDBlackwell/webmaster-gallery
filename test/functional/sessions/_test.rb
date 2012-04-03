@@ -33,7 +33,7 @@ class SessionsControllerTest < SharedSessionsControllerTest
     end
     sw = 'ActionController::RackDelegation#status= '\
                   'delegated to @_response.status=, but @_response is nil:'
-    assert e.to_s.start_with?(sw), e
+    assert e.to_s.start_with?(sw), e.to_s
   end
 
 end
