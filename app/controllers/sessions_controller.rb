@@ -21,7 +21,7 @@ class SessionsController < ApplicationController
     logger.info "I Logging out from remote IP #{request.remote_ip}."
     flash[:notice]='Logged out successfully.'
     redirect_to :action => :new
-    stop_server unless STARTED_BY_RAKE
+##    stop_server unless STARTED_BY_RAKE
   end
 
   def edit
@@ -148,6 +148,7 @@ class SessionsController < ApplicationController
     Process.kill 'INT', APPLICATION_PID
   end
 
+=begin
   def stop_server
 # Attempt to stop Webrick server gracefully by sending it SIGINT:
     webrick_killed=false
@@ -173,6 +174,7 @@ class SessionsController < ApplicationController
     end
     stop_application s if s
   end
+=end
 
   def toggle_login
     l=session[:logged_in]
