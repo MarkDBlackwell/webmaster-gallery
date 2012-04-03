@@ -1,3 +1,4 @@
+halt
 p Time.now, 'in '+__FILE__ unless STARTED_BY_TEST
 
 require 'mysql2'

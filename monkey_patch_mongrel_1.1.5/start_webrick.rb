@@ -1,3 +1,4 @@
+halt
 p Time.now, 'in '+__FILE__
 
 # Versions tested on:

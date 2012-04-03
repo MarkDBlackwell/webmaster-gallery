@@ -1,7 +1,9 @@
+=begin
 load File.expand_path '../../monkey_patch_mongrel_1.1.5/constants.rb',
     __FILE__ unless defined? GUARD_MONKEY_PATCH_CONSTANTS
 
 p Time.now, 'in '+__FILE__ unless STARTED_BY_TEST
+=end
 
 require File.expand_path('../boot', __FILE__)
 

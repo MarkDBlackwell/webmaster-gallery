@@ -1,3 +1,4 @@
+halt
 GUARD_MONKEY_PATCH_CONSTANTS=:defined
 
 STARTED_BY_RAKE         = %w[

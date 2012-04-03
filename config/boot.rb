@@ -1,5 +1,6 @@
 require 'rubygems'
 
+=begin
 load File.expand_path '../../monkey_patch_mongrel_1.1.5/constants.rb',
     __FILE__ unless defined? GUARD_MONKEY_PATCH_CONSTANTS
 
@@ -10,6 +11,7 @@ unless STARTED_BY_TEST
   load File.expand_path '../../monkey_patch_mongrel_1.1.5/boot.rb', __FILE__
 
 else
+=end
 
 # Set up gems listed in the Gemfile.
 gemfile = File.expand_path('../../Gemfile', __FILE__)
@@ -23,4 +25,4 @@ rescue Bundler::GemNotFound => e
   exit!
 end if File.exist?(gemfile)
 
-end
+# end

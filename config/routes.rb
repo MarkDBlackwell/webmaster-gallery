@@ -1,4 +1,4 @@
-p Time.now, 'in '+__FILE__ unless STARTED_BY_TEST
+# p Time.now, 'in '+__FILE__ unless STARTED_BY_TEST
 
 Gallery::Application.routes.draw do
 # TODO: Maybe use :via instead of checking the HTTP methods in controllers:
