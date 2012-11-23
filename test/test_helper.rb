@@ -7,6 +7,8 @@ INTERNAL_START='<internal:'
 FILTERED=caller(0).
     reject{|e| e.start_with? __FILE__}.
     reject{|e| e.start_with? INTERNAL_START}
+# print 'FILTERED: ';p FILTERED
+
 TEST_GROUP=FILTERED.first.split('/').reject{|e| '.'==e}.take 2
 paths=[]
 App.root.join(*TEST_GROUP).find do |path|

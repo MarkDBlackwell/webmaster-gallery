@@ -27,7 +27,7 @@ steps are already done in the app.
 
 See a [quick start](webmaster-gallery/blob/master/test/quick-start.txt) to developer testing of the app (using Test/Unit).
 
-All the app's tests passed, as of Rails version 3.0.3.
+All the app's tests passed, as of Rails version 3.0.3 (using ruby 1.8.7, along with rake 0.8.7).
 
 ##References
 

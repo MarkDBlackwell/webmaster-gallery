@@ -9,6 +9,7 @@ public/images/old-gallery/
 public/index.html
 public/pictures/
 public/webmas-gallery
+rdoc/
 tmp/
 vendor/plugins/mocha/
 vendor/cache
